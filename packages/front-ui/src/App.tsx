@@ -1,7 +1,9 @@
 import React from "react";
+
+import { salut, Person } from "@paralogs/shared";
+
 import logo from "./logo.svg";
 import "./App.css";
-import { salut, Person, trucInutile } from "@paralogs/shared";
 
 const App: React.FC = () => {
   const person: Person = {
@@ -14,7 +16,7 @@ const App: React.FC = () => {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
-          Edit <code>src/App.tsx</code> and save to reload.
+          Edit <code>src/App.tsx</code> and save to reload istr .uiest rsna rstiner suitp
         </p>
         <a
           className="App-link"
@@ -22,7 +24,7 @@ const App: React.FC = () => {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Learn React 123
+          Learn React
         </a>
         <p>THIS MESSAGE MESSAGE : {salut(person.firstName)}</p>
       </header>

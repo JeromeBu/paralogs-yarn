@@ -7,6 +7,6 @@ export interface Person {
   age: number;
 }
 
-console.log(salut("Steeve"));
+// console.log(salut("Steevy wonder ! "));
 
 export const trucInutile = "hey";
