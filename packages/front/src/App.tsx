@@ -1,7 +1,7 @@
 import React from "react";
 import logo from "./logo.svg";
 import "./App.css";
-import { salut, Person } from "@paralogs/shared";
+import { salut, Person, trucInutile } from "@paralogs/shared";
 
 const App: React.FC = () => {
   const person: Person = {

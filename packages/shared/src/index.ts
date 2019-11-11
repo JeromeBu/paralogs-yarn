@@ -6,3 +6,7 @@ export interface Person {
   firstName: string;
   age: number;
 }
+
+console.log(salut("Steeve"));
+
+export const trucInutile = "hey";
