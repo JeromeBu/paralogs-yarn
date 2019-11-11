@@ -1,0 +1,13 @@
+{
+  "name": "@paralogs/shared",
+  "version": "0.0.1",
+  "license": "UNLISCENSED",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "typescript": "3.7.2"
+  }
+}
