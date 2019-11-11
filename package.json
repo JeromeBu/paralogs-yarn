@@ -1,6 +1,10 @@
 {
+  "license": "UNLICENSED",
   "private": true,
   "workspaces": [
     "packages/*"
-  ]
+  ],
+  "devDependencies": {
+    "typescript": "3.7.2"
+  }
 }

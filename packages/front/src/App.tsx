@@ -1,8 +1,14 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import logo from "./logo.svg";
+import "./App.css";
+import { salut, Person } from "@paralogs/shared";
 
 const App: React.FC = () => {
+  const person: Person = {
+    firstName: "John",
+    age: 25,
+  };
+
   return (
     <div className="App">
       <header className="App-header">
@@ -16,11 +22,12 @@ const App: React.FC = () => {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Learn React
+          Learn React 123
         </a>
+        <p>THIS MESSAGE MESSAGE : {salut(person.firstName)}</p>
       </header>
     </div>
   );
-}
+};
 
 export default App;
