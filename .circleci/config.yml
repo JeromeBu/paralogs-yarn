@@ -33,6 +33,3 @@ jobs:
       - run:
           name: front-tests
           command: 'cd packages/front; yarn ci:test;'
-      - run:
-          name: front-deploy
-          command: 'cd packages/front; yarn netlify:deploy'
