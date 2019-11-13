@@ -1,0 +1,12 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "target": "es2017",
+    "lib": ["esnext"],
+    "forceConsistentCasingInFileNames": true,
+    "outDir": ".build",
+    "rootDir": "./"
+    // "moduleResolution": "node"
+  }
+  // "include": ["handlers"]
+}

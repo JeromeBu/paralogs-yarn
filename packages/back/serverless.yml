@@ -1,0 +1,17 @@
+org: burkardjerome
+service: paralogs-api
+
+provider:
+  name: aws
+  runtime: nodejs10.x
+  stage: dev
+  region: eu-west-1
+
+functions:
+  hello:
+    handler: .build/handlers/hello.handler
+    events:
+      - http:
+          path: hello
+          method: get
+          cors: true
