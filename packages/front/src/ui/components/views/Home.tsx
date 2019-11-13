@@ -8,7 +8,7 @@ export const Home: React.FC = () => {
     <p>
       Welcome, got to <MyLink to="flights">Flights</MyLink>
       <br />
-      This is from shared package : {salut}
+      Hey : {salut}
     </p>
   );
 };
