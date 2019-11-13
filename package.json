@@ -2,8 +2,12 @@
   "license": "UNLICENSED",
   "private": true,
   "workspaces": [
+    "packages/shared",
     "packages/*"
   ],
+  "scripts": {
+    "build": "yarn workspaces run build"
+  },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^2.7.0",
     "@typescript-eslint/parser": "^2.7.0",
