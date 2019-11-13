@@ -1,12 +1,5 @@
-import uuid from "uuid";
+export * from "./generalTypes/uuid";
+export * from "./generalTypes/types";
+export * from "./domain/entities";
 
-export const salut = (name: string) => `Hello ${name} ! ${uuid()}`;
-
-export interface Person {
-  firstName: string;
-  age: number;
-}
-
-// console.log(salut("Steevy wonder ! "));
-
-export const trucInutile = "hey";
+export const salut = "voila le message";

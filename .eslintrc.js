@@ -31,10 +31,10 @@ module.exports = {
   rules: {
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/no-use-before-define": "off",
-    "@typescript-eslint/explicit-member-accessibility": [
-      1,
-      { accessibility: "no-public" },
-    ],
+    // "@typescript-eslint/explicit-member-accessibility": [
+    //   1,
+    //   { accessibility: "no-public" },
+    // ],
     "@typescript-eslint/no-explicit-any": "off",
     "react/jsx-filename-extension": [1, { extensions: [".tsx"] }],
     "import/prefer-default-export": "off",
@@ -49,5 +49,6 @@ module.exports = {
     "@typescript-eslint/no-parameter-properties": "off",
     "no-useless-constructor": "off",
     "no-empty-function": "off",
+    "class-methods-use-this": "off",
   },
 };
