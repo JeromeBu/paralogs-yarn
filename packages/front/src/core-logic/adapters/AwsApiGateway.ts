@@ -20,8 +20,7 @@ export class AwsAPIGateway implements APIGateway {
 
   public getCurrentSession() {
     try {
-      const session$ = from(Auth.currentSession());
-      return session$;
+      return from(Auth.currentSession());
     } catch (e) {
       if (e !== "No current user") {
         // eslint-disable-next-line no-console
@@ -33,6 +32,8 @@ export class AwsAPIGateway implements APIGateway {
 
   public login(params: AuthParams) {
     const { email, password } = params;
+    // eslint-disable-next-line no-console
+    console.log({ email, password });
 
     try {
       Auth.signIn(email, password)
@@ -46,7 +47,7 @@ export class AwsAPIGateway implements APIGateway {
         });
     } catch (error) {
       // eslint-disable-next-line no-console
-      console.log(error.message);
+      console.error(error.message);
     }
     this._currentUser$.next({ email, token: "some fake token" });
     return this._currentUser$;

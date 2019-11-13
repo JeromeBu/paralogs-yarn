@@ -50,5 +50,6 @@ module.exports = {
     "no-useless-constructor": "off",
     "no-empty-function": "off",
     "class-methods-use-this": "off",
+    "react/jsx-props-no-spreading": "off",
   },
 };
