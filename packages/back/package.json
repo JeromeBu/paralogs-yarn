@@ -1,0 +1,27 @@
+{
+  "name": "@paralogs/back",
+  "version": "0.0.1",
+  "private": true,
+  "main": ".build/src/index.js",
+  "types": ".build/src/index.d.ts",
+  "scripts": {
+    "deploy": "yarn build && sls deploy",
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "precommit": "lint-staged"
+  },
+  "dependencies": {
+    "@types/aws-lambda": "^8.10.35",
+    "aws-sdk": "^2.570.0",
+    "ts-node": "^8.5.0"
+  },
+  "devDependencies": {
+    "lint-staged": "^9.4.2"
+  },
+  "lint-staged": {
+    "src/**/*.{ts,tsx,js}": [
+      "eslint --config ../../.eslintrc.commit.js --fix",
+      "git add"
+    ]
+  }
+}
