@@ -11,6 +11,7 @@
     "precommit": "lint-staged"
   },
   "dependencies": {
+    "@paralogs/shared": "*",
     "@types/aws-lambda": "^8.10.35",
     "aws-sdk": "^2.570.0",
     "ts-node": "^8.5.0"

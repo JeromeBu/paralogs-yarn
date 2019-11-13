@@ -1,3 +1,4 @@
+app: serverless-playground-app
 org: burkardjerome
 service: paralogs-api
 
@@ -8,10 +9,24 @@ provider:
   region: eu-west-1
 
 functions:
-  hello:
-    handler: .build/handlers/hello.handler
+  create-wing:
+    handler: .build/handlers/createWing.handler
     events:
       - http:
-          path: hello
-          method: get
+          path: wings
+          method: post
+          cors: true
+  list-wings:
+      handler: .build/handlers/listWings.main
+      events:
+        - http:
+            path: wings
+            method: get
+            cors: true
+  delete-wing:
+    handler: .build/handlers/deleteWing.main
+    events:
+      - http:
+          path: wings/{id}
+          method: delete
           cors: true
