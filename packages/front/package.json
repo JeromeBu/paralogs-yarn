@@ -1,0 +1,65 @@
+{
+  "name": "@paralogs/front",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "netlify:deploy": "netlify deploy --dir=./build -p -m \"$(git log -1 --pretty=%B)\"",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "ci:test": "npm run test -- --watchAll=false",
+    "eject": "react-scripts eject",
+    "precommit": "lint-staged"
+  },
+  "dependencies": {
+    "@material-ui/core": "^4.3.0",
+    "@material-ui/icons": "^4.2.1",
+    "@paralogs/shared": "^0.0.1",
+    "aws-amplify": "^1.2.4",
+    "date-fns": "^2.1.0",
+    "formik": "^1.5.8",
+    "lodash": "^4.17.15",
+    "react": "^16.11.0",
+    "react-dom": "^16.11.0",
+    "react-redux": "^7.1.0",
+    "react-router-dom": "^5.1.2",
+    "react-scripts": "3.2.0",
+    "redux": "^4.0.4",
+    "redux-devtools-extension": "^2.13.8",
+    "redux-observable": "^1.1.0",
+    "rxjs": "^6.5.2",
+    "typesafe-actions": "^4.4.2",
+    "yup": "^0.27.0"
+  },
+  "devDependencies": {
+    "netlify-cli": "^2.20.1",
+    "@types/lodash": "^4.14.136",
+    "@types/node": "12.12.3",
+    "@types/react": "16.9.11",
+    "@types/react-dom": "16.9.3",
+    "@types/react-redux": "^7.1.1",
+    "@types/react-router-dom": "^5.1.0",
+    "@types/yup": "^0.26.23",
+    "ts-jest": "24.0.2",
+    "@types/jest": "24.0.21",
+    "typescript": "3.7.2"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "lint-staged": {
+    "src/**/*.{ts,tsx,js}": [
+      "eslint --config ../../.eslintrc.commit.js --fix",
+      "git add"
+    ]
+  }
+}
