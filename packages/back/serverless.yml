@@ -1,5 +1,3 @@
-app: serverless-playground-app
-org: burkardjerome
 service: paralogs-api
 
 provider:
@@ -8,23 +6,34 @@ provider:
   stage: dev
   region: eu-west-1
 
+package:
+  individually: true
+
+plugins:
+  - serverless-webpack
+  - serverless-offline
+
+custom:
+  webpack:
+    packager: yarn   # Packager that will be used to package your external modules
+
 functions:
   create-wing:
-    handler: .build/handlers/createWing.handler
+    handler: src/infra/handlers/createWing.main
     events:
       - http:
           path: wings
           method: post
           cors: true
   list-wings:
-      handler: .build/handlers/listWings.main
+      handler: src/infra/handlers/listWings.main
       events:
         - http:
             path: wings
             method: get
             cors: true
   delete-wing:
-    handler: .build/handlers/deleteWing.main
+    handler: src/infra/handlers/deleteWing.main
     events:
       - http:
           path: wings/{id}
