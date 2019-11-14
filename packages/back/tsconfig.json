@@ -4,9 +4,12 @@
     "target": "es2017",
     "lib": ["esnext"],
     "forceConsistentCasingInFileNames": true,
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
     "outDir": ".build",
-    "rootDir": "./"
-    // "moduleResolution": "node"
-  }
-  // "include": ["handlers"]
+    "rootDir": "./src",
+    "resolveJsonModule": true
+  },
+  "include": ["src"]
 }

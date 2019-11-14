@@ -51,5 +51,6 @@ module.exports = {
     "no-empty-function": "off",
     "class-methods-use-this": "off",
     "react/jsx-props-no-spreading": "off",
+    "@typescript-eslint/no-floating-promises": "error",
   },
 };
