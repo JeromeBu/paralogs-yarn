@@ -17,13 +17,13 @@ describe("Add a flight", () => {
   it("shows add flight form, then hides it", () => {
     store.dispatch(flightActions.showAddFlightForm());
     expectStateToMatch(store, {
-      flights: {
+      wings: {
         isAddFlightFormVisible: true,
       },
     });
     store.dispatch(flightActions.hideAddFlightForm());
     expectStateToMatch(store, {
-      flights: {
+      wings: {
         isAddFlightFormVisible: false,
       },
     });

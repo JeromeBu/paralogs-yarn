@@ -30,7 +30,7 @@ describe("Add a flight", () => {
     addFlight(flight);
     apiGateway.flights$.next([flight]);
     expectStateToMatch(store, {
-      flights: {
+      wings: {
         data: [flight],
         isLoading: false,
         isSaving: false,
