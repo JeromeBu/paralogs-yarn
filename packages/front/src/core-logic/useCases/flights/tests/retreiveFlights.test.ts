@@ -41,7 +41,7 @@ describe("Retreive flights", () => {
     retrieveFlights();
     feedWithFlights(someFlights);
     expectStateToMatch(store, {
-      flights: {
+      wings: {
         data: someFlights,
         isLoading: false,
         isSaving: false,
@@ -58,7 +58,7 @@ describe("Retreive flights", () => {
     retrieveFlights();
     feedWithError(errorToDisplay);
     expectStateToMatch(store, {
-      flights: {
+      wings: {
         data: [],
         error: { message: errorToDisplay },
         isLoading: false,
@@ -76,7 +76,7 @@ describe("Retreive flights", () => {
   };
 
   const expectFlightToBeOrderedByDate = (storeState: Store<RootState>) => {
-    const flights = storeState.getState().flights.data;
+    const flights = storeState.getState().wings.data;
     const sortedFlights = _.sortBy(flights, ({ date }) => date);
     expect(flights).toEqual(sortedFlights);
   };
