@@ -1,5 +1,12 @@
 service: paralogs-api
 
+custom:
+  webpack:
+    packager: yarn
+  # Our stage is based on what is passed in when running serverless
+  # commands. Or fallsback to what we have set in the provider section.
+  stage: ${opt:stage, self:provider.stage}
+
 provider:
   name: aws
   runtime: nodejs10.x
@@ -13,9 +20,17 @@ plugins:
   - serverless-webpack
   - serverless-offline
 
-custom:
-  webpack:
-    packager: yarn   # Packager that will be used to package your external modules
+iamRoleStatements:
+  - Effect: Allow
+    Action:
+      - dynamodb:DescribeTable
+      - dynamodb:Query
+      - dynamodb:Scan
+      - dynamodb:GetItem
+      - dynamodb:PutItem
+      - dynamodb:UpdateItem
+      - dynamodb:DeleteItem
+    Resource: "arn:aws:dynamodb:eu-west-1:*:*"
 
 functions:
   create-wing:
@@ -32,6 +47,8 @@ functions:
             path: wings
             method: get
             cors: true
+            # authorizer: aws_iam
+
   delete-wing:
     handler: src/infra/handlers/deleteWing.main
     events:
@@ -39,3 +56,8 @@ functions:
           path: wings/{id}
           method: delete
           cors: true
+
+resources:
+  - ${file(resources/dynamodb-wings.yml)}
+  - ${file(resources/cognito-user-pool.yml)}
+  - ${file(resources/cognito-identity-pool.yml)}
