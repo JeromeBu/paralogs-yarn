@@ -1,11 +1,14 @@
 import { Store } from "redux";
 
+import { Wing } from "@paralogs/shared";
+
 import { RootState, configureReduxStore } from "../../../reduxStore";
 import { InMemoryAPIGateway } from "../../../adapters/InMemoryAPIGateway";
-import { flightActions } from "../flights.actions";
+import { makeWing } from "./wingBuilder";
 import { expectStateToMatch } from "../../../testUtils";
+import { wingsActions } from "../wings.actions";
 
-describe("Add a flight", () => {
+describe("Add a wing", () => {
   let store: Store<RootState>;
   let apiGateway: InMemoryAPIGateway; /* cannot be typed APIGateway because we need to access .flights$ */
 
@@ -14,18 +17,17 @@ describe("Add a flight", () => {
     store = configureReduxStore({ apiGateway });
   });
 
-  it("shows add flight form, then hides it", () => {
-    store.dispatch(flightActions.showAddFlightForm());
+  it("adds a new flight", async () => {
+    const wing = makeWing();
+
+    addWing(wing);
     expectStateToMatch(store, {
-      flights: {
-        isAddFlightFormVisible: true,
-      },
-    });
-    store.dispatch(flightActions.hideAddFlightForm());
-    expectStateToMatch(store, {
-      flights: {
-        isAddFlightFormVisible: false,
+      wings: {
+        isSaving: false,
+        data: [wing],
       },
     });
   });
+
+  const addWing = (wing: Wing) => store.dispatch(wingsActions.addWingRequest(wing));
 });

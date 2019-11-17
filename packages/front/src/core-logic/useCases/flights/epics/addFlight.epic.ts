@@ -13,7 +13,7 @@ export const addFlightEpic: Epic<FlightAction, FlightAction, RootState, Dependen
   { apiGateway },
 ) =>
   action$.pipe(
-    filter(isActionOf(flightActions.addFlight)),
+    filter(isActionOf(flightActions.addFlightRequest)),
     switchMap(({ payload }) =>
       apiGateway.addFlight(payload).pipe(
         // map(flightActions.addedFlight),

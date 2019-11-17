@@ -31,7 +31,7 @@ export const flightsReducer = (
     case getType(flightActions.retreiveFlightsError):
       return { ...state, error: action.payload, isLoading: false };
 
-    case getType(flightActions.addFlight):
+    case getType(flightActions.addFlightRequest):
       return { ...state, isSaving: true };
 
     // QUESTION: addedFlight action has been remove, I added {isSaving: false} to retreiveFlightsSuccess
@@ -45,7 +45,6 @@ export const flightsReducer = (
 
     case getType(flightActions.showAddFlightForm):
       return { ...state, isAddFlightFormVisible: true };
-
     case getType(flightActions.hideAddFlightForm):
       return { ...state, isAddFlightFormVisible: false };
 

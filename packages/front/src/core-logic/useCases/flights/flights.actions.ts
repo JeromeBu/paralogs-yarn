@@ -7,7 +7,7 @@ export const flightActions = {
   retreiveFlightsSuccess: createStandardAction("RETREIVE_FLIGHTS_SUCCESS")<Flight[]>(),
   retreiveFlightsError: createStandardAction("RETREIVE_FLIGHTS_ERROR")<ErrorFromAction>(),
 
-  addFlight: createStandardAction("ADD_FLIGHT")<Flight>(),
+  addFlightRequest: createStandardAction("ADD_FLIGHT")<Flight>(),
 
   // QUESTION: addedFlight action has been remove, I added {isSaving: false} to retreiveFlightsSuccess reducer
   // not sure if this is the right way

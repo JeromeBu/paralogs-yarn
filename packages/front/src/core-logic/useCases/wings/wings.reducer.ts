@@ -1,13 +1,19 @@
 import { ActionType, getType } from "typesafe-actions";
+import { Wing } from "@paralogs/shared";
 import { wingsActions } from "./wings.actions";
-import { shouldNeverBeCalled } from "../../utils";
+import { shouldNeverBeCalled, ErrorFromAction } from "../../utils";
 
 interface WingsState {
-  isAddWingFormVisible: boolean;
+  readonly isAddWingFormVisible: boolean;
+  readonly data: Wing[];
+  readonly isSaving: boolean;
+  readonly error?: ErrorFromAction;
 }
 
 const initialState: WingsState = {
   isAddWingFormVisible: false,
+  data: [],
+  isSaving: false,
 };
 
 export const wingsReducer = (
@@ -19,6 +25,12 @@ export const wingsReducer = (
       return { ...state, isAddWingFormVisible: true };
     case getType(wingsActions.hideAddWingForm):
       return { ...state, isAddWingFormVisible: false };
+    case getType(wingsActions.addWingRequest):
+      return { ...state, isSaving: true };
+    case getType(wingsActions.addWingSuccess):
+      return { ...state, data: [...state.data, action.payload], isSaving: false };
+    case getType(wingsActions.addWingError):
+      return { ...state, error: action.payload };
     default:
       if (
         Object.values(wingsActions)

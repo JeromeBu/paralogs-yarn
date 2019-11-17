@@ -7,6 +7,7 @@ import { SignUp } from "./views/SignUp";
 import { FlightList } from "./views/FlightList";
 import { NavBar } from "./commun/NavBar";
 import { currentUserActions } from "../../core-logic/useCases/currentUser/currentUser.actions";
+import { WingsList } from "./views/WingList";
 
 const useFetchCurrentSession = () => {
   const dispatch = useDispatch();
@@ -23,6 +24,7 @@ export const AppRouter: React.FC = () => {
       <NavBar />
       <Route exact path="/" component={Home} />
       <Route path="/flights" component={FlightList} />
+      <Route path="/wings" component={WingsList} />
       <Route path="/login" component={Login} />
       <Route path="/signup" component={SignUp} />
     </Router>

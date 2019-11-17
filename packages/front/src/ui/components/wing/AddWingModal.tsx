@@ -34,7 +34,9 @@ export const AddWingModal: React.FC<AddWingModalProps> = ({ handleSubmit }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const close = () => dispatch(wingsActions.hideAddWingForm());
-  const isOpen = useSelector(({ wings }: RootState) => wings.isAddWingFormVisible);
+  const isOpen = useSelector(
+    ({ flights: wings }: RootState) => wings.isAddWingFormVisible,
+  );
   const initialValues: Wing = {
     id: uuid(),
     brand: "",

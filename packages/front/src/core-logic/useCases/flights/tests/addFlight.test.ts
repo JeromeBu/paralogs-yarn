@@ -30,7 +30,7 @@ describe("Add a flight", () => {
     addFlight(flight);
     apiGateway.flights$.next([flight]);
     expectStateToMatch(store, {
-      wings: {
+      flights: {
         data: [flight],
         isLoading: false,
         isSaving: false,
@@ -38,5 +38,6 @@ describe("Add a flight", () => {
     });
   });
 
-  const addFlight = (flight: Flight) => store.dispatch(flightActions.addFlight(flight));
+  const addFlight = (flight: Flight) =>
+    store.dispatch(flightActions.addFlightRequest(flight));
 });
