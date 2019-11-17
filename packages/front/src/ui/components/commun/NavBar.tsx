@@ -48,7 +48,7 @@ export const NavBar: React.FC = () => {
           </IconButton>
         </MyLink>
         <Typography variant="h6" className={classes.title}>
-          News
+          Paralogs
         </Typography>
         {isAutenticated ? (
           <Button color="inherit" onClick={() => dispatch(currentUserActions.loggout())}>

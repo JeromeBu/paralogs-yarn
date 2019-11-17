@@ -1,6 +1,6 @@
 import { Observable } from "rxjs";
 
-import { Flight } from "@paralogs/shared";
+import { Flight, Wing } from "@paralogs/shared";
 import { CurrentUserWithToken } from "./currentUser/currentUser.types";
 
 export interface AuthParams {
@@ -17,4 +17,5 @@ export interface APIGateway {
   addFlight(
     flight: Flight,
   ): Observable<null> /* QUESTION: return null, void or Flight ? */;
+  addWing(wing: Wing): Observable<Wing> /* QUESTION: return null, void or Flight ? */;
 }

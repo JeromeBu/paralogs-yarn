@@ -3,7 +3,7 @@ import { Container, Fab, List, makeStyles, Typography } from "@material-ui/core"
 import AddIcon from "@material-ui/icons/Add";
 import { useDispatch, useSelector } from "react-redux";
 
-import { Flight } from "@paralogs/shared";
+import { Wing } from "@paralogs/shared";
 
 import { RootState } from "../../../core-logic/reduxStore";
 import { flightActions } from "../../../core-logic/useCases/flights/flights.actions";
@@ -37,12 +37,12 @@ const useStyles = makeStyles(theme => ({
   ...roundButtonStyle(theme),
 }));
 
-export const FlightList: React.FC = () => {
+export const WingsList: React.FC = () => {
   const classes = useStyles();
-  const isAddFlightFormVisible = useSelector(
-    ({ flights }: RootState) => flights.isAddFlightFormVisible,
+  const isAddWingFormVisible = useSelector(
+    ({ wings }: RootState) => wings.isAddWingFormVisible,
   );
-  const flights = useSelector((state: RootState) => state.flights.data);
+  const wings = useSelector((state: RootState) => state.wings.data);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(flightActions.retreiveFlightsRequest());
@@ -51,8 +51,8 @@ export const FlightList: React.FC = () => {
   return (
     <Container maxWidth="sm" className={classes.paper}>
       <Typography component="h1" variant="h5">
-        Your flights
-        {!isAddFlightFormVisible && (
+        Your wings
+        {!isAddWingFormVisible && (
           <Fab
             color="primary"
             className={classes.roundButton}
@@ -65,9 +65,9 @@ export const FlightList: React.FC = () => {
 
       <AddFlightModal
         close={() => dispatch(flightActions.hideAddFlightForm())}
-        isOpen={isAddFlightFormVisible}
-        handleSubmit={async (flight: Flight) => {
-          await dispatch(flightActions.addFlightRequest(flight));
+        isOpen={isAddWingFormVisible}
+        handleSubmit={async (wing: Wing) => {
+          await dispatch(flightActions.addFlightRequest(wing));
         }}
       />
       <AddWingModal
@@ -77,7 +77,7 @@ export const FlightList: React.FC = () => {
         }}
       />
       <List className={classes.listWrapper}>
-        {flights.map(flight => (
+        {wings.map(flight => (
           <FlightListItem key={flight.id} {...flight} />
         ))}
       </List>

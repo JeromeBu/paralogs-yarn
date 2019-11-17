@@ -1,6 +1,6 @@
 import { BehaviorSubject, of } from "rxjs";
 
-import { Flight } from "@paralogs/shared";
+import { Flight, Wing } from "@paralogs/shared";
 
 import { Config } from "../config";
 import { CurrentUserWithToken } from "../useCases/currentUser/currentUser.types";
@@ -13,6 +13,7 @@ export class InMemoryAPIGateway implements APIGateway {
   private _flights$ = new BehaviorSubject<Flight[]>(
     this.config.withFixtures ? flightsFixtures : [],
   );
+  private _wings$ = new BehaviorSubject<Wing[]>([]);
 
   constructor(private config: Config = testConfig) {}
 
@@ -46,8 +47,16 @@ export class InMemoryAPIGateway implements APIGateway {
     return of(null);
   }
 
+  addWing(wing: Wing) {
+    return of(wing);
+  }
+
   get flights$() {
     return this._flights$;
+  }
+
+  get wings$() {
+    return this._wings$;
   }
 
   private addFlightFakeHttpResponses(flight: Flight) {
