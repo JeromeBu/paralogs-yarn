@@ -6,6 +6,7 @@ import { addFlightEpic } from "../useCases/flights/epics/addFlight.epic";
 import { getCurrentSessionEpic } from "../useCases/currentUser/getCurrentSession/getCurrentSession.epic";
 import { loggoutEpic } from "../useCases/currentUser/loggout/loggout.epic";
 import { addWingEpic } from "../useCases/wings/epics/addWing.epic";
+import { retreiveWingsEpic } from "../useCases/wings/epics/retrieveWings.epic";
 
 export const rootEpic = combineEpics<any>(
   signUpEpic,
@@ -15,4 +16,5 @@ export const rootEpic = combineEpics<any>(
   getCurrentSessionEpic,
   loggoutEpic,
   addWingEpic,
+  retreiveWingsEpic,
 );

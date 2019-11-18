@@ -42,6 +42,10 @@ export class InMemoryAPIGateway implements APIGateway {
     return this._flights$;
   }
 
+  retrieveWings() {
+    return this._wings$;
+  }
+
   addFlight(flight: Flight) {
     this.addFlightFakeHttpResponses(flight);
     return of(null);

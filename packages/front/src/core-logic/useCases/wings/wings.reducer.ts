@@ -7,6 +7,7 @@ interface WingsState {
   readonly isAddWingFormVisible: boolean;
   readonly data: Wing[];
   readonly isSaving: boolean;
+  readonly isLoading: boolean;
   readonly error?: ErrorFromAction;
 }
 
@@ -14,6 +15,7 @@ const initialState: WingsState = {
   isAddWingFormVisible: false,
   data: [],
   isSaving: false,
+  isLoading: false,
 };
 
 export const wingsReducer = (
@@ -29,7 +31,12 @@ export const wingsReducer = (
       return { ...state, isSaving: true };
     case getType(wingsActions.addWingSuccess):
       return { ...state, data: [...state.data, action.payload], isSaving: false };
+    case getType(wingsActions.retreiveWingsRequest):
+      return { ...state, isLoading: true };
+    case getType(wingsActions.retreiveWingsSuccess):
+      return { ...state, data: action.payload, isLoading: false };
     case getType(wingsActions.addWingError):
+    case getType(wingsActions.retreiveWingsError):
       return { ...state, error: action.payload };
     default:
       if (

@@ -1,7 +1,7 @@
-import { Auth, API } from "aws-amplify";
+import { Auth /* API */ } from "aws-amplify";
 import { BehaviorSubject, of, from } from "rxjs";
 
-import { Flight } from "@paralogs/shared";
+import { Flight, Wing } from "@paralogs/shared";
 
 import { Config } from "../config";
 import { CurrentUserWithToken } from "../useCases/currentUser/currentUser.types";
@@ -15,6 +15,8 @@ export class AwsAPIGateway implements APIGateway {
   private _flights$ = new BehaviorSubject<Flight[]>(
     this.config.withFixtures ? flightsFixtures : [],
   );
+
+  private _wings$ = new BehaviorSubject<Wing[]>([]);
 
   constructor(private config: Config = testConfig) {}
 
@@ -66,9 +68,15 @@ export class AwsAPIGateway implements APIGateway {
     return this._currentUser$;
   }
 
-  retrieveFlights() {
+  public retrieveWings() {
     // eslint-disable-next-line no-console
-    API.get("notes", "notes", null).then(res => console.log(res));
+    // from(API.get("notes", "notes", null).then(res => console.log(res)));
+    return this._wings$;
+  }
+
+  public retrieveFlights() {
+    // eslint-disable-next-line no-console
+    // from(API.get("notes", "notes", null).then(res => console.log(res)));
     return this._flights$;
   }
 
@@ -77,8 +85,16 @@ export class AwsAPIGateway implements APIGateway {
     return of(null);
   }
 
+  addWing(wing: Wing) {
+    return of(wing);
+  }
+
   get flights$() {
     return this._flights$;
+  }
+
+  get wings$() {
+    return this._wings$;
   }
 
   private addFlightFakeHttpResponses(flight: Flight) {
