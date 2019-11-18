@@ -1,6 +1,6 @@
 import { Store, DeepPartial } from "redux";
 import { RootState } from "./reduxStore";
-import { InMemoryAPIGateway } from "./adapters/InMemoryAPIGateway";
+import { InMemoryAuthGateway } from "./adapters/InMemoryAuthGateway";
 import { InMemoryWingGateway } from "./adapters/InMemoryWingGateway";
 import { InMemoryFlightGateway } from "./adapters/InMemoryFlightGateway";
 
@@ -8,7 +8,7 @@ export const expectStateToMatch = (store: Store, expectedState: DeepPartial<Root
   expect(store.getState()).toMatchObject(expectedState);
 
 export const getInMemoryDependencies = () => ({
-  apiGateway: new InMemoryAPIGateway(),
+  authGateway: new InMemoryAuthGateway(),
   wingGateway: new InMemoryWingGateway(),
   flightGateway: new InMemoryFlightGateway(),
 });

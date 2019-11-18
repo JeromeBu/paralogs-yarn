@@ -12,7 +12,7 @@ export const getCurrentSessionEpic: Epic<
   RootAction,
   RootState,
   Dependencies
-> = (action$, state$, { apiGateway }) =>
+> = (action$, state$, { authGateway: apiGateway }) =>
   action$.pipe(
     filter(isActionOf(currentUserActions.getCurrentSession)),
     switchMap(() =>

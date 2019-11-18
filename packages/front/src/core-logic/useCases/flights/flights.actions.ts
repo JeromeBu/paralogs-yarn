@@ -20,4 +20,4 @@ export const flightActions = {
   hideAddFlightForm: createStandardAction("HIDE_ADD_FLIGHT_FORM")(),
 };
 
-export type FlightActions = ActionType<typeof flightActions>;
+export type FlightAction = ActionType<typeof flightActions>;

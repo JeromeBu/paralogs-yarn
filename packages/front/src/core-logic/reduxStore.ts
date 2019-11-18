@@ -3,7 +3,7 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import { createEpicMiddleware } from "redux-observable";
 import { StateType } from "typesafe-actions";
 import { rootReducer } from "./store/root-reducer";
-import { APIGateway } from "./useCases/api.gateway";
+import { AuthGateway } from "./useCases/currentUser/port/AuthGateway";
 import { rootEpic } from "./store/root-epic";
 import "./aws-amplify";
 import { WingGateway } from "./useCases/wings/port/WingGateway";
@@ -12,7 +12,7 @@ import { FlightGateway } from "./useCases/flights/port/FlightGateway";
 export type RootState = StateType<typeof rootReducer>;
 
 export interface Dependencies {
-  apiGateway: APIGateway;
+  authGateway: AuthGateway;
   wingGateway: WingGateway;
   flightGateway: FlightGateway;
 }
