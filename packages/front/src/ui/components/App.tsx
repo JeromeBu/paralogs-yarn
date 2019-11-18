@@ -6,10 +6,14 @@ import { Store } from "redux";
 import { AwsAPIGateway } from "../../core-logic/adapters/AwsApiGateway";
 import { configureReduxStore, RootState } from "../../core-logic/reduxStore";
 import { AppRouter } from "./AppRouter";
+import { AwsWingGateway } from "../../core-logic/adapters/AwsWingGateway";
+import { AwsFlightGateway } from "../../core-logic/adapters/AwsFlightGateway";
 
-// const apiGateway = new InMemoryAPIGateway({ fakeBackend: true, withFixtures: true });
-const apiGateway = new AwsAPIGateway({ fakeBackend: true, withFixtures: true });
-export const store: Store<RootState> = configureReduxStore({ apiGateway });
+export const store: Store<RootState> = configureReduxStore({
+  apiGateway: new AwsAPIGateway({ fakeBackend: true, withFixtures: true }),
+  wingGateway: new AwsWingGateway(),
+  flightGateway: new AwsFlightGateway(),
+});
 
 export const App: React.FC = () => {
   return (

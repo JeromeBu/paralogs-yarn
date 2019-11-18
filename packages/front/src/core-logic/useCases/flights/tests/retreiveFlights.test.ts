@@ -73,10 +73,10 @@ describe("Retreive flights", () => {
   const retrieveFlights = () => store.dispatch(flightActions.retreiveFlightsRequest());
 
   const feedWithFlights = (flights: Flight[]) =>
-    dependencies.apiGateway.flights$.next(flights);
+    dependencies.flightGateway.flights$.next(flights);
 
   const feedWithError = (errorMessage: string) => {
-    dependencies.apiGateway.flights$.error(new Error(errorMessage));
+    dependencies.flightGateway.flights$.error(new Error(errorMessage));
   };
 
   const expectFlightToBeOrderedByDate = (storeState: Store<RootState>) => {
