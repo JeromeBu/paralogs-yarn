@@ -1,4 +1,4 @@
-import { createStandardAction } from "typesafe-actions";
+import { createStandardAction, ActionType } from "typesafe-actions";
 import { Wing } from "@paralogs/shared";
 import { ErrorFromAction } from "../../utils";
 
@@ -14,3 +14,5 @@ export const wingsActions = {
   retreiveWingsSuccess: createStandardAction("RETREIVE_WINGS_SUCCESS")<Wing[]>(),
   retreiveWingsError: createStandardAction("RETREIVE_WINGS_ERROR")<ErrorFromAction>(),
 };
+
+export type WingAction = ActionType<typeof wingsActions>;

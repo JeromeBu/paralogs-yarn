@@ -42,7 +42,7 @@ describe("Add a flight", () => {
   });
 
   const feedWithFlight = (flights: Flight[]) =>
-    dependencies.apiGateway.flights$.next(flights);
+    dependencies.flightGateway.flights$.next(flights);
 
   const addFlight = (flight: Flight) =>
     store.dispatch(flightActions.addFlightRequest(flight));

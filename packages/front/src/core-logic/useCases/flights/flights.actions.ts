@@ -1,4 +1,4 @@
-import { createStandardAction } from "typesafe-actions";
+import { createStandardAction, ActionType } from "typesafe-actions";
 import { Flight } from "@paralogs/shared";
 import { ErrorFromAction } from "../../utils";
 
@@ -19,3 +19,5 @@ export const flightActions = {
   showAddFlightForm: createStandardAction("SHOW_ADD_FLIGHT_FORM")(),
   hideAddFlightForm: createStandardAction("HIDE_ADD_FLIGHT_FORM")(),
 };
+
+export type FlightActions = ActionType<typeof flightActions>;

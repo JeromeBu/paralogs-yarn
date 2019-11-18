@@ -3,7 +3,7 @@ import { BehaviorSubject, of } from "rxjs";
 
 import { Wing } from "@paralogs/shared";
 
-import { WingGateway } from "../useCases/wings/port/WingsGateway";
+import { WingGateway } from "../useCases/wings/port/WingGateway";
 
 export class AwsWingGateway implements WingGateway {
   private _wings$ = new BehaviorSubject<Wing[]>([]);
