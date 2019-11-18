@@ -7,7 +7,7 @@ import { SignUp } from "./views/SignUp";
 import { FlightList } from "./views/FlightList";
 import { NavBar } from "./commun/NavBar";
 import { currentUserActions } from "../../core-logic/useCases/currentUser/currentUser.actions";
-import { WingsList } from "./views/WingList";
+import { WingsList } from "./views/WingsList";
 
 const useFetchCurrentSession = () => {
   const dispatch = useDispatch();

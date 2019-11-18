@@ -14,6 +14,7 @@ export interface APIGateway {
   loggout(): Observable<unknown>;
   getCurrentSession(): Observable<unknown>;
   retrieveFlights(): Observable<Flight[]>;
+  retrieveWings(): Observable<Wing[]>;
   addFlight(
     flight: Flight,
   ): Observable<null> /* QUESTION: return null, void or Flight ? */;

@@ -6,12 +6,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { Wing } from "@paralogs/shared";
 
 import { RootState } from "../../../core-logic/reduxStore";
-import { flightActions } from "../../../core-logic/useCases/flights/flights.actions";
 
 import { roundButtonStyle } from "../commun/styles";
-import { AddFlightModal } from "../flight/AddFlightModal";
 import { AddWingModal } from "../wing/AddWingModal";
-import { FlightListItem } from "../flight/FlightListItem";
+import { wingsActions } from "../../../core-logic/useCases/wings/wings.actions";
+import { WingsListItem } from "../wing/WingsListItem";
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -45,7 +44,7 @@ export const WingsList: React.FC = () => {
   const wings = useSelector((state: RootState) => state.wings.data);
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(flightActions.retreiveFlightsRequest());
+    dispatch(wingsActions.retreiveWingsRequest());
   }, [dispatch]);
 
   return (
@@ -56,29 +55,20 @@ export const WingsList: React.FC = () => {
           <Fab
             color="primary"
             className={classes.roundButton}
-            onClick={() => dispatch(flightActions.showAddFlightForm())}
+            onClick={() => dispatch(wingsActions.showAddWingForm())}
           >
             <AddIcon />
           </Fab>
         )}
       </Typography>
-
-      <AddFlightModal
-        close={() => dispatch(flightActions.hideAddFlightForm())}
-        isOpen={isAddWingFormVisible}
-        handleSubmit={async (wing: Wing) => {
-          await dispatch(flightActions.addFlightRequest(wing));
-        }}
-      />
       <AddWingModal
-        handleSubmit={async wing => {
-          // eslint-disable-next-line no-console
-          console.log("TODO: send to backend", { wing });
+        handleSubmit={async (wing: Wing) => {
+          await dispatch(wingsActions.addWingRequest(wing));
         }}
       />
       <List className={classes.listWrapper}>
-        {wings.map(flight => (
-          <FlightListItem key={flight.id} {...flight} />
+        {wings.map(wing => (
+          <WingsListItem key={wing.id} {...wing} />
         ))}
       </List>
     </Container>

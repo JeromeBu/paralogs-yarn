@@ -34,9 +34,7 @@ export const AddWingModal: React.FC<AddWingModalProps> = ({ handleSubmit }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const close = () => dispatch(wingsActions.hideAddWingForm());
-  const isOpen = useSelector(
-    ({ flights: wings }: RootState) => wings.isAddWingFormVisible,
-  );
+  const isOpen = useSelector(({ wings }: RootState) => wings.isAddWingFormVisible);
   const initialValues: Wing = {
     id: uuid(),
     brand: "",
@@ -52,13 +50,9 @@ export const AddWingModal: React.FC<AddWingModalProps> = ({ handleSubmit }) => {
           await handleSubmit(values);
           close();
         }}
-        validationSchema={Yup.object().shape({
-          site: Yup.string()
-            .min(2, "Too Short!")
-            .required("Required"),
-          date: Yup.string().required("Required"),
-          time: Yup.string(),
-          duration: Yup.string().required("Required"),
+        validationSchema={Yup.object().shape<Pick<Wing, "model" | "brand">>({
+          brand: Yup.string().required(),
+          model: Yup.string().required(),
         })}
       >
         {({ values, handleChange, submitForm }) => (
@@ -117,9 +111,9 @@ export const AddWingModal: React.FC<AddWingModalProps> = ({ handleSubmit }) => {
               color="primary"
               className={classes.button}
               variant="contained"
-              onClick={submitForm}
               component="button"
               type="submit"
+              onClick={submitForm}
             >
               <SaveIcon /> Add this wing
             </Button>
