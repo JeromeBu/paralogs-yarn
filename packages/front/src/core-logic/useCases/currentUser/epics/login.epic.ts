@@ -2,19 +2,19 @@ import { Epic } from "redux-observable";
 import { of } from "rxjs";
 import { catchError, filter, map, switchMap } from "rxjs/operators";
 import { isActionOf } from "typesafe-actions";
-import { RootAction } from "../../../store/root-action";
 import { RootState, Dependencies } from "../../../reduxStore";
-import { currentUserActions } from "../currentUser.actions";
+import { currentUserActions, CurrentUserAction } from "../currentUser.actions";
 
-export const loginEpic: Epic<RootAction, RootAction, RootState, Dependencies> = (
-  action$,
-  state$,
-  { apiGateway },
-) =>
+export const loginEpic: Epic<
+  CurrentUserAction,
+  CurrentUserAction,
+  RootState,
+  Dependencies
+> = (action$, state$, { authGateway }) =>
   action$.pipe(
     filter(isActionOf(currentUserActions.loginRequest)),
     switchMap(({ payload }) =>
-      apiGateway.login(payload).pipe(
+      authGateway.login(payload).pipe(
         map(currentUserActions.loginSuccess),
         catchError(err => of(currentUserActions.loginError({ message: err.message }))),
       ),

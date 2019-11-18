@@ -3,11 +3,11 @@ import { of } from "rxjs";
 import { catchError, filter, map, switchMap } from "rxjs/operators";
 import { isActionOf } from "typesafe-actions";
 import { RootState, Dependencies } from "../../../reduxStore";
-import { flightActions, FlightActions } from "../flights.actions";
+import { flightActions, FlightAction } from "../flights.actions";
 
 export const retreiveFlightsEpic: Epic<
-  FlightActions,
-  FlightActions,
+  FlightAction,
+  FlightAction,
   RootState,
   Dependencies
 > = (action$, state$, { flightGateway }) =>

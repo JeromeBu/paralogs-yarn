@@ -1,6 +1,6 @@
-import { createStandardAction } from "typesafe-actions";
+import { createStandardAction, ActionType } from "typesafe-actions";
 
-import { AuthParams } from "../api.gateway";
+import { AuthParams } from "./port/AuthGateway";
 import { CurrentUserWithToken } from "./currentUser.types";
 import { ErrorFromAction } from "../../utils";
 
@@ -25,3 +25,5 @@ export const currentUserActions = {
   loginSuccess: createStandardAction("LOGIN_SUCCESS")<CurrentUserWithToken | null>(),
   loginError: createStandardAction("LOGIN_ERROR")<ErrorFromAction>(),
 };
+
+export type CurrentUserAction = ActionType<typeof currentUserActions>;

@@ -56,9 +56,9 @@ describe("Login", () => {
     store.dispatch(currentUserActions.loginRequest({ email, password }));
 
   const feedWithLoggedUser = (currentUser: CurrentUserWithToken) =>
-    dependencies.apiGateway.currentUser$.next(currentUser);
+    dependencies.authGateway.currentUser$.next(currentUser);
 
   const feedWithError = (errorMessage: string) => {
-    dependencies.apiGateway.currentUser$.error(new Error(errorMessage));
+    dependencies.authGateway.currentUser$.error(new Error(errorMessage));
   };
 });

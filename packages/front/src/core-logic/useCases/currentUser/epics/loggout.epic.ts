@@ -9,7 +9,7 @@ import { currentUserActions } from "../currentUser.actions";
 export const loggoutEpic: Epic<RootAction, RootAction, RootState, Dependencies> = (
   action$,
   state$,
-  { apiGateway },
+  { authGateway: apiGateway },
 ) =>
   action$.pipe(
     filter(isActionOf(currentUserActions.loggout)),

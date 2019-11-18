@@ -24,7 +24,7 @@ describe("Sign up", () => {
       const password = "lulu";
       const token = "someFakeToken";
       signUpUser({ email, password });
-      feedWithCreatedUser({ email, token });
+      feedWithUser({ email, token });
       expectStateToMatch(store, {
         currentUser: {
           data: {
@@ -58,10 +58,10 @@ describe("Sign up", () => {
   const signUpUser = ({ email, password }: { email: string; password: string }) =>
     store.dispatch(currentUserActions.signUpRequest({ email, password }));
 
-  const feedWithCreatedUser = (currentUserWithToken: CurrentUserWithToken) =>
-    dependencies.apiGateway.currentUser$.next(currentUserWithToken);
+  const feedWithUser = (currentUserWithToken: CurrentUserWithToken) =>
+    dependencies.authGateway.currentUser$.next(currentUserWithToken);
 
   const feedWithError = (errorMessage: string) => {
-    dependencies.apiGateway.currentUser$.error(new Error(errorMessage));
+    dependencies.authGateway.currentUser$.error(new Error(errorMessage));
   };
 });
