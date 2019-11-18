@@ -3,18 +3,21 @@ import { Store } from "redux";
 import { uuid, Flight } from "@paralogs/shared";
 
 import { RootState, configureReduxStore } from "../../../reduxStore";
-import { InMemoryAPIGateway } from "../../../adapters/InMemoryAPIGateway";
 import { makeWing } from "../../wings/tests/wingBuilder";
-import { expectStateToMatch } from "../../../testUtils";
+import {
+  expectStateToMatch,
+  getInMemoryDependencies,
+  InMemoryDependencies,
+} from "../../../testUtils";
 import { flightActions } from "../flights.actions";
 
 describe("Add a flight", () => {
   let store: Store<RootState>;
-  let apiGateway: InMemoryAPIGateway; /* cannot be typed APIGateway because we need to access .flights$ */
+  let dependencies: InMemoryDependencies; /* cannot be typed Dependencies because we need to access .flights$ */
 
   beforeEach(() => {
-    apiGateway = new InMemoryAPIGateway();
-    store = configureReduxStore({ apiGateway });
+    dependencies = getInMemoryDependencies();
+    store = configureReduxStore(dependencies);
   });
 
   it("adds a new flight", () => {
@@ -28,7 +31,7 @@ describe("Add a flight", () => {
       wing,
     };
     addFlight(flight);
-    apiGateway.flights$.next([flight]);
+    feedWithFlight([flight]);
     expectStateToMatch(store, {
       flights: {
         data: [flight],
@@ -37,6 +40,9 @@ describe("Add a flight", () => {
       },
     });
   });
+
+  const feedWithFlight = (flights: Flight[]) =>
+    dependencies.apiGateway.flights$.next(flights);
 
   const addFlight = (flight: Flight) =>
     store.dispatch(flightActions.addFlightRequest(flight));

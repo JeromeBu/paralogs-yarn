@@ -1,17 +1,20 @@
 import { Store } from "redux";
 import { RootState, configureReduxStore } from "../../../reduxStore";
-import { InMemoryAPIGateway } from "../../../adapters/InMemoryAPIGateway";
-import { expectStateToMatch } from "../../../testUtils";
+import {
+  expectStateToMatch,
+  getInMemoryDependencies,
+  InMemoryDependencies,
+} from "../../../testUtils";
 import { currentUserActions } from "../currentUser.actions";
 import { CurrentUserWithToken } from "../currentUser.types";
 
 describe("Login", () => {
   let store: Store<RootState>;
-  let apiGateway: InMemoryAPIGateway; /* cannot be typed APIGateway because we need to access .currentUser$ */
+  let dependencies: InMemoryDependencies; /* cannot be typed Dependencies because we need to access .currentUser$ */
 
   beforeEach(() => {
-    apiGateway = new InMemoryAPIGateway();
-    store = configureReduxStore({ apiGateway });
+    dependencies = getInMemoryDependencies();
+    store = configureReduxStore(dependencies);
   });
 
   describe("Email and password are correct", () => {
@@ -53,9 +56,9 @@ describe("Login", () => {
     store.dispatch(currentUserActions.loginRequest({ email, password }));
 
   const feedWithLoggedUser = (currentUser: CurrentUserWithToken) =>
-    apiGateway.currentUser$.next(currentUser);
+    dependencies.apiGateway.currentUser$.next(currentUser);
 
   const feedWithError = (errorMessage: string) => {
-    apiGateway.currentUser$.error(new Error(errorMessage));
+    dependencies.apiGateway.currentUser$.error(new Error(errorMessage));
   };
 });
