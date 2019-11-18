@@ -1,18 +1,20 @@
 import { Store } from "redux";
 
 import { RootState, configureReduxStore } from "../../../reduxStore";
-import { InMemoryAPIGateway } from "../../../adapters/InMemoryAPIGateway";
 import { wingsActions } from "../wings.actions";
-import { expectStateToMatch } from "../../../testUtils";
-import { APIGateway } from "../../api.gateway";
+import {
+  expectStateToMatch,
+  InMemoryDependencies,
+  getInMemoryDependencies,
+} from "../../../testUtils";
 
 describe("Add a wing", () => {
   let store: Store<RootState>;
-  let apiGateway: APIGateway; /* cannot be typed APIGateway because we need to access .flights$ */
+  let dependencies: InMemoryDependencies; /* cannot be typed APIGateway because we need to access .wings$ */
 
   beforeEach(() => {
-    apiGateway = new InMemoryAPIGateway();
-    store = configureReduxStore({ apiGateway });
+    dependencies = getInMemoryDependencies();
+    store = configureReduxStore(dependencies);
   });
 
   it("shows add wing form, then hides it", () => {

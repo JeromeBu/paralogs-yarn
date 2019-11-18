@@ -6,11 +6,13 @@ import { rootReducer } from "./store/root-reducer";
 import { APIGateway } from "./useCases/api.gateway";
 import { rootEpic } from "./store/root-epic";
 import "./aws-amplify";
+import { WingGateway } from "./useCases/wings/port/WingsGateway";
 
 export type RootState = StateType<typeof rootReducer>;
 
 export interface Dependencies {
   apiGateway: APIGateway;
+  wingGateway: WingGateway;
 }
 
 export const configureReduxStore = (dependencies: Dependencies): Store => {

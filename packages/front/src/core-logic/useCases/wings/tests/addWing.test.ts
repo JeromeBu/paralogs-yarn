@@ -3,18 +3,21 @@ import { Store } from "redux";
 import { Wing } from "@paralogs/shared";
 
 import { RootState, configureReduxStore } from "../../../reduxStore";
-import { InMemoryAPIGateway } from "../../../adapters/InMemoryAPIGateway";
 import { makeWing } from "./wingBuilder";
-import { expectStateToMatch } from "../../../testUtils";
+import {
+  expectStateToMatch,
+  InMemoryDependencies,
+  getInMemoryDependencies,
+} from "../../../testUtils";
 import { wingsActions } from "../wings.actions";
 
 describe("Add a wing", () => {
   let store: Store<RootState>;
-  let apiGateway: InMemoryAPIGateway; /* cannot be typed APIGateway because we need to access .flights$ */
+  let dependencies: InMemoryDependencies; /* cannot be typed Dependencies because we need to access .wings$ */
 
   beforeEach(() => {
-    apiGateway = new InMemoryAPIGateway();
-    store = configureReduxStore({ apiGateway });
+    dependencies = getInMemoryDependencies();
+    store = configureReduxStore(dependencies);
   });
 
   it("adds a new flight", async () => {

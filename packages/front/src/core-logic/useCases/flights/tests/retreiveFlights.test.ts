@@ -4,18 +4,21 @@ import _ from "lodash";
 import { Flight, uuid } from "@paralogs/shared";
 
 import { RootState, configureReduxStore } from "../../../reduxStore";
-import { InMemoryAPIGateway } from "../../../adapters/InMemoryAPIGateway";
 import { makeWing } from "../../wings/tests/wingBuilder";
-import { expectStateToMatch } from "../../../testUtils";
+import {
+  expectStateToMatch,
+  InMemoryDependencies,
+  getInMemoryDependencies,
+} from "../../../testUtils";
 import { flightActions } from "../flights.actions";
 
 describe("Retreive flights", () => {
   let store: Store<RootState>;
-  let apiGateway: InMemoryAPIGateway; /* cannot be typed APIGateway because we need to access .flights$ */
+  let dependencies: InMemoryDependencies; /* cannot be typed Dependencies because we need to access .flights$ */
 
   beforeEach(() => {
-    apiGateway = new InMemoryAPIGateway();
-    store = configureReduxStore({ apiGateway });
+    dependencies = getInMemoryDependencies();
+    store = configureReduxStore(dependencies);
   });
 
   it("gets all the Flights", () => {
@@ -69,10 +72,11 @@ describe("Retreive flights", () => {
 
   const retrieveFlights = () => store.dispatch(flightActions.retreiveFlightsRequest());
 
-  const feedWithFlights = (flights: Flight[]) => apiGateway.flights$.next(flights);
+  const feedWithFlights = (flights: Flight[]) =>
+    dependencies.apiGateway.flights$.next(flights);
 
   const feedWithError = (errorMessage: string) => {
-    apiGateway.flights$.error(new Error(errorMessage));
+    dependencies.apiGateway.flights$.error(new Error(errorMessage));
   };
 
   const expectFlightToBeOrderedByDate = (storeState: Store<RootState>) => {

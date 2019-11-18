@@ -3,18 +3,21 @@ import { Store } from "redux";
 import { Wing } from "@paralogs/shared";
 
 import { RootState, configureReduxStore } from "../../../reduxStore";
-import { InMemoryAPIGateway } from "../../../adapters/InMemoryAPIGateway";
 import { makeWing } from "../../wings/tests/wingBuilder";
-import { expectStateToMatch } from "../../../testUtils";
+import {
+  expectStateToMatch,
+  InMemoryDependencies,
+  getInMemoryDependencies,
+} from "../../../testUtils";
 import { wingsActions } from "../wings.actions";
 
 describe("Retreive wings", () => {
   let store: Store<RootState>;
-  let apiGateway: InMemoryAPIGateway; /* cannot be typed APIGateway because we need to access .wings$ */
+  let dependencies: InMemoryDependencies; /* cannot be typed APIGateway because we need to access .wings$ */
 
   beforeEach(() => {
-    apiGateway = new InMemoryAPIGateway();
-    store = configureReduxStore({ apiGateway });
+    dependencies = getInMemoryDependencies();
+    store = configureReduxStore(dependencies);
   });
 
   it("gets all the Wings", () => {
@@ -48,9 +51,9 @@ describe("Retreive wings", () => {
 
   const retrieveWings = () => store.dispatch(wingsActions.retreiveWingsRequest());
 
-  const feedWithWings = (wings: Wing[]) => apiGateway.wings$.next(wings);
+  const feedWithWings = (wings: Wing[]) => dependencies.wingGateway.wings$.next(wings);
 
   const feedWithError = (errorMessage: string) => {
-    apiGateway.wings$.error(new Error(errorMessage));
+    dependencies.wingGateway.wings$.error(new Error(errorMessage));
   };
 });
