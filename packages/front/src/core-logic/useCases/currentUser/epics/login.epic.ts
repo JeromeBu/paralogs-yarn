@@ -16,7 +16,7 @@ export const loginEpic: Epic<
     switchMap(({ payload }) =>
       authGateway.login(payload).pipe(
         map(currentUserActions.loginSuccess),
-        catchError(err => of(currentUserActions.loginError({ message: err.message }))),
+        catchError(err => of(currentUserActions.loginError(err))),
       ),
     ),
   );

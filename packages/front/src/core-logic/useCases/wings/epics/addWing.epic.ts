@@ -15,7 +15,7 @@ export const addWingEpic: Epic<WingAction, WingAction, RootState, Dependencies> 
     switchMap(({ payload }) =>
       wingGateway.addWing(payload).pipe(
         map(wingsActions.addWingSuccess),
-        catchError(err => of(wingsActions.addWingError({ message: err.message }))),
+        catchError(err => of(wingsActions.addWingError(err))),
       ),
     ),
   );

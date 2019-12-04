@@ -42,7 +42,7 @@ describe("Retreive wings", () => {
     expectStateToMatch(store, {
       wings: {
         data: [],
-        error: { message: errorToDisplay },
+        error: new Error(errorToDisplay),
         isLoading: false,
         isSaving: false,
       },

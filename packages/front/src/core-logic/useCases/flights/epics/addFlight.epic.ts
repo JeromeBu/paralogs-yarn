@@ -16,7 +16,7 @@ export const addFlightEpic: Epic<FlightAction, FlightAction, RootState, Dependen
       flightGateway.addFlight(payload).pipe(
         // map(flightActions.addedFlight),
         map(flightActions.retreiveFlightsRequest),
-        catchError(err => of(flightActions.addFlightFailed({ message: err.message }))),
+        catchError(err => of(flightActions.addFlightFailed(err))),
       ),
     ),
   );

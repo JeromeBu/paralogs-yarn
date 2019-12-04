@@ -11,10 +11,12 @@ import {
 } from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Formik, Form } from "formik";
 import { MyLink } from "../commun/MyLink";
 import { currentUserActions } from "../../../core-logic/useCases/currentUser/currentUser.actions";
+import { DisplayError } from "../commun/DisplayError";
+import { RootState } from "../../../core-logic/reduxStore";
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -38,6 +40,7 @@ const useStyles = makeStyles(theme => ({
 
 export const Login: React.FC = () => {
   const dispatch = useDispatch();
+  const { error } = useSelector((state: RootState) => state.currentUser);
   const classes = useStyles();
 
   return (
@@ -46,6 +49,7 @@ export const Login: React.FC = () => {
         <LockOutlinedIcon />
       </Avatar>
       <Typography variant="h5">Log in</Typography>
+      <DisplayError error={error} />
       <Formik
         initialValues={{ email: "", password: "" }}
         onSubmit={async values => {

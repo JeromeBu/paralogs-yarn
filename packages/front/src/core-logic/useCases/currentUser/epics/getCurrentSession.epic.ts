@@ -18,9 +18,7 @@ export const getCurrentSessionEpic: Epic<
     switchMap(() =>
       apiGateway.getCurrentSession().pipe(
         map(currentUserActions.getCurrentSessionSuccess),
-        catchError(err =>
-          of(currentUserActions.getCurrentSessionError({ message: err.message })),
-        ),
+        catchError(err => of(currentUserActions.getCurrentSessionError(err))),
       ),
     ),
   );

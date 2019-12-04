@@ -16,7 +16,7 @@ export const loggoutEpic: Epic<RootAction, RootAction, RootState, Dependencies> 
     switchMap(() =>
       apiGateway.loggout().pipe(
         map(currentUserActions.loggoutSuccess),
-        catchError(err => of(currentUserActions.loggoutError({ message: err.message }))),
+        catchError(err => of(currentUserActions.loggoutError(err))),
       ),
     ),
   );

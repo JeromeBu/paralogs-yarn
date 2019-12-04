@@ -1,6 +1,4 @@
-export interface ErrorFromAction {
-  message: string;
-}
+export type ErrorFromAction = Error;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const shouldNeverBeCalled = (param: never) => {
