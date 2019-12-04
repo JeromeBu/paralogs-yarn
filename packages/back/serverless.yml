@@ -3,6 +3,8 @@ service: paralogs-api
 custom:
   webpack:
     packager: yarn
+  serverless-offline:
+    port: 4000
   # Our stage is based on what is passed in when running serverless
   # commands. Or fallsback to what we have set in the provider section.
   stage: ${opt:stage, self:provider.stage}
@@ -13,11 +15,8 @@ provider:
   stage: dev
   region: eu-west-1
 
-package:
-  individually: true
-
 plugins:
-  - serverless-webpack
+  - serverless-plugin-monorepo
   - serverless-offline
 
 iamRoleStatements:
@@ -34,14 +33,14 @@ iamRoleStatements:
 
 functions:
   create-wing:
-    handler: src/infra/handlers/createWing.main
+    handler: .build/infra/handlers/createWing.main
     events:
       - http:
           path: wings
           method: post
           cors: true
   list-wings:
-      handler: src/infra/handlers/listWings.main
+      handler: .build/infra/handlers/listWings.main
       events:
         - http:
             path: wings
@@ -50,7 +49,7 @@ functions:
             # authorizer: aws_iam
 
   delete-wing:
-    handler: src/infra/handlers/deleteWing.main
+    handler: .build/infra/handlers/deleteWing.main
     events:
       - http:
           path: wings/{id}

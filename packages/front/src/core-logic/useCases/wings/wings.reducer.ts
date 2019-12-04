@@ -1,6 +1,6 @@
-import { ActionType, getType } from "typesafe-actions";
+import { getType } from "typesafe-actions";
 import { Wing } from "@paralogs/shared";
-import { wingsActions } from "./wings.actions";
+import { wingsActions, WingAction } from "./wings.actions";
 import { shouldNeverBeCalled, ErrorFromAction } from "../../utils";
 
 interface WingsState {
@@ -20,7 +20,7 @@ const initialState: WingsState = {
 
 export const wingsReducer = (
   state: WingsState = initialState,
-  action: ActionType<typeof wingsActions>,
+  action: WingAction,
 ): WingsState => {
   switch (action.type) {
     case getType(wingsActions.showAddWingForm):
@@ -39,14 +39,7 @@ export const wingsReducer = (
     case getType(wingsActions.retreiveWingsError):
       return { ...state, error: action.payload };
     default:
-      if (
-        Object.values(wingsActions)
-          .map(getType)
-          // eslint-disable-next-line dot-notation
-          .includes(action["type"])
-      ) {
-        shouldNeverBeCalled(action);
-      }
+      shouldNeverBeCalled(action);
       return state;
   }
 };

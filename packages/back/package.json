@@ -14,7 +14,8 @@
   "dependencies": {
     "@paralogs/shared": "*",
     "aws-sdk": "^2.570.0",
-    "lodash": "^4.17.15"
+    "lodash": "^4.17.15",
+    "serverless-plugin-monorepo": "^0.8.0"
   },
   "devDependencies": {
     "@babel/core": "^7.5.5",
@@ -29,9 +30,11 @@
     "jest": "24.9.0",
     "lint-staged": "^9.4.2",
     "serverless-offline": "^5.12.0",
+    "serverless-plugin-typescript": "^1.1.9",
     "serverless-webpack": "^5.3.1",
     "ts-jest": "^24.1.0",
     "ts-node": "^8.5.0",
+    "typescript": "^3.7.2",
     "webpack": "^4.38.0",
     "webpack-node-externals": "^1.7.2"
   },
@@ -39,6 +42,14 @@
     "src/**/*.{ts,tsx,js}": [
       "eslint --config ../../.eslintrc.commit.js --fix",
       "git add"
+    ]
+  },
+  "workspaces": {
+    "nohoist": [
+      "jest",
+      "jest/**",
+      "lint-staged",
+      "lint-staged/**"
     ]
   }
 }

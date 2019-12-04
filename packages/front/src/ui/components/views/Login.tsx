@@ -45,9 +45,7 @@ export const Login: React.FC = () => {
       <Avatar className={classes.avatar}>
         <LockOutlinedIcon />
       </Avatar>
-      <Typography component="h1" variant="h5">
-        Log in
-      </Typography>
+      <Typography variant="h5">Log in</Typography>
       <Formik
         initialValues={{ email: "", password: "" }}
         onSubmit={async values => {
