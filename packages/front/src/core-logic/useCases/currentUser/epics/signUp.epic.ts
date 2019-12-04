@@ -16,7 +16,7 @@ export const signUpEpic: Epic<
     switchMap(({ payload }) => {
       return authGateway.signUp(payload).pipe(
         map(currentUserActions.signUpSuccess),
-        catchError(err => of(currentUserActions.signUpError({ message: err.message }))),
+        catchError(err => of(currentUserActions.signUpError(err))),
       );
     }),
   );

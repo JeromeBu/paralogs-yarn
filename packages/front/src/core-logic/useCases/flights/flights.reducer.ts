@@ -1,7 +1,6 @@
-// import { combineReducers } from "redux";
-import { ActionType, getType } from "typesafe-actions";
+import { getType } from "typesafe-actions";
 import { Flight } from "@paralogs/shared";
-import { flightActions } from "./flights.actions";
+import { flightActions, FlightAction } from "./flights.actions";
 import { ErrorFromAction, shouldNeverBeCalled } from "../../utils";
 
 interface FlightsState {
@@ -21,7 +20,7 @@ const initialState: FlightsState = {
 
 export const flightsReducer = (
   state: FlightsState = initialState,
-  action: ActionType<typeof flightActions>,
+  action: FlightAction,
 ): FlightsState => {
   switch (action.type) {
     case getType(flightActions.retreiveFlightsRequest):
@@ -49,14 +48,7 @@ export const flightsReducer = (
       return { ...state, isAddFlightFormVisible: false };
 
     default:
-      if (
-        Object.values(flightActions)
-          .map(getType)
-          // eslint-disable-next-line dot-notation
-          .includes(action["type"])
-      ) {
-        shouldNeverBeCalled(action);
-      }
+      shouldNeverBeCalled(action);
       return state;
   }
 };

@@ -1,7 +1,6 @@
 import { createStandardAction, ActionType } from "typesafe-actions";
 
 import { AuthParams } from "./port/AuthGateway";
-import { CurrentUserWithToken } from "./currentUser.types";
 import { ErrorFromAction } from "../../utils";
 
 export const currentUserActions = {
@@ -18,11 +17,11 @@ export const currentUserActions = {
   loggoutError: createStandardAction("LOGGOUT_ERROR")<ErrorFromAction>(),
 
   signUpRequest: createStandardAction("SIGN_UP_REQUEST")<AuthParams>(),
-  signUpSuccess: createStandardAction("SIGN_UP_SUCCESS")<CurrentUserWithToken | null>(),
+  signUpSuccess: createStandardAction("SIGN_UP_SUCCESS")<unknown>(),
   signUpError: createStandardAction("SIGN_UP_ERROR")<ErrorFromAction>(),
 
   loginRequest: createStandardAction("LOGIN_REQUEST")<AuthParams>(),
-  loginSuccess: createStandardAction("LOGIN_SUCCESS")<CurrentUserWithToken | null>(),
+  loginSuccess: createStandardAction("LOGIN_SUCCESS")<unknown>(),
   loginError: createStandardAction("LOGIN_ERROR")<ErrorFromAction>(),
 };
 

@@ -26,11 +26,8 @@ describe("Login", () => {
       feedWithLoggedUser({ email, token });
       expectStateToMatch(store, {
         currentUser: {
-          data: {
-            email,
-            token,
-          },
           isLoading: false,
+          isAuthenticated: true,
         },
       });
     });
@@ -46,7 +43,7 @@ describe("Login", () => {
       expectStateToMatch(store, {
         currentUser: {
           isLoading: false,
-          error: { message: errorMessage },
+          error: new Error(errorMessage),
         },
       });
     });

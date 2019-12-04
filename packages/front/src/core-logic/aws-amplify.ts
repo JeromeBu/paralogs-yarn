@@ -11,8 +11,8 @@ export const config = {
   },
   cognito: {
     REGION: "eu-west-1",
-    USER_POOL_ID: "eu-west-1_L6q7He3qB",
-    APP_CLIENT_ID: "1lva0khstjjr3pgjmeoudep4n6",
+    USER_POOL_ID: "eu-west-1_ZqVE8mJRm",
+    APP_CLIENT_ID: "607eife8fgji37a50cul3q7gje",
     IDENTITY_POOL_ID: "eu-west-1:14e18c60-588b-4ea4-a117-71f8fe95e144",
   },
 };
@@ -33,7 +33,7 @@ Amplify.configure({
   API: {
     endpoints: [
       {
-        name: "notes",
+        name: "wings",
         endpoint: config.apiGateway.URL,
         region: config.apiGateway.REGION,
       },

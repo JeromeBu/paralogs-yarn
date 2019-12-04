@@ -1,23 +1,15 @@
-// import { API } from "aws-amplify";
-import { BehaviorSubject, of } from "rxjs";
+import { from } from "rxjs";
+import { API } from "aws-amplify";
 
 import { Wing } from "@paralogs/shared";
-
 import { WingGateway } from "../useCases/wings/port/WingGateway";
 
 export class AwsWingGateway implements WingGateway {
-  private _wings$ = new BehaviorSubject<Wing[]>([]);
-
   public retrieveWings() {
-    // API.get("wings", "wings", null).then(res => console.log(res));
-    return this._wings$;
+    return from(API.get("wings", "wings", null));
   }
 
   public addWing(wing: Wing) {
-    return of(wing);
-  }
-
-  get wings$() {
-    return this._wings$;
+    return from(API.post("wings", "wings", { body: wing }));
   }
 }

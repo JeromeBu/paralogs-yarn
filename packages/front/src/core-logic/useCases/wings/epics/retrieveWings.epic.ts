@@ -15,7 +15,7 @@ export const retreiveWingsEpic: Epic<WingAction, WingAction, RootState, Dependen
     switchMap(() =>
       wingGateway.retrieveWings().pipe(
         map(wingsActions.retreiveWingsSuccess),
-        catchError(err => of(wingsActions.retreiveWingsError({ message: err.message }))),
+        catchError(err => of(wingsActions.retreiveWingsError(err))),
       ),
     ),
   );

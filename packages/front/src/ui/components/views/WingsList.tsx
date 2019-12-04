@@ -11,6 +11,7 @@ import { roundButtonStyle } from "../commun/styles";
 import { AddWingModal } from "../wing/AddWingModal";
 import { wingsActions } from "../../../core-logic/useCases/wings/wings.actions";
 import { WingsListItem } from "../wing/WingsListItem";
+import { DisplayError } from "../commun/DisplayError";
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -41,7 +42,7 @@ export const WingsList: React.FC = () => {
   const isAddWingFormVisible = useSelector(
     ({ wings }: RootState) => wings.isAddWingFormVisible,
   );
-  const wings = useSelector((state: RootState) => state.wings.data);
+  const { data: wings, error } = useSelector((state: RootState) => state.wings);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(wingsActions.retreiveWingsRequest());
@@ -61,6 +62,7 @@ export const WingsList: React.FC = () => {
           </Fab>
         )}
       </Typography>
+      <DisplayError error={error} />
       <AddWingModal
         handleSubmit={async (wing: Wing) => {
           await dispatch(wingsActions.addWingRequest(wing));

@@ -1,10 +1,8 @@
-import { ActionType, getType } from "typesafe-actions";
-import { CurrentUserWithToken } from "./currentUser.types";
+import { getType } from "typesafe-actions";
 import { ErrorFromAction, shouldNeverBeCalled } from "../../utils";
-import { currentUserActions } from "./currentUser.actions";
+import { currentUserActions, CurrentUserAction } from "./currentUser.actions";
 
 interface CurrentUserState {
-  readonly data?: CurrentUserWithToken | null;
   readonly isAuthenticated: boolean;
   readonly error?: ErrorFromAction;
   readonly isLoading: boolean;
@@ -17,7 +15,7 @@ const initialState: CurrentUserState = {
 
 export const currentUserReducer = (
   state: CurrentUserState = initialState,
-  action: ActionType<typeof currentUserActions>,
+  action: CurrentUserAction,
 ): CurrentUserState => {
   switch (action.type) {
     case getType(currentUserActions.getCurrentSession):
@@ -28,25 +26,19 @@ export const currentUserReducer = (
     case getType(currentUserActions.loggoutSuccess):
       return { ...state, isLoading: false, isAuthenticated: false };
     case getType(currentUserActions.getCurrentSessionSuccess):
-      return { ...state, isLoading: false, isAuthenticated: true };
+      return { ...state, isLoading: false, isAuthenticated: true, error: undefined };
     case getType(currentUserActions.signUpSuccess):
-      return { ...state, data: action.payload, isLoading: false };
+      return { ...state, isLoading: false, isAuthenticated: true, error: undefined };
     case getType(currentUserActions.loginSuccess):
-      return { ...state, data: action.payload, isLoading: false, isAuthenticated: true };
-    case getType(currentUserActions.getCurrentSessionError):
+      return { ...state, isLoading: false, isAuthenticated: true, error: undefined };
     case getType(currentUserActions.signUpError):
     case getType(currentUserActions.loginError):
     case getType(currentUserActions.loggoutError):
       return { ...state, error: action.payload, isLoading: false };
+    case getType(currentUserActions.getCurrentSessionError):
+      return state;
     default:
-      if (
-        Object.values(currentUserActions)
-          .map(getType)
-          // eslint-disable-next-line dot-notation
-          .includes(action["type"])
-      ) {
-        shouldNeverBeCalled(action);
-      }
+      shouldNeverBeCalled(action);
       return state;
   }
 };

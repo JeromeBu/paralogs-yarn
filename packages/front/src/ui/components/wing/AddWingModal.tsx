@@ -89,7 +89,7 @@ export const AddWingModal: React.FC<AddWingModalProps> = ({ handleSubmit }) => {
               onChange={handleChange}
               value={format(new Date(values.ownerFrom), "yyyy-MM-dd")}
             />
-            <TextField
+            {/* <TextField
               className={classes.field}
               type="date"
               margin="normal"
@@ -97,7 +97,7 @@ export const AddWingModal: React.FC<AddWingModalProps> = ({ handleSubmit }) => {
               label="Owner until date"
               onChange={handleChange}
               value={values.ownerUntil}
-            />
+            /> */}
             <TextField
               className={classes.field}
               label="Flight time of the wing when owned"
