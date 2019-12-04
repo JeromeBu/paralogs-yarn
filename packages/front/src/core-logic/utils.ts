@@ -2,8 +2,7 @@ export interface ErrorFromAction {
   message: string;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const shouldNeverBeCalled = (param: never) => {
-  // eslint-disable-next-line no-console
-  console.log("Should not be called ever, was called with :", param);
-  throw new Error("Should not be called ever");
+  // Function is used only to type check that it is never called
 };

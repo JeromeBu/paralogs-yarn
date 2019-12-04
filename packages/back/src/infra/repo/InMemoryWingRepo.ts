@@ -9,6 +9,8 @@ export class InMemoryWingRepo implements WingRepo {
   }
 
   public async save(wing: Wing) {
+    // eslint-disable-next-line no-console
+    console.log("saving wing in memory");
     this._wings = [...this._wings, wing];
   }
 

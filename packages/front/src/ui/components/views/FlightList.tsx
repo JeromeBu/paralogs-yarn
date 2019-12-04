@@ -50,7 +50,7 @@ export const FlightList: React.FC = () => {
 
   return (
     <Container maxWidth="sm" className={classes.paper}>
-      <Typography component="h1" variant="h5">
+      <Typography variant="h5">
         Your flights
         {!isAddFlightFormVisible && (
           <Fab

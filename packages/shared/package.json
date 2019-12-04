@@ -21,5 +21,10 @@
       "eslint --config ../../.eslintrc.commit.js --fix",
       "git add"
     ]
+  },
+  "workspaces": {
+    "nohoist": [
+      "**"
+    ]
   }
 }
