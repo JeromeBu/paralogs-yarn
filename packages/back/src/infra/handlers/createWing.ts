@@ -1,7 +1,7 @@
 import { APIGatewayEvent } from "aws-lambda";
 import { Wing } from "@paralogs/shared";
 import { CreateWingUseCase } from "../../domain/useCases/CreateWingUseCase";
-import { inMemoryWingRepo } from "../repo/InMemory.main";
+import { inMemoryWingRepo } from "../repo/inMemory";
 import { noBodyProvided } from "../../domain/core/errors";
 import { success } from "../lib/response-lib";
 

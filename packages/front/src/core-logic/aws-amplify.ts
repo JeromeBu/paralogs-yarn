@@ -13,7 +13,7 @@ export const config = {
     REGION: "eu-west-1",
     USER_POOL_ID: "eu-west-1_ZqVE8mJRm",
     APP_CLIENT_ID: "607eife8fgji37a50cul3q7gje",
-    IDENTITY_POOL_ID: "eu-west-1:14e18c60-588b-4ea4-a117-71f8fe95e144",
+    IDENTITY_POOL_ID: "eu-west-1:bb7c9241-2f1b-4fea-b58f-51baf566b6a3",
   },
 };
 

@@ -1,5 +1,5 @@
 import { Wing, UUID } from "@paralogs/shared";
-import { WingRepo } from "../../domain/port/WingRepo";
+import { WingRepo } from "../../../domain/port/WingRepo";
 
 export class InMemoryWingRepo implements WingRepo {
   private _wings: Wing[] = [];

@@ -12,7 +12,7 @@ Resources:
         - ClientId:
             Ref: CognitoUserPoolClient
           ProviderName:
-            Fn::GetAtt: [ "CognitoUserPool", "ProviderName" ]
+            Fn::GetAtt: [ CognitoUserPool, ProviderName ]
 
   # IAM roles
   CognitoIdentityPoolRoles:
