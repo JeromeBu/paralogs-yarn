@@ -1,5 +1,5 @@
 import { CreateWingUseCase } from "./CreateWingUseCase";
-import { InMemoryWingRepo } from "../../infra/repo/InMemoryWingRepo";
+import { InMemoryWingRepo } from "../../infra/repo/inMemory/InMemoryWingRepo";
 import { makeWing } from "../testBuilders/builders";
 
 describe("CreateWing use case", () => {
