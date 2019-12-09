@@ -1,9 +1,7 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Container, Fab, List, makeStyles, Typography } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import { useDispatch, useSelector } from "react-redux";
-
-import { Wing } from "@paralogs/shared";
 
 import { RootState } from "../../../core-logic/reduxStore";
 
@@ -44,9 +42,6 @@ export const WingsList: React.FC = () => {
   );
   const { data: wings, error } = useSelector((state: RootState) => state.wings);
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(wingsActions.retreiveWingsRequest());
-  }, [dispatch]);
 
   return (
     <Container maxWidth="sm" className={classes.paper}>
@@ -63,11 +58,7 @@ export const WingsList: React.FC = () => {
         )}
       </Typography>
       <DisplayError error={error} />
-      <AddWingModal
-        handleSubmit={async (wing: Wing) => {
-          await dispatch(wingsActions.addWingRequest(wing));
-        }}
-      />
+      <AddWingModal />
       <List className={classes.listWrapper}>
         {wings.map(wing => (
           <WingsListItem key={wing.id} {...wing} />

@@ -8,6 +8,10 @@ export class InMemoryWingRepo implements WingRepo {
     return this._wings.find(wing => id === wing.id);
   }
 
+  public async findByUserId(userId: UUID) {
+    return this._wings.filter(wing => userId === wing.userId);
+  }
+
   public async save(wing: Wing) {
     // eslint-disable-next-line no-console
     console.log("saving wing in memory");

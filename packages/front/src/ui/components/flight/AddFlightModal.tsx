@@ -12,12 +12,13 @@ import { format } from "date-fns";
 import { Form, Formik } from "formik";
 import React from "react";
 import * as Yup from "yup";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
-import { Flight, Wing, uuid } from "@paralogs/shared";
+import { Flight, uuid } from "@paralogs/shared";
 
 import { CenteredModal } from "../commun/CenteredModal";
 import { wingsActions } from "../../../core-logic/useCases/wings/wings.actions";
+import { RootState } from "../../../core-logic/reduxStore";
 
 const useStyles = makeStyles(theme => ({
   title: {
@@ -46,22 +47,8 @@ export const AddFlightModal: React.FC<AddFlightModalProps> = ({
 }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const wings: Wing[] = [
-    {
-      id: "12",
-      brand: "Nviuk",
-      model: "Koyot 2",
-      flightTimePriorToOwn: 20,
-      ownerFrom: new Date().toUTCString(),
-    },
-    {
-      id: "123",
-      brand: "Nova",
-      model: "Ion 5",
-      flightTimePriorToOwn: 1900,
-      ownerFrom: new Date().toUTCString(),
-    },
-  ];
+  const wings = useSelector((state: RootState) => state.wings.data);
+
   const initialValues: Flight = {
     id: uuid(),
     site: "",
@@ -70,6 +57,7 @@ export const AddFlightModal: React.FC<AddFlightModalProps> = ({
     duration: 60,
     wing: wings[0],
   };
+
   return (
     <CenteredModal open={isOpen} onClose={close}>
       <Formik

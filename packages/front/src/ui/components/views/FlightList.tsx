@@ -70,12 +70,7 @@ export const FlightList: React.FC = () => {
           await dispatch(flightActions.addFlightRequest(flight));
         }}
       />
-      <AddWingModal
-        handleSubmit={async wing => {
-          // eslint-disable-next-line no-console
-          console.log("TODO: send to backend", { wing });
-        }}
-      />
+      <AddWingModal />
       <List className={classes.listWrapper}>
         {flights.map(flight => (
           <FlightListItem key={flight.id} {...flight} />

@@ -1,23 +1,22 @@
 import { APIGatewayEvent } from "aws-lambda";
 import { Wing } from "@paralogs/shared";
 import { CreateWingUseCase } from "../../domain/useCases/CreateWingUseCase";
-import { inMemoryWingRepo } from "../repo/inMemory";
-import { noBodyProvided } from "../../domain/core/errors";
+import { noBodyProvided, noCurrentUser } from "../../domain/core/errors";
 import { success } from "../lib/response-lib";
+import { dynamoDbWingRepo } from "../repo/dynamoDb";
 
-const creatWingUseCase = new CreateWingUseCase(inMemoryWingRepo);
+const creatWingUseCase = new CreateWingUseCase(dynamoDbWingRepo);
 
 export const main = async (event: APIGatewayEvent) => {
   if (!event.body) throw noBodyProvided("Wing");
-  const wing = JSON.parse(event.body) as Wing;
 
-  // eslint-disable-next-line no-console
-  console.log("CREATE :  ", { body: event.body, wing });
+  const currentUserId = event.requestContext.identity.cognitoIdentityId;
+  if (!currentUserId) throw noCurrentUser();
+
+  const wing = JSON.parse(event.body) as Wing;
+  wing.userId = currentUserId;
 
   await creatWingUseCase.execute(wing);
-
-  // eslint-disable-next-line no-console
-  console.log("Wing created");
 
   return success(wing);
 };

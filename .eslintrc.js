@@ -31,10 +31,7 @@ module.exports = {
   rules: {
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/no-use-before-define": "off",
-    // "@typescript-eslint/explicit-member-accessibility": [
-    //   1,
-    //   { accessibility: "no-public" },
-    // ],
+
     "@typescript-eslint/no-explicit-any": "off",
     "react/jsx-filename-extension": [1, { extensions: [".tsx"] }],
     "import/prefer-default-export": "off",
@@ -52,5 +49,6 @@ module.exports = {
     "class-methods-use-this": "off",
     "react/jsx-props-no-spreading": "off",
     "@typescript-eslint/no-floating-promises": "error",
+    "@typescript-eslint/no-non-null-assertion": "off",
   },
 };
