@@ -27,9 +27,9 @@ jobs:
       - run:
           name: build-packages
           command: 'yarn build'
-      # - run:
-      #     name: back-tests
-      #     command: 'cd packages/back; yarn ci:test;'
+      - run:
+          name: back-tests
+          command: 'cd packages/back; yarn ci:test;'
       - run:
           name: front-tests
           command: 'cd packages/front; yarn ci:test;'
