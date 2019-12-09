@@ -2,8 +2,8 @@ export function success(body: unknown, statusCode = 200) {
   return buildResponse(statusCode, body);
 }
 
-export function failure(body: unknown) {
-  return buildResponse(500, body);
+export function failure(body: unknown, statusCode?: number) {
+  return buildResponse(statusCode || 500, body);
 }
 
 function buildResponse(statusCode: number, body: unknown) {

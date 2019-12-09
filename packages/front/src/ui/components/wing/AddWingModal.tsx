@@ -26,11 +26,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-interface AddWingModalProps {
-  handleSubmit: (wing: Wing) => Promise<void>;
-}
-
-export const AddWingModal: React.FC<AddWingModalProps> = ({ handleSubmit }) => {
+export const AddWingModal: React.FC = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const close = () => dispatch(wingsActions.hideAddWingForm());
@@ -41,13 +37,14 @@ export const AddWingModal: React.FC<AddWingModalProps> = ({ handleSubmit }) => {
     model: "",
     flightTimePriorToOwn: 0,
     ownerFrom: new Date().toUTCString(),
+    userId: "shouldBeErasedByBackend",
   };
   return (
     <CenteredModal open={isOpen} onClose={close}>
       <Formik
         initialValues={initialValues}
-        onSubmit={async values => {
-          await handleSubmit(values);
+        onSubmit={async wingValues => {
+          await dispatch(wingsActions.addWingRequest(wingValues));
           close();
         }}
         validationSchema={Yup.object().shape<Pick<Wing, "model" | "brand">>({

@@ -12,8 +12,6 @@ export class CreateWingUseCase {
   public async execute(wing: Wing) {
     const existingWing = await this.wingRepo.findById(wing.id);
     if (existingWing) throw notUnique("Wing");
-    // eslint-disable-next-line no-console
-    console.log("about to save");
     await this.wingRepo.save(wing);
     return wing;
   }

@@ -8,6 +8,7 @@ export const config = {
   apiGateway: {
     REGION: "eu-west-1",
     URL: "https://v32oszvsol.execute-api.eu-west-1.amazonaws.com/dev/",
+    // URL: "http://localhost:4000/",
   },
   cognito: {
     REGION: "eu-west-1",

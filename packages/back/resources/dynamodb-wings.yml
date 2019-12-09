@@ -2,7 +2,7 @@ Resources:
   NotesTable:
     Type: AWS::DynamoDB::Table
     Properties:
-      TableName: ${self:custom.stage}-wings-table
+      TableName: ${self:custom.wingsTable}
       AttributeDefinitions:
         - AttributeName: userId
           AttributeType: S
