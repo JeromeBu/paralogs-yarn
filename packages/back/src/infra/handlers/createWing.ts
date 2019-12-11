@@ -1,11 +1,11 @@
 import { APIGatewayEvent } from "aws-lambda";
 import { Wing } from "@paralogs/shared";
-import { CreateWingUseCase } from "../../domain/useCases/CreateWingUseCase";
+import { createWingUseCaseCreator } from "../../domain/useCases/CreateWingUseCase";
 import { noBodyProvided, noCurrentUser } from "../../domain/core/errors";
 import { success } from "../lib/response-lib";
 import { dynamoDbWingRepo } from "../repo/dynamoDb";
 
-const creatWingUseCase = new CreateWingUseCase(dynamoDbWingRepo);
+const creatWingUseCase = createWingUseCaseCreator(dynamoDbWingRepo);
 
 export const main = async (event: APIGatewayEvent) => {
   if (!event.body) throw noBodyProvided("Wing");
@@ -16,7 +16,7 @@ export const main = async (event: APIGatewayEvent) => {
   const wing = JSON.parse(event.body) as Wing;
   wing.userId = currentUserId;
 
-  await creatWingUseCase.execute(wing);
+  await creatWingUseCase(wing);
 
   return success(wing);
 };

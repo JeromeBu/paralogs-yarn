@@ -1,7 +1,7 @@
 import { Wing } from "@paralogs/shared";
 import { InMemoryWingRepo } from "../../infra/repo/inMemory/InMemoryWingRepo";
 import { makeWing } from "../testBuilders/builders";
-import { CreateWingUseCase } from "./CreateWingUseCase";
+import { createWingUseCaseCreator, CreateWingUseCase } from "./CreateWingUseCase";
 import { ListWingsUseCase } from "./ListWingsUseCase";
 
 describe("wings retreival", () => {
@@ -23,7 +23,7 @@ describe("wings retreival", () => {
   describe("user has some wings", () => {
     let createWingUseCase: CreateWingUseCase;
     it("retreives only the user's wings", async () => {
-      createWingUseCase = new CreateWingUseCase(wingRepo);
+      createWingUseCase = createWingUseCaseCreator(wingRepo);
       const userId = "fakeUserId";
 
       const wing1 = await createWing({ model: "Wing 1", userId });
@@ -36,6 +36,6 @@ describe("wings retreival", () => {
     });
 
     const createWing = async (wingParams: Partial<Wing>) =>
-      createWingUseCase.execute(makeWing(wingParams));
+      createWingUseCase(makeWing(wingParams));
   });
 });
