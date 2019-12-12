@@ -12,8 +12,8 @@
     "buildWatch-shared": "cd packages/shared; yarn build:watch;",
     "buildWatch-backend": "cd packages/back; yarn build:watch;",
     "startDev-front": "cd packages/front; yarn start;",
-    "testWatch-front": "cd packages/front; yarn test -- --watchAll;",
-    "testWatch-back": "cd packages/back; yarn test -- --watchAll;"
+    "testWatch-front": "cd packages/front; yarn test --watchAll;",
+    "testWatch-back": "cd packages/back; yarn test --watchAll;"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^2.10.0",

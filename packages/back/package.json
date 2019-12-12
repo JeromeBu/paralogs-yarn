@@ -9,6 +9,7 @@
     "test": "jest --watch",
     "build": "tsc",
     "build:watch": "tsc --watch",
+    "startDev": "sls offline start",
     "precommit": "lint-staged"
   },
   "dependencies": {
@@ -17,10 +18,10 @@
     "serverless-plugin-monorepo": "^0.8.0"
   },
   "devDependencies": {
-    "aws-sdk": "^2.570.0",
     "@types/aws-lambda": "^8.10.35",
     "@types/jest": "24.0.23",
     "@types/lodash": "^4.14.147",
+    "aws-sdk": "^2.570.0",
     "jest": "24.9.0",
     "lint-staged": "^9.4.2",
     "serverless-dynamodb-local": "^0.2.38",
