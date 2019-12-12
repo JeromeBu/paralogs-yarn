@@ -7,6 +7,7 @@
   "scripts": {
     "deploy": "yarn build && sls deploy",
     "test": "jest --watch",
+    "ci:test": "yarn test --watchAll=false",
     "build": "tsc",
     "build:watch": "tsc --watch",
     "startDev": "sls offline start",

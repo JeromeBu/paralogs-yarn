@@ -7,7 +7,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "ci:test": "npm run test -- --watchAll=false",
+    "ci:test": "yarn test -- --watchAll=false",
     "eject": "react-scripts eject",
     "precommit": "lint-staged"
   },
