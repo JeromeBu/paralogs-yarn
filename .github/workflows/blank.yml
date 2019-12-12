@@ -14,7 +14,13 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: 10.13.0
-    - name: Installing dependencies
+    - name: Cache node modules
+      uses: actions/cache@v1
+      with:
+        path: ~/.cache/yarn
+        key: ${{ runner.os }}-node-${{ hashFiles('**/yarn.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-node-
       run: yarn install --frozen-lockfile
     - name: Building packages
       run: yarn build
