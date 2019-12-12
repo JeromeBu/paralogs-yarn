@@ -1,17 +1,24 @@
 name: CI
 
-on: [push]
+on: [pull_request]
 
 jobs:
-  build:
-
+  test:
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v1
-    - name: Run a one-line script
-      run: echo Hello, world!
-    - name: Run a multi-line script
-      run: |
-        echo Add other actions to build,
-        echo test, and deploy your project.
+      with:
+        fetch-depth: 1
+    - name: Setup Node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: 10.13.0
+    - name: Installing dependencies
+      run: yarn install --frozen-lockfile
+    - name: Building packages
+      run: yarn build
+    - name: Backend tests
+      run: cd packages/back; yarn ci:test;
+    - name: Frontend tests
+      run: cd packages/front; yarn ci:test;
