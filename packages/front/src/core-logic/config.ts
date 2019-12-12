@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
 
-dotenv.config({ path: "../.env" });
+dotenv.config({ path: "../../.env" });
 
 const backendUrl = process.env.BACKEND_URL;
 
@@ -13,7 +13,7 @@ if (!backendUrl) throwMissingEnvVariable("BACKEND_URL");
 export const config = {
   // s3: {
   //   REGION: "eu-west-1",
-  //   BUCKET: "notes-app-jerome-s3",
+  //   BUCKET: "",
   // },
   apiGateway: {
     REGION: "eu-west-1",

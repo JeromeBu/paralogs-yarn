@@ -5,7 +5,7 @@
   "main": ".build/src/index.js",
   "types": ".build/src/index.d.ts",
   "scripts": {
-    "deploy": "yarn build && sls deploy",
+    "deploy": "sls deploy",
     "test": "jest --watch",
     "ci:test": "yarn test --watchAll=false",
     "build": "tsc",
