@@ -3,7 +3,7 @@ name: CI
 on: [push]
 
 jobs:
-  build:
+  build-test-deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -16,12 +16,6 @@ jobs:
         node-version: 10.13.0
     - name: Current branch
       run: echo ${{ github.ref }}
-    - name: Try condition
-      if: github.ref != 'refs/heads/test-github-actions'
-      run: echo 'it does not works'
-    - name: Try oposite condition
-      if: github.ref == 'refs/heads/test-github-actions'
-      run: echo 'it does works'
     - name: Cache node modules
       uses: actions/cache@v1
       with:
@@ -39,3 +33,13 @@ jobs:
       env:
         BACKEND_URL: http://localhost:4000/
       run: cd packages/front; yarn ci:test;
+
+    - name: Deploy backend to develop if develop branch
+      if: github.ref == 'refs/heads/develop'
+      run: cd packages/back; yarn deploy;
+    - name: Deploy backend to staging if staging branch
+      if: github.ref == 'refs/heads/staging'
+      run: cd packages/back; yarn deploy --stage staging;
+    - name: Deploy backend to production if master branch
+      if: github.ref == 'refs/heads/master'
+      run: cd packages/back; yarn deploy --stage production;
