@@ -16,6 +16,7 @@
   "dependencies": {
     "@paralogs/shared": "*",
     "lodash": "^4.17.15",
+    "serverless": "^1.59.3",
     "serverless-plugin-monorepo": "^0.8.0"
   },
   "devDependencies": {
