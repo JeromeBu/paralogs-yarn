@@ -5,7 +5,7 @@
   "main": ".build/src/index.js",
   "types": ".build/src/index.d.ts",
   "scripts": {
-    "deploy": "sls deploy",
+    "deploy": "echo $HEY && sls config credentials --provider aws --key $AWS_ACCESS_KEY_ID --secret $AWS_SECRET_KEY && sls deploy",
     "test": "jest --watch",
     "ci:test": "yarn test --watchAll=false",
     "build": "tsc",
