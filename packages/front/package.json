@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "netlify:deploy": "netlify deploy --dir=./build -p -m \"$(git log -1 --pretty=%B)\"",
+    "deploy:preview": "netlify deploy --dir=./build -m \"$(git log -1 --pretty=%B)\" --auth $NETLIFY_AUTH_TOKEN --site b515011b-3c51-4b76-9c77-d187fccd06c2 -p",
+    "deploy:production": "yarn deploy -p",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
