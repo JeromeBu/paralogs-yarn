@@ -6,6 +6,7 @@ jobs:
   build-test-deploy:
     runs-on: ubuntu-latest
 
+# Build
     steps:
     - uses: actions/checkout@v1
       with:
@@ -28,6 +29,7 @@ jobs:
     - name: Building packages
       run: yarn build
 
+# Tests
     - name: Backend tests
       run: cd packages/back; yarn ci:test;
     - name: Frontend tests
@@ -35,11 +37,7 @@ jobs:
         BACKEND_URL: http://localhost:4000/
       run: cd packages/front; yarn ci:test;
 
-    - name: Deploy backend to develop if develop branch
-      if: github.ref == 'refs/heads/develop'
-      run: |
-        cd packages/back;
-        AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} AWS_SECRET_KEY=${{ secrets.AWS_SECRET_KEY }} yarn deploy;
+# Deploy
     - name: Deploy backend to staging if staging branch
       if: github.ref == 'refs/heads/staging'
       run: |
