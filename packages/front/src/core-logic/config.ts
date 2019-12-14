@@ -2,13 +2,13 @@ import dotenv from "dotenv";
 
 dotenv.config({ path: "../../.env" });
 
-const backendUrl = process.env.BACKEND_URL;
+const backendUrl = process.env.REACT_APP_BACKEND_URL;
 
 const throwMissingEnvVariable = (str: string) => {
   throw Error(`${str} env variable is missing`);
 };
 
-if (!backendUrl) throwMissingEnvVariable("BACKEND_URL");
+if (!backendUrl) throwMissingEnvVariable("REACT_APP_BACKEND_URL");
 
 export const config = {
   // s3: {
