@@ -1,5 +1,5 @@
 import { APIGatewayEvent } from "aws-lambda";
-import { Wing } from "@paralogs/shared";
+import { Wing, UserId } from "@paralogs/shared";
 import { createWingUseCaseCreator } from "../../domain/useCases/CreateWingUseCase";
 import { noBodyProvided, noCurrentUser } from "../../domain/core/errors";
 import { success } from "../lib/response-lib";
@@ -14,7 +14,7 @@ export const main = async (event: APIGatewayEvent) => {
   if (!currentUserId) throw noCurrentUser();
 
   const wing = JSON.parse(event.body) as Wing;
-  wing.userId = currentUserId;
+  wing.userId = UserId.create(currentUserId);
 
   await creatWingUseCase(wing);
 

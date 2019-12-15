@@ -1,2 +1,3 @@
-export * from "./Flight";
-export * from "./Wing";
+export * from "./FlightModel";
+export * from "./WingModel";
+export * from "./UserModel";

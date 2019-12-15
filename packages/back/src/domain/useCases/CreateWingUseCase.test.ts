@@ -1,6 +1,7 @@
+import { WingId } from "@paralogs/shared";
 import { createWingUseCaseCreator, CreateWingUseCase } from "./CreateWingUseCase";
 import { InMemoryWingRepo } from "../../infra/repo/inMemory/InMemoryWingRepo";
-import { makeWing } from "../testBuilders/builders";
+import { makeBackendWing } from "../testBuilders/builders";
 
 describe("wing creation", () => {
   let createWingUseCase: CreateWingUseCase;
@@ -11,11 +12,11 @@ describe("wing creation", () => {
   });
   describe("a wing already exists with the same identity", () => {
     it("cannot create a wing with the same id", async () => {
-      const id = "fakeId";
-      const wing = makeWing({ id });
+      const id = WingId.create();
+      const wing = makeBackendWing({ id });
       await createWingUseCase(wing);
 
-      const secondWing = makeWing({ id, model: "LALALA" });
+      const secondWing = makeBackendWing({ id, model: "LALALA" });
       await expect(createWingUseCase(secondWing)).rejects.toThrowError(
         "Wing Id is already used",
       );
@@ -23,9 +24,9 @@ describe("wing creation", () => {
   });
   describe("all is good", () => {
     it("creates a wing", async () => {
-      const wing = makeWing();
+      const wing = makeBackendWing();
       await createWingUseCase(wing);
-      expect(wingRepo.wings[0].id).toBe(wing.id);
+      expect(wingRepo.wings[0].id.value).toBe(wing.id.value);
     });
   });
 });
