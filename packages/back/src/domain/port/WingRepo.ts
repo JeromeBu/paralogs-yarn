@@ -1,7 +1,7 @@
-import { Wing, UUID } from "@paralogs/shared";
+import { Wing, WingId, UserId } from "@paralogs/shared";
 
 export interface WingRepo {
-  findById: (id: UUID) => Promise<Wing | undefined>;
-  findByUserId: (userId: UUID) => Promise<Wing[]>;
+  findById: (id: WingId) => Promise<Wing | undefined>;
+  findByUserId: (userId: UserId) => Promise<Wing[]>;
   save: (wing: Wing) => Promise<void>;
 }
