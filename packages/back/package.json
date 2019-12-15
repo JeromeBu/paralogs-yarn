@@ -10,7 +10,7 @@
     "ci:test": "yarn test --watchAll=false",
     "build": "tsc",
     "build:watch": "tsc --watch",
-    "startDev": "sls offline start",
+    "startDev": "sls dynamodb install; sls offline start;",
     "precommit": "lint-staged"
   },
   "dependencies": {
