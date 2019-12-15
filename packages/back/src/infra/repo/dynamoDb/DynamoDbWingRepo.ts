@@ -1,4 +1,4 @@
-import { Wing, UUID } from "@paralogs/shared";
+import { Wing, UserId } from "@paralogs/shared";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import AWS from "aws-sdk";
 import { WingRepo } from "../../../domain/port/WingRepo";
@@ -10,7 +10,7 @@ export class DynamoDbWingRepo implements WingRepo {
     return undefined;
   }
 
-  public async findByUserId(userId: UUID) {
+  public async findByUserId(userId: UserId) {
     const params = {
       TableName: process.env.wingsTable!,
       // 'KeyConditionExpression' defines the condition for the query
@@ -21,7 +21,7 @@ export class DynamoDbWingRepo implements WingRepo {
       //   of the authenticated user
       KeyConditionExpression: "userId = :userId",
       ExpressionAttributeValues: {
-        ":userId": userId,
+        ":userId": userId.value,
       },
     };
     const result = await dynamoDb.query(params).promise();
@@ -42,8 +42,8 @@ export class DynamoDbWingRepo implements WingRepo {
       // - 'attachment': parsed from request body
       // - 'createdAt': current Unix timestamp
       Item: {
-        userId: wing.userId,
-        wingId: wing.id,
+        userId: wing.userId.value,
+        wingId: wing.id.value,
         content: wing,
         createdAt: Date.now(),
       },

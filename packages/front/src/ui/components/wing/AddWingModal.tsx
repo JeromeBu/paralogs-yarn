@@ -6,7 +6,7 @@ import * as Yup from "yup";
 import { useSelector, useDispatch } from "react-redux";
 import { format } from "date-fns";
 
-import { Wing, uuid } from "@paralogs/shared";
+import { Wing, WingId, UserId } from "@paralogs/shared";
 
 import { wingsActions } from "../../../core-logic/useCases/wings/wings.actions";
 import { RootState } from "../../../core-logic/reduxStore";
@@ -32,12 +32,12 @@ export const AddWingModal: React.FC = () => {
   const close = () => dispatch(wingsActions.hideAddWingForm());
   const isOpen = useSelector(({ wings }: RootState) => wings.isAddWingFormVisible);
   const initialValues: Wing = {
-    id: uuid(),
+    id: WingId.create(),
     brand: "",
     model: "",
     flightTimePriorToOwn: 0,
     ownerFrom: new Date().toUTCString(),
-    userId: "shouldBeErasedByBackend",
+    userId: UserId.create(), // should be erased by backend, TODO find a way not to give it
   };
   return (
     <CenteredModal open={isOpen} onClose={close}>

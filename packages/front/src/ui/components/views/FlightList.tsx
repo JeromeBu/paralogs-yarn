@@ -73,7 +73,7 @@ export const FlightList: React.FC = () => {
       <AddWingModal />
       <List className={classes.listWrapper}>
         {flights.map(flight => (
-          <FlightListItem key={flight.id} {...flight} />
+          <FlightListItem key={flight.id.value} {...flight} />
         ))}
       </List>
     </Container>

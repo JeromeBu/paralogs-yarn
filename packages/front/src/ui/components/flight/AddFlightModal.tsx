@@ -14,7 +14,7 @@ import React from "react";
 import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 
-import { Flight, uuid } from "@paralogs/shared";
+import { Flight, FlightId, UserId } from "@paralogs/shared";
 
 import { CenteredModal } from "../commun/CenteredModal";
 import { wingsActions } from "../../../core-logic/useCases/wings/wings.actions";
@@ -50,12 +50,13 @@ export const AddFlightModal: React.FC<AddFlightModalProps> = ({
   const wings = useSelector((state: RootState) => state.wings.data);
 
   const initialValues: Flight = {
-    id: uuid(),
+    id: FlightId.create(),
     site: "",
     date: format(new Date(), "yyyy-MM-dd"),
     time: "14:30",
     duration: 60,
-    wing: wings[0],
+    userId: UserId.create(), // TODO use current user, or nothing
+    wingId: wings[0]?.id,
   };
 
   return (
@@ -92,7 +93,7 @@ export const AddFlightModal: React.FC<AddFlightModalProps> = ({
             <div>
               <Select
                 className={classes.field}
-                value={values.wing}
+                value={values.wingId}
                 name="wing"
                 onChange={e => {
                   if (e.target.value === "addNewWing") {
@@ -106,7 +107,7 @@ export const AddFlightModal: React.FC<AddFlightModalProps> = ({
                   <AddIcon /> Add new wing
                 </MenuItem>
                 {wings.map(wing => (
-                  <MenuItem value={wing as any} key={wing.id}>
+                  <MenuItem value={wing as any} key={wing.id.value}>
                     {wing.brand} {wing.model}
                   </MenuItem>
                 ))}

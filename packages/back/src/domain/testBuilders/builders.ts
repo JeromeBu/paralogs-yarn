@@ -1,10 +1,10 @@
-import { Wing, uuid } from "@paralogs/shared";
+import { Wing, WingId, UserId } from "@paralogs/shared";
 import _ from "lodash";
 
-export const makeWing = (wingParams?: Partial<Wing>): Wing => {
+export const makeBackendWing = (wingParams?: Partial<Wing>): Wing => {
   const randomWing: Wing = {
-    id: uuid(),
-    userId: uuid(),
+    id: WingId.create(),
+    userId: UserId.create(),
     brand: "Nova",
     model: "Ion 5",
     flightTimePriorToOwn: 130,

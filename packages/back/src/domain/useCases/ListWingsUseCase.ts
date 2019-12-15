@@ -1,4 +1,4 @@
-import { Wing, UUID } from "@paralogs/shared";
+import { Wing, UserId } from "@paralogs/shared";
 import { WingRepo } from "../port/WingRepo";
 
 export class ListWingsUseCase {
@@ -8,7 +8,7 @@ export class ListWingsUseCase {
     this.wingRepo = wingRepo;
   }
 
-  public async execute(userId: UUID): Promise<Wing[]> {
+  public async execute(userId: UserId): Promise<Wing[]> {
     return this.wingRepo.findByUserId(userId);
   }
 }
