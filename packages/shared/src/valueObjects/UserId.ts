@@ -1,4 +1,4 @@
-import { isUuid, uuid } from "../../generalTypes/uuid";
+import { uuid, isUuid } from "../generalTypes/uuid";
 
 export class UserId {
   public get value() {
