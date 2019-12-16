@@ -1,7 +1,11 @@
 import { BehaviorSubject, of } from "rxjs";
 
 import { CurrentUserWithToken } from "../useCases/currentUser/currentUser.types";
-import { AuthGateway, AuthParams } from "../useCases/currentUser/port/AuthGateway";
+import {
+  AuthGateway,
+  LoginParams,
+  SignUpParams,
+} from "../useCases/currentUser/port/AuthGateway";
 
 export class InMemoryAuthGateway implements AuthGateway {
   private _currentUser$ = new BehaviorSubject<CurrentUserWithToken | null>(null);
@@ -11,12 +15,12 @@ export class InMemoryAuthGateway implements AuthGateway {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  login(params: AuthParams) {
+  login(params: LoginParams) {
     return this._currentUser$;
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  signUp(params: AuthParams) {
+  signUp(params: SignUpParams) {
     return this._currentUser$;
   }
 

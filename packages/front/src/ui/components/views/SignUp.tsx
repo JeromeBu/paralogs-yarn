@@ -16,6 +16,7 @@ import { currentUserActions } from "../../../core-logic/useCases/currentUser/cur
 import { MyLink } from "../commun/MyLink";
 import { RootState } from "../../../core-logic/reduxStore";
 import { DisplayError } from "../commun/DisplayError";
+import { SignUpParams } from "../../../core-logic/useCases/currentUser/port/AuthGateway";
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -37,17 +38,12 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-interface EmailAndPassword {
-  email: string;
-  password: string;
-}
-
 export const SignUp: React.FC = () => {
   const dispatch = useDispatch();
   const { error } = useSelector((state: RootState) => state.currentUser);
   const classes = useStyles();
 
-  const handleSubmit = (values: EmailAndPassword) => {
+  const handleSubmit = (values: SignUpParams) => {
     dispatch(currentUserActions.signUpRequest(values));
   };
 
@@ -63,10 +59,14 @@ export const SignUp: React.FC = () => {
         initialValues={{
           email: "",
           password: "",
+          firstName: "",
+          lastName: "",
         }}
         validationSchema={Yup.object().shape({
           email: Yup.string(),
           password: Yup.string(),
+          firstName: Yup.string(),
+          lastName: Yup.string(),
         })}
       >
         {({ values, handleChange }) => (
@@ -76,7 +76,26 @@ export const SignUp: React.FC = () => {
               margin="normal"
               required
               fullWidth
-              id="email"
+              label="First name"
+              name="firstName"
+              value={values.firstName}
+              onChange={handleChange}
+            />
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              label="Last name"
+              name="lastName"
+              value={values.lastName}
+              onChange={handleChange}
+            />
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
               label="Email Address"
               name="email"
               autoComplete="email"
@@ -91,7 +110,6 @@ export const SignUp: React.FC = () => {
               name="password"
               label="Password"
               type="password"
-              id="password"
               value={values.password}
               onChange={handleChange}
               autoComplete="current-password"
