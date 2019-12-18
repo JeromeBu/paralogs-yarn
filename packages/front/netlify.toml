@@ -1,5 +1,5 @@
 [context.production]
   environment = { REACT_APP_BACKEND_URL = "https://s8splmzrh5.execute-api.eu-west-1.amazonaws.com/production/" }
 
-[context.deploy-preview]
+[context.deploy-preview.environment]
   environment = { REACT_APP_BACKEND_URL = "https://r3su0zwym6.execute-api.eu-west-1.amazonaws.com/staging/"}
