@@ -2,7 +2,23 @@ import dotenv from "dotenv";
 
 dotenv.config({ path: "../../.env" });
 
-const backendUrl = process.env.REACT_APP_BACKEND_URL;
+const environement = process.env.REACT_APP_ENVIRONEMENT;
+
+// eslint-disable-next-line no-console
+console.log({
+  REACT_APP_ENVIRONEMENT: process.env.REACT_APP_ENVIRONEMENT,
+});
+
+const backendUrl = (() => {
+  switch (environement) {
+    case "production":
+      return "https://s8splmzrh5.execute-api.eu-west-1.amazonaws.com/production/";
+    case "staging":
+      return "https://r3su0zwym6.execute-api.eu-west-1.amazonaws.com/staging/";
+    default:
+      return "http://localhost:4000/";
+  }
+})();
 
 const throwMissingEnvVariable = (str: string) => {
   throw Error(`${str} env variable is missing`);

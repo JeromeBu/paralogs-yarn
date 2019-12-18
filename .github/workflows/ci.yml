@@ -27,7 +27,7 @@ jobs:
     - name: Install dependencies
       run: yarn --frozen-lockfile
     - name: Building packages
-      run: yarn build
+      run: REACT_APP_ENVIRONEMENT=${GITHUB_REF##*/} yarn build
 
 # Tests
     - name: Backend tests
