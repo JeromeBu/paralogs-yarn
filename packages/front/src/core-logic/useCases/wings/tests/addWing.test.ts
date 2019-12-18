@@ -1,9 +1,9 @@
 import { Store } from "redux";
 
-import { Wing } from "@paralogs/shared";
+import { WingDTO } from "@paralogs/shared";
 
 import { RootState, configureReduxStore } from "../../../reduxStore";
-import { makeWing } from "./wingBuilder";
+import { makeWingDTO } from "./wingBuilder";
 import {
   expectStateToMatch,
   InMemoryDependencies,
@@ -21,7 +21,7 @@ describe("Add a wing", () => {
   });
 
   it("adds a new flight", async () => {
-    const wing = makeWing();
+    const wing = makeWingDTO();
 
     addWing(wing);
     expectStateToMatch(store, {
@@ -32,5 +32,5 @@ describe("Add a wing", () => {
     });
   });
 
-  const addWing = (wing: Wing) => store.dispatch(wingsActions.addWingRequest(wing));
+  const addWing = (wing: WingDTO) => store.dispatch(wingsActions.addWingRequest(wing));
 });

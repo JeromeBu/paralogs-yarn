@@ -1,8 +1,8 @@
-import { Wing, UserId } from "@paralogs/shared";
+import { WingDTO, makeWingDTO } from "@paralogs/shared";
 import { InMemoryWingRepo } from "../../infra/repo/inMemory/InMemoryWingRepo";
-import { makeBackendWing } from "../testBuilders/builders";
 import { createWingUseCaseCreator, CreateWingUseCase } from "./CreateWingUseCase";
 import { ListWingsUseCase } from "./ListWingsUseCase";
+import { UserId } from "../valueObjects/UserId";
 
 describe("wings retreival", () => {
   let listWingsUseCase: ListWingsUseCase;
@@ -15,8 +15,8 @@ describe("wings retreival", () => {
 
   describe("user has no wings", () => {
     it("returns no wing", async () => {
-      const wings = await listWingsUseCase.execute(UserId.create());
-      expect(wings).toEqual([]);
+      const wings = await listWingsUseCase.execute(createUserId());
+      expect(wings.getValueOrThrow()).toEqual([]);
     });
   });
 
@@ -24,18 +24,21 @@ describe("wings retreival", () => {
     let createWingUseCase: CreateWingUseCase;
     it("retreives only the user's wings", async () => {
       createWingUseCase = createWingUseCaseCreator(wingRepo);
-      const userId = UserId.create();
+      const userId = createUserId();
 
-      const wing1 = await createWing({ model: "Wing 1", userId });
-      const wing2 = await createWing({ model: "Wing 2", userId });
-      await createWing({ model: "Wing 2", userId: UserId.create() });
+      const wing1 = (await createWing({ model: "Wing 1", userId })).getValueOrThrow();
+      const wing2 = (await createWing({ model: "Wing 2", userId })).getValueOrThrow();
+      await createWing({ model: "Wing 3", userId: createUserId() });
 
       const retreivedWings = await listWingsUseCase.execute(userId);
 
-      expect(retreivedWings).toEqual([wing1, wing2]);
+      expect(retreivedWings.getValueOrThrow()).toEqual([wing1, wing2]);
     });
 
-    const createWing = async (wingParams: Partial<Wing>) =>
-      createWingUseCase(makeBackendWing(wingParams));
+    const createWing = async (wingParams: Partial<WingDTO>) => {
+      return createWingUseCase(makeWingDTO(wingParams));
+    };
   });
+
+  const createUserId = (id?: string): string => UserId.create(id).getValueOrThrow().value;
 });

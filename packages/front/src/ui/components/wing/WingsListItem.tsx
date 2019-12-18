@@ -6,7 +6,7 @@ import {
   ListItemSecondaryAction,
 } from "@material-ui/core";
 
-import { Wing } from "@paralogs/shared";
+import { WingDTO } from "@paralogs/shared";
 
 const useStyles = makeStyles(theme => ({
   wrapper: {
@@ -17,7 +17,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export const WingsListItem: React.FC<Wing> = ({ model, brand }) => {
+export const WingsListItem: React.FC<WingDTO> = ({ model, brand }) => {
   const classes = useStyles();
   return (
     <ListItem className={classes.wrapper} button dense>

@@ -6,7 +6,7 @@ import * as Yup from "yup";
 import { useSelector, useDispatch } from "react-redux";
 import { format } from "date-fns";
 
-import { Wing, WingId, UserId } from "@paralogs/shared";
+import { WingDTO, uuid, CreateWingDTO } from "@paralogs/shared";
 
 import { wingsActions } from "../../../core-logic/useCases/wings/wings.actions";
 import { RootState } from "../../../core-logic/reduxStore";
@@ -31,13 +31,12 @@ export const AddWingModal: React.FC = () => {
   const dispatch = useDispatch();
   const close = () => dispatch(wingsActions.hideAddWingForm());
   const isOpen = useSelector(({ wings }: RootState) => wings.isAddWingFormVisible);
-  const initialValues: Wing = {
-    id: WingId.create(),
+  const initialValues: CreateWingDTO = {
+    id: uuid(),
     brand: "",
     model: "",
     flightTimePriorToOwn: 0,
     ownerFrom: new Date().toUTCString(),
-    userId: UserId.create(), // should be erased by backend, TODO find a way not to give it
   };
   return (
     <CenteredModal open={isOpen} onClose={close}>
@@ -47,7 +46,7 @@ export const AddWingModal: React.FC = () => {
           await dispatch(wingsActions.addWingRequest(wingValues));
           close();
         }}
-        validationSchema={Yup.object().shape<Pick<Wing, "model" | "brand">>({
+        validationSchema={Yup.object().shape<Pick<WingDTO, "model" | "brand">>({
           brand: Yup.string().required(),
           model: Yup.string().required(),
         })}
@@ -97,7 +96,7 @@ export const AddWingModal: React.FC = () => {
             /> */}
             <TextField
               className={classes.field}
-              label="Flight time of the wing when owned"
+              label="FlightDTO time of the wing when owned"
               variant="standard"
               type="number"
               name="flightTimePriorToOwn"

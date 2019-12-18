@@ -1,4 +1,4 @@
-import { uuid, isUuid } from "../generalTypes/uuid";
+import { uuid, isUuid } from "@paralogs/shared";
 
 export class FlightId {
   public get value() {
