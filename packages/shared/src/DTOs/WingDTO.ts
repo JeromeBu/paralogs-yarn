@@ -1,10 +1,8 @@
-import { WingId } from "../valueObjects/WingId";
-import { UserId } from "../valueObjects/UserId";
 import { DateString, NumberOfMinutes } from "../generalTypes/types";
 
-export interface Wing {
-  id: WingId;
-  userId: UserId;
+export interface WingDTO {
+  id: string;
+  userId: string;
   brand: string;
   model: string;
   ownerFrom: DateString;

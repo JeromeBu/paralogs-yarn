@@ -1,11 +1,11 @@
 import { getType } from "typesafe-actions";
-import { Wing } from "@paralogs/shared";
+import { WingDTO } from "@paralogs/shared";
 import { wingsActions, WingAction } from "./wings.actions";
 import { shouldNeverBeCalled, ErrorFromAction } from "../../utils";
 
 interface WingsState {
   readonly isAddWingFormVisible: boolean;
-  readonly data: Wing[];
+  readonly data: WingDTO[];
   readonly isSaving: boolean;
   readonly isLoading: boolean;
   readonly error?: ErrorFromAction;

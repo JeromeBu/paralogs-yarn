@@ -14,7 +14,7 @@ import React from "react";
 import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 
-import { Flight, FlightId, UserId } from "@paralogs/shared";
+import { uuid, CreateFlightDTO } from "@paralogs/shared";
 
 import { CenteredModal } from "../commun/CenteredModal";
 import { wingsActions } from "../../../core-logic/useCases/wings/wings.actions";
@@ -37,7 +37,7 @@ const useStyles = makeStyles(theme => ({
 interface AddFlightModalProps {
   isOpen: boolean;
   close: () => void;
-  handleSubmit: (flight: Flight) => Promise<void>;
+  handleSubmit: (flight: CreateFlightDTO) => Promise<void>;
 }
 
 export const AddFlightModal: React.FC<AddFlightModalProps> = ({
@@ -49,13 +49,12 @@ export const AddFlightModal: React.FC<AddFlightModalProps> = ({
   const dispatch = useDispatch();
   const wings = useSelector((state: RootState) => state.wings.data);
 
-  const initialValues: Flight = {
-    id: FlightId.create(),
+  const initialValues: CreateFlightDTO = {
+    id: uuid(),
     site: "",
     date: format(new Date(), "yyyy-MM-dd"),
     time: "14:30",
     duration: 60,
-    userId: UserId.create(), // TODO use current user, or nothing
     wingId: wings[0]?.id,
   };
 
@@ -107,7 +106,7 @@ export const AddFlightModal: React.FC<AddFlightModalProps> = ({
                   <AddIcon /> Add new wing
                 </MenuItem>
                 {wings.map(wing => (
-                  <MenuItem value={wing as any} key={wing.id.value}>
+                  <MenuItem value={wing as any} key={wing.id}>
                     {wing.brand} {wing.model}
                   </MenuItem>
                 ))}
@@ -138,7 +137,7 @@ export const AddFlightModal: React.FC<AddFlightModalProps> = ({
             />
             <TextField
               className={classes.field}
-              label="Flight duration"
+              label="FlightDTO duration"
               type="number"
               name="duration"
               onChange={handleChange}

@@ -1,9 +1,9 @@
 import { Store } from "redux";
 
-import { Wing } from "@paralogs/shared";
+import { WingDTO } from "@paralogs/shared";
 
 import { RootState, configureReduxStore } from "../../../reduxStore";
-import { makeWing } from "../../wings/tests/wingBuilder";
+import { makeWingDTO } from "../../wings/tests/wingBuilder";
 import {
   expectStateToMatch,
   InMemoryDependencies,
@@ -21,9 +21,9 @@ describe("Retreive wings", () => {
   });
 
   it("gets all the Wings", () => {
-    const wing1 = makeWing();
-    const wing2 = makeWing({ model: "Koyot 2", brand: "Nviuk" });
-    const someWings: Wing[] = [wing1, wing2];
+    const wing1 = makeWingDTO();
+    const wing2 = makeWingDTO({ model: "Koyot 2", brand: "Nviuk" });
+    const someWings: WingDTO[] = [wing1, wing2];
     retrieveWings();
     feedWithWings(someWings);
     expectStateToMatch(store, {
@@ -51,7 +51,7 @@ describe("Retreive wings", () => {
 
   const retrieveWings = () => store.dispatch(wingsActions.retreiveWingsRequest());
 
-  const feedWithWings = (wings: Wing[]) => dependencies.wingGateway.wings$.next(wings);
+  const feedWithWings = (wings: WingDTO[]) => dependencies.wingGateway.wings$.next(wings);
 
   const feedWithError = (errorMessage: string) => {
     dependencies.wingGateway.wings$.error(new Error(errorMessage));

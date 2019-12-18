@@ -1,10 +1,10 @@
 import { Store } from "redux";
 import _ from "lodash";
 
-import { Flight, uuid } from "@paralogs/shared";
+import { FlightDTO, uuid } from "@paralogs/shared";
 
 import { RootState, configureReduxStore } from "../../../reduxStore";
-import { makeWing } from "../../wings/tests/wingBuilder";
+import { makeWingDTO } from "../../wings/tests/wingBuilder";
 import {
   expectStateToMatch,
   InMemoryDependencies,
@@ -22,8 +22,8 @@ describe("Retreive flights", () => {
   });
 
   it("gets all the Flights", () => {
-    const wing = makeWing();
-    const someFlights: Flight[] = [
+    const wing = makeWingDTO();
+    const someFlights: FlightDTO[] = [
       {
         id: uuid(),
         date: new Date("2019-10-10").toUTCString(),
@@ -72,7 +72,7 @@ describe("Retreive flights", () => {
 
   const retrieveFlights = () => store.dispatch(flightActions.retreiveFlightsRequest());
 
-  const feedWithFlights = (flights: Flight[]) =>
+  const feedWithFlights = (flights: FlightDTO[]) =>
     dependencies.flightGateway.flights$.next(flights);
 
   const feedWithError = (errorMessage: string) => {
