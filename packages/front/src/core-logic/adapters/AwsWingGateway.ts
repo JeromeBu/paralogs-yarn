@@ -1,7 +1,7 @@
 import { from } from "rxjs";
 import { API } from "aws-amplify";
 
-import { Wing } from "@paralogs/shared";
+import { CreateWingDTO } from "@paralogs/shared";
 import { WingGateway } from "../useCases/wings/port/WingGateway";
 
 export class AwsWingGateway implements WingGateway {
@@ -9,7 +9,7 @@ export class AwsWingGateway implements WingGateway {
     return from(API.get("wings", "wings", null));
   }
 
-  public addWing(wing: Wing) {
-    return from(API.post("wings", "wings", { body: wing }));
+  public addWing(createWingDto: CreateWingDTO) {
+    return from(API.post("wings", "wings", { body: createWingDto }));
   }
 }

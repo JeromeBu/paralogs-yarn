@@ -7,7 +7,7 @@ import {
 } from "@material-ui/core";
 import { format } from "date-fns";
 
-import { Flight } from "@paralogs/shared";
+import { FlightDTO } from "@paralogs/shared";
 
 import { formatDuration } from "../../formatDuration";
 
@@ -20,7 +20,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export const FlightListItem: React.FC<Flight> = ({ site, date, duration, time }) => {
+export const FlightListItem: React.FC<FlightDTO> = ({ site, date, duration, time }) => {
   const classes = useStyles();
   return (
     <ListItem className={classes.wrapper} button dense>

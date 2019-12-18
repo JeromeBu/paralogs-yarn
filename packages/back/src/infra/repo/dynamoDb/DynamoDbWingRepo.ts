@@ -1,7 +1,8 @@
-import { Wing, UserId } from "@paralogs/shared";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import AWS from "aws-sdk";
 import { WingRepo } from "../../../domain/port/WingRepo";
+import { WingEntity } from "../../../domain/entities/WingEntity";
+import { UserId } from "../../../domain/valueObjects/UserId";
 
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
@@ -30,7 +31,7 @@ export class DynamoDbWingRepo implements WingRepo {
     return result.Items ? result.Items.map(({ content }) => content) : [];
   }
 
-  public async save(wing: Wing) {
+  public async save(wing: WingEntity) {
     const params = {
       TableName: process.env.wingsTable!,
       // 'Item' contains the attributes of the item to be created

@@ -1,5 +1,4 @@
 import { APIGatewayEvent } from "aws-lambda";
-import { UserId } from "@paralogs/shared";
 import { noCurrentUser } from "../../domain/core/errors";
 import { ListWingsUseCase } from "../../domain/useCases/ListWingsUseCase";
 import { failure, success } from "../lib/response-lib";
@@ -12,7 +11,8 @@ export const main = async (event: APIGatewayEvent) => {
     const currentUserId = event.requestContext.identity.cognitoIdentityId;
     if (!currentUserId) throw noCurrentUser();
 
-    const wings = await listWingsUseCase.execute(UserId.create(currentUserId));
+    const wings = (await listWingsUseCase.execute(currentUserId)).getValueOrThrow();
+    // TODO convert wings to DTO
     return success(wings);
   } catch (error) {
     // eslint-disable-next-line no-console

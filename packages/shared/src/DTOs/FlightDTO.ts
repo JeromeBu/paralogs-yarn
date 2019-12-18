@@ -1,10 +1,9 @@
-import { FlightId, WingId, UserId } from "../valueObjects";
 import { DateString, NumberOfMinutes } from "../generalTypes/types";
 
-export interface Flight {
-  id: FlightId;
-  wingId: WingId;
-  userId: UserId;
+export interface FlightDTO {
+  id: string;
+  wingId: string;
+  userId: string;
   date: DateString;
   time: string;
   site: string;

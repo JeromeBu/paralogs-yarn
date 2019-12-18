@@ -1,5 +1,6 @@
-import { WingDTO, uuid } from "@paralogs/shared";
 import _ from "lodash";
+import { WingDTO } from "../DTOs";
+import { uuid } from "../generalTypes/uuid";
 
 export const makeWingDTO = (wingParams?: Partial<WingDTO>): WingDTO => {
   const randomWing: WingDTO = {

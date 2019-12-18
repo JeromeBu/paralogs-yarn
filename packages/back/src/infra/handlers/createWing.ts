@@ -1,5 +1,5 @@
 import { APIGatewayEvent } from "aws-lambda";
-import { Wing, UserId } from "@paralogs/shared";
+import { WingDTO } from "@paralogs/shared";
 import { createWingUseCaseCreator } from "../../domain/useCases/CreateWingUseCase";
 import { noBodyProvided, noCurrentUser } from "../../domain/core/errors";
 import { success } from "../lib/response-lib";
@@ -13,10 +13,10 @@ export const main = async (event: APIGatewayEvent) => {
   const currentUserId = event.requestContext.identity.cognitoIdentityId;
   if (!currentUserId) throw noCurrentUser();
 
-  const wing = JSON.parse(event.body) as Wing;
-  wing.userId = UserId.create(currentUserId);
+  const wingDto = JSON.parse(event.body) as WingDTO;
+  wingDto.userId = currentUserId;
 
-  await creatWingUseCase(wing);
+  (await creatWingUseCase(wingDto)).getValueOrThrow();
 
-  return success(wing);
+  return success(wingDto);
 };

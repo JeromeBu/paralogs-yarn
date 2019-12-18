@@ -1,17 +1,17 @@
 import { BehaviorSubject, of } from "rxjs";
 
-import { Wing } from "@paralogs/shared";
+import { WingDTO } from "@paralogs/shared";
 
 import { WingGateway } from "../useCases/wings/port/WingGateway";
 
 export class InMemoryWingGateway implements WingGateway {
-  private _wings$ = new BehaviorSubject<Wing[]>([]);
+  private _wings$ = new BehaviorSubject<WingDTO[]>([]);
 
   public retrieveWings() {
     return this._wings$;
   }
 
-  public addWing(wing: Wing) {
+  public addWing(wing: WingDTO) {
     return of(wing);
   }
 

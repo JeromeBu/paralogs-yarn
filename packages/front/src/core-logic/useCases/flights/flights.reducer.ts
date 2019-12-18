@@ -1,10 +1,10 @@
 import { getType } from "typesafe-actions";
-import { Flight } from "@paralogs/shared";
+import { FlightDTO } from "@paralogs/shared";
 import { flightActions, FlightAction } from "./flights.actions";
 import { ErrorFromAction, shouldNeverBeCalled } from "../../utils";
 
 interface FlightsState {
-  readonly data: Flight[];
+  readonly data: FlightDTO[];
   readonly error?: ErrorFromAction;
   readonly isAddFlightFormVisible: boolean;
   readonly isLoading: boolean;
