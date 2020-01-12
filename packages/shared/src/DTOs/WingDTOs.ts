@@ -9,3 +9,5 @@ export interface WingDTO {
   ownerUntil?: DateString;
   flightTimePriorToOwn: NumberOfMinutes;
 }
+
+export type CreateWingDTO = Omit<WingDTO, "userId">;

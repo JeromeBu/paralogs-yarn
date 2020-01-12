@@ -1,16 +1,17 @@
 import { Auth } from "aws-amplify";
 import { from } from "rxjs";
 
-import {
-  AuthGateway,
-  LoginParams,
-  SignUpParams,
-} from "../useCases/currentUser/port/AuthGateway";
+import { LoginParams, SignUpParams } from "@paralogs/shared";
+import { AuthGateway } from "../useCases/currentUser/port/AuthGateway";
 
 export class AwsAuthGateway implements AuthGateway {
   public getCurrentSession() {
     return from(Auth.currentSession());
   }
+
+  // public getCurrentUser() {
+  //   return from(API.get("users", "users", null));
+  // }
 
   public login(params: LoginParams) {
     const { email, password } = params;

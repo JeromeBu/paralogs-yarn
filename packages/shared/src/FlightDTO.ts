@@ -1,4 +1,4 @@
-import { DateString, NumberOfMinutes } from "../generalTypes/types";
+import { DateString, NumberOfMinutes } from "./generalTypes/types";
 
 export interface FlightDTO {
   id: string;

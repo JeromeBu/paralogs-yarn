@@ -1,13 +1,11 @@
 import { createStandardAction, ActionType } from "typesafe-actions";
 
-import { LoginParams, SignUpParams } from "./port/AuthGateway";
+import { SignUpParams, LoginParams } from "@paralogs/shared";
 import { ErrorFromAction } from "../../utils";
 
 export const currentUserActions = {
   getCurrentSession: createStandardAction("GET_CURRENT_SESSION")(),
-  getCurrentSessionSuccess: createStandardAction("GET_CURRENT_SESSION_SUCCESS")<
-    unknown
-  >(),
+  getCurrentSessionSuccess: createStandardAction("GET_CURRENT_SESSION_SUCCESS")(),
   getCurrentSessionError: createStandardAction("GET_CURRENT_SESSION_ERROR")<
     ErrorFromAction
   >(),

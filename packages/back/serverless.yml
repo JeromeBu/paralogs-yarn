@@ -51,6 +51,7 @@ functions:
           method: post
           cors: true
           authorizer: aws_iam
+
   list-wings:
       handler: .build/infra/handlers/listWings.main
       events:
@@ -66,6 +67,15 @@ functions:
       - http:
           path: wings/{id}
           method: delete
+          cors: true
+          authorizer: aws_iam
+
+  create-user:
+    handler: .build/infra/handlers/createUser.main
+    events:
+      - http:
+          path: users
+          method: post
           cors: true
           authorizer: aws_iam
 
