@@ -12,11 +12,11 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Formik, Form } from "formik";
+import { SignUpParams } from "@paralogs/shared";
 import { currentUserActions } from "../../../core-logic/useCases/currentUser/currentUser.actions";
 import { MyLink } from "../commun/MyLink";
 import { RootState } from "../../../core-logic/reduxStore";
 import { DisplayError } from "../commun/DisplayError";
-import { SignUpParams } from "../../../core-logic/useCases/currentUser/port/AuthGateway";
 
 const useStyles = makeStyles(theme => ({
   paper: {
