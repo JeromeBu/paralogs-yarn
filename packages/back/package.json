@@ -15,12 +15,14 @@
   },
   "dependencies": {
     "@paralogs/shared": "*",
+    "faker": "^4.1.0",
     "lodash": "^4.17.15",
     "serverless": "^1.59.3",
     "serverless-plugin-monorepo": "^0.8.0"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.35",
+    "@types/faker": "^4.1.9",
     "@types/jest": "24.0.23",
     "@types/lodash": "^4.14.147",
     "aws-sdk": "^2.570.0",

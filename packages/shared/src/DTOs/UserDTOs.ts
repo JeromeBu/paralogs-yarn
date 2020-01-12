@@ -17,6 +17,11 @@ interface WithOtherInformations {
 
 export type UserDTO = WithId & WithEmail & WithOtherInformations;
 
+export type CurrentUserWithAuthToken = {
+  currentUser: UserDTO;
+  token: string;
+};
+
 export type LoginParams = WithEmail & WithPassword;
 
 export type SignUpParams = WithEmail & WithPassword & WithOtherInformations;

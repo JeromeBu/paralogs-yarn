@@ -1,10 +1,10 @@
 import { combineReducers } from "redux";
-import { currentUserReducer } from "../useCases/currentUser/currentUser.reducer";
+import { authReducer } from "../useCases/auth/auth.reducer";
 import { flightsReducer } from "../useCases/flights/flights.reducer";
 import { wingsReducer } from "../useCases/wings/wings.reducer";
 
 export const rootReducer = combineReducers({
-  currentUser: currentUserReducer,
+  auth: authReducer,
   flights: flightsReducer,
   wings: wingsReducer,
 });

@@ -1,27 +1,20 @@
-import { UserDTO, LoginParams, SignUpParams } from "@paralogs/shared";
+import { LoginParams, SignUpParams, CurrentUserWithAuthToken } from "@paralogs/shared";
 import { BehaviorSubject, of } from "rxjs";
-import { AuthGateway } from "../useCases/currentUser/port/AuthGateway";
+import { AuthGateway } from "../useCases/auth/port/AuthGateway";
 
 export class InMemoryAuthGateway implements AuthGateway {
-  private _currentUser$ = new BehaviorSubject<UserDTO | null>(null);
-
-  public getCurrentSession() {
-    return of(this._currentUser$.value?.id ?? null);
-  }
-
-  // // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  // public getCurrentUser(userId: string) {
-  //   return this._currentUser$;
-  // }
+  private _currentUserWithToken$ = new BehaviorSubject<CurrentUserWithAuthToken>(
+    (null as unknown) as CurrentUserWithAuthToken,
+  );
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   login(params: LoginParams) {
-    return this._currentUser$;
+    return this._currentUserWithToken$;
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   signUp(params: SignUpParams) {
-    return this._currentUser$;
+    return this._currentUserWithToken$;
   }
 
   public loggout() {
@@ -29,6 +22,6 @@ export class InMemoryAuthGateway implements AuthGateway {
   }
 
   get currentUser$() {
-    return this._currentUser$;
+    return this._currentUserWithToken$;
   }
 }

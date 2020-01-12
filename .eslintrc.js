@@ -50,5 +50,6 @@ module.exports = {
     "react/jsx-props-no-spreading": "off",
     "@typescript-eslint/no-floating-promises": "error",
     "@typescript-eslint/no-non-null-assertion": "off",
+    "no-case-declarations": "off",
   },
 };

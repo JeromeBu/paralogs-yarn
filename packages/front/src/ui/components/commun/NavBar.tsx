@@ -13,7 +13,7 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { MyLink } from "./MyLink";
 import { RootState } from "../../../core-logic/reduxStore";
-import { currentUserActions } from "../../../core-logic/useCases/currentUser/currentUser.actions";
+import { authActions } from "../../../core-logic/useCases/auth/auth.actions";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -51,7 +51,7 @@ export const NavBar: React.FC = () => {
           Paralogs
         </Typography>
         {isAutenticated ? (
-          <Button color="inherit" onClick={() => dispatch(currentUserActions.loggout())}>
+          <Button color="inherit" onClick={() => dispatch(authActions.loggout())}>
             Logout
           </Button>
         ) : (
