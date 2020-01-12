@@ -14,7 +14,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Formik, Form } from "formik";
 import { MyLink } from "../commun/MyLink";
-import { currentUserActions } from "../../../core-logic/useCases/currentUser/currentUser.actions";
+import { authActions } from "../../../core-logic/useCases/auth/auth.actions";
 import { DisplayError } from "../commun/DisplayError";
 import { RootState } from "../../../core-logic/reduxStore";
 
@@ -53,7 +53,7 @@ export const Login: React.FC = () => {
       <Formik
         initialValues={{ email: "", password: "" }}
         onSubmit={async values => {
-          dispatch(currentUserActions.loginRequest(values));
+          dispatch(authActions.loginRequest(values));
         }}
       >
         {({ values, handleChange }) => (

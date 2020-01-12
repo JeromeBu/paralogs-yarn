@@ -4,7 +4,7 @@ import { catchError, filter, map, switchMap } from "rxjs/operators";
 import { isActionOf } from "typesafe-actions";
 import { RootAction } from "../../../store/root-action";
 import { RootState, Dependencies } from "../../../reduxStore";
-import { currentUserActions } from "../currentUser.actions";
+import { authActions } from "../auth.actions";
 
 export const loggoutEpic: Epic<RootAction, RootAction, RootState, Dependencies> = (
   action$,
@@ -12,11 +12,11 @@ export const loggoutEpic: Epic<RootAction, RootAction, RootState, Dependencies> 
   { authGateway: apiGateway },
 ) =>
   action$.pipe(
-    filter(isActionOf(currentUserActions.loggout)),
+    filter(isActionOf(authActions.loggout)),
     switchMap(() =>
       apiGateway.loggout().pipe(
-        map(currentUserActions.loggoutSuccess),
-        catchError(err => of(currentUserActions.loggoutError(err))),
+        map(authActions.loggoutSuccess),
+        catchError(err => of(authActions.loggoutError(err))),
       ),
     ),
   );

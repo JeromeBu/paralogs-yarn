@@ -13,7 +13,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Formik, Form } from "formik";
 import { SignUpParams } from "@paralogs/shared";
-import { currentUserActions } from "../../../core-logic/useCases/currentUser/currentUser.actions";
+import { authActions } from "../../../core-logic/useCases/auth/auth.actions";
 import { MyLink } from "../commun/MyLink";
 import { RootState } from "../../../core-logic/reduxStore";
 import { DisplayError } from "../commun/DisplayError";
@@ -44,7 +44,7 @@ export const SignUp: React.FC = () => {
   const classes = useStyles();
 
   const handleSubmit = (values: SignUpParams) => {
-    dispatch(currentUserActions.signUpRequest(values));
+    dispatch(authActions.signUpRequest(values));
   };
 
   return (

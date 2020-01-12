@@ -1,61 +1,63 @@
 import { Store } from "redux";
+import { CurrentUserWithAuthToken } from "@paralogs/shared";
 import { RootState, configureReduxStore } from "../../../reduxStore";
 import {
   expectStateToMatch,
   getInMemoryDependencies,
   InMemoryDependencies,
+  feedWithCurrentUserCreator,
+  feedWithErrorCreator,
 } from "../../../testUtils";
-import { currentUserActions } from "../currentUser.actions";
-import { CurrentUserWithToken } from "../currentUser.types";
+import { authActions } from "../auth.actions";
+import { makeUserDTO } from "./userBuilder";
 
 describe("Login", () => {
   let store: Store<RootState>;
   let dependencies: InMemoryDependencies; /* cannot be typed Dependencies because we need to access .currentUser$ */
+  let feedWithCurrentUser: (params: CurrentUserWithAuthToken) => void;
+  let feedWithError: (errorMessage: string) => void;
 
   beforeEach(() => {
     dependencies = getInMemoryDependencies();
     store = configureReduxStore(dependencies);
+    feedWithCurrentUser = feedWithCurrentUserCreator(dependencies);
+    feedWithError = feedWithErrorCreator(dependencies);
   });
 
   describe("Email and password are correct", () => {
     it("returns logged user with authentication token", () => {
       const email = "auth@works.com";
+      const currentUser = makeUserDTO({ email });
       const password = "password";
       const token = "fakeLoginToken";
       loginUser({ email, password });
-      feedWithLoggedUser({ email, token });
+      feedWithCurrentUser({ currentUser, token });
       expectStateToMatch(store, {
-        currentUser: {
+        auth: {
           isLoading: false,
-          isAuthenticated: true,
         },
       });
     });
   });
 
   describe("When email or password is wrong", () => {
-    it("refuses to sign up with an explicit message", () => {
+    it("refuses to log in with an explicit message", () => {
       const email = "already@used.com";
       const password = "wrongPassword";
       const errorMessage = "Email or passport is incorrect...";
       loginUser({ email, password });
       feedWithError(errorMessage);
       expectStateToMatch(store, {
-        currentUser: {
+        auth: {
           isLoading: false,
           error: new Error(errorMessage),
+          token: null,
+          currentUser: null,
         },
       });
     });
   });
 
   const loginUser = ({ email, password }: { email: string; password: string }) =>
-    store.dispatch(currentUserActions.loginRequest({ email, password }));
-
-  const feedWithLoggedUser = (currentUser: CurrentUserWithToken) =>
-    dependencies.authGateway.currentUser$.next(currentUser);
-
-  const feedWithError = (errorMessage: string) => {
-    dependencies.authGateway.currentUser$.error(new Error(errorMessage));
-  };
+    store.dispatch(authActions.loginRequest({ email, password }));
 });

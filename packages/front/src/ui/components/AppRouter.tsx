@@ -1,7 +1,6 @@
 import * as React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { BrowserRouter as Router, Route } from "react-router-dom";
-import { currentUserActions } from "../../core-logic/useCases/currentUser/currentUser.actions";
 import { NavBar } from "./commun/NavBar";
 import { FlightList } from "./views/FlightList";
 import { Home } from "./views/Home";
@@ -11,17 +10,15 @@ import { WingsList } from "./views/WingsList";
 import { wingsActions } from "../../core-logic/useCases/wings/wings.actions";
 import { RootState } from "../../core-logic/reduxStore";
 
-const useCurrentsession = () => {
-  const dispatch = useDispatch();
-  React.useEffect(() => {
-    dispatch(currentUserActions.getCurrentSession());
-  }, [dispatch]);
-};
+// const useCurrentsession = () => {
+// const dispatch = useDispatch();
+// React.useEffect(() => {
+//   dispatch(authActions.getCurrentSession());
+// }, [dispatch]);
+// };
 
 const useUserWings = () => {
-  const isAuthenticated = useSelector(
-    (state: RootState) => state.currentUser.isAuthenticated,
-  );
+  const isAuthenticated = useSelector(({ auth }: RootState) => auth.currentUser !== null);
   const dispatch = useDispatch();
 
   React.useEffect(() => {
@@ -32,7 +29,7 @@ const useUserWings = () => {
 };
 
 export const AppRouter: React.FC = () => {
-  useCurrentsession();
+  // useCurrentsession();
   useUserWings();
 
   return (
