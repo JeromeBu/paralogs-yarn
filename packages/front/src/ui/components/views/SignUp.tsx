@@ -15,8 +15,8 @@ import { Formik, Form } from "formik";
 import { SignUpParams } from "@paralogs/shared";
 import { authActions } from "../../../core-logic/useCases/auth/auth.actions";
 import { MyLink } from "../commun/MyLink";
-import { RootState } from "../../../core-logic/reduxStore";
 import { DisplayError } from "../commun/DisplayError";
+import { authSelectors } from "../../selectors/authSelectors";
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -40,7 +40,7 @@ const useStyles = makeStyles(theme => ({
 
 export const SignUp: React.FC = () => {
   const dispatch = useDispatch();
-  const { error } = useSelector((state: RootState) => state.currentUser);
+  const error = useSelector(authSelectors.error);
   const classes = useStyles();
 
   const handleSubmit = (values: SignUpParams) => {

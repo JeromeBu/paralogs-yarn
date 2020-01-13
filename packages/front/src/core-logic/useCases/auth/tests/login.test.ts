@@ -5,9 +5,8 @@ import {
   expectStateToMatch,
   getInMemoryDependencies,
   InMemoryDependencies,
-  feedWithCurrentUserCreator,
-  feedWithErrorCreator,
 } from "../../../testUtils";
+import { feedWithCurrentUserCreator, feedWithErrorCreator } from "./auth.testUtils";
 import { authActions } from "../auth.actions";
 import { makeUserDTO } from "./userBuilder";
 
@@ -35,6 +34,8 @@ describe("Login", () => {
       expectStateToMatch(store, {
         auth: {
           isLoading: false,
+          currentUser,
+          token,
         },
       });
     });
@@ -44,7 +45,7 @@ describe("Login", () => {
     it("refuses to log in with an explicit message", () => {
       const email = "already@used.com";
       const password = "wrongPassword";
-      const errorMessage = "Email or passport is incorrect...";
+      const errorMessage = "Email or password is incorrect...";
       loginUser({ email, password });
       feedWithError(errorMessage);
       expectStateToMatch(store, {

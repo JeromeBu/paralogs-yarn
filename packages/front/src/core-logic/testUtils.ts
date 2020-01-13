@@ -1,5 +1,4 @@
 import { Store, DeepPartial } from "redux";
-import { CurrentUserWithAuthToken } from "@paralogs/shared";
 import { RootState } from "./reduxStore";
 import { InMemoryAuthGateway } from "./adapters/InMemoryAuthGateway";
 import { InMemoryWingGateway } from "./adapters/InMemoryWingGateway";
@@ -15,13 +14,3 @@ export const getInMemoryDependencies = () => ({
 });
 
 export type InMemoryDependencies = ReturnType<typeof getInMemoryDependencies>;
-
-export const feedWithCurrentUserCreator = (dependencies: InMemoryDependencies) => (
-  userDTOWithAuthToken: CurrentUserWithAuthToken,
-) => dependencies.authGateway.currentUser$.next(userDTOWithAuthToken);
-
-export const feedWithErrorCreator = (dependencies: InMemoryDependencies) => (
-  errorMessage: string,
-) => {
-  dependencies.authGateway.currentUser$.error(new Error(errorMessage));
-};

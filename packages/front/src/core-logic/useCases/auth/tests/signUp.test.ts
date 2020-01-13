@@ -5,9 +5,8 @@ import {
   expectStateToMatch,
   InMemoryDependencies,
   getInMemoryDependencies,
-  feedWithCurrentUserCreator,
-  feedWithErrorCreator,
 } from "../../../testUtils";
+import { feedWithCurrentUserCreator, feedWithErrorCreator } from "./auth.testUtils";
 import { authActions } from "../auth.actions";
 import { makeUserDTO } from "./userBuilder";
 
@@ -26,9 +25,15 @@ describe("Sign up", () => {
 
   describe("Sign up successfully", () => {
     it("retrieve user and his authentication info", () => {
-      const { email, firstName, lastName } = signUpUser();
-      const token = "someFakeToken";
+      const email = "jerome@mail.com";
+      const password = "password";
+      const firstName = "John";
+      const lastName = "Doe";
+
       const currentUser = makeUserDTO({ email, firstName, lastName });
+      const token = "someFakeToken";
+
+      signUpUser({ email, password, firstName, lastName });
       feedWithCurrentUser({ currentUser, token });
       expectStateToMatch(store, {
         auth: {
@@ -42,8 +47,14 @@ describe("Sign up", () => {
 
   describe("when email already exists", () => {
     it("refuses to sign up", () => {
+      const email = "jerome@mail.com";
+      const password = "password";
+      const firstName = "John";
+      const lastName = "Doe";
+
       const errorMessage = "This email is already used, consider logging in instead";
-      signUpUser();
+
+      signUpUser({ email, password, firstName, lastName });
       feedWithError(errorMessage);
       expectStateToMatch(store, {
         auth: {
@@ -56,13 +67,7 @@ describe("Sign up", () => {
     });
   });
 
-  const signUpUser = (): SignUpParams => {
-    const email = "jerome@mail.com";
-    const password = "password";
-    const firstName = "John";
-    const lastName = "Doe";
-    const signUpParams = { email, password, firstName, lastName };
+  const signUpUser = (signUpParams: SignUpParams) => {
     store.dispatch(authActions.signUpRequest(signUpParams));
-    return signUpParams;
   };
 });

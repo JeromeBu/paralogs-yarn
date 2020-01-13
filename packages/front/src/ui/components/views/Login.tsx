@@ -16,7 +16,7 @@ import { Formik, Form } from "formik";
 import { MyLink } from "../commun/MyLink";
 import { authActions } from "../../../core-logic/useCases/auth/auth.actions";
 import { DisplayError } from "../commun/DisplayError";
-import { RootState } from "../../../core-logic/reduxStore";
+import { authSelectors } from "../../selectors/authSelectors";
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -40,7 +40,7 @@ const useStyles = makeStyles(theme => ({
 
 export const Login: React.FC = () => {
   const dispatch = useDispatch();
-  const { error } = useSelector((state: RootState) => state.currentUser);
+  const error = useSelector(authSelectors.error);
   const classes = useStyles();
 
   return (

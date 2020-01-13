@@ -1,7 +1,5 @@
 import { BehaviorSubject, of } from "rxjs";
-
 import { WingDTO } from "@paralogs/shared";
-
 import { WingGateway } from "../useCases/wings/port/WingGateway";
 
 export class InMemoryWingGateway implements WingGateway {

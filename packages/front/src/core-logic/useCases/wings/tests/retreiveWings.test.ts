@@ -1,7 +1,5 @@
 import { Store } from "redux";
-
 import { WingDTO } from "@paralogs/shared";
-
 import { RootState, configureReduxStore } from "../../../reduxStore";
 import { makeWingDTO } from "../../wings/tests/wingBuilder";
 import {
@@ -52,7 +50,6 @@ describe("Retreive wings", () => {
   const retrieveWings = () => store.dispatch(wingsActions.retreiveWingsRequest());
 
   const feedWithWings = (wings: WingDTO[]) => dependencies.wingGateway.wings$.next(wings);
-
   const feedWithError = (errorMessage: string) => {
     dependencies.wingGateway.wings$.error(new Error(errorMessage));
   };
