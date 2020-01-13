@@ -12,11 +12,11 @@ export const loggoutEpic: Epic<RootAction, RootAction, RootState, Dependencies> 
   { authGateway: apiGateway },
 ) =>
   action$.pipe(
-    filter(isActionOf(authActions.loggout)),
+    filter(isActionOf(authActions.logout)),
     switchMap(() =>
-      apiGateway.loggout().pipe(
-        map(authActions.loggoutSuccess),
-        catchError(err => of(authActions.loggoutError(err))),
+      apiGateway.logout().pipe(
+        map(authActions.logoutSuccess),
+        catchError(err => of(authActions.logoutError(err))),
       ),
     ),
   );

@@ -1,28 +1,34 @@
-import { API } from "aws-amplify";
+import axios, { AxiosResponse } from "axios";
 import {
   LoginParams,
   SignUpParams,
   WingDTO,
   CurrentUserWithAuthToken,
   UserDTO,
+  CreateWingDTO,
 } from "@paralogs/shared";
+import { from } from "rxjs/internal/observable/from";
+import { map } from "rxjs/internal/operators/map";
+import { Observable } from "rxjs/internal/Observable";
+import { config } from "../../config";
 
-const signUp = (signUpParams: SignUpParams): Promise<CurrentUserWithAuthToken> =>
-  API.post("users", "/signup", { body: signUpParams });
+const responseToObservable = <Output>(
+  axiosResponsePromise: Promise<AxiosResponse<Output>>,
+) => from(axiosResponsePromise).pipe(map(({ data }) => data));
 
-const logIn = (logInParams: LoginParams): Promise<CurrentUserWithAuthToken> =>
-  API.post("users", "/login", { body: logInParams });
+const createPostRequest = <Input, Output>(route: string) => (
+  input: Input,
+): Observable<Output> =>
+  responseToObservable(axios.post<Output>(`${config.apiUrl}${route}`, input));
 
-const loggout = (): Promise<void> => API.get("users", "/loggout", null);
-
-const retrieveUsers = (): Promise<UserDTO[]> => API.get("users", "users", null);
-
-const retrieveWings = (): Promise<WingDTO[]> => API.get("wings", "wings", null);
+const createGetRequest = <Output>(route: string) => (): Observable<Output> =>
+  responseToObservable(axios.get(`${config.apiUrl}${route}`));
 
 export const httpClient = {
-  signUp,
-  logIn,
-  loggout,
-  retrieveWings,
-  retrieveUsers,
+  signUp: createPostRequest<SignUpParams, CurrentUserWithAuthToken>("user/signup"),
+  logIn: createPostRequest<LoginParams, CurrentUserWithAuthToken>("user/login"),
+  logout: createGetRequest("user/logout"),
+  retrieveUsers: createGetRequest<UserDTO[]>("users"),
+  retrieveWings: createGetRequest<WingDTO[]>("wings"),
+  addWing: createPostRequest<CreateWingDTO, WingDTO>("wings"),
 };

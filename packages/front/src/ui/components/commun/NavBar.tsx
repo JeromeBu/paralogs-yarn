@@ -48,7 +48,7 @@ export const NavBar: React.FC = () => {
           Paralogs
         </Typography>
         {isAuthenticated ? (
-          <Button color="inherit" onClick={() => dispatch(authActions.loggout())}>
+          <Button color="inherit" onClick={() => dispatch(authActions.logout())}>
             Logout
           </Button>
         ) : (
