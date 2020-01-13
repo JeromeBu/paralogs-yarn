@@ -9,10 +9,9 @@ import {
 } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import React from "react";
-
 import { useSelector, useDispatch } from "react-redux";
 import { MyLink } from "./MyLink";
-import { RootState } from "../../../core-logic/reduxStore";
+import { authSelectors } from "../../selectors/authSelectors";
 import { authActions } from "../../../core-logic/useCases/auth/auth.actions";
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -30,9 +29,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 export const NavBar: React.FC = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const isAutenticated = useSelector(
-    ({ currentUser }: RootState) => currentUser.isAuthenticated,
-  );
+  const isAuthenticated = useSelector(authSelectors.isAuthenticated);
 
   return (
     <AppBar position="static" className={classes.root}>
@@ -50,7 +47,7 @@ export const NavBar: React.FC = () => {
         <Typography variant="h6" className={classes.title}>
           Paralogs
         </Typography>
-        {isAutenticated ? (
+        {isAuthenticated ? (
           <Button color="inherit" onClick={() => dispatch(authActions.loggout())}>
             Logout
           </Button>
