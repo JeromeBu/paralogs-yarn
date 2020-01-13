@@ -4,5 +4,5 @@ import { LoginParams, SignUpParams, CurrentUserWithAuthToken } from "@paralogs/s
 export interface AuthGateway {
   login(params: LoginParams): Observable<CurrentUserWithAuthToken>;
   signUp(params: SignUpParams): Observable<CurrentUserWithAuthToken>;
-  loggout(): Observable<unknown>;
+  logout(): Observable<unknown>;
 }

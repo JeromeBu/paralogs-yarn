@@ -22,9 +22,9 @@ const useUserWings = () => {
   const dispatch = useDispatch();
 
   React.useEffect(() => {
-    if (isAuthenticated) {
-      dispatch(wingsActions.retreiveWingsRequest());
-    }
+    // if (isAuthenticated) {
+    dispatch(wingsActions.retreiveWingsRequest());
+    // }
   }, [isAuthenticated, dispatch]);
 };
 

@@ -5,7 +5,6 @@ import { StateType } from "typesafe-actions";
 import { rootReducer } from "./store/root-reducer";
 import { AuthGateway } from "./useCases/auth/port/AuthGateway";
 import { rootEpic } from "./store/root-epic";
-import "./adapters/libs/aws-amplify";
 import { WingGateway } from "./useCases/wings/port/WingGateway";
 import { FlightGateway } from "./useCases/flights/port/FlightGateway";
 
