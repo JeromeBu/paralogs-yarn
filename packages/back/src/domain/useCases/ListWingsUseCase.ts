@@ -1,18 +1,16 @@
+import { WingDTO } from "@paralogs/shared";
 import { WingRepo } from "../port/WingRepo";
 import { UserId } from "../valueObjects/UserId";
-import { WingEntity } from "../entities/WingEntity";
 import { Result } from "../core/Result";
+import { wingMapper } from "../mappers/wing.mapper";
 
-export class ListWingsUseCase {
-  private wingRepo: WingRepo;
+export const listWingsUseCaseCreator = (wingRepo: WingRepo) => async (
+  userId: string,
+): Promise<Result<WingDTO[]>> => {
+  const userIdOrError = UserId.create(userId);
+  if (userIdOrError.error) return Result.fail(userIdOrError.error);
+  const wingEntities = await wingRepo.findByUserId(userIdOrError.getValueOrThrow());
+  return Result.ok(wingEntities.map(wingMapper.entityToDTO));
+};
 
-  constructor(wingRepo: WingRepo) {
-    this.wingRepo = wingRepo;
-  }
-
-  public async execute(userId: string): Promise<Result<WingEntity[]>> {
-    const userIdOrError = UserId.create(userId);
-    if (userIdOrError.error) return Result.fail(userIdOrError.error);
-    return Result.ok(await this.wingRepo.findByUserId(userIdOrError.getValueOrThrow()));
-  }
-}
+export type ListWingsUseCase = ReturnType<typeof listWingsUseCaseCreator>;

@@ -4,9 +4,10 @@ import { Result } from "../core/Result";
 import { WingEntity } from "../entities/WingEntity";
 import { WingRepo } from "../port/WingRepo";
 import { WingId } from "../valueObjects/WingId";
+import { wingMapper } from "../mappers/wing.mapper";
 
 export const createWingUseCaseCreator = (wingRepo: WingRepo) => {
-  return async (wingDto: WingDTO): Promise<Result<WingEntity>> => {
+  return async (wingDto: WingDTO): Promise<Result<WingDTO>> => {
     const wingIdOrError = WingId.create(wingDto.id);
     if (wingIdOrError.error) return Result.fail(wingIdOrError.error);
 
@@ -18,7 +19,8 @@ export const createWingUseCaseCreator = (wingRepo: WingRepo) => {
     const wingEntity = wingEntityOrError.getValueOrThrow();
 
     await wingRepo.save(wingEntity);
-    return Result.ok(wingEntity);
+    wingMapper.entityToDTO(wingEntity);
+    return Result.ok(wingMapper.entityToDTO(wingEntity));
   };
 };
 

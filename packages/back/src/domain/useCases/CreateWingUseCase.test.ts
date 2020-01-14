@@ -12,10 +12,11 @@ describe("wing creation", () => {
   describe("a wing already exists with the same identity", () => {
     it("cannot create a wing with the same id", async () => {
       const id = uuid();
+      const userId = uuid();
       const wingDto = makeWingDTO({ id });
       await createWingUseCase(wingDto);
 
-      const secondWingDto = makeWingDTO({ id, model: "LALALA" });
+      const secondWingDto = makeWingDTO({ id, userId, model: "LALALA" });
       await expect((await createWingUseCase(secondWingDto)).error).toMatch(
         "Wing Id is already used",
       );
@@ -24,8 +25,9 @@ describe("wing creation", () => {
   describe("all is good", () => {
     it("creates a wing", async () => {
       const wingDto = makeWingDTO();
-      await createWingUseCase(wingDto);
+      const createdWing = await createWingUseCase(wingDto);
       expect(wingRepo.wings[0].id.value).toBe(wingDto.id);
+      expect(createdWing.getValueOrThrow()).toEqual(wingDto);
     });
   });
 });
