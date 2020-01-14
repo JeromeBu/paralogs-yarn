@@ -1,7 +1,7 @@
 import { WingDTO, makeWingDTO } from "@paralogs/shared";
 import { InMemoryWingRepo } from "../../infra/repo/inMemory/InMemoryWingRepo";
 import { createWingUseCaseCreator, CreateWingUseCase } from "./CreateWingUseCase";
-import { ListWingsUseCase } from "./ListWingsUseCase";
+import { listWingsUseCaseCreator, ListWingsUseCase } from "./ListWingsUseCase";
 import { UserId } from "../valueObjects/UserId";
 
 describe("wings retreival", () => {
@@ -10,12 +10,12 @@ describe("wings retreival", () => {
 
   beforeEach(() => {
     wingRepo = new InMemoryWingRepo();
-    listWingsUseCase = new ListWingsUseCase(wingRepo);
+    listWingsUseCase = listWingsUseCaseCreator(wingRepo);
   });
 
   describe("user has no wings", () => {
     it("returns no wing", async () => {
-      const wings = await listWingsUseCase.execute(createUserId());
+      const wings = await listWingsUseCase(createUserId());
       expect(wings.getValueOrThrow()).toEqual([]);
     });
   });
@@ -30,7 +30,7 @@ describe("wings retreival", () => {
       const wing2 = (await createWing({ model: "Wing 2", userId })).getValueOrThrow();
       await createWing({ model: "Wing 3", userId: createUserId() });
 
-      const retreivedWings = await listWingsUseCase.execute(userId);
+      const retreivedWings = await listWingsUseCase(userId);
 
       expect(retreivedWings.getValueOrThrow()).toEqual([wing1, wing2]);
     });

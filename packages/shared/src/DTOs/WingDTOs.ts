@@ -1,13 +1,13 @@
 import { DateString, NumberOfMinutes } from "../generalTypes/types";
 
-export interface WingDTO {
+export interface CreateWingDTO {
   id: string;
-  userId: string;
   brand: string;
   model: string;
   ownerFrom: DateString;
   ownerUntil?: DateString;
   flightTimePriorToOwn: NumberOfMinutes;
 }
-
-export type CreateWingDTO = Omit<WingDTO, "userId">;
+export interface WingDTO extends CreateWingDTO {
+  userId: string;
+}
