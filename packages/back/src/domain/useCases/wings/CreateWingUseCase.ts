@@ -1,10 +1,10 @@
 import { WingDTO } from "@paralogs/shared";
-import { notUnique } from "../core/errors";
-import { Result } from "../core/Result";
-import { WingEntity } from "../entities/WingEntity";
-import { WingRepo } from "../port/WingRepo";
-import { WingId } from "../valueObjects/WingId";
-import { wingMapper } from "../mappers/wing.mapper";
+import { notUnique } from "../../core/errors";
+import { Result } from "../../core/Result";
+import { WingEntity } from "../../entities/WingEntity";
+import { WingRepo } from "../../port/WingRepo";
+import { WingId } from "../../valueObjects/WingId";
+import { wingMapper } from "../../mappers/wing.mapper";
 
 export const createWingUseCaseCreator = (wingRepo: WingRepo) => {
   return async (wingDto: WingDTO): Promise<Result<WingDTO>> => {
@@ -19,7 +19,6 @@ export const createWingUseCaseCreator = (wingRepo: WingRepo) => {
     const wingEntity = wingEntityOrError.getValueOrThrow();
 
     await wingRepo.save(wingEntity);
-    wingMapper.entityToDTO(wingEntity);
     return Result.ok(wingMapper.entityToDTO(wingEntity));
   };
 };

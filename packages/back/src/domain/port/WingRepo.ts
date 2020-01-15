@@ -1,6 +1,6 @@
 import { WingEntity } from "../entities/WingEntity";
 import { WingId } from "../valueObjects/WingId";
-import { UserId } from "../valueObjects/UserId";
+import { UserId } from "../valueObjects/user/UserId";
 
 export interface WingRepo {
   findById: (id: WingId) => Promise<WingEntity | undefined>;

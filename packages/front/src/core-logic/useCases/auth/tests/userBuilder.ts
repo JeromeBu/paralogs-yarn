@@ -9,6 +9,6 @@ export const makeUserDTO = (wingParams?: Partial<UserDTO>): UserDTO => {
     firstName: faker.name.firstName(),
     lastName: faker.name.lastName(),
   };
-  const wing = _.merge(randomUser, wingParams);
+  const wing = _.merge({}, randomUser, wingParams);
   return wing;
 };

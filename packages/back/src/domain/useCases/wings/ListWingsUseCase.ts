@@ -1,8 +1,8 @@
 import { WingDTO } from "@paralogs/shared";
-import { WingRepo } from "../port/WingRepo";
-import { UserId } from "../valueObjects/UserId";
-import { Result } from "../core/Result";
-import { wingMapper } from "../mappers/wing.mapper";
+import { WingRepo } from "../../port/WingRepo";
+import { UserId } from "../../valueObjects/user/UserId";
+import { Result } from "../../core/Result";
+import { wingMapper } from "../../mappers/wing.mapper";
 
 export const listWingsUseCaseCreator = (wingRepo: WingRepo) => async (
   userId: string,
