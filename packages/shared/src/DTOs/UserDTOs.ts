@@ -1,6 +1,4 @@
-interface WithId {
-  id: string;
-}
+import { WithId } from "..";
 
 interface WithPassword {
   password: string;

@@ -1,6 +1,6 @@
 import { WingRepo } from "../../../domain/port/WingRepo";
 import { WingEntity } from "../../../domain/entities/WingEntity";
-import { UserId } from "../../../domain/valueObjects/UserId";
+import { UserId } from "../../../domain/valueObjects/user/UserId";
 import { WingId } from "../../../domain/valueObjects/WingId";
 
 export class InMemoryWingRepo implements WingRepo {

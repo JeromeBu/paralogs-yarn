@@ -10,6 +10,6 @@ export const makeWingDTO = (wingParams?: Partial<WingDTO>): WingDTO => {
     flightTimePriorToOwn: 0,
     ownerFrom: new Date().toUTCString(),
   };
-  const wing = _.merge(randomWing, wingParams);
+  const wing = _.merge({}, randomWing, wingParams);
   return wing;
 };

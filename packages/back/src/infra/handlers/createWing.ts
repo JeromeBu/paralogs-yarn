@@ -1,6 +1,6 @@
 import { APIGatewayEvent } from "aws-lambda";
 import { CreateWingDTO } from "@paralogs/shared";
-import { createWingUseCaseCreator } from "../../domain/useCases/CreateWingUseCase";
+import { createWingUseCaseCreator } from "../../domain/useCases/wings/CreateWingUseCase";
 import { noBodyProvided, noCurrentUser } from "../../domain/core/errors";
 import { success } from "../lib/response-lib";
 import { dynamoDbWingRepo } from "../repo/dynamoDb";

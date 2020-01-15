@@ -1,8 +1,8 @@
 import { WingDTO, makeWingDTO } from "@paralogs/shared";
-import { InMemoryWingRepo } from "../../infra/repo/inMemory/InMemoryWingRepo";
+import { InMemoryWingRepo } from "../../../infra/repo/inMemory/InMemoryWingRepo";
 import { createWingUseCaseCreator, CreateWingUseCase } from "./CreateWingUseCase";
 import { listWingsUseCaseCreator, ListWingsUseCase } from "./ListWingsUseCase";
-import { UserId } from "../valueObjects/UserId";
+import { UserId } from "../../valueObjects/user/UserId";
 
 describe("wings retreival", () => {
   let listWingsUseCase: ListWingsUseCase;

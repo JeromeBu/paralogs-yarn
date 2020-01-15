@@ -9,6 +9,6 @@ export const makeUserDTO = (userParams?: Partial<UserDTO>): UserDTO => {
     firstName: "myFirstName",
     lastName: "myLastName",
   };
-  const user = _.merge(randomUser, userParams);
+  const user = _.merge({}, randomUser, userParams);
   return user;
 };

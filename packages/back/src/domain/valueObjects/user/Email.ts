@@ -1,3 +1,5 @@
+import { Result } from "../../core/Result";
+
 const isEmail = (str: string): boolean =>
   !!str.match(
     // eslint-disable-next-line no-useless-escape
@@ -5,15 +7,15 @@ const isEmail = (str: string): boolean =>
   );
 
 export class Email {
-  private constructor(private value: string) {
+  private constructor(public readonly value: string) {
     this.value = value;
   }
 
-  static create(email: string) {
+  static create(email: string): Result<Email> {
     if (!isEmail(email)) {
-      throw new Error("Not an Email");
+      return Result.fail("Not a valid Email");
     }
 
-    return new Email(email);
+    return Result.ok(new Email(email.toLowerCase()));
   }
 }
