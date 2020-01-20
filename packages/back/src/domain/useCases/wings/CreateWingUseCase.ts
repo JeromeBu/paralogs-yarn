@@ -8,18 +8,15 @@ import { wingMapper } from "../../mappers/wing.mapper";
 
 export const createWingUseCaseCreator = (wingRepo: WingRepo) => {
   return async (wingDto: WingDTO): Promise<Result<WingDTO>> => {
-    const wingIdOrError = WingId.create(wingDto.id);
-    if (wingIdOrError.error) return Result.fail(wingIdOrError.error);
+    return WingId.create(wingDto.id).flatMapAsync(async wingId => {
+      const existingWingEntity = await wingRepo.findById(wingId);
+      if (existingWingEntity) return Result.fail(notUnique("Wing"));
 
-    const existingWingEntity = await wingRepo.findById(wingIdOrError.getOrThrow());
-    if (existingWingEntity) return Result.fail(notUnique("Wing"));
-
-    const wingEntityOrError = WingEntity.create(wingDto);
-    if (wingEntityOrError.error) return Result.fail(wingEntityOrError.error);
-    const wingEntity = wingEntityOrError.getOrThrow();
-
-    await wingRepo.save(wingEntity);
-    return Result.ok(wingMapper.entityToDTO(wingEntity));
+      return WingEntity.create(wingDto).mapAsync(async wingEntity => {
+        await wingRepo.save(wingEntity);
+        return wingMapper.entityToDTO(wingEntity);
+      });
+    });
   };
 };
 
