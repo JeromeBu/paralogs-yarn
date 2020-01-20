@@ -7,27 +7,14 @@ import { userMapper } from "../../mappers/user.mapper";
 export const signUpUseCaseCreator = (
   userRepo: UserRepo,
   uuidGenerator: UuidGenerator,
-) => async ({
-  email,
-  password,
-  firstName,
-  lastName,
-}: SignUpParams): Promise<Result<UserDTO>> => {
-  const id = uuidGenerator.generate();
-  const userEntityOrError = UserEntity.create({
-    id,
-    email,
-    password,
-    firstName,
-    lastName,
+) => async (signUpParams: SignUpParams): Promise<Result<UserDTO>> => {
+  return UserEntity.create({
+    ...signUpParams,
+    id: uuidGenerator.generate(),
+  }).mapAsync(async userEntity => {
+    await userRepo.save(userEntity);
+    return userMapper.entityToDTO(userEntity);
   });
-
-  if (userEntityOrError.error) return Result.fail(userEntityOrError.error);
-  const userEntity = userEntityOrError.getOrThrow();
-
-  await userRepo.save(userEntity);
-
-  return Result.ok(userMapper.entityToDTO(userEntity));
 };
 
 export type SignUpUseCase = ReturnType<typeof signUpUseCaseCreator>;
