@@ -3,6 +3,7 @@ import { InMemoryWingRepo } from "../../../infra/repo/inMemory/InMemoryWingRepo"
 import { createWingUseCaseCreator, CreateWingUseCase } from "./CreateWingUseCase";
 import { listWingsUseCaseCreator, ListWingsUseCase } from "./ListWingsUseCase";
 import { UserId } from "../../valueObjects/user/UserId";
+import { Result } from "../../core/Result";
 
 describe("wings retreival", () => {
   let listWingsUseCase: ListWingsUseCase;
@@ -15,15 +16,15 @@ describe("wings retreival", () => {
 
   describe("user identification is wrong", () => {
     it("warns with an explicit message", async () => {
-      const wings = await listWingsUseCase(createUserId());
-      expect(wings.getOrThrow()).toEqual([]);
+      const wings = await listWingsUseCase("notAnUUID");
+      expectResultErrorToBe(wings, "Given string is not uuid");
     });
   });
 
   describe("user has no wings", () => {
     it("returns no wing", async () => {
       const wings = await listWingsUseCase(createUserId());
-      expect(wings.getOrThrow()).toEqual([]);
+      expectWingsDTOResultToEqual(wings, []);
     });
   });
 
@@ -39,13 +40,27 @@ describe("wings retreival", () => {
 
       const retreivedWings = await listWingsUseCase(userId);
 
-      expect(retreivedWings.getOrThrow()).toEqual([wing1, wing2]);
+      expectWingsDTOResultToEqual(retreivedWings, [wing1, wing2]);
     });
 
     const createWing = async (wingParams: Partial<WingDTO>) => {
       return createWingUseCase(makeWingDTO(wingParams));
     };
   });
+
+  const expectWingsDTOResultToEqual = (
+    wingsDTOResult: Result<WingDTO[]>,
+    expectedWingsDTO: WingDTO[],
+  ) => {
+    wingsDTOResult.map(wingsDTO => expect(wingsDTO).toEqual(expectedWingsDTO));
+  };
+
+  const expectResultErrorToBe = (
+    wingsDTOResult: Result<WingDTO[]>,
+    expectedError: string,
+  ) => {
+    expect(wingsDTOResult.error).toBe(expectedError);
+  };
 
   const createUserId = (id?: string): string => UserId.create(id).getOrThrow().value;
 });
