@@ -28,19 +28,14 @@ export class WingEntity {
 
   private constructor(private props: WingEntityProps) {}
 
-  static create(props: WingDTO): Result<WingEntity> {
-    const wingIdOrError = WingId.create(props.id);
-    const userIdOrError = UserId.create(props.userId);
-
-    const propsResult = Result.combine([wingIdOrError, userIdOrError]);
-    if (propsResult.error) return Result.fail(propsResult.error);
-
-    return Result.ok(
-      new WingEntity({
-        ...props,
-        id: wingIdOrError.getValueOrThrow(),
-        userId: userIdOrError.getValueOrThrow(),
-      }),
+  static create({ id, userId, ...props }: WingDTO): Result<WingEntity> {
+    return Result.combine(
+      { id: WingId.create(id), userId: UserId.create(userId) },
+      resultProps =>
+        new WingEntity({
+          ...props,
+          ...resultProps,
+        }),
     );
   }
 }

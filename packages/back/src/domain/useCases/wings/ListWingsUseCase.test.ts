@@ -16,7 +16,7 @@ describe("wings retreival", () => {
   describe("user has no wings", () => {
     it("returns no wing", async () => {
       const wings = await listWingsUseCase(createUserId());
-      expect(wings.getValueOrThrow()).toEqual([]);
+      expect(wings.getOrThrow()).toEqual([]);
     });
   });
 
@@ -26,13 +26,13 @@ describe("wings retreival", () => {
       createWingUseCase = createWingUseCaseCreator(wingRepo);
       const userId = createUserId();
 
-      const wing1 = (await createWing({ model: "Wing 1", userId })).getValueOrThrow();
-      const wing2 = (await createWing({ model: "Wing 2", userId })).getValueOrThrow();
+      const wing1 = (await createWing({ model: "Wing 1", userId })).getOrThrow();
+      const wing2 = (await createWing({ model: "Wing 2", userId })).getOrThrow();
       await createWing({ model: "Wing 3", userId: createUserId() });
 
       const retreivedWings = await listWingsUseCase(userId);
 
-      expect(retreivedWings.getValueOrThrow()).toEqual([wing1, wing2]);
+      expect(retreivedWings.getOrThrow()).toEqual([wing1, wing2]);
     });
 
     const createWing = async (wingParams: Partial<WingDTO>) => {
@@ -40,5 +40,5 @@ describe("wings retreival", () => {
     };
   });
 
-  const createUserId = (id?: string): string => UserId.create(id).getValueOrThrow().value;
+  const createUserId = (id?: string): string => UserId.create(id).getOrThrow().value;
 });

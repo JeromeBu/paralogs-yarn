@@ -17,7 +17,7 @@ export const main = async (event: APIGatewayEvent) => {
 
   const wingDto = (
     await creatWingUseCase({ ...createWingDTO, userId: currentUserId })
-  ).getValueOrThrow();
+  ).getOrThrow();
 
   return success(wingDto);
 };

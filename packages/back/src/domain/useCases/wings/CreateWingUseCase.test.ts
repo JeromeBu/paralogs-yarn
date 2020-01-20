@@ -1,6 +1,7 @@
-import { makeWingDTO, uuid } from "@paralogs/shared";
+import { makeWingDTO, uuid, WingDTO } from "@paralogs/shared";
 import { InMemoryWingRepo } from "../../../infra/repo/inMemory/InMemoryWingRepo";
 import { CreateWingUseCase, createWingUseCaseCreator } from "./CreateWingUseCase";
+import { Result } from "../../core/Result";
 
 describe("wing creation", () => {
   let createWingUseCase: CreateWingUseCase;
@@ -27,7 +28,11 @@ describe("wing creation", () => {
       const wingDto = makeWingDTO();
       const createdWing = await createWingUseCase(wingDto);
       expect(wingRepo.wings[0].id.value).toBe(wingDto.id);
-      expect(createdWing.getValueOrThrow()).toEqual(wingDto);
+      expectWingDtoResultToEqual(createdWing, wingDto);
     });
   });
+
+  const expectWingDtoResultToEqual = (result: Result<WingDTO>, expected: WingDTO) => {
+    result.map(createdWingDTO => expect(createdWingDTO).toEqual(expected));
+  };
 });

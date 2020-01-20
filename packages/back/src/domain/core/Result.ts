@@ -28,7 +28,7 @@ export class Result<T> {
     Object.freeze(this);
   }
 
-  public getValueOrThrow(): T {
+  public getOrThrow(): T {
     if (this.error) {
       throw new Error(this.error ?? "Can't retrieve the value from a failed result.");
     }
@@ -44,11 +44,36 @@ export class Result<T> {
     return new Result<U>({ isSuccess: false, error });
   }
 
-  public static combine(results: Result<any>[]): Result<any> {
+  public flatMap<K>(f: (param: T) => Result<K>): Result<K> {
+    if (this.error) return Result.fail<K>(this.error);
+    return f(this.getOrThrow());
+  }
+
+  public map<K>(f: (param: T) => K): Result<K> {
+    return this.flatMap(param => Result.ok<K>(f(param)));
+  }
+
+  public static combine<T extends { [key in string]: Result<unknown> }, S>(
+    results: T,
+    cb: (resultsInCb: { [K in keyof T]: T[K] extends Result<infer X> ? X : never }) => S,
+  ): Result<S> {
+    const resultValues = Object.values(results);
     // eslint-disable-next-line
-    for (let result of results) {
-      if (!result.isSuccess) return result;
+    for (const result of resultValues) {
+      if (result.error) return Result.fail<S>(result.error);
     }
-    return Result.ok<any>();
+
+    const resultKeys = Object.keys(results);
+    return Result.ok(
+      cb(
+        resultKeys.reduce(
+          (acc, key) => ({
+            ...acc,
+            [key]: results[key].getOrThrow(),
+          }),
+          {} as { [K in keyof T]: T[K] extends Result<infer X> ? X : never },
+        ),
+      ),
+    );
   }
 }
