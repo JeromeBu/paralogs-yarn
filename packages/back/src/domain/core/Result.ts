@@ -44,18 +44,23 @@ export class Result<T> {
     return new Result<U>({ isSuccess: false, error });
   }
 
-  public flatMap<K>(f: (param: T) => Result<K>): Result<K> {
-    if (this.error) return Result.fail<K>(this.error);
-    return f(this.getOrThrow());
-  }
-
   public map<K>(f: (param: T) => K): Result<K> {
     return this.flatMap(param => Result.ok<K>(f(param)));
+  }
+
+  public flatMap<K>(f: (param: T) => Result<K>): Result<K> {
+    if (this.error) return Result.fail(this.error);
+    return f(this.getOrThrow());
   }
 
   public async mapAsync<K>(f: (param: T) => Promise<K>): Promise<Result<K>> {
     if (this.error) return Result.fail(this.error);
     return Result.ok(await f(this.getOrThrow()));
+  }
+
+  public async flatMapAsync<K>(f: (param: T) => Promise<Result<K>>): Promise<Result<K>> {
+    if (this.error) return Result.fail(this.error);
+    return f(this.getOrThrow());
   }
 
   public static combine<T extends { [key in string]: Result<unknown> }, S>(
