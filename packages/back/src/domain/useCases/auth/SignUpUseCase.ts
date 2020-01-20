@@ -21,8 +21,9 @@ export const signUpUseCaseCreator = (
     firstName,
     lastName,
   });
+
   if (userEntityOrError.error) return Result.fail(userEntityOrError.error);
-  const userEntity = userEntityOrError.getValueOrThrow();
+  const userEntity = userEntityOrError.getOrThrow();
 
   await userRepo.save(userEntity);
 

@@ -11,7 +11,7 @@ export const main = async (event: APIGatewayEvent) => {
     const currentUserId = event.requestContext.identity.cognitoIdentityId;
     if (!currentUserId) throw noCurrentUser();
 
-    const wingDTOs = (await listWingsUseCase(currentUserId)).getValueOrThrow();
+    const wingDTOs = (await listWingsUseCase(currentUserId)).getOrThrow();
     return success(wingDTOs);
   } catch (error) {
     // eslint-disable-next-line no-console

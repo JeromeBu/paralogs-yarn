@@ -1,7 +1,9 @@
-import { SignUpParams, FakeUuidGenerator } from "@paralogs/shared";
+import { SignUpParams, FakeUuidGenerator, UserDTO } from "@paralogs/shared";
 import _ from "lodash";
 import { InMemoryUserRepo } from "../../../infra/repo/inMemory/InMemoryUserRepo";
 import { signUpUseCaseCreator, SignUpUseCase } from "./SignUpUseCase";
+import { UserEntity } from "../../entities/UserEntity";
+import { Result } from "../../core/Result";
 
 describe("User signUp", () => {
   const userId = "someFakeId";
@@ -16,8 +18,8 @@ describe("User signUp", () => {
   describe("email is not the write format", () => {
     it("fails to signUp with an explicit message", async () => {
       const signUpParams = buildSignUpParams({ email: "mail.com" });
-      const userDtoOrErro = await signUpUseCase(signUpParams);
-      expect(userDtoOrErro.error).toBe("Not a valid Email");
+      const userDtoOrError = await signUpUseCase(signUpParams);
+      expectResultToBeError(userDtoOrError, "Not a valid Email");
     });
   });
 
@@ -29,9 +31,9 @@ describe("User signUp", () => {
       const [toShortResult, noUpperResult, noLowerResult] = await Promise.all(
         signUpParamsCases.map(signUpUseCase),
       );
-      expect(toShortResult.error).toBe("Password must be at least 8 characters long");
-      expect(noUpperResult.error).toBe("Password must have upper case characters");
-      expect(noLowerResult.error).toBe("Password must have lower case characters");
+      expectResultToBeError(toShortResult, "Password must be at least 8 characters long");
+      expectResultToBeError(noUpperResult, "Password must have upper case characters");
+      expectResultToBeError(noLowerResult, "Password must have lower case characters");
     });
   });
 
@@ -39,13 +41,16 @@ describe("User signUp", () => {
     it("signs up a user and reformats names and email", async () => {
       const signUpParams = buildSignUpParams();
       const userDto = await signUpUseCase(signUpParams);
-      expect(userDto.getValueOrThrow()).toEqual({
+      expectUserResultToEqual(userDto, {
         id: userId,
         email: "john@mail.com",
         firstName: "John",
         lastName: "Doe",
       });
-      expect(userRepo.users[0].id.value).toEqual(userId);
+      const userEntity = userRepo.users[0];
+      expect(userEntity.id.value).toEqual(userId);
+      expectUserEmailNotToBeConfirmed(userEntity);
+      // expectUserHashedPasswordExist(userEntity);
     });
   });
 
@@ -58,4 +63,16 @@ describe("User signUp", () => {
     };
     return _.merge({}, randomSignUpParams, params);
   };
+
+  const expectResultToBeError = (result: Result<UserDTO>, expectedError: string) =>
+    expect(result.error).toBe(expectedError);
+
+  const expectUserResultToEqual = (result: Result<UserDTO>, expectedUserDTO: UserDTO) =>
+    result.map(userDTO => expect(userDTO).toEqual(expectedUserDTO));
+
+  const expectUserEmailNotToBeConfirmed = (userEntity: UserEntity) =>
+    expect(userEntity.getProps().isEmailConfirmed).toBe(false);
+
+  // const expectUserHashedPasswordExist = (userEntity: UserEntity) =>
+  //   expect(userEntity.getProps().hashedPassword).toBeTruthy();
 });

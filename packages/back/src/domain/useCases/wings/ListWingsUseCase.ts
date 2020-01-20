@@ -9,7 +9,7 @@ export const listWingsUseCaseCreator = (wingRepo: WingRepo) => async (
 ): Promise<Result<WingDTO[]>> => {
   const userIdOrError = UserId.create(userId);
   if (userIdOrError.error) return Result.fail(userIdOrError.error);
-  const wingEntities = await wingRepo.findByUserId(userIdOrError.getValueOrThrow());
+  const wingEntities = await wingRepo.findByUserId(userIdOrError.getOrThrow());
   return Result.ok(wingEntities.map(wingMapper.entityToDTO));
 };
 

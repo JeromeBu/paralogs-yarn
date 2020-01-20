@@ -11,6 +11,8 @@ interface UserEntityProps {
   password: Password;
   firstName: PersonName;
   lastName?: PersonName;
+  isEmailConfirmed: boolean;
+  hashedPassword: string;
 }
 
 export class UserEntity {
@@ -25,23 +27,21 @@ export class UserEntity {
   private constructor(private props: UserEntityProps) {}
 
   static create(params: SignUpParams & WithId): Result<UserEntity> {
-    const email = Email.create(params.email);
-    const userId = UserId.create(params.id);
-    const firstName = PersonName.create(params.firstName);
-    const lastName = PersonName.create(params.lastName);
-    const password = Password.create(params.password);
-
-    const propsResult = Result.combine([userId, email, firstName, lastName, password]);
-    if (propsResult.error) return Result.fail(propsResult.error);
-
-    return Result.ok(
-      new UserEntity({
-        id: userId.getValueOrThrow(),
-        email: email.getValueOrThrow(),
-        firstName: firstName.getValueOrThrow(),
-        lastName: lastName.getValueOrThrow(),
-        password: password.getValueOrThrow(),
-      }),
+    return Result.combine(
+      {
+        id: UserId.create(params.id),
+        email: Email.create(params.email),
+        password: Password.create(params.password),
+        firstName: PersonName.create(params.firstName),
+        lastName: PersonName.create(params.lastName),
+      },
+      resultsParams => {
+        return new UserEntity({
+          ...resultsParams,
+          isEmailConfirmed: false,
+          hashedPassword: "",
+        });
+      },
     );
   }
 }
