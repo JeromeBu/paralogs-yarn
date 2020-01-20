@@ -53,6 +53,11 @@ export class Result<T> {
     return this.flatMap(param => Result.ok<K>(f(param)));
   }
 
+  public async mapAsync<K>(f: (param: T) => Promise<K>): Promise<Result<K>> {
+    if (this.error) return Result.fail(this.error);
+    return Result.ok(await f(this.getOrThrow()));
+  }
+
   public static combine<T extends { [key in string]: Result<unknown> }, S>(
     results: T,
     cb: (resultsInCb: { [K in keyof T]: T[K] extends Result<infer X> ? X : never }) => S,
