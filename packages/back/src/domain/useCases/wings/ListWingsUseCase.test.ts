@@ -13,6 +13,13 @@ describe("wings retreival", () => {
     listWingsUseCase = listWingsUseCaseCreator(wingRepo);
   });
 
+  describe("user identification is wrong", () => {
+    it("warns with an explicit message", async () => {
+      const wings = await listWingsUseCase(createUserId());
+      expect(wings.getOrThrow()).toEqual([]);
+    });
+  });
+
   describe("user has no wings", () => {
     it("returns no wing", async () => {
       const wings = await listWingsUseCase(createUserId());

@@ -1,4 +1,4 @@
-import { SignUpParams, FakeUuidGenerator, UserDTO } from "@paralogs/shared";
+import { SignUpParams, FakeUuidGenerator, UserDTO, uuid } from "@paralogs/shared";
 import _ from "lodash";
 import { InMemoryUserRepo } from "../../../infra/repo/inMemory/InMemoryUserRepo";
 import { signUpUseCaseCreator, SignUpUseCase } from "./SignUpUseCase";
@@ -6,11 +6,13 @@ import { UserEntity } from "../../entities/UserEntity";
 import { Result } from "../../core/Result";
 
 describe("User signUp", () => {
-  const userId = "someFakeId";
+  let userId = uuid();
   const fakeUuidGenerator = new FakeUuidGenerator(userId);
   let signUpUseCase: SignUpUseCase;
   let userRepo: InMemoryUserRepo;
   beforeEach(() => {
+    userId = uuid();
+    fakeUuidGenerator.setUuid(userId);
     userRepo = new InMemoryUserRepo();
     signUpUseCase = signUpUseCaseCreator(userRepo, fakeUuidGenerator);
   });

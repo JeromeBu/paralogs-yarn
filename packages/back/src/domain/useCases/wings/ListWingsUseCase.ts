@@ -7,10 +7,10 @@ import { wingMapper } from "../../mappers/wing.mapper";
 export const listWingsUseCaseCreator = (wingRepo: WingRepo) => async (
   userId: string,
 ): Promise<Result<WingDTO[]>> => {
-  const userIdOrError = UserId.create(userId);
-  if (userIdOrError.error) return Result.fail(userIdOrError.error);
-  const wingEntities = await wingRepo.findByUserId(userIdOrError.getOrThrow());
-  return Result.ok(wingEntities.map(wingMapper.entityToDTO));
+  return UserId.create(userId).mapAsync(async validUserId => {
+    const wingEntities = await wingRepo.findByUserId(validUserId);
+    return wingEntities.map(wingMapper.entityToDTO);
+  });
 };
 
 export type ListWingsUseCase = ReturnType<typeof listWingsUseCaseCreator>;

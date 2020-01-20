@@ -15,12 +15,16 @@ export interface UuidGenerator {
 export class FakeUuidGenerator implements UuidGenerator {
   private uuid: string;
 
-  constructor(fakeId: string) {
-    this.uuid = fakeId;
+  constructor(initialId: string) {
+    this.uuid = initialId;
   }
 
   public generate() {
     return this.uuid;
+  }
+
+  public setUuid(id: string) {
+    this.uuid = id;
   }
 }
 
