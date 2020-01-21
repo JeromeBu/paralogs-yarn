@@ -6,7 +6,13 @@ export function failure(body: unknown, statusCode?: number) {
   return buildResponse(statusCode ?? 500, body);
 }
 
-function buildResponse(statusCode: number, body: unknown) {
+interface HttpResponse {
+  statusCode: number;
+  headers: Record<string, unknown>;
+  body: string;
+}
+
+function buildResponse(statusCode: number, body: unknown): HttpResponse {
   return {
     statusCode,
     headers: {
