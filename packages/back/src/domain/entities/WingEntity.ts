@@ -29,8 +29,10 @@ export class WingEntity {
   private constructor(private props: WingEntityProps) {}
 
   static create({ id, userId, ...props }: WingDTO): Result<WingEntity> {
-    return Result.combine(
-      { id: WingId.create(id), userId: UserId.create(userId) },
+    return Result.combine({
+      id: WingId.create(id),
+      userId: UserId.create(userId),
+    }).map(
       resultProps =>
         new WingEntity({
           ...props,
