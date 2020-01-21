@@ -1,5 +1,5 @@
-import { UserRepo } from "../../../domain/port/UserRepo";
-import { UserEntity } from "../../../domain/entities/UserEntity";
+import { UserRepo } from "../../../../domain/port/UserRepo";
+import { UserEntity } from "../../../../domain/entities/UserEntity";
 
 export class InMemoryUserRepo implements UserRepo {
   private _users: UserEntity[] = [];

@@ -1,8 +1,8 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import AWS from "aws-sdk";
-import { WingRepo } from "../../../domain/port/WingRepo";
-import { WingEntity } from "../../../domain/entities/WingEntity";
-import { UserId } from "../../../domain/valueObjects/user/UserId";
+import { WingRepo } from "../../../../domain/port/WingRepo";
+import { WingEntity } from "../../../../domain/entities/WingEntity";
+import { UserId } from "../../../../domain/valueObjects/user/UserId";
 
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 

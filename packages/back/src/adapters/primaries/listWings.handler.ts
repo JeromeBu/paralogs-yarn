@@ -2,7 +2,7 @@ import { APIGatewayEvent } from "aws-lambda";
 import { noCurrentUser } from "../../domain/core/errors";
 import { listWingsUseCaseCreator } from "../../domain/useCases/wings/ListWingsUseCase";
 import { failure, success } from "../lib/response-lib";
-import { dynamoDbWingRepo } from "../repo/dynamoDb";
+import { dynamoDbWingRepo } from "../secondaries/repo/dynamoDb";
 
 const listWingsUseCase = listWingsUseCaseCreator(dynamoDbWingRepo);
 

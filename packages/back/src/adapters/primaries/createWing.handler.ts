@@ -2,12 +2,12 @@ import { APIGatewayEvent } from "aws-lambda";
 import { CreateWingDTO } from "@paralogs/shared";
 import { createWingUseCaseCreator } from "../../domain/useCases/wings/CreateWingUseCase";
 import { noBodyProvided, noCurrentUser } from "../../domain/core/errors";
-import { success, failure } from "../lib/response-lib";
-import { dynamoDbWingRepo } from "../repo/dynamoDb";
+import { success, failure, HttpResponse } from "../lib/response-lib";
+import { dynamoDbWingRepo } from "../secondaries/repo/dynamoDb";
 
 const creatWingUseCase = createWingUseCaseCreator(dynamoDbWingRepo);
 
-export const main = async (event: APIGatewayEvent) => {
+export const main = async (event: APIGatewayEvent): Promise<HttpResponse> => {
   if (!event.body) throw noBodyProvided("Wing");
 
   const currentUserId = event.requestContext.identity.cognitoIdentityId;

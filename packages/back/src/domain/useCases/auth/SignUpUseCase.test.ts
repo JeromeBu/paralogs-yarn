@@ -1,20 +1,28 @@
 import { SignUpParams, FakeUuidGenerator, UserDTO, uuid } from "@paralogs/shared";
 import _ from "lodash";
-import { InMemoryUserRepo } from "../../../infra/repo/inMemory/InMemoryUserRepo";
+import { InMemoryUserRepo } from "../../../adapters/secondaries/repo/inMemory/InMemoryUserRepo";
 import { signUpUseCaseCreator, SignUpUseCase } from "./SignUpUseCase";
 import { UserEntity } from "../../entities/UserEntity";
 import { Result } from "../../core/Result";
+import { bcryptTestHashGenerator } from "../../../adapters/secondaries/bcryptHashGenerator";
+import { JwtTokenManager } from "../../../adapters/secondaries/JwtTokenManager";
 
 describe("User signUp", () => {
   let userId = uuid();
   const fakeUuidGenerator = new FakeUuidGenerator(userId);
+  const jwtTokenManager = new JwtTokenManager();
   let signUpUseCase: SignUpUseCase;
   let userRepo: InMemoryUserRepo;
   beforeEach(() => {
     userId = uuid();
     fakeUuidGenerator.setUuid(userId);
     userRepo = new InMemoryUserRepo();
-    signUpUseCase = signUpUseCaseCreator(userRepo, fakeUuidGenerator);
+    signUpUseCase = signUpUseCaseCreator({
+      userRepo,
+      uuidGenerator: fakeUuidGenerator,
+      hashGenerator: bcryptTestHashGenerator,
+      tokenManager: jwtTokenManager,
+    });
   });
 
   describe("email is not the write format", () => {
@@ -51,8 +59,10 @@ describe("User signUp", () => {
       });
       const userEntity = userRepo.users[0];
       expect(userEntity.id.value).toEqual(userId);
-      expectUserEmailNotToBeConfirmed(userEntity);
-      // expectUserHashedPasswordExist(userEntity);
+      // expectUserEmailNotToBeConfirmed(userEntity);
+      // How to improve hashing process testing ?
+      expectUserHashedPasswordExist(userEntity);
+      expectUserToHaveAnAuthToken(userEntity);
     });
   });
 
@@ -72,9 +82,14 @@ describe("User signUp", () => {
   const expectUserResultToEqual = (result: Result<UserDTO>, expectedUserDTO: UserDTO) =>
     result.map(userDTO => expect(userDTO).toEqual(expectedUserDTO));
 
-  const expectUserEmailNotToBeConfirmed = (userEntity: UserEntity) =>
-    expect(userEntity.getProps().isEmailConfirmed).toBe(false);
+  // const expectUserEmailNotToBeConfirmed = (userEntity: UserEntity) =>
+  //   expect(userEntity.getProps().isEmailConfirmed).toBe(false);
 
-  // const expectUserHashedPasswordExist = (userEntity: UserEntity) =>
-  //   expect(userEntity.getProps().hashedPassword).toBeTruthy();
+  const expectUserHashedPasswordExist = (userEntity: UserEntity) => {
+    expect(userEntity.getProps().hashedPassword.length).toBe(60);
+  };
+
+  const expectUserToHaveAnAuthToken = (userEntity: UserEntity) => {
+    expect(userEntity.getProps().authToken).toBeTruthy();
+  };
 });

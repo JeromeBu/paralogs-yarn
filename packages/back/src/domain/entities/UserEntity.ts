@@ -4,15 +4,23 @@ import { UserId } from "../valueObjects/user/UserId";
 import { Password } from "../valueObjects/user/Password";
 import { PersonName } from "../valueObjects/user/PersonName";
 import { Result } from "../core/Result";
+import { HashGenerator } from "../port/HashGenerator";
+import { TokenManager } from "../port/TokenManager";
 
 interface UserEntityProps {
   id: UserId;
   email: Email;
-  password: Password;
   firstName: PersonName;
   lastName?: PersonName;
-  isEmailConfirmed: boolean;
+  // isEmailConfirmed: boolean;
   hashedPassword: string;
+  authToken: string;
+  password?: never; // this field is forbidden
+}
+
+interface CreateUserDependencies {
+  tokenManager: TokenManager;
+  hashGenerator: HashGenerator;
 }
 
 export class UserEntity {
@@ -26,20 +34,24 @@ export class UserEntity {
 
   private constructor(private props: UserEntityProps) {}
 
-  static create(params: SignUpParams & WithId): Result<UserEntity> {
+  static create(
+    params: SignUpParams & WithId,
+    { hashGenerator, tokenManager }: CreateUserDependencies,
+  ): Promise<Result<UserEntity>> {
     return Result.combine({
       id: UserId.create(params.id),
       email: Email.create(params.email),
       password: Password.create(params.password),
       firstName: PersonName.create(params.firstName),
       lastName: PersonName.create(params.lastName),
-    }).map(
-      validResults =>
-        new UserEntity({
-          ...validResults,
-          isEmailConfirmed: false,
-          hashedPassword: "",
-        }),
-    );
+    }).mapAsync(async ({ password, ...validResults }) => {
+      const hashedPassword = await hashGenerator(password);
+      return new UserEntity({
+        ...validResults,
+        // isEmailConfirmed: false,
+        authToken: tokenManager.generate({ userId: validResults.id.value }),
+        hashedPassword,
+      });
+    });
   }
 }
