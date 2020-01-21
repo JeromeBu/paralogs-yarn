@@ -10,12 +10,12 @@ interface FailParams<T> {
 
 type ConstructorParams<T> = OkParams<T> | FailParams<T>;
 
-type Monadic<A> = {
-  map: <B>(f: (param: A) => B) => Monadic<B>;
-  flatMap: <B>(f: (param: A) => Monadic<B>) => Monadic<B>;
-  mapAsync: <B>(f: (param: A) => Promise<B>) => Promise<Monadic<B>>;
-  flatMapAsync: <B>(f: (param: A) => Promise<Monadic<B>>) => Promise<Monadic<B>>;
-};
+// type Monad<A> = {
+//   map: <B>(f: (param: A) => B) => Monad<B>;
+//   flatMap: <B>(f: (param: A) => Monad<B>) => Monad<B>;
+//   mapAsync: <B>(f: (param: A) => Promise<B>) => Promise<Monad<B>>;
+//   flatMapAsync: <B>(f: (param: A) => Promise<Monad<B>>) => Promise<Monad<B>>;
+// };
 
 export class Result<T> {
   public isSuccess: boolean;
@@ -77,26 +77,21 @@ export class Result<T> {
     return f(this.getOrThrow());
   }
 
-  public static combine<T extends { [key in string]: Result<unknown> }, S>(
-    results: T,
-    cb: (resultsInCb: { [K in keyof T]: T[K] extends Result<infer X> ? X : never }) => S,
-  ): Result<S> {
-    const resultValues = Object.values(results);
+  public static combine<T extends { [key in string]: Result<unknown> }>(
+    resultsObject: T,
+  ): Result<{ [K in keyof T]: T[K] extends Result<infer X> ? X : never }> {
     // eslint-disable-next-line
-    for (const result of resultValues) {
-      if (result.error) return Result.fail<S>(result.error);
+    for (const result of Object.values(resultsObject)) {
+      if (result.error) return Result.fail(result.error);
     }
 
-    const resultKeys = Object.keys(results);
     return Result.ok(
-      cb(
-        resultKeys.reduce(
-          (acc, key) => ({
-            ...acc,
-            [key]: results[key].getOrThrow(),
-          }),
-          {} as { [K in keyof T]: T[K] extends Result<infer X> ? X : never },
-        ),
+      Object.keys(resultsObject).reduce(
+        (acc, key) => ({
+          ...acc,
+          [key]: resultsObject[key].getOrThrow(),
+        }),
+        {} as { [K in keyof T]: T[K] extends Result<infer X> ? X : never },
       ),
     );
   }

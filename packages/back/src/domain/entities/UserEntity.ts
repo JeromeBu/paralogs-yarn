@@ -27,21 +27,19 @@ export class UserEntity {
   private constructor(private props: UserEntityProps) {}
 
   static create(params: SignUpParams & WithId): Result<UserEntity> {
-    return Result.combine(
-      {
-        id: UserId.create(params.id),
-        email: Email.create(params.email),
-        password: Password.create(params.password),
-        firstName: PersonName.create(params.firstName),
-        lastName: PersonName.create(params.lastName),
-      },
-      resultsParams => {
-        return new UserEntity({
-          ...resultsParams,
+    return Result.combine({
+      id: UserId.create(params.id),
+      email: Email.create(params.email),
+      password: Password.create(params.password),
+      firstName: PersonName.create(params.firstName),
+      lastName: PersonName.create(params.lastName),
+    }).map(
+      validResults =>
+        new UserEntity({
+          ...validResults,
           isEmailConfirmed: false,
           hashedPassword: "",
-        });
-      },
+        }),
     );
   }
 }
