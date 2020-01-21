@@ -10,6 +10,13 @@ interface FailParams<T> {
 
 type ConstructorParams<T> = OkParams<T> | FailParams<T>;
 
+type Monadic<A> = {
+  map: <B>(f: (param: A) => B) => Monadic<B>;
+  flatMap: <B>(f: (param: A) => Monadic<B>) => Monadic<B>;
+  mapAsync: <B>(f: (param: A) => Promise<B>) => Promise<Monadic<B>>;
+  flatMapAsync: <B>(f: (param: A) => Promise<Monadic<B>>) => Promise<Monadic<B>>;
+};
+
 export class Result<T> {
   public isSuccess: boolean;
   public error?: string;
@@ -33,6 +40,13 @@ export class Result<T> {
       throw new Error(this.error ?? "Can't retrieve the value from a failed result.");
     }
 
+    return this._value!;
+  }
+
+  public getOrElse(f: (error: string) => T): T {
+    if (this.error) {
+      return f(this.error);
+    }
     return this._value!;
   }
 
