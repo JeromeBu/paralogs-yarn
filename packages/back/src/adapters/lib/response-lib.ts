@@ -6,7 +6,7 @@ export function failure(body: unknown, statusCode?: number) {
   return buildResponse(statusCode ?? 500, body);
 }
 
-interface HttpResponse {
+export interface HttpResponse {
   statusCode: number;
   headers: Record<string, unknown>;
   body: string;
