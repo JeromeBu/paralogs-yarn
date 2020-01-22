@@ -1,5 +1,5 @@
 import { Store } from "redux";
-import { CurrentUserWithAuthToken, SignUpParams } from "@paralogs/shared";
+import { CurrentUserWithAuthToken, SignUpParams, makeUserDTO } from "@paralogs/shared";
 import { RootState, configureReduxStore } from "../../../reduxStore";
 import {
   expectStateToMatch,
@@ -8,7 +8,6 @@ import {
 } from "../../../testUtils";
 import { feedWithCurrentUserCreator, feedWithErrorCreator } from "./auth.testUtils";
 import { authActions } from "../auth.actions";
-import { makeUserDTO } from "./userBuilder";
 
 describe("Sign up", () => {
   let store: Store<RootState>;

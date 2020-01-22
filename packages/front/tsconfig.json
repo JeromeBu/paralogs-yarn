@@ -11,5 +11,5 @@
     "jsx": "react",
     "module": "esnext"
   },
-  "include": ["src"]
+  "include": ["src", "../shared/src/builders/userDTOBuilder.ts"]
 }

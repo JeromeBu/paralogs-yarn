@@ -3,21 +3,18 @@ import { UserRepo } from "../../port/UserRepo";
 import { UserEntity } from "../../entities/UserEntity";
 import { Result } from "../../core/Result";
 import { userMapper } from "../../mappers/user.mapper";
-import { HashGenerator } from "../../port/HashGenerator";
-import { TokenManager } from "../../port/TokenManager";
+import { HashAndTokenManager } from "../../port/HashAndTokenManager";
 
 interface SignUpDependencies {
   userRepo: UserRepo;
   uuidGenerator: UuidGenerator;
-  hashGenerator: HashGenerator;
-  tokenManager: TokenManager;
+  hashAndTokenManager: HashAndTokenManager;
 }
 
 export const signUpUseCaseCreator = ({
   userRepo,
   uuidGenerator,
-  hashGenerator,
-  tokenManager,
+  hashAndTokenManager,
 }: SignUpDependencies) => async (
   signUpParams: SignUpParams,
 ): Promise<Result<UserDTO>> => {
@@ -27,7 +24,7 @@ export const signUpUseCaseCreator = ({
         ...signUpParams,
         id: uuidGenerator.generate(),
       },
-      { hashGenerator, tokenManager },
+      { hashAndTokenManager },
     )
   ).mapAsync(async userEntity => {
     await userRepo.save(userEntity);
