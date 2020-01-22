@@ -4,24 +4,25 @@ import { InMemoryUserRepo } from "../../../adapters/secondaries/repo/inMemory/In
 import { signUpUseCaseCreator, SignUpUseCase } from "./SignUpUseCase";
 import { UserEntity } from "../../entities/UserEntity";
 import { Result } from "../../core/Result";
-import { bcryptTestHashGenerator } from "../../../adapters/secondaries/bcryptHashGenerator";
-import { JwtTokenManager } from "../../../adapters/secondaries/JwtTokenManager";
+import { TestHashAndTokenManager } from "../../../adapters/secondaries/TestHashAndTokenManager";
+import { HashAndTokenManager } from "../../port/HashAndTokenManager";
 
 describe("User signUp", () => {
   let userId = uuid();
   const fakeUuidGenerator = new FakeUuidGenerator(userId);
-  const jwtTokenManager = new JwtTokenManager();
+  let hashAndTokenManager: HashAndTokenManager;
   let signUpUseCase: SignUpUseCase;
   let userRepo: InMemoryUserRepo;
+
   beforeEach(() => {
     userId = uuid();
     fakeUuidGenerator.setUuid(userId);
     userRepo = new InMemoryUserRepo();
+    hashAndTokenManager = new TestHashAndTokenManager();
     signUpUseCase = signUpUseCaseCreator({
       userRepo,
       uuidGenerator: fakeUuidGenerator,
-      hashGenerator: bcryptTestHashGenerator,
-      tokenManager: jwtTokenManager,
+      hashAndTokenManager,
     });
   });
 

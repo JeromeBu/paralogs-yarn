@@ -1,14 +1,15 @@
 import _ from "lodash";
+import * as faker from "faker";
 import { uuid } from "../generalTypes/uuid";
 import { UserDTO } from "../DTOs";
 
-export const makeUserDTO = (userParams?: Partial<UserDTO>): UserDTO => {
+export const makeUserDTO = (wingParams?: Partial<UserDTO>): UserDTO => {
   const randomUser: UserDTO = {
     id: uuid(),
-    email: "fake@mail.com",
-    firstName: "myFirstName",
-    lastName: "myLastName",
+    email: faker.internet.email(),
+    firstName: faker.name.firstName(),
+    lastName: faker.name.lastName(),
   };
-  const user = _.merge({}, randomUser, userParams);
-  return user;
+  const wing = _.merge({}, randomUser, wingParams);
+  return wing;
 };

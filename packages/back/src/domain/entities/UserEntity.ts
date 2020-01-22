@@ -4,8 +4,7 @@ import { UserId } from "../valueObjects/user/UserId";
 import { Password } from "../valueObjects/user/Password";
 import { PersonName } from "../valueObjects/user/PersonName";
 import { Result } from "../core/Result";
-import { HashGenerator } from "../port/HashGenerator";
-import { TokenManager } from "../port/TokenManager";
+import { HashAndTokenManager } from "../port/HashAndTokenManager";
 
 interface UserEntityProps {
   id: UserId;
@@ -19,8 +18,7 @@ interface UserEntityProps {
 }
 
 interface CreateUserDependencies {
-  tokenManager: TokenManager;
-  hashGenerator: HashGenerator;
+  hashAndTokenManager: HashAndTokenManager;
 }
 
 export class UserEntity {
@@ -36,7 +34,7 @@ export class UserEntity {
 
   static create(
     params: SignUpParams & WithId,
-    { hashGenerator, tokenManager }: CreateUserDependencies,
+    { hashAndTokenManager }: CreateUserDependencies,
   ): Promise<Result<UserEntity>> {
     return Result.combine({
       id: UserId.create(params.id),
@@ -45,11 +43,11 @@ export class UserEntity {
       firstName: PersonName.create(params.firstName),
       lastName: PersonName.create(params.lastName),
     }).mapAsync(async ({ password, ...validResults }) => {
-      const hashedPassword = await hashGenerator(password);
+      const hashedPassword = await hashAndTokenManager.hash(password);
       return new UserEntity({
         ...validResults,
         // isEmailConfirmed: false,
-        authToken: tokenManager.generate({ userId: validResults.id.value }),
+        authToken: hashAndTokenManager.generateToken({ userId: validResults.id.value }),
         hashedPassword,
       });
     });
