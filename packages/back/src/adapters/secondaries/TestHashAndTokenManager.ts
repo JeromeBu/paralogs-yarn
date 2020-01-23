@@ -7,11 +7,21 @@ import { HashAndTokenManager } from "../../domain/port/HashAndTokenManager";
 // The bigger it is the longest the request will be (12 => 300 to 400 ms)
 
 export class TestHashAndTokenManager implements HashAndTokenManager {
-  generateToken(params: { userId: string }) {
-    return jwt.sign(params, "TODO: change Secret");
+  private token: string | null = null;
+
+  public generateToken(params: { userId: string }) {
+    return this.token ?? jwt.sign(params, "TODO: change Secret");
   }
 
-  hash(password: Password) {
+  public hash(password: Password) {
     return bcrypt.hash(password.value, 1);
+  }
+
+  public compareHashes(candidatePassword: string, userPasswordHash: string) {
+    return bcrypt.compare(candidatePassword, userPasswordHash);
+  }
+
+  public setGeneratedToken(nextToken: string) {
+    this.token = nextToken;
   }
 }

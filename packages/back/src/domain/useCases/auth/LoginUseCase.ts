@@ -1,25 +1,36 @@
-import { LoginParams } from "@paralogs/shared";
+import { LoginParams, CurrentUserWithAuthToken } from "@paralogs/shared";
 import { UserRepo } from "../../port/UserRepo";
 import { Result } from "../../core/Result";
 import { Email } from "../../valueObjects/user/Email";
-import { UserEntity } from "../../entities/UserEntity";
+import { HashAndTokenManager } from "../../port/HashAndTokenManager";
+import { userMapper } from "../../mappers/user.mapper";
 
 interface LoginDependencies {
   userRepo: UserRepo;
+  hashAndTokenManager: HashAndTokenManager;
 }
 
-export const loginUseCaseCreator = ({ userRepo }: LoginDependencies) => async ({
+export const loginUseCaseCreator = ({
+  userRepo,
+  hashAndTokenManager,
+}: LoginDependencies) => async ({
   email,
   password,
-}: LoginParams): Promise<Result<UserEntity>> => {
+}: LoginParams): Promise<Result<CurrentUserWithAuthToken>> => {
   return Email.create(email).flatMapAsync(async correctEmail => {
     const currentUserEntity = await userRepo.findByEmail(correctEmail);
     if (!currentUserEntity) return Result.fail("No user found");
-    // TODO: FIX THIS => compare with bcrypt
-    const isPasswordCorrect = currentUserEntity.getProps().hashedPassword === password;
+
+    const isPasswordCorrect = await currentUserEntity.checkPassword(password, {
+      hashAndTokenManager,
+    });
+
     return isPasswordCorrect
-      ? Result.fail<UserEntity>("Wrong password")
-      : Result.fail<UserEntity>("Wrong password");
+      ? Result.ok<CurrentUserWithAuthToken>({
+          token: currentUserEntity.getProps().authToken,
+          currentUser: userMapper.entityToDTO(currentUserEntity),
+        })
+      : Result.fail<CurrentUserWithAuthToken>("Wrong password");
   });
 };
 
