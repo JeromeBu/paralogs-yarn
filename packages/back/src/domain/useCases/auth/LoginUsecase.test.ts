@@ -41,7 +41,7 @@ describe("User Login", () => {
   describe("Password is wrong", () => {
     it("warns password is wrong", async () => {
       const email = "john.Doe@mail.com";
-      userRepo.users = [await makeUserEntity({ email })];
+      userRepo.setUsers([await makeUserEntity({ email })]);
       const response = await loginUseCase({
         email,
         password: "wrongPassword",
@@ -59,7 +59,7 @@ describe("User Login", () => {
       const jwtToken = "someFakeToken";
       hashAndTokenManager.setGeneratedToken(jwtToken);
       const userEntity = await makeUserEntity({ email, password, firstName, lastName });
-      userRepo.users = [userEntity];
+      userRepo.setUsers([userEntity]);
       const response = await loginUseCase({
         email,
         password,
