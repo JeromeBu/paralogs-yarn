@@ -1,29 +1,33 @@
-import { WingDTO, makeWingDTO } from "@paralogs/shared";
+import { WingDTO, makeWingDTO, uuid } from "@paralogs/shared";
 import { InMemoryWingRepo } from "../../../adapters/secondaries/repo/inMemory/InMemoryWingRepo";
 import { createWingUseCaseCreator, CreateWingUseCase } from "./CreateWingUseCase";
 import { listWingsUseCaseCreator, ListWingsUseCase } from "./ListWingsUseCase";
-import { UserId } from "../../valueObjects/user/UserId";
-import { Result } from "../../core/Result";
+import { UserEntity } from "../../entities/UserEntity";
+import { setupCurrentUserCreator } from "../../testBuilders/userEntityBuilder";
+import { InMemoryUserRepo } from "../../../adapters/secondaries/repo/inMemory/InMemoryUserRepo";
+import { TestHashAndTokenManager } from "../../../adapters/secondaries/TestHashAndTokenManager";
+import { HashAndTokenManager } from "../../port/HashAndTokenManager";
 
 describe("wings retreival", () => {
   let listWingsUseCase: ListWingsUseCase;
   let wingRepo: InMemoryWingRepo; // cannot use WingRepo because need access .wings
+  let userRepo: InMemoryUserRepo; // cannot use UserRepo because need access .users
+  let setupCurrentUser: ReturnType<typeof setupCurrentUserCreator>;
+  let currentUser: UserEntity;
+  let hashAndTokenManager: HashAndTokenManager;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     wingRepo = new InMemoryWingRepo();
+    userRepo = new InMemoryUserRepo();
+    hashAndTokenManager = new TestHashAndTokenManager();
+    setupCurrentUser = setupCurrentUserCreator({ hashAndTokenManager, userRepo });
+    currentUser = await setupCurrentUser();
     listWingsUseCase = listWingsUseCaseCreator(wingRepo);
-  });
-
-  describe("user identification is wrong", () => {
-    it("warns with an explicit message", async () => {
-      const wings = await listWingsUseCase("notAnUUID");
-      expectResultErrorToBe(wings, "Given string is not uuid");
-    });
   });
 
   describe("user has no wings", () => {
     it("returns no wing", async () => {
-      const wings = await listWingsUseCase(createUserId());
+      const wings = await listWingsUseCase(currentUser);
       expectWingsDTOResultToEqual(wings, []);
     });
   });
@@ -32,13 +36,19 @@ describe("wings retreival", () => {
     let createWingUseCase: CreateWingUseCase;
     it("retreives only the user's wings", async () => {
       createWingUseCase = createWingUseCaseCreator(wingRepo);
-      const userId = createUserId();
 
-      const wing1 = (await createWing({ model: "Wing 1", userId })).getOrThrow();
-      const wing2 = (await createWing({ model: "Wing 2", userId })).getOrThrow();
-      await createWing({ model: "Wing 3", userId: createUserId() });
+      const wing1 = (
+        await createWing({ model: "Wing 1", userId: currentUser.id.value })
+      ).getOrThrow();
+      const wing2 = (
+        await createWing({ model: "Wing 2", userId: currentUser.id.value })
+      ).getOrThrow();
+      await createWing({
+        model: "Wing 3",
+        userId: uuid(),
+      });
 
-      const retreivedWings = await listWingsUseCase(userId);
+      const retreivedWings = await listWingsUseCase(currentUser);
 
       expectWingsDTOResultToEqual(retreivedWings, [wing1, wing2]);
     });
@@ -49,18 +59,9 @@ describe("wings retreival", () => {
   });
 
   const expectWingsDTOResultToEqual = (
-    wingsDTOResult: Result<WingDTO[]>,
+    wingsDTO: WingDTO[],
     expectedWingsDTO: WingDTO[],
   ) => {
-    wingsDTOResult.map(wingsDTO => expect(wingsDTO).toEqual(expectedWingsDTO));
+    expect(wingsDTO).toEqual(expectedWingsDTO);
   };
-
-  const expectResultErrorToBe = (
-    wingsDTOResult: Result<WingDTO[]>,
-    expectedError: string,
-  ) => {
-    expect(wingsDTOResult.error).toBe(expectedError);
-  };
-
-  const createUserId = (id?: string): string => UserId.create(id).getOrThrow().value;
 });

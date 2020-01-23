@@ -17,7 +17,7 @@ export class InMemoryUserRepo implements UserRepo {
     return this._users;
   }
 
-  public set users(users: UserEntity[]) {
+  public setUsers(users: UserEntity[]) {
     this._users = users;
   }
 
