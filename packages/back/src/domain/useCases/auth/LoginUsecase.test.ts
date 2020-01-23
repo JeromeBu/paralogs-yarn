@@ -1,12 +1,12 @@
+import { CurrentUserWithAuthToken } from "@paralogs/shared";
 import { loginUseCaseCreator, LoginUseCase } from "./LoginUseCase";
 import { InMemoryUserRepo } from "../../../adapters/secondaries/repo/inMemory/InMemoryUserRepo";
-import { Result } from "../../core/Result";
-import { HashAndTokenManager } from "../../port/HashAndTokenManager";
 import { TestHashAndTokenManager } from "../../../adapters/secondaries/TestHashAndTokenManager";
 import { makeUserEntityCreator } from "../../testBuilders/userEntityBuilder";
+import { Result } from "../../core/Result";
 
 describe("User Login", () => {
-  let hashAndTokenManager: HashAndTokenManager;
+  let hashAndTokenManager: TestHashAndTokenManager;
   let loginUseCase: LoginUseCase;
   let userRepo: InMemoryUserRepo;
   let makeUserEntity: ReturnType<typeof makeUserEntityCreator>;
@@ -14,7 +14,7 @@ describe("User Login", () => {
   beforeEach(() => {
     hashAndTokenManager = new TestHashAndTokenManager();
     userRepo = new InMemoryUserRepo();
-    loginUseCase = loginUseCaseCreator({ userRepo });
+    loginUseCase = loginUseCaseCreator({ userRepo, hashAndTokenManager });
     makeUserEntity = makeUserEntityCreator(hashAndTokenManager);
   });
 
@@ -39,7 +39,7 @@ describe("User Login", () => {
   });
 
   describe("Password is wrong", () => {
-    it("warns no user found", async () => {
+    it("warns password is wrong", async () => {
       const email = "john.Doe@mail.com";
       userRepo.users = [await makeUserEntity({ email })];
       const response = await loginUseCase({
@@ -49,6 +49,38 @@ describe("User Login", () => {
       expectErrorToBe(response, "Wrong password");
     });
   });
+
+  describe("Email and Password are good", () => {
+    it("sends current user and authentication token", async () => {
+      const email = "john.doe@mail.com";
+      const firstName = "John";
+      const lastName = "Doe";
+      const password = "Secret123";
+      const jwtToken = "someFakeToken";
+      hashAndTokenManager.setGeneratedToken(jwtToken);
+      const userEntity = await makeUserEntity({ email, password, firstName, lastName });
+      userRepo.users = [userEntity];
+      const response = await loginUseCase({
+        email,
+        password,
+      });
+
+      expectUserResultToEqual(response, {
+        token: jwtToken,
+        currentUser: {
+          id: userEntity.id.value,
+          email,
+          firstName,
+          lastName,
+        },
+      });
+    });
+  });
+
+  const expectUserResultToEqual = (
+    result: Result<CurrentUserWithAuthToken>,
+    expectedUserDTOWithToken: CurrentUserWithAuthToken,
+  ) => result.map(userDTO => expect(userDTO).toEqual(expectedUserDTOWithToken));
 
   const expectErrorToBe = (result: Result<unknown>, expectedError: string) => {
     expect(result.error).toBe(expectedError);

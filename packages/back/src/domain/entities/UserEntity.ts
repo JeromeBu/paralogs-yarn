@@ -17,7 +17,7 @@ interface UserEntityProps {
   password?: never; // this field is forbidden
 }
 
-interface CreateUserDependencies {
+interface UserDependencies {
   hashAndTokenManager: HashAndTokenManager;
 }
 
@@ -30,11 +30,9 @@ export class UserEntity {
     return this.props;
   }
 
-  private constructor(private props: UserEntityProps) {}
-
   static create(
     params: SignUpParams & WithId,
-    { hashAndTokenManager }: CreateUserDependencies,
+    { hashAndTokenManager }: UserDependencies,
   ): Promise<Result<UserEntity>> {
     return Result.combine({
       id: UserId.create(params.id),
@@ -52,4 +50,16 @@ export class UserEntity {
       });
     });
   }
+
+  public checkPassword(
+    candidatePassword: string,
+    { hashAndTokenManager }: UserDependencies,
+  ): Promise<boolean> {
+    return hashAndTokenManager.compareHashes(
+      candidatePassword,
+      this.props.hashedPassword,
+    );
+  }
+
+  private constructor(private props: UserEntityProps) {}
 }

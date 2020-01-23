@@ -8,8 +8,8 @@ export class InMemoryUserRepo implements UserRepo {
   }
 
   public async findByEmail(email: Email) {
-    return this._users.find(({ getProps }) => {
-      return getProps().email.value === email.value;
+    return this._users.find(userEntity => {
+      return userEntity.getProps().email.value === email.value;
     });
   }
 
