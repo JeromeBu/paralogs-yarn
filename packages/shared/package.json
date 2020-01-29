@@ -13,11 +13,13 @@
     "@types/lodash": "^4.14.149",
     "faker": "^4.1.0",
     "lodash": "^4.17.15",
-    "uuid": "^3.3.3"
+    "uuid": "^3.3.3",
+    "yup": "^0.28.1"
   },
   "devDependencies": {
     "@types/faker": "^4.1.9",
     "@types/uuid": "^3.4.6",
+    "@types/yup": "^0.26.29",
     "lint-staged": "^9.4.2"
   },
   "lint-staged": {
