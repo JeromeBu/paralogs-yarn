@@ -1,4 +1,4 @@
-import { SignUpParams, UserDTO, UuidGenerator } from "@paralogs/shared";
+import { SignUpParams, UuidGenerator, CurrentUserWithAuthToken } from "@paralogs/shared";
 import { UserRepo } from "../../port/UserRepo";
 import { UserEntity } from "../../entities/UserEntity";
 import { Result } from "../../core/Result";
@@ -17,7 +17,7 @@ export const signUpUseCaseCreator = ({
   hashAndTokenManager,
 }: SignUpDependencies) => async (
   signUpParams: SignUpParams,
-): Promise<Result<UserDTO>> => {
+): Promise<Result<CurrentUserWithAuthToken>> => {
   return (
     await UserEntity.create(
       {
@@ -26,9 +26,12 @@ export const signUpUseCaseCreator = ({
       },
       { hashAndTokenManager },
     )
-  ).mapAsync(async userEntity => {
-    await userRepo.save(userEntity);
-    return userMapper.entityToDTO(userEntity);
+  ).mapAsync(async signedUpUserEntity => {
+    await userRepo.save(signedUpUserEntity);
+    return {
+      token: signedUpUserEntity.getProps().authToken,
+      currentUser: userMapper.entityToDTO(signedUpUserEntity),
+    };
   });
 };
 

@@ -15,6 +15,7 @@ custom:
   # commands. Or fallsback to what we have set in the provider section.
   stage: ${opt:stage, self:provider.stage}
   wingsTable: ${self:custom.stage}-wings-table
+  usersTable: ${self:custom.stage}-users-table
 
 provider:
   name: aws
@@ -23,6 +24,7 @@ provider:
   region: eu-west-1
   environment:
     wingsTable: ${self:custom.wingsTable}
+    usersTable: ${self:custom.usersTable}
 
   iamRoleStatements:
     - Effect: Allow
@@ -70,16 +72,25 @@ functions:
           cors: true
           authorizer: aws_iam
 
-  create-user:
-    handler: .build/infra/handlers/createUser.main
+  signup:
+    handler: .build/adapters/primaries/signUp.main
     events:
       - http:
-          path: users
+          path: users/signup
           method: post
           cors: true
-          authorizer: aws_iam
+
+  login:
+    handler: .build/adapters/primaries/login.main
+    events:
+      - http:
+          path: users/login
+          method: post
+          cors: true
+
 
 resources:
   - ${file(resources/dynamodb-wings.yml)}
-  - ${file(resources/cognito-user-pool.yml)}
-  - ${file(resources/cognito-identity-pool.yml)}
+  - ${file(resources/dynamodb-users.yml)}
+  # - ${file(resources/cognito-user-pool.yml)}
+  # - ${file(resources/cognito-identity-pool.yml)}
