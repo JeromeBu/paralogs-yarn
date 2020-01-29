@@ -13,6 +13,7 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Formik, Form } from "formik";
+import { LoginParams, loginSchema } from "@paralogs/shared";
 import { MyLink } from "../commun/MyLink";
 import { authActions } from "../../../core-logic/useCases/auth/auth.actions";
 import { DisplayError } from "../commun/DisplayError";
@@ -43,6 +44,11 @@ export const Login: React.FC = () => {
   const error = useSelector(authSelectors.error);
   const classes = useStyles();
 
+  const initialValues: LoginParams = {
+    email: "",
+    password: "",
+  };
+
   return (
     <Container maxWidth="xs" className={classes.paper}>
       <Avatar className={classes.avatar}>
@@ -51,7 +57,8 @@ export const Login: React.FC = () => {
       <Typography variant="h5">Log in</Typography>
       <DisplayError error={error} />
       <Formik
-        initialValues={{ email: "", password: "" }}
+        validationSchema={loginSchema}
+        initialValues={initialValues}
         onSubmit={async values => {
           dispatch(authActions.loginRequest(values));
         }}

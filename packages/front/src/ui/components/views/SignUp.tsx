@@ -7,12 +7,11 @@ import {
   TextField,
   Typography,
 } from "@material-ui/core";
-import * as Yup from "yup";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Formik, Form } from "formik";
-import { SignUpParams } from "@paralogs/shared";
+import { SignUpParams, signUpSchema } from "@paralogs/shared";
 import { authActions } from "../../../core-logic/useCases/auth/auth.actions";
 import { MyLink } from "../commun/MyLink";
 import { DisplayError } from "../commun/DisplayError";
@@ -47,6 +46,13 @@ export const SignUp: React.FC = () => {
     dispatch(authActions.signUpRequest(values));
   };
 
+  const initialValues: SignUpParams = {
+    email: "",
+    password: "",
+    firstName: "",
+    lastName: "",
+  };
+
   return (
     <Container maxWidth="xs" className={classes.paper}>
       <Avatar className={classes.avatar}>
@@ -56,18 +62,8 @@ export const SignUp: React.FC = () => {
       <DisplayError error={error} />
       <Formik
         onSubmit={handleSubmit}
-        initialValues={{
-          email: "",
-          password: "",
-          firstName: "",
-          lastName: "",
-        }}
-        validationSchema={Yup.object().shape({
-          email: Yup.string(),
-          password: Yup.string(),
-          firstName: Yup.string(),
-          lastName: Yup.string(),
-        })}
+        initialValues={initialValues}
+        validationSchema={signUpSchema}
       >
         {({ values, handleChange }) => (
           <Form>

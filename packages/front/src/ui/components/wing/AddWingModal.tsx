@@ -2,11 +2,10 @@ import { Button, makeStyles, TextField, Typography } from "@material-ui/core";
 import SaveIcon from "@material-ui/icons/Save";
 import { Form, Formik } from "formik";
 import React from "react";
-import * as Yup from "yup";
 import { useSelector, useDispatch } from "react-redux";
 import { format } from "date-fns";
 
-import { WingDTO, uuid, CreateWingDTO } from "@paralogs/shared";
+import { uuid, CreateWingDTO, createWingSchema } from "@paralogs/shared";
 
 import { wingsActions } from "../../../core-logic/useCases/wings/wings.actions";
 import { RootState } from "../../../core-logic/reduxStore";
@@ -46,10 +45,7 @@ export const AddWingModal: React.FC = () => {
           await dispatch(wingsActions.addWingRequest(wingValues));
           close();
         }}
-        validationSchema={Yup.object().shape<Pick<WingDTO, "model" | "brand">>({
-          brand: Yup.string().required(),
-          model: Yup.string().required(),
-        })}
+        validationSchema={createWingSchema}
       >
         {({ values, handleChange, submitForm }) => (
           <Form>
