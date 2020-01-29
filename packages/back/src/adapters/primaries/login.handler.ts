@@ -2,12 +2,12 @@ import { APIGatewayEvent } from "aws-lambda";
 import { loginSchema } from "@paralogs/shared";
 import { noBodyProvided } from "../../domain/core/errors";
 import { success, failure, HttpResponse } from "../lib/response-lib";
-import { dynamoDbUserRepo } from "../secondaries/repo/dynamoDb";
 import { ProductionHashAndTokenManager } from "../secondaries/ProductionHashAndTokenManager";
 import { loginUseCaseCreator } from "../../domain/useCases/auth/LoginUseCase";
+import { repositories } from "../secondaries/repositories";
 
 const loginUseCase = loginUseCaseCreator({
-  userRepo: dynamoDbUserRepo,
+  userRepo: repositories.user,
   hashAndTokenManager: new ProductionHashAndTokenManager(),
 });
 

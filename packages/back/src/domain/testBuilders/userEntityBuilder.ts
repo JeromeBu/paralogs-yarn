@@ -1,7 +1,7 @@
 import { makeUserDTO, SignUpParams } from "@paralogs/shared";
 import { UserEntity } from "../entities/UserEntity";
 import { HashAndTokenManager } from "../port/HashAndTokenManager";
-import { InMemoryUserRepo } from "../../adapters/secondaries/repo/inMemory/InMemoryUserRepo";
+import { InMemoryUserRepo } from "../../adapters/secondaries/repositories/inMemory/InMemoryUserRepo";
 
 export const makeUserEntityCreator = (hashAndTokenManager: HashAndTokenManager) => async (
   userParams: Partial<SignUpParams> = {},

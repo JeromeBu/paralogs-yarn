@@ -1,11 +1,11 @@
 import { noCurrentUser } from "../../domain/core/errors";
 import { listWingsUseCaseCreator } from "../../domain/useCases/wings/ListWingsUseCase";
 import { failure, success } from "../lib/response-lib";
-import { dynamoDbWingRepo } from "../secondaries/repo/dynamoDb";
 import { makeUserEntityCreator } from "../../domain/testBuilders/userEntityBuilder";
 import { TestHashAndTokenManager } from "../secondaries/TestHashAndTokenManager";
+import { repositories } from "../secondaries/repositories";
 
-const listWingsUseCase = listWingsUseCaseCreator(dynamoDbWingRepo);
+const listWingsUseCase = listWingsUseCaseCreator(repositories.wing);
 const makeUserEntity = makeUserEntityCreator(new TestHashAndTokenManager());
 
 export const main = async () => {

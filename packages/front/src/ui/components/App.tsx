@@ -2,7 +2,6 @@ import { CssBaseline } from "@material-ui/core";
 import React from "react";
 import { Provider } from "react-redux";
 import { Store } from "redux";
-// import { InMemoryAPIGateway } from "../../core-logic/adapters/InMemoryAPIGateway";
 import { AwsAuthGateway } from "../../core-logic/adapters/AwsAuthGateway";
 import { configureReduxStore, RootState } from "../../core-logic/reduxStore";
 import { AppRouter } from "./AppRouter";

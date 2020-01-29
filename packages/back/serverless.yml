@@ -1,4 +1,4 @@
-service: paralogs-api
+service: paralogs
 
 custom:
   webpack:
@@ -46,34 +46,31 @@ plugins:
 
 functions:
   create-wing:
-    handler: .build/infra/handlers/createWing.main
+    handler: .build/adapters/primaries/createWing.handler.main
     events:
       - http:
           path: wings
           method: post
           cors: true
-          authorizer: aws_iam
 
   list-wings:
-      handler: .build/infra/handlers/listWings.main
+      handler: .build/adapters/primaries/listWings.handler.main
       events:
         - http:
             path: wings
             method: get
             cors: true
-            authorizer: aws_iam
 
   delete-wing:
-    handler: .build/infra/handlers/deleteWing.main
+    handler: .build/adapters/primaries/deleteWing.handler.main
     events:
       - http:
           path: wings/{id}
           method: delete
           cors: true
-          authorizer: aws_iam
 
   signup:
-    handler: .build/adapters/primaries/signUp.main
+    handler: .build/adapters/primaries/signUp.handler.main
     events:
       - http:
           path: users/signup
@@ -81,7 +78,7 @@ functions:
           cors: true
 
   login:
-    handler: .build/adapters/primaries/login.main
+    handler: .build/adapters/primaries/login.handler.main
     events:
       - http:
           path: users/login

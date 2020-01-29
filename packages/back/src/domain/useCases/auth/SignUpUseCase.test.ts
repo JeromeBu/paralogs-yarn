@@ -6,7 +6,7 @@ import {
   CurrentUserWithAuthToken,
 } from "@paralogs/shared";
 import _ from "lodash";
-import { InMemoryUserRepo } from "../../../adapters/secondaries/repo/inMemory/InMemoryUserRepo";
+import { InMemoryUserRepo } from "../../../adapters/secondaries/repositories/inMemory/InMemoryUserRepo";
 import { signUpUseCaseCreator, SignUpUseCase } from "./SignUpUseCase";
 import { UserEntity } from "../../entities/UserEntity";
 import { Result } from "../../core/Result";

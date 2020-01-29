@@ -1,10 +1,10 @@
 import { WingDTO, makeWingDTO, uuid } from "@paralogs/shared";
-import { InMemoryWingRepo } from "../../../adapters/secondaries/repo/inMemory/InMemoryWingRepo";
+import { InMemoryWingRepo } from "../../../adapters/secondaries/repositories/inMemory/InMemoryWingRepo";
 import { createWingUseCaseCreator, CreateWingUseCase } from "./CreateWingUseCase";
 import { listWingsUseCaseCreator, ListWingsUseCase } from "./ListWingsUseCase";
 import { UserEntity } from "../../entities/UserEntity";
 import { setupCurrentUserCreator } from "../../testBuilders/userEntityBuilder";
-import { InMemoryUserRepo } from "../../../adapters/secondaries/repo/inMemory/InMemoryUserRepo";
+import { InMemoryUserRepo } from "../../../adapters/secondaries/repositories/inMemory/InMemoryUserRepo";
 import { TestHashAndTokenManager } from "../../../adapters/secondaries/TestHashAndTokenManager";
 import { HashAndTokenManager } from "../../port/HashAndTokenManager";
 

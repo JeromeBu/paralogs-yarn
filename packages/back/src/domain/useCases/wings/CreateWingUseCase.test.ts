@@ -1,5 +1,5 @@
 import { makeWingDTO, uuid, WingDTO } from "@paralogs/shared";
-import { InMemoryWingRepo } from "../../../adapters/secondaries/repo/inMemory/InMemoryWingRepo";
+import { InMemoryWingRepo } from "../../../adapters/secondaries/repositories/inMemory/InMemoryWingRepo";
 import { CreateWingUseCase, createWingUseCaseCreator } from "./CreateWingUseCase";
 import { Result } from "../../core/Result";
 

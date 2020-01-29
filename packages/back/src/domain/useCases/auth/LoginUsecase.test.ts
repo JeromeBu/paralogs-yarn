@@ -1,6 +1,6 @@
 import { CurrentUserWithAuthToken } from "@paralogs/shared";
 import { loginUseCaseCreator, LoginUseCase } from "./LoginUseCase";
-import { InMemoryUserRepo } from "../../../adapters/secondaries/repo/inMemory/InMemoryUserRepo";
+import { InMemoryUserRepo } from "../../../adapters/secondaries/repositories/inMemory/InMemoryUserRepo";
 import { TestHashAndTokenManager } from "../../../adapters/secondaries/TestHashAndTokenManager";
 import { makeUserEntityCreator } from "../../testBuilders/userEntityBuilder";
 import { Result } from "../../core/Result";

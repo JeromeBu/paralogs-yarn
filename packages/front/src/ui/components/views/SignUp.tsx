@@ -10,7 +10,7 @@ import {
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Formik, Form } from "formik";
+import { Formik, Form, ErrorMessage } from "formik";
 import { SignUpParams, signUpSchema } from "@paralogs/shared";
 import { authActions } from "../../../core-logic/useCases/auth/auth.actions";
 import { MyLink } from "../commun/MyLink";
@@ -77,10 +77,10 @@ export const SignUp: React.FC = () => {
               value={values.firstName}
               onChange={handleChange}
             />
+            <ErrorMessage name="firstName" />
             <TextField
               variant="outlined"
               margin="normal"
-              required
               fullWidth
               label="Last name"
               name="lastName"
@@ -98,6 +98,7 @@ export const SignUp: React.FC = () => {
               value={values.email}
               onChange={handleChange}
             />
+            <ErrorMessage name="email" />
             <TextField
               variant="outlined"
               margin="normal"
@@ -110,6 +111,7 @@ export const SignUp: React.FC = () => {
               onChange={handleChange}
               autoComplete="current-password"
             />
+            <ErrorMessage name="password" />
             <Button
               type="submit"
               fullWidth
