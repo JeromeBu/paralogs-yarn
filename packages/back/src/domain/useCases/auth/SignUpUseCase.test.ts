@@ -1,4 +1,10 @@
-import { SignUpParams, FakeUuidGenerator, UserDTO, uuid } from "@paralogs/shared";
+import {
+  SignUpParams,
+  FakeUuidGenerator,
+  UserDTO,
+  uuid,
+  CurrentUserWithAuthToken,
+} from "@paralogs/shared";
 import _ from "lodash";
 import { InMemoryUserRepo } from "../../../adapters/secondaries/repo/inMemory/InMemoryUserRepo";
 import { signUpUseCaseCreator, SignUpUseCase } from "./SignUpUseCase";
@@ -77,11 +83,15 @@ describe("User signUp", () => {
     return _.merge({}, randomSignUpParams, params);
   };
 
-  const expectResultToBeError = (result: Result<UserDTO>, expectedError: string) =>
-    expect(result.error).toBe(expectedError);
+  const expectResultToBeError = (
+    result: Result<CurrentUserWithAuthToken>,
+    expectedError: string,
+  ) => expect(result.error).toBe(expectedError);
 
-  const expectUserResultToEqual = (result: Result<UserDTO>, expectedUserDTO: UserDTO) =>
-    result.map(userDTO => expect(userDTO).toEqual(expectedUserDTO));
+  const expectUserResultToEqual = (
+    result: Result<CurrentUserWithAuthToken>,
+    expectedUserDTO: UserDTO,
+  ) => result.map(userDTO => expect(userDTO).toEqual(expectedUserDTO));
 
   // const expectUserEmailNotToBeConfirmed = (userEntity: UserEntity) =>
   //   expect(userEntity.getProps().isEmailConfirmed).toBe(false);

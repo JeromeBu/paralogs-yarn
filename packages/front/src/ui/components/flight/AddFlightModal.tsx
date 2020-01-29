@@ -11,7 +11,6 @@ import SaveIcon from "@material-ui/icons/Save";
 import { format } from "date-fns";
 import { Form, Formik } from "formik";
 import React from "react";
-import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 
 import { uuid, CreateFlightDTO } from "@paralogs/shared";
@@ -66,14 +65,6 @@ export const AddFlightModal: React.FC<AddFlightModalProps> = ({
           await handleSubmit(values);
           close();
         }}
-        validationSchema={Yup.object().shape({
-          site: Yup.string()
-            .min(2, "Too Short!")
-            .required("Required"),
-          date: Yup.string().required("Required"),
-          time: Yup.string(),
-          duration: Yup.string().required("Required"),
-        })}
       >
         {({ values, handleChange, submitForm }) => (
           <Form>
