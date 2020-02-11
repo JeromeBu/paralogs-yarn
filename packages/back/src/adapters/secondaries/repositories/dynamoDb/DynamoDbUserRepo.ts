@@ -27,20 +27,15 @@ export class DynamoDbUserRepo implements UserRepo {
   }
 
   public async save(user: UserEntity) {
-    try {
-      const params = {
-        TableName: process.env.wingsTable!,
-        Item: {
-          email: user.getProps().email.value,
-          content: user,
-          createdAt: Date.now(),
-        },
-      };
+    const params = {
+      TableName: process.env.usersTable!,
+      Item: {
+        email: user.getProps().email.value,
+        content: user,
+        createdAt: Date.now(),
+      },
+    };
 
-      await dynamoDb.put(params).promise();
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log({ errorInDYNAMODB: error });
-    }
+    await dynamoDb.put(params).promise();
   }
 }

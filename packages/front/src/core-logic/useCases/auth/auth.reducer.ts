@@ -24,8 +24,6 @@ export const authReducer = (
     case getType(authActions.signUpRequest):
     case getType(authActions.loginRequest):
     case getType(authActions.logout):
-      return { ...state, isLoading: true };
-    case getType(authActions.logoutSuccess):
       return { ...state, isLoading: false, currentUser: null, token: null };
     case getType(authActions.signUpSuccess):
     case getType(authActions.loginSuccess):
@@ -33,7 +31,6 @@ export const authReducer = (
       return { ...state, isLoading: false, currentUser, token, error: undefined };
     case getType(authActions.signUpError):
     case getType(authActions.loginError):
-    case getType(authActions.logoutError):
       return { ...state, error: action.payload, isLoading: false };
     default:
       shouldNeverBeCalled(action);

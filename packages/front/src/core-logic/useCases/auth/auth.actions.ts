@@ -4,9 +4,7 @@ import { SignUpParams, LoginParams, CurrentUserWithAuthToken } from "@paralogs/s
 import { ErrorFromAction } from "../../utils";
 
 export const authActions = {
-  logout: createStandardAction("LOGGOUT_REQUESTED")(),
-  logoutSuccess: createStandardAction("LOGGOUT_SUCCEEDED")(),
-  logoutError: createStandardAction("LOGGOUT_FAILD")<ErrorFromAction>(),
+  logout: createStandardAction("LOGGOUT")(),
 
   signUpRequest: createStandardAction("SIGN_UP_REQUESTED")<SignUpParams>(),
   signUpSuccess: createStandardAction("SIGN_UP_SUCCEEDED")<CurrentUserWithAuthToken>(),

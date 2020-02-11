@@ -21,6 +21,9 @@ const dynamoDbRepos: Repositories = {
 };
 
 // eslint-disable-next-line no-console
-if (process.env.IN_MEMORY_REPO) console.log("Repositories are IN MEMORY");
+console.log(
+  "Repositories are : ",
+  process.env.IN_MEMORY_REPOS ? "IN MEMORY" : "DYNAMO DB",
+);
 
-export const repositories = process.env.IN_MEMORY_REPO ? inMemoryRepos : dynamoDbRepos;
+export const repositories = process.env.IN_MEMORY_REPOS ? inMemoryRepos : dynamoDbRepos;

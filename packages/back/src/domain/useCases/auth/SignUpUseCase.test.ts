@@ -1,7 +1,6 @@
 import {
   SignUpParams,
   FakeUuidGenerator,
-  UserDTO,
   uuid,
   CurrentUserWithAuthToken,
 } from "@paralogs/shared";
@@ -11,12 +10,11 @@ import { signUpUseCaseCreator, SignUpUseCase } from "./SignUpUseCase";
 import { UserEntity } from "../../entities/UserEntity";
 import { Result } from "../../core/Result";
 import { TestHashAndTokenManager } from "../../../adapters/secondaries/TestHashAndTokenManager";
-import { HashAndTokenManager } from "../../port/HashAndTokenManager";
 
 describe("User signUp", () => {
   let userId = uuid();
   const fakeUuidGenerator = new FakeUuidGenerator(userId);
-  let hashAndTokenManager: HashAndTokenManager;
+  let hashAndTokenManager: TestHashAndTokenManager;
   let signUpUseCase: SignUpUseCase;
   let userRepo: InMemoryUserRepo;
 
@@ -57,12 +55,17 @@ describe("User signUp", () => {
   describe("all is good", () => {
     it("signs up a user and reformats names and email", async () => {
       const signUpParams = buildSignUpParams();
-      const userDto = await signUpUseCase(signUpParams);
-      expectUserResultToEqual(userDto, {
-        id: userId,
-        email: "john@mail.com",
-        firstName: "John",
-        lastName: "Doe",
+      const someFakeToken = "someFakeToken";
+      hashAndTokenManager.setGeneratedToken(someFakeToken);
+      const currentUserWithToken = await signUpUseCase(signUpParams);
+      expectUserResultToEqual(currentUserWithToken, {
+        currentUser: {
+          id: userId,
+          email: "john@mail.com",
+          firstName: "John",
+          lastName: "Doe",
+        },
+        token: someFakeToken,
       });
       const userEntity = userRepo.users[0];
       expect(userEntity.id.value).toEqual(userId);
@@ -90,8 +93,11 @@ describe("User signUp", () => {
 
   const expectUserResultToEqual = (
     result: Result<CurrentUserWithAuthToken>,
-    expectedUserDTO: UserDTO,
-  ) => result.map(userDTO => expect(userDTO).toEqual(expectedUserDTO));
+    expectedUserDTO: CurrentUserWithAuthToken,
+  ) =>
+    result.map(currentUserWithToken =>
+      expect(currentUserWithToken).toEqual(expectedUserDTO),
+    );
 
   // const expectUserEmailNotToBeConfirmed = (userEntity: UserEntity) =>
   //   expect(userEntity.getProps().isEmailConfirmed).toBe(false);
