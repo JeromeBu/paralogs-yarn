@@ -17,7 +17,8 @@ export const authenticateMiddlewareBuilder = (userRepo: UserRepo) => async (
   try {
     const { userId } = jwt.verify(token, config.jwtSecret) as { userId: UserId };
     const userEntity = await userRepo.findById(userId);
-    if (!userEntity) return sendForbiddenError(res);
+    if (!userEntity || userEntity.getProps().authToken !== token)
+      return sendForbiddenError(res);
     req.currentUser = userEntity;
     return next();
   } catch (error) {
@@ -29,7 +30,7 @@ export const authenticateMiddlewareBuilder = (userRepo: UserRepo) => async (
 
 const sendForbiddenError = (res: Response) => {
   res.status(403);
-  return res.send("Provided token does not match a user");
+  return res.send("Provided token does not match a user or is exired");
 };
 
 const getTokenFromHeaders = (req: Request) => req.headers.authorization?.slice(7);

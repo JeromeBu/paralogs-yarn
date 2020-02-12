@@ -1,5 +1,6 @@
 import express from "express";
 import * as bodyParser from "body-parser";
+import morgan from "morgan";
 import { wingRouter } from "./routers/wing.router";
 import { authRouter } from "./routers/auth.router";
 import { authenticateMiddlewareBuilder } from "./authenticate-middleware";
@@ -11,7 +12,10 @@ const port = 4000;
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
+app.use(morgan("dev"));
+
 app.use(authenticateMiddlewareBuilder(repositories.user));
+
 app.use(wingRouter);
 app.use(authRouter);
 
