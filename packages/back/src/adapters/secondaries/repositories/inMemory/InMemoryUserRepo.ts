@@ -13,6 +13,12 @@ export class InMemoryUserRepo implements UserRepo {
     });
   }
 
+  public async findById(userId: string) {
+    return this._users.find(userEntity => {
+      return userEntity.id.value === userId;
+    });
+  }
+
   public get users() {
     return this._users;
   }

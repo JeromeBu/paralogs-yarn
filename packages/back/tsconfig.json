@@ -9,8 +9,9 @@
     "esModuleInterop": true,
     "outDir": ".build",
     "rootDir": "./src",
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "typeRoots": ["./customTypings", "./node_modules/@types"]
   },
-  "include": ["src"],
+  "include": ["src", "customTypings"],
   "exclude": [".build"]
 }
