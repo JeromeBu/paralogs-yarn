@@ -1,9 +1,6 @@
 import { Store } from "redux";
-
-import { WingDTO } from "@paralogs/shared";
-
+import { WingDTO, makeWingDTO } from "@paralogs/shared";
 import { RootState, configureReduxStore } from "../../../reduxStore";
-import { makeWingDTO } from "./wingBuilder";
 import {
   expectStateToMatch,
   InMemoryDependencies,

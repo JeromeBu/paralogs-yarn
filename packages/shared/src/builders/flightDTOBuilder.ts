@@ -13,6 +13,7 @@ export const makeFlightDTO = (flightParams?: Partial<FlightDTO>): FlightDTO => {
     time: "12h30",
     duration: 55,
   };
+
   const flight = _.merge({}, randomFlight, flightParams);
   return flight;
 };

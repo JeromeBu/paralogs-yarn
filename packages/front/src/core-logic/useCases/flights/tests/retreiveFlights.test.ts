@@ -1,10 +1,9 @@
 import { Store } from "redux";
 import _ from "lodash";
 
-import { FlightDTO, uuid } from "@paralogs/shared";
+import { FlightDTO, uuid, makeUserDTO, makeWingDTO } from "@paralogs/shared";
 
 import { RootState, configureReduxStore } from "../../../reduxStore";
-import { makeWingDTO } from "../../wings/tests/wingBuilder";
 import {
   expectStateToMatch,
   InMemoryDependencies,
@@ -23,6 +22,7 @@ describe("Retreive flights", () => {
 
   it("gets all the Flights", () => {
     const wing = makeWingDTO();
+    const user = makeUserDTO();
     const someFlights: FlightDTO[] = [
       {
         id: uuid(),
@@ -30,7 +30,8 @@ describe("Retreive flights", () => {
         site: "Le plus récent",
         time: "14:20",
         duration: 60,
-        wing,
+        wingId: wing.id,
+        userId: user.id,
       },
       {
         id: uuid(),
@@ -38,7 +39,8 @@ describe("Retreive flights", () => {
         site: "La scia",
         time: "16:10",
         duration: 35,
-        wing,
+        wingId: wing.id,
+        userId: user.id,
       },
     ];
     retrieveFlights();
@@ -63,7 +65,7 @@ describe("Retreive flights", () => {
     expectStateToMatch(store, {
       flights: {
         data: [],
-        error: { message: errorToDisplay },
+        error: new Error(errorToDisplay),
         isLoading: false,
         isSaving: false,
       },
