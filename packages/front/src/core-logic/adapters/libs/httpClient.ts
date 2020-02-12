@@ -25,7 +25,7 @@ const createGetRequest = <Output>(route: string) => (): Observable<Output> =>
   responseToObservable(axios.get(`${config.apiUrl}${route}`));
 
 export const httpClient = {
-  signUp: createPostRequest<SignUpParams, CurrentUserWithAuthToken>("users/signup"),
+  signUp: createPostRequest<SignUpParams, CurrentUserWithAuthToken>("/users/signup"),
   logIn: createPostRequest<LoginParams, CurrentUserWithAuthToken>("users/login"),
   logout: createGetRequest("users/logout"),
   retrieveUsers: createGetRequest<UserDTO[]>("users"),

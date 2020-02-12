@@ -2,16 +2,16 @@ import { CssBaseline } from "@material-ui/core";
 import React from "react";
 import { Provider } from "react-redux";
 import { Store } from "redux";
-import { AwsAuthGateway } from "../../core-logic/adapters/AwsAuthGateway";
+import { HttpAuthGateway } from "../../core-logic/adapters/HttpAuthGateway";
 import { configureReduxStore, RootState } from "../../core-logic/reduxStore";
 import { AppRouter } from "./AppRouter";
-import { AwsWingGateway } from "../../core-logic/adapters/AwsWingGateway";
-import { AwsFlightGateway } from "../../core-logic/adapters/AwsFlightGateway";
+import { HttpWingGateway } from "../../core-logic/adapters/HttpWingGateway";
+import { HttpFlightGateway } from "../../core-logic/adapters/HttpFlightGateway";
 
 export const store: Store<RootState> = configureReduxStore({
-  authGateway: new AwsAuthGateway(),
-  wingGateway: new AwsWingGateway(),
-  flightGateway: new AwsFlightGateway(),
+  authGateway: new HttpAuthGateway(),
+  wingGateway: new HttpWingGateway(),
+  flightGateway: new HttpFlightGateway(),
 });
 
 export const App: React.FC = () => {

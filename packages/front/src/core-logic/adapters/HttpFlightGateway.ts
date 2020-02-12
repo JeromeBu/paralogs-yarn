@@ -4,7 +4,7 @@ import { FlightDTO, CreateFlightDTO, uuid } from "@paralogs/shared";
 
 import { FlightGateway } from "../useCases/flights/port/FlightGateway";
 
-export class AwsFlightGateway implements FlightGateway {
+export class HttpFlightGateway implements FlightGateway {
   private _flights$ = new BehaviorSubject<FlightDTO[]>([]);
 
   retrieveFlights() {

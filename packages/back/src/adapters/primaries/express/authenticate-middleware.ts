@@ -3,8 +3,9 @@ import jwt from "jsonwebtoken";
 import { UserId } from "@paralogs/shared";
 import { config } from "../../../config";
 import { UserRepo } from "../../../domain/port/UserRepo";
+import { loginRoute, signUpRoute } from "./routers/auth.router";
 
-const whiteListedRoutes = ["/signup", "/login"];
+const whiteListedRoutes = [loginRoute, signUpRoute];
 
 export const authenticateMiddlewareBuilder = (userRepo: UserRepo) => async (
   req: Request,
