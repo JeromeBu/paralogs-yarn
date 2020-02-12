@@ -1,6 +1,5 @@
-import { SignUpParams, WithId } from "@paralogs/shared";
+import { SignUpParams, WithUserId, UserId } from "@paralogs/shared";
 import { Email } from "../valueObjects/user/Email";
-import { UserId } from "../valueObjects/user/UserId";
 import { Password } from "../valueObjects/user/Password";
 import { PersonName } from "../valueObjects/user/PersonName";
 import { Result } from "../core/Result";
@@ -31,11 +30,10 @@ export class UserEntity {
   }
 
   static create(
-    params: SignUpParams & WithId,
+    params: SignUpParams & WithUserId,
     { hashAndTokenManager }: UserDependencies,
   ): Promise<Result<UserEntity>> {
     return Result.combine({
-      id: UserId.create(params.id),
       email: Email.create(params.email),
       password: Password.create(params.password),
       firstName: PersonName.create(params.firstName),
@@ -43,9 +41,10 @@ export class UserEntity {
     }).mapAsync(async ({ password, ...validResults }) => {
       const hashedPassword = await hashAndTokenManager.hash(password);
       return new UserEntity({
+        id: params.id,
         ...validResults,
         // isEmailConfirmed: false,
-        authToken: hashAndTokenManager.generateToken({ userId: validResults.id.value }),
+        authToken: hashAndTokenManager.generateToken({ userId: params.id }),
         hashedPassword,
       });
     });

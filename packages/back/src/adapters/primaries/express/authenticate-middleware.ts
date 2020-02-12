@@ -1,5 +1,6 @@
 import { Response, NextFunction, Request } from "express";
 import jwt from "jsonwebtoken";
+import { UserId } from "@paralogs/shared";
 import { config } from "../../../config";
 import { UserRepo } from "../../../domain/port/UserRepo";
 
@@ -14,7 +15,7 @@ export const authenticateMiddlewareBuilder = (userRepo: UserRepo) => async (
   const token = getTokenFromHeaders(req);
   if (!token) return res.status(401).send("You need to authenticate first");
   try {
-    const { userId } = jwt.verify(token, config.jwtSecret) as { userId: string };
+    const { userId } = jwt.verify(token, config.jwtSecret) as { userId: UserId };
     const userEntity = await userRepo.findById(userId);
     if (!userEntity) return sendForbiddenError(res);
     req.currentUser = userEntity;

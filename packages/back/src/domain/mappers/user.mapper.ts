@@ -6,7 +6,7 @@ export const userMapper = {
     const { email, firstName, lastName } = userEntity.getProps();
 
     return {
-      id: userEntity.id.value,
+      id: userEntity.id,
       email: email.value,
       firstName: firstName.value,
       ...(lastName ? { lastName: lastName.value } : {}),

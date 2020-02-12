@@ -6,8 +6,8 @@ export const wingMapper = {
     const wingProps = wingEntity.getProps();
     return {
       ...wingProps,
-      id: wingProps.id.value,
-      userId: wingProps.userId.value,
+      id: wingProps.id,
+      userId: wingProps.userId,
     };
   },
 };

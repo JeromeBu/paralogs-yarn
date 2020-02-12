@@ -27,7 +27,7 @@ describe("wing creation", () => {
     it("creates a wing", async () => {
       const wingDto = makeWingDTO();
       const createdWing = await createWingUseCase(wingDto);
-      expect(wingRepo.wings[0].id.value).toBe(wingDto.id);
+      expect(wingRepo.wings[0].id).toBe(wingDto.id);
       expectWingDtoResultToEqual(createdWing, wingDto);
     });
   });

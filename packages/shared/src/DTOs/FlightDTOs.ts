@@ -1,13 +1,17 @@
-import { DateString, NumberOfMinutes } from "../generalTypes/types";
+import { DateString, NumberOfMinutes, Flavor } from "../generalTypes/types";
+import { WingId } from "./WingDTOs";
+import { UserId } from "./UserDTOs";
+
+export type FlightId = Flavor<string, "FlightId">;
 
 export interface FlightDTO {
-  id: string;
-  wingId: string;
-  userId: string;
+  id: FlightId;
+  wingId: WingId;
+  userId: UserId;
   date: DateString;
   time: string;
   site: string;
-  duration: NumberOfMinutes /* in minutes */;
+  duration: NumberOfMinutes;
 }
 
 export type CreateFlightDTO = Omit<FlightDTO, "userId">;

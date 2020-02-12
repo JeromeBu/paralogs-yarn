@@ -1,17 +1,16 @@
+import { WingId, UserId } from "@paralogs/shared";
 import { WingRepo } from "../../../../domain/port/WingRepo";
 import { WingEntity } from "../../../../domain/entities/WingEntity";
-import { UserId } from "../../../../domain/valueObjects/user/UserId";
-import { WingId } from "../../../../domain/valueObjects/WingId";
 
 export class InMemoryWingRepo implements WingRepo {
   private _wings: WingEntity[] = [];
 
-  public async findById(id: WingId) {
-    return this._wings.find(wing => id.value === wing.id.value);
+  public async findById(wingId: WingId) {
+    return this._wings.find(wing => wing.id === wingId);
   }
 
   public async findByUserId(userId: UserId) {
-    return this._wings.filter(wing => userId.value === wing.userId.value);
+    return this._wings.filter(wing => userId === wing.userId);
   }
 
   public async save(wing: WingEntity) {

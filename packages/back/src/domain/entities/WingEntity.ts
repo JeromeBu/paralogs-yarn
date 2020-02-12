@@ -1,6 +1,4 @@
-import { WingDTO, DateString, NumberOfMinutes } from "@paralogs/shared";
-import { WingId } from "../valueObjects/WingId";
-import { UserId } from "../valueObjects/user/UserId";
+import { WingDTO, DateString, NumberOfMinutes, WingId, UserId } from "@paralogs/shared";
 import { Result } from "../core/Result";
 
 interface WingEntityProps {
@@ -28,16 +26,7 @@ export class WingEntity {
 
   private constructor(private props: WingEntityProps) {}
 
-  static create({ id, userId, ...props }: WingDTO): Result<WingEntity> {
-    return Result.combine({
-      id: WingId.create(id),
-      userId: UserId.create(userId),
-    }).map(
-      resultProps =>
-        new WingEntity({
-          ...props,
-          ...resultProps,
-        }),
-    );
+  static create(props: WingDTO): Result<WingEntity> {
+    return Result.ok(new WingEntity(props));
   }
 }

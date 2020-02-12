@@ -68,7 +68,7 @@ describe("User signUp", () => {
         token: someFakeToken,
       });
       const userEntity = userRepo.users[0];
-      expect(userEntity.id.value).toEqual(userId);
+      expect(userEntity.id).toEqual(userId);
       // expectUserEmailNotToBeConfirmed(userEntity);
       // How to improve hashing process testing ?
       expectUserHashedPasswordExist(userEntity);

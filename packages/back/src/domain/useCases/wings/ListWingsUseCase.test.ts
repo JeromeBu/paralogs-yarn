@@ -38,10 +38,10 @@ describe("wings retreival", () => {
       createWingUseCase = createWingUseCaseCreator(wingRepo);
 
       const wing1 = (
-        await createWing({ model: "Wing 1", userId: currentUser.id.value })
+        await createWing({ model: "Wing 1", userId: currentUser.id })
       ).getOrThrow();
       const wing2 = (
-        await createWing({ model: "Wing 2", userId: currentUser.id.value })
+        await createWing({ model: "Wing 2", userId: currentUser.id })
       ).getOrThrow();
       await createWing({
         model: "Wing 3",

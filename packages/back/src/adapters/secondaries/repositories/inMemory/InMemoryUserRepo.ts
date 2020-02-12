@@ -1,3 +1,4 @@
+import { UserId } from "@paralogs/shared";
 import { UserRepo } from "../../../../domain/port/UserRepo";
 import { UserEntity } from "../../../../domain/entities/UserEntity";
 import { Email } from "../../../../domain/valueObjects/user/Email";
@@ -13,9 +14,9 @@ export class InMemoryUserRepo implements UserRepo {
     });
   }
 
-  public async findById(userId: string) {
+  public async findById(userId: UserId) {
     return this._users.find(userEntity => {
-      return userEntity.id.value === userId;
+      return userEntity.id === userId;
     });
   }
 

@@ -68,7 +68,7 @@ describe("User Login", () => {
       expectUserResultToEqual(response, {
         token: jwtToken,
         currentUser: {
-          id: userEntity.id.value,
+          id: userEntity.id,
           email,
           firstName,
           lastName,
