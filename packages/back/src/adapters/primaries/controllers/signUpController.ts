@@ -1,4 +1,4 @@
-import { signUpSchema, ActualUuidGenerator } from "@paralogs/shared";
+import { signUpSchema, ActualUuidGenerator, shapeValidator } from "@paralogs/shared";
 import { success, failure, HttpResponse } from "../../lib/response-lib";
 import { signUpUseCaseCreator } from "../../../domain/useCases/auth/SignUpUseCase";
 import { ProductionHashAndTokenManager } from "../../secondaries/ProductionHashAndTokenManager";
@@ -12,7 +12,7 @@ const signUpUseCase = signUpUseCaseCreator({
 
 export const signUpController = async (body: object): Promise<HttpResponse> => {
   try {
-    const signUpParams = await signUpSchema.validate(body, { abortEarly: false });
+    const signUpParams = await shapeValidator(signUpSchema, body);
 
     return (await signUpUseCase(signUpParams))
       .map(currentUserWithToken => {

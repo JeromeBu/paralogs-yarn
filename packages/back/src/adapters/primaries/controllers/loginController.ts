@@ -1,4 +1,4 @@
-import { loginSchema } from "@paralogs/shared";
+import { loginSchema, shapeValidator } from "@paralogs/shared";
 import { HttpResponse, success, failure } from "../../lib/response-lib";
 import { ProductionHashAndTokenManager } from "../../secondaries/ProductionHashAndTokenManager";
 import { repositories } from "../../secondaries/repositories";
@@ -11,7 +11,7 @@ const loginUseCase = loginUseCaseCreator({
 
 export const loginController = async (body: object): Promise<HttpResponse> => {
   try {
-    const loginParams = await loginSchema.validate(body, { abortEarly: false });
+    const loginParams = await shapeValidator(loginSchema, body);
 
     return (await loginUseCase(loginParams))
       .map(currentUserWithToken => success(currentUserWithToken))

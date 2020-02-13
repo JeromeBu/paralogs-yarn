@@ -4,13 +4,11 @@ export * from "./FlightDTOs";
 export * from "./WingDTOs";
 export * from "./UserDTOs";
 
-// Not used, need to fix typings first:
-export const shapeValidator = <
-  S extends object /* TODO:  need to infer S */,
-  T extends Yup.ObjectSchema<Yup.Shape<object, S>>
->(
+export const shapeValidator = <T extends Yup.ObjectSchema<Yup.Shape<object, any>>>(
   schema: T,
   candidate: unknown,
-): Promise<Yup.Shape<object, S>> => {
-  return schema.validate(candidate, { abortEarly: false });
+): T extends Yup.ObjectSchema<Yup.Shape<object, infer S>>
+  ? Promise<Yup.Shape<object, S>>
+  : never => {
+  return schema.validate(candidate, { abortEarly: false }) as any;
 };
