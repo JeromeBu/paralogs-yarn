@@ -4,10 +4,6 @@ import { WingEntity } from "../entities/WingEntity";
 export const wingMapper = {
   entityToDTO: (wingEntity: WingEntity): WingDTO => {
     const wingProps = wingEntity.getProps();
-    return {
-      ...wingProps,
-      id: wingProps.id,
-      userId: wingProps.userId,
-    };
+    return wingProps;
   },
 };

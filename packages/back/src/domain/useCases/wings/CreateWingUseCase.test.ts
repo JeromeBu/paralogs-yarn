@@ -33,6 +33,6 @@ describe("wing creation", () => {
   });
 
   const expectWingDtoResultToEqual = (result: Result<WingDTO>, expected: WingDTO) => {
-    result.map(createdWingDTO => expect(createdWingDTO).toEqual(expected));
+    result.map(createdWingDTO => expect(createdWingDTO).toEqual(expected)).getOrThrow();
   };
 });

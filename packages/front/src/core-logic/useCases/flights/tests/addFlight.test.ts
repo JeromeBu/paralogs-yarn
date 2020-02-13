@@ -27,6 +27,7 @@ describe("Add a flight", () => {
         data: [flightDto],
         isLoading: false,
         isSaving: false,
+        isAddFlightFormVisible: false,
       },
     });
   });
