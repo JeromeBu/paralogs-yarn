@@ -4,7 +4,7 @@ import { UserId } from "./UserDTOs";
 
 export type WingId = Flavor<string, "WingId">;
 
-export interface CreateWingDTO {
+export interface AddWingDTO {
   id: WingId;
   brand: string;
   model: string;
@@ -13,7 +13,7 @@ export interface CreateWingDTO {
   flightTimePriorToOwn: NumberOfMinutes;
 }
 
-export const createWingSchema = Yup.object().shape<CreateWingDTO>({
+export const addWingSchema = Yup.object().shape<AddWingDTO>({
   id: Yup.string().required(),
   brand: Yup.string().required(),
   model: Yup.string().required(),
@@ -22,6 +22,6 @@ export const createWingSchema = Yup.object().shape<CreateWingDTO>({
   flightTimePriorToOwn: Yup.number(),
 });
 
-export interface WingDTO extends CreateWingDTO {
+export interface WingDTO extends AddWingDTO {
   userId: UserId;
 }

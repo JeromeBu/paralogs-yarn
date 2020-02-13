@@ -46,7 +46,7 @@ plugins:
 
 functions:
   create-wing:
-    handler: .build/adapters/primaries/createWing.handler.main
+    handler: .build/adapters/primaries/addWing.handler.main
     events:
       - http:
           path: wings

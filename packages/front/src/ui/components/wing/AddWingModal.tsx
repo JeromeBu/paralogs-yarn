@@ -5,7 +5,7 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { format } from "date-fns";
 
-import { uuid, CreateWingDTO, createWingSchema } from "@paralogs/shared";
+import { uuid, AddWingDTO, addWingSchema } from "@paralogs/shared";
 
 import { wingsActions } from "../../../core-logic/useCases/wings/wings.actions";
 import { RootState } from "../../../core-logic/reduxStore";
@@ -30,7 +30,7 @@ export const AddWingModal: React.FC = () => {
   const dispatch = useDispatch();
   const close = () => dispatch(wingsActions.hideAddWingForm());
   const isOpen = useSelector(({ wings }: RootState) => wings.isAddWingFormVisible);
-  const initialValues: CreateWingDTO = {
+  const initialValues: AddWingDTO = {
     id: uuid(),
     brand: "",
     model: "",
@@ -45,7 +45,7 @@ export const AddWingModal: React.FC = () => {
           await dispatch(wingsActions.addWingRequest(wingValues));
           close();
         }}
-        validationSchema={createWingSchema}
+        validationSchema={addWingSchema}
       >
         {({ values, handleChange, submitForm }) => (
           <Form>

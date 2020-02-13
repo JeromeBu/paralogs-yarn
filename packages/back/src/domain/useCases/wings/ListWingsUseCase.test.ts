@@ -1,6 +1,6 @@
 import { WingDTO, makeWingDTO, uuid } from "@paralogs/shared";
 import { InMemoryWingRepo } from "../../../adapters/secondaries/repositories/inMemory/InMemoryWingRepo";
-import { createWingUseCaseCreator, CreateWingUseCase } from "./CreateWingUseCase";
+import { addWingUseCaseCreator, AddWingUseCase } from "./AddWingUseCase";
 import { listWingsUseCaseCreator, ListWingsUseCase } from "./ListWingsUseCase";
 import { UserEntity } from "../../entities/UserEntity";
 import { setupCurrentUserCreator } from "../../testBuilders/userEntityBuilder";
@@ -33,17 +33,17 @@ describe("wings retreival", () => {
   });
 
   describe("user has some wings", () => {
-    let createWingUseCase: CreateWingUseCase;
+    let addWingUseCase: AddWingUseCase;
     it("retreives only the user's wings", async () => {
-      createWingUseCase = createWingUseCaseCreator(wingRepo);
+      addWingUseCase = addWingUseCaseCreator(wingRepo);
 
       const wing1 = (
-        await createWing({ model: "Wing 1", userId: currentUser.id })
+        await addWing({ model: "Wing 1", userId: currentUser.id })
       ).getOrThrow();
       const wing2 = (
-        await createWing({ model: "Wing 2", userId: currentUser.id })
+        await addWing({ model: "Wing 2", userId: currentUser.id })
       ).getOrThrow();
-      await createWing({
+      await addWing({
         model: "Wing 3",
         userId: uuid(),
       });
@@ -53,8 +53,8 @@ describe("wings retreival", () => {
       expectWingsDTOResultToEqual(retreivedWings, [wing1, wing2]);
     });
 
-    const createWing = async (wingParams: Partial<WingDTO>) => {
-      return createWingUseCase(makeWingDTO(wingParams));
+    const addWing = async (wingParams: Partial<WingDTO>) => {
+      return addWingUseCase(makeWingDTO(wingParams));
     };
   });
 

@@ -1,12 +1,12 @@
 import { createStandardAction, ActionType } from "typesafe-actions";
-import { WingDTO, CreateWingDTO } from "@paralogs/shared";
+import { WingDTO, AddWingDTO } from "@paralogs/shared";
 import { ErrorFromAction } from "../../utils";
 
 export const wingsActions = {
   showAddWingForm: createStandardAction("SHOW_ADD_WING_FORM")(),
   hideAddWingForm: createStandardAction("HIDE_ADD_WiNG_FORM")(),
 
-  addWingRequest: createStandardAction("ADD_WING_REQUEST")<CreateWingDTO>(),
+  addWingRequest: createStandardAction("ADD_WING_REQUEST")<AddWingDTO>(),
   addWingSuccess: createStandardAction("ADD_WING_SUCCESS")<WingDTO>(),
   addWingError: createStandardAction("ADD_WING_ERROR")<ErrorFromAction>(),
 

@@ -1,4 +1,4 @@
-import { CreateWingDTO } from "@paralogs/shared";
+import { AddWingDTO } from "@paralogs/shared";
 import { WingGateway } from "../useCases/wings/port/WingGateway";
 import { httpClient } from "./libs/httpClient";
 
@@ -7,7 +7,7 @@ export class HttpWingGateway implements WingGateway {
     return httpClient.retrieveWings();
   }
 
-  public addWing(createWingDto: CreateWingDTO) {
-    return httpClient.addWing(createWingDto);
+  public addWing(addWingDto: AddWingDTO) {
+    return httpClient.addWing(addWingDto);
   }
 }

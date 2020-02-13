@@ -5,7 +5,7 @@ import { WingEntity } from "../../entities/WingEntity";
 import { WingRepo } from "../../port/WingRepo";
 import { wingMapper } from "../../mappers/wing.mapper";
 
-export const createWingUseCaseCreator = (wingRepo: WingRepo) => {
+export const addWingUseCaseCreator = (wingRepo: WingRepo) => {
   return async (wingDto: WingDTO): Promise<Result<WingDTO>> => {
     const existingWingEntity = await wingRepo.findById(wingDto.id);
     if (existingWingEntity) return Result.fail(notUnique("Wing"));
@@ -17,4 +17,4 @@ export const createWingUseCaseCreator = (wingRepo: WingRepo) => {
   };
 };
 
-export type CreateWingUseCase = ReturnType<typeof createWingUseCaseCreator>;
+export type AddWingUseCase = ReturnType<typeof addWingUseCaseCreator>;
