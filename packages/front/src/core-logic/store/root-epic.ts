@@ -9,6 +9,7 @@ import { retreiveWingsEpic } from "../useCases/wings/epics/retrieveWings.epic";
 export const rootEpic = combineEpics<any>(
   signUpEpic,
   loginEpic,
+  // logoutEpic,
   retreiveFlightsEpic,
   addFlightEpic,
   addWingEpic,

@@ -11,6 +11,8 @@ import { from } from "rxjs/internal/observable/from";
 import { map } from "rxjs/internal/operators/map";
 import { Observable } from "rxjs/internal/Observable";
 import { config } from "../../config";
+import { LocalClientStorage } from "../LocalClientStorage";
+import { ClientStorage } from "../../useCases/auth/port/ClientStorage";
 
 const responseToObservable = <Output>(
   axiosResponsePromise: Promise<AxiosResponse<Output>>,
@@ -30,26 +32,25 @@ const createGetRequest = <Output>(
 ) => (): Observable<Output> =>
   responseToObservable(axios.get(`${config.apiUrl}${route}`, axiosConfig));
 
-// TODO: need to improve the way to handle providing the token
-// <<<---------------
-// const withAuthToken = <Output>(
-//   requestFunction: typeof createGetRequest,
-//   route: string,
-// ) => (token: string) =>
-//   requestFunction<Output>(route, {
-//     headers: {
-//       authorization: `Bearer ${token}`,
-//     },
-//   });
+const localClientStorage = new LocalClientStorage();
 
-// const retrieveWingsExemple = withAuthToken<WingDTO[]>(createGetRequest, "wings");
-// --------------->>>
+const withAuthTokenCreator = (clientStorage: ClientStorage) => <Output>(
+  requestFunction: typeof createGetRequest,
+  route: string,
+) =>
+  requestFunction<Output>(route, {
+    headers: {
+      authorization: `Bearer ${clientStorage.get("token")}`,
+    },
+  });
+
+const withAuthToken = withAuthTokenCreator(localClientStorage);
 
 export const httpClient = {
   signUp: createPostRequest<SignUpParams, CurrentUserWithAuthToken>("users/signup"),
   logIn: createPostRequest<LoginParams, CurrentUserWithAuthToken>("users/login"),
   logout: createGetRequest("users/logout"),
   retrieveUsers: createGetRequest<UserDTO[]>("users"),
-  retrieveWings: createGetRequest<WingDTO[]>("wings"),
+  retrieveWings: withAuthToken<WingDTO[]>(createGetRequest, "wings"),
   addWing: createPostRequest<CreateWingDTO, WingDTO>("wings"),
 };

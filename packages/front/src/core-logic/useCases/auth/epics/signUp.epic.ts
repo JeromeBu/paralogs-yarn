@@ -8,12 +8,16 @@ import { authActions, AuthAction } from "../auth.actions";
 export const signUpEpic: Epic<AuthAction, AuthAction, RootState, Dependencies> = (
   action$,
   state$,
-  { authGateway },
+  { authGateway, clientStorage },
 ) =>
   action$.pipe(
     filter(isActionOf(authActions.signUpRequest)),
     switchMap(({ payload }) => {
       return authGateway.signUp(payload).pipe(
+        switchMap(currentUserWithToken => {
+          clientStorage.set("token", currentUserWithToken.token);
+          return of(currentUserWithToken);
+        }),
         map(authActions.signUpSuccess),
         catchError(err => of(authActions.signUpError(err))),
       );

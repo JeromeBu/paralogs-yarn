@@ -38,10 +38,15 @@ describe("Logout", () => {
     expectStateToMatch(store, {
       auth: { isLoading: false, currentUser: null, token: null },
     });
+    // expectTokenToNotToBeInClientStorage();
   });
 
   const logout = () => store.dispatch(authActions.logout());
 
   const loginUser = ({ email, password }: { email: string; password: string }) =>
     store.dispatch(authActions.loginRequest({ email, password }));
+
+  // const expectTokenToNotToBeInClientStorage = () => {
+  //   expect(dependencies.clientStorage.get("token")).toBe(null);
+  // };
 });

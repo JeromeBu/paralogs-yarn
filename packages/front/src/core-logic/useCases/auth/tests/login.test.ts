@@ -37,6 +37,7 @@ describe("Login", () => {
           token,
         },
       });
+      expectTokenToBeStoredInClientStorage(token);
     });
   });
 
@@ -60,4 +61,8 @@ describe("Login", () => {
 
   const loginUser = ({ email, password }: { email: string; password: string }) =>
     store.dispatch(authActions.loginRequest({ email, password }));
+
+  const expectTokenToBeStoredInClientStorage = (token: string) => {
+    expect(dependencies.clientStorage.get("token")).toBe(token);
+  };
 });

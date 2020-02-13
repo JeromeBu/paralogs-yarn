@@ -41,6 +41,7 @@ describe("Sign up", () => {
           token,
         },
       });
+      expectTokenToBeStoredInClientStorage(token);
     });
   });
 
@@ -68,5 +69,9 @@ describe("Sign up", () => {
 
   const signUpUser = (signUpParams: SignUpParams) => {
     store.dispatch(authActions.signUpRequest(signUpParams));
+  };
+
+  const expectTokenToBeStoredInClientStorage = (token: string) => {
+    expect(dependencies.clientStorage.get("token")).toBe(token);
   };
 });

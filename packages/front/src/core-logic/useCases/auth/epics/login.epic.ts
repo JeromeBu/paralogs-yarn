@@ -8,12 +8,16 @@ import { authActions, AuthAction } from "../auth.actions";
 export const loginEpic: Epic<AuthAction, AuthAction, RootState, Dependencies> = (
   action$,
   state$,
-  { authGateway },
+  { authGateway, clientStorage },
 ) =>
   action$.pipe(
     filter(isActionOf(authActions.loginRequest)),
     switchMap(({ payload }) =>
       authGateway.login(payload).pipe(
+        switchMap(currentUserWithToken => {
+          clientStorage.set("token", currentUserWithToken.token);
+          return of(currentUserWithToken);
+        }),
         map(authActions.loginSuccess),
         catchError(err => of(authActions.loginError(err))),
       ),

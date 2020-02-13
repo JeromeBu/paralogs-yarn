@@ -25,6 +25,11 @@ export const authReducer = (
     case getType(authActions.loginRequest):
     case getType(authActions.logout):
       return { ...state, isLoading: false, currentUser: null, token: null };
+    // replace by : when logout epic is cleared...
+    // case getType(authActions.logout):
+    //   return { ...state, isLoading: true };
+    // case getType(authActions.logoutSuccess):
+    //   return { ...state, isLoading: false, currentUser: null, token: null };
     case getType(authActions.signUpSuccess):
     case getType(authActions.loginSuccess):
       const { currentUser, token } = action.payload;
