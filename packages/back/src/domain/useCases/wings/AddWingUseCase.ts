@@ -5,7 +5,11 @@ import { WingEntity } from "../../entities/WingEntity";
 import { WingRepo } from "../../port/WingRepo";
 import { wingMapper } from "../../mappers/wing.mapper";
 
-export const addWingUseCaseCreator = (wingRepo: WingRepo) => {
+interface AddWingDependencies {
+  wingRepo: WingRepo;
+}
+
+export const addWingUseCaseCreator = ({ wingRepo }: AddWingDependencies) => {
   return async (wingDto: WingDTO): Promise<Result<WingDTO>> => {
     const existingWingEntity = await wingRepo.findById(wingDto.id);
     if (existingWingEntity) return Result.fail(notUnique("Wing"));

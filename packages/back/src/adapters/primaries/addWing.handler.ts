@@ -5,7 +5,7 @@ import { noBodyProvided, noCurrentUser } from "../../domain/core/errors";
 import { success, failure, HttpResponse } from "../lib/response-lib";
 import { repositories } from "../secondaries/repositories";
 
-const addWingUseCase = addWingUseCaseCreator(repositories.wing);
+const addWingUseCase = addWingUseCaseCreator({ wingRepo: repositories.wing });
 
 export const main = async (event: APIGatewayEvent): Promise<HttpResponse> => {
   if (!event.body) throw noBodyProvided("Wing");

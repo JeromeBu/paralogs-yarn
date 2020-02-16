@@ -8,7 +8,7 @@ describe("wing creation", () => {
   let wingRepo: InMemoryWingRepo; // cannot use WingRepo because need access .wings
   beforeEach(() => {
     wingRepo = new InMemoryWingRepo();
-    addWingUseCase = addWingUseCaseCreator(wingRepo);
+    addWingUseCase = addWingUseCaseCreator({ wingRepo });
   });
   describe("a wing already exists with the same identity", () => {
     it("cannot create a wing with the same id", async () => {

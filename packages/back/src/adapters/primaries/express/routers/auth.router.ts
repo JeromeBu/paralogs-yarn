@@ -1,7 +1,7 @@
 import { Router } from "express";
-import { loginController } from "../../controllers/loginController";
+import { loginController } from "../../controllers/login.controller";
 import { sendBodyMissingError, sendControllerResponse } from "../../../lib/response-lib";
-import { signUpController } from "../../controllers/signUpController";
+import { signUpController } from "../../controllers/signUp.controller";
 
 export const authRouter = Router();
 

@@ -35,7 +35,7 @@ describe("wings retreival", () => {
   describe("user has some wings", () => {
     let addWingUseCase: AddWingUseCase;
     it("retreives only the user's wings", async () => {
-      addWingUseCase = addWingUseCaseCreator(wingRepo);
+      addWingUseCase = addWingUseCaseCreator({ wingRepo });
 
       const wing1 = (
         await addWing({ model: "Wing 1", userId: currentUser.id })
