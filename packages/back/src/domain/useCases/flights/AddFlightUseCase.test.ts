@@ -9,7 +9,7 @@ describe("add a flight", () => {
 
   beforeEach(() => {
     flightRepo = new InMemoryFlightRepo();
-    addFlightUseCase = addFlightUseCaseCreator(flightRepo);
+    addFlightUseCase = addFlightUseCaseCreator({ flightRepo });
   });
 
   describe("a flight already exists with the same identity", () => {

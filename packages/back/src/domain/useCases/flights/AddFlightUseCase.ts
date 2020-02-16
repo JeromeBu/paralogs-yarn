@@ -4,7 +4,11 @@ import { Result } from "../../core/Result";
 import { FlightEntity } from "../../entities/FlightEntity";
 import { flightMapper } from "../../mappers/flight.mapper";
 
-export const addFlightUseCaseCreator = (flightRepo: FlightRepo) => async (
+interface AddFlightDependencies {
+  flightRepo: FlightRepo;
+}
+
+export const addFlightUseCaseCreator = ({ flightRepo }: AddFlightDependencies) => async (
   flightDto: FlightDTO,
 ): Promise<Result<FlightDTO>> => {
   const existingFlightEntity = await flightRepo.findById(flightDto.id);

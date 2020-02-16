@@ -6,6 +6,7 @@ import { wingRouter } from "./routers/wing.router";
 import { authRouter } from "./routers/auth.router";
 import { authenticateMiddlewareBuilder } from "./authenticate-middleware";
 import { repositories } from "../../secondaries/repositories";
+import { flightRouter } from "./routers/flight.router";
 
 const app = express();
 
@@ -18,6 +19,7 @@ app.use(morgan("dev"));
 app.use(authenticateMiddlewareBuilder(repositories.user));
 
 app.use(wingRouter);
+app.use(flightRouter);
 app.use(authRouter);
 
 // eslint-disable-next-line no-console

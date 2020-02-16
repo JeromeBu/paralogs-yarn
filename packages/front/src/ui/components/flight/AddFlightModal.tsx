@@ -13,7 +13,7 @@ import { Form, Formik } from "formik";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { uuid, CreateFlightDTO } from "@paralogs/shared";
+import { uuid, AddFlightDTO } from "@paralogs/shared";
 
 import { CenteredModal } from "../commun/CenteredModal";
 import { wingsActions } from "../../../core-logic/useCases/wings/wings.actions";
@@ -36,7 +36,7 @@ const useStyles = makeStyles(theme => ({
 interface AddFlightModalProps {
   isOpen: boolean;
   close: () => void;
-  handleSubmit: (flight: CreateFlightDTO) => Promise<void>;
+  handleSubmit: (flight: AddFlightDTO) => Promise<void>;
 }
 
 export const AddFlightModal: React.FC<AddFlightModalProps> = ({
@@ -48,7 +48,7 @@ export const AddFlightModal: React.FC<AddFlightModalProps> = ({
   const dispatch = useDispatch();
   const wings = useSelector((state: RootState) => state.wings.data);
 
-  const initialValues: CreateFlightDTO = {
+  const initialValues: AddFlightDTO = {
     id: uuid(),
     site: "",
     date: format(new Date(), "yyyy-MM-dd"),

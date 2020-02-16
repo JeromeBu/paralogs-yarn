@@ -1,5 +1,5 @@
 import { createStandardAction, ActionType } from "typesafe-actions";
-import { FlightDTO, CreateFlightDTO } from "@paralogs/shared";
+import { FlightDTO, AddFlightDTO } from "@paralogs/shared";
 import { ErrorFromAction } from "../../utils";
 
 export const flightActions = {
@@ -7,7 +7,7 @@ export const flightActions = {
   retreiveFlightsSuccess: createStandardAction("RETREIVE_FLIGHTS_SUCCESS")<FlightDTO[]>(),
   retreiveFlightsError: createStandardAction("RETREIVE_FLIGHTS_ERROR")<ErrorFromAction>(),
 
-  addFlightRequest: createStandardAction("ADD_FLIGHT")<CreateFlightDTO>(),
+  addFlightRequest: createStandardAction("ADD_FLIGHT")<AddFlightDTO>(),
 
   // QUESTION: addedFlight action has been remove, I added {isSaving: false} to retreiveFlightsSuccess reducer
   // not sure if this is the right way

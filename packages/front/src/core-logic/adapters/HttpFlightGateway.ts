@@ -1,22 +1,13 @@
-import { BehaviorSubject, of } from "rxjs";
-
-import { FlightDTO, CreateFlightDTO, uuid } from "@paralogs/shared";
-
+import { AddFlightDTO } from "@paralogs/shared";
 import { FlightGateway } from "../useCases/flights/port/FlightGateway";
+import { httpClient } from "./libs/httpClient";
 
 export class HttpFlightGateway implements FlightGateway {
-  private _flights$ = new BehaviorSubject<FlightDTO[]>([]);
-
   retrieveFlights() {
-    return this._flights$;
+    return httpClient.retrieveFlights();
   }
 
-  addFlight(createFlightDto: CreateFlightDTO) {
-    const flightDto = { ...createFlightDto, userId: uuid() };
-    return of(flightDto);
-  }
-
-  get flights$() {
-    return this._flights$;
+  addFlight(addFlightDto: AddFlightDTO) {
+    return httpClient.addFlight(addFlightDto);
   }
 }

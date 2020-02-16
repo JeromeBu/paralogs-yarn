@@ -13,7 +13,7 @@ interface FlightEntityProps {
   wingId: WingId;
   userId: UserId;
   date: DateString;
-  time: string;
+  time?: string;
   site: string;
   duration: NumberOfMinutes;
 }

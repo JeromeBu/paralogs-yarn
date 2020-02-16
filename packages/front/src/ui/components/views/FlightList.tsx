@@ -3,7 +3,7 @@ import { Container, Fab, List, makeStyles, Typography } from "@material-ui/core"
 import AddIcon from "@material-ui/icons/Add";
 import { useDispatch, useSelector } from "react-redux";
 
-import { CreateFlightDTO } from "@paralogs/shared";
+import { AddFlightDTO } from "@paralogs/shared";
 
 import { RootState } from "../../../core-logic/reduxStore";
 import { flightActions } from "../../../core-logic/useCases/flights/flights.actions";
@@ -66,8 +66,8 @@ export const FlightList: React.FC = () => {
       <AddFlightModal
         close={() => dispatch(flightActions.hideAddFlightForm())}
         isOpen={isAddFlightFormVisible}
-        handleSubmit={async (flight: CreateFlightDTO) => {
-          await dispatch(flightActions.addFlightRequest(flight));
+        handleSubmit={async (addFlightDto: AddFlightDTO) => {
+          await dispatch(flightActions.addFlightRequest(addFlightDto));
         }}
       />
       <AddWingModal />

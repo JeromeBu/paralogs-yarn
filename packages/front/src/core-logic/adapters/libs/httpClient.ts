@@ -6,6 +6,8 @@ import {
   CurrentUserWithAuthToken,
   UserDTO,
   AddWingDTO,
+  AddFlightDTO,
+  FlightDTO,
 } from "@paralogs/shared";
 import { from } from "rxjs/internal/observable/from";
 import { map } from "rxjs/internal/operators/map";
@@ -48,7 +50,9 @@ export const httpClient = {
   signUp: POST<SignUpParams, CurrentUserWithAuthToken>("users/signup"),
   logIn: POST<LoginParams, CurrentUserWithAuthToken>("users/login"),
   logout: GETwithToken("users/logout"),
-  retrieveUsers: GET<UserDTO[]>("users"),
+  retrieveUsers: GETwithToken<UserDTO[]>("users"),
   retrieveWings: GETwithToken<WingDTO[]>("wings"),
   addWing: POSTwithToken<AddWingDTO, WingDTO>("wings"),
+  addFlight: POSTwithToken<AddFlightDTO, FlightDTO>("flights"),
+  retrieveFlights: GETwithToken<FlightDTO[]>("flights"),
 };

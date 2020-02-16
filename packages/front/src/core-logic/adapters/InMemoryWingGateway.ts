@@ -1,5 +1,5 @@
 import { BehaviorSubject, of } from "rxjs";
-import { WingDTO } from "@paralogs/shared";
+import { WingDTO, AddWingDTO, uuid } from "@paralogs/shared";
 import { WingGateway } from "../useCases/wings/port/WingGateway";
 
 export class InMemoryWingGateway implements WingGateway {
@@ -9,8 +9,9 @@ export class InMemoryWingGateway implements WingGateway {
     return this._wings$;
   }
 
-  public addWing(wing: WingDTO) {
-    return of(wing);
+  public addWing(addWingDto: AddWingDTO) {
+    const wingDto: WingDTO = { ...addWingDto, userId: uuid() };
+    return of(wingDto);
   }
 
   get wings$() {

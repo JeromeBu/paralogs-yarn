@@ -13,7 +13,7 @@ export const addWingController = async (body: object, currentUser: UserEntity) =
     const addWingDto = await shapeValidator(addWingSchema, body);
 
     return (await addWingUseCase({ ...addWingDto, userId: currentUser.id }))
-      .map(currentUserWithToken => success(currentUserWithToken))
+      .map(wingDto => success(wingDto))
       .getOrElse(error => {
         return failure(error, 400);
       });

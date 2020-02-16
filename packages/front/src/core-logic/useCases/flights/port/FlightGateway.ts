@@ -1,9 +1,9 @@
 import { Observable } from "rxjs";
-import { FlightDTO, CreateFlightDTO } from "@paralogs/shared";
+import { FlightDTO, AddFlightDTO } from "@paralogs/shared";
 
 export interface FlightGateway {
   retrieveFlights(): Observable<FlightDTO[]>;
   addFlight(
-    flight: CreateFlightDTO,
+    addFlightDto: AddFlightDTO,
   ): Observable<FlightDTO> /* QUESTION: return null, void or FlightDTO ? */;
 }
