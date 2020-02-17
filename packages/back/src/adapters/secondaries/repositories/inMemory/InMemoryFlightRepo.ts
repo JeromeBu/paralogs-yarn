@@ -1,4 +1,4 @@
-import { FlightId } from "@paralogs/shared";
+import { FlightId, UserId } from "@paralogs/shared";
 import { FlightRepo } from "../../../../domain/port/FlightRepo";
 import { FlightEntity } from "../../../../domain/entities/FlightEntity";
 
@@ -7,6 +7,10 @@ export class InMemoryFlightRepo implements FlightRepo {
 
   public async findById(flightId: FlightId) {
     return this._flights.find(flight => flight.id === flightId);
+  }
+
+  public async findByUserId(userId: UserId) {
+    return this._flights.filter(flight => flight.getProps().userId === userId);
   }
 
   public async save(flightEntity: FlightEntity) {

@@ -3,7 +3,10 @@ import { InMemoryWingRepo } from "../../../adapters/secondaries/repositories/inM
 import { addWingUseCaseCreator, AddWingUseCase } from "./AddWingUseCase";
 import { listWingsUseCaseCreator, ListWingsUseCase } from "./ListWingsUseCase";
 import { UserEntity } from "../../entities/UserEntity";
-import { setupCurrentUserCreator } from "../../testBuilders/userEntityBuilder";
+import {
+  setupCurrentUserCreator,
+  SetupCurrentUser,
+} from "../../testBuilders/userEntityBuilder";
 import { InMemoryUserRepo } from "../../../adapters/secondaries/repositories/inMemory/InMemoryUserRepo";
 import { TestHashAndTokenManager } from "../../../adapters/secondaries/TestHashAndTokenManager";
 import { HashAndTokenManager } from "../../port/HashAndTokenManager";
@@ -12,7 +15,7 @@ describe("wings retreival", () => {
   let listWingsUseCase: ListWingsUseCase;
   let wingRepo: InMemoryWingRepo; // cannot use WingRepo because need access .wings
   let userRepo: InMemoryUserRepo; // cannot use UserRepo because need access .users
-  let setupCurrentUser: ReturnType<typeof setupCurrentUserCreator>;
+  let setupCurrentUser: SetupCurrentUser;
   let currentUser: UserEntity;
   let hashAndTokenManager: HashAndTokenManager;
 

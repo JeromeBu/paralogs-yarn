@@ -27,3 +27,5 @@ export const setupCurrentUserCreator = ({
   userRepo.setUsers([currentUserEntity]);
   return currentUserEntity;
 };
+
+export type SetupCurrentUser = ReturnType<typeof setupCurrentUserCreator>;
