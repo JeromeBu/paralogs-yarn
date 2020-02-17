@@ -1,13 +1,13 @@
-import { listWingsUseCaseCreator } from "../../../domain/useCases/wings/ListWingsUseCase";
+import { retreiveWingsUseCaseCreator } from "../../../domain/useCases/wings/RetreiveWingsUseCase";
 import { failure, success } from "../../lib/response-lib";
 import { repositories } from "../../secondaries/repositories";
 import { UserEntity } from "../../../domain/entities/UserEntity";
 
-const listWingsUseCase = listWingsUseCaseCreator(repositories.wing);
+const retreiveWingsUseCase = retreiveWingsUseCaseCreator(repositories.wing);
 
-export const listWingsController = async (currentUser: UserEntity) => {
+export const retreiveWingsController = async (currentUser: UserEntity) => {
   try {
-    const wingDTOs = await listWingsUseCase(currentUser);
+    const wingDTOs = await retreiveWingsUseCase(currentUser);
     return success(wingDTOs);
   } catch (error) {
     // eslint-disable-next-line no-console
