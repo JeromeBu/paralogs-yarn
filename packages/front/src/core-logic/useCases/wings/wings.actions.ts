@@ -4,7 +4,7 @@ import { ErrorFromAction } from "../../utils";
 
 export const wingsActions = {
   showAddWingForm: createStandardAction("SHOW_ADD_WING_FORM")(),
-  hideAddWingForm: createStandardAction("HIDE_ADD_WiNG_FORM")(),
+  hideAddWingForm: createStandardAction("HIDE_ADD_WING_FORM")(),
 
   addWingRequest: createStandardAction("ADD_WING_REQUEST")<AddWingDTO>(),
   addWingSuccess: createStandardAction("ADD_WING_SUCCESS")<WingDTO>(),
