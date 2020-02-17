@@ -3,13 +3,13 @@ import { FlightDTO } from "@paralogs/shared";
 import { flightActions, FlightAction } from "./flights.actions";
 import { ErrorFromAction, shouldNeverBeCalled } from "../../utils";
 
-interface FlightsState {
-  readonly data: FlightDTO[];
-  readonly error?: ErrorFromAction;
-  readonly isAddFlightFormVisible: boolean;
-  readonly isLoading: boolean;
-  readonly isSaving: boolean;
-}
+type FlightsState = Readonly<{
+  data: FlightDTO[];
+  error?: ErrorFromAction;
+  isAddFlightFormVisible: boolean;
+  isLoading: boolean;
+  isSaving: boolean;
+}>;
 
 const initialState: FlightsState = {
   isLoading: false,

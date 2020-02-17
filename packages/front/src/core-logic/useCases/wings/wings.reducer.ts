@@ -3,13 +3,13 @@ import { WingDTO } from "@paralogs/shared";
 import { wingsActions, WingAction } from "./wings.actions";
 import { shouldNeverBeCalled, ErrorFromAction } from "../../utils";
 
-interface WingsState {
-  readonly isAddWingFormVisible: boolean;
-  readonly data: WingDTO[];
-  readonly isSaving: boolean;
-  readonly isLoading: boolean;
-  readonly error?: ErrorFromAction;
-}
+type WingsState = Readonly<{
+  isAddWingFormVisible: boolean;
+  data: WingDTO[];
+  isSaving: boolean;
+  isLoading: boolean;
+  error?: ErrorFromAction;
+}>;
 
 const initialState: WingsState = {
   isAddWingFormVisible: false,

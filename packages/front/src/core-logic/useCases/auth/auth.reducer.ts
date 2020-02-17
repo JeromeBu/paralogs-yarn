@@ -3,12 +3,12 @@ import { UserDTO } from "@paralogs/shared";
 import { ErrorFromAction, shouldNeverBeCalled } from "../../utils";
 import { AuthAction, authActions } from "./auth.actions";
 
-interface AuthState {
-  readonly error?: ErrorFromAction;
-  readonly isLoading: boolean;
-  readonly currentUser: UserDTO | null;
-  readonly token: string | null;
-}
+type AuthState = Readonly<{
+  error?: ErrorFromAction;
+  isLoading: boolean;
+  currentUser: UserDTO | null;
+  token: string | null;
+}>;
 
 const initialState: AuthState = {
   isLoading: false,
