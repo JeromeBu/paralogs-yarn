@@ -1,5 +1,6 @@
-import { BehaviorSubject, of } from "rxjs";
-import { WingDTO, AddWingDTO, uuid } from "@paralogs/shared";
+import { AddWingDTO, WingDTO } from "@paralogs/shared";
+import { BehaviorSubject } from "rxjs";
+import { map } from "rxjs/operators";
 import { WingGateway } from "../useCases/wings/port/WingGateway";
 
 export class InMemoryWingGateway implements WingGateway {
@@ -9,9 +10,9 @@ export class InMemoryWingGateway implements WingGateway {
     return this._wings$;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public addWing(addWingDto: AddWingDTO) {
-    const wingDto: WingDTO = { ...addWingDto, userId: uuid() };
-    return of(wingDto);
+    return this._wings$.pipe(map(wings => wings.find(({ id }) => id === addWingDto.id)!));
   }
 
   get wings$() {

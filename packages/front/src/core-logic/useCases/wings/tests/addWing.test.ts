@@ -1,5 +1,5 @@
 import { Store } from "redux";
-import { WingDTO, makeWingDTO } from "@paralogs/shared";
+import { WingDTO, makeWingDTO, AddWingDTO } from "@paralogs/shared";
 import { RootState, configureReduxStore } from "../../../reduxStore";
 import {
   expectStateToMatch,
@@ -17,17 +17,23 @@ describe("Add a wing", () => {
     store = configureReduxStore(dependencies);
   });
 
-  it("adds a new flight", async () => {
-    const wing = makeWingDTO();
+  it("adds a new wing", async () => {
+    const wingDto = makeWingDTO();
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { userId, ...addWingDTO } = wingDto;
 
-    addWing(wing);
+    feedWithWing(wingDto);
+    addWing(addWingDTO);
     expectStateToMatch(store, {
       wings: {
         isSaving: false,
-        data: [wing],
+        data: [wingDto],
       },
     });
   });
 
-  const addWing = (wing: WingDTO) => store.dispatch(wingsActions.addWingRequest(wing));
+  const feedWithWing = (wingDTO: WingDTO) =>
+    dependencies.wingGateway.wings$.next([wingDTO]);
+
+  const addWing = (wing: AddWingDTO) => store.dispatch(wingsActions.addWingRequest(wing));
 });
