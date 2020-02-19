@@ -1,5 +1,5 @@
 import { LoginParams, SignUpParams, CurrentUserWithAuthToken } from "@paralogs/shared";
-import { BehaviorSubject, of } from "rxjs";
+import { BehaviorSubject } from "rxjs";
 import { filter } from "rxjs/operators";
 import { AuthGateway } from "../useCases/auth/port/AuthGateway";
 

@@ -10,7 +10,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Formik, Form } from "formik";
 import { LoginParams, loginSchema } from "@paralogs/shared";
@@ -40,24 +40,31 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export const LoginView: React.FC = () => {
+const useRedirectOnLogin = () => {
   const history = useHistory();
   const location = useLocation();
-  const { from } = location.state || { from: { pathname: "/" } };
+  const { from } = location.state || { from: "/" };
 
+  const [renderCount, setCount] = useState(0);
+  const isAuthenticated = useSelector(authSelectors.isAuthenticated);
+  useEffect(() => {
+    if (renderCount > 0 && isAuthenticated) {
+      history.replace(from);
+    }
+    setCount(renderCount + 1);
+  }, [from, history, isAuthenticated, renderCount]);
+};
+
+export const LoginView: React.FC = () => {
   const dispatch = useDispatch();
   const error = useSelector(authSelectors.error);
-  const isAuthenticated = useSelector(authSelectors.isAuthenticated);
   const classes = useStyles();
+  useRedirectOnLogin();
 
   const initialValues: LoginParams = {
     email: "",
     password: "",
   };
-
-  if (isAuthenticated) {
-    history.replace(from);
-  }
 
   return (
     <Container maxWidth="xs" className={classes.paper}>

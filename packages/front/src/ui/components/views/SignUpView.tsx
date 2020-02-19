@@ -10,7 +10,7 @@ import {
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Formik, Form, ErrorMessage } from "formik";
+import { Formik, Form, ErrorMessage as FormikErrorMessage } from "formik";
 import { SignUpParams, signUpSchema } from "@paralogs/shared";
 import { authActions } from "../../../core-logic/useCases/auth/auth.actions";
 import { MyLink } from "../commun/MyLink";
@@ -35,7 +35,17 @@ const useStyles = makeStyles(theme => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  error: { color: theme.palette.error.main },
 }));
+
+const ErrorMessage = (props: { name: string }) => {
+  const classes = useStyles();
+  return (
+    <FormikErrorMessage {...props}>
+      {errorMessage => <span className={classes.error}>{errorMessage}</span>}
+    </FormikErrorMessage>
+  );
+};
 
 export const SignUpView: React.FC = () => {
   const dispatch = useDispatch();
@@ -70,7 +80,6 @@ export const SignUpView: React.FC = () => {
             <TextField
               variant="outlined"
               margin="normal"
-              required
               fullWidth
               label="First name"
               name="firstName"
@@ -90,7 +99,6 @@ export const SignUpView: React.FC = () => {
             <TextField
               variant="outlined"
               margin="normal"
-              required
               fullWidth
               label="Email Address"
               name="email"
@@ -102,7 +110,6 @@ export const SignUpView: React.FC = () => {
             <TextField
               variant="outlined"
               margin="normal"
-              required
               fullWidth
               name="password"
               label="Password"

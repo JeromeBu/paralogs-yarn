@@ -31,6 +31,8 @@ describe("GetMe :  recover current user informations", () => {
       expectStateToMatch(store, {
         auth: {
           error: new Error(errorMessage),
+          token: null,
+          isLoading: false,
         },
       });
     });

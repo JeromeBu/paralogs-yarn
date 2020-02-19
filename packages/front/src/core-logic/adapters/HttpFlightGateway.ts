@@ -4,10 +4,10 @@ import { httpClient } from "./libs/httpClient";
 
 export class HttpFlightGateway implements FlightGateway {
   retrieveFlights() {
-    return httpClient.retrieveFlights();
+    return httpClient.retrieveFlights()();
   }
 
   addFlight(addFlightDto: AddFlightDTO) {
-    return httpClient.addFlight(addFlightDto);
+    return httpClient.addFlight()(addFlightDto);
   }
 }

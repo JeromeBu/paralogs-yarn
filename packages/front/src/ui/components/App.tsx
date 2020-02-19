@@ -2,7 +2,7 @@ import { CssBaseline } from "@material-ui/core";
 import React from "react";
 import { Provider } from "react-redux";
 import { AppRouter } from "./AppRouter";
-import { store } from "../../core-logic/reduxStore";
+import { store } from "../store-builder";
 
 export const App: React.FC = () => {
   return (

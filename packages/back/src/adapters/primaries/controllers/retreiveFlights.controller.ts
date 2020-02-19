@@ -12,6 +12,6 @@ export const retreiveFlightsController = async (currentUser: UserEntity) => {
     const flightDTOs = await retreiveFlightsUseCase(currentUser);
     return success(flightDTOs);
   } catch (error) {
-    return failure({ error: error.message }, error.statusCode);
+    return failure(error.message ?? error, error.statusCode);
   }
 };

@@ -12,6 +12,6 @@ export const retreiveWingsController = async (currentUser: UserEntity) => {
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(`Error : `, error);
-    return failure({ error: error.message }, error.statusCode);
+    return failure(error.message ?? error, error.statusCode);
   }
 };

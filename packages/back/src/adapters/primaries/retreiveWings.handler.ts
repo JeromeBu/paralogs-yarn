@@ -8,7 +8,7 @@ const makeUserEntity = makeUserEntityCreator(new TestHashAndTokenManager());
 
 export const main = async () => {
   const currentUser = await makeUserEntity();
-  if (!currentUser) return failure(noCurrentUser());
+  if (!currentUser) return failure(noCurrentUser().message);
 
   return retreiveWingsController(currentUser);
 };

@@ -11,6 +11,6 @@ export const getMeController = async (currentUser: UserEntity) => {
     };
     return success(currentUserWithToken);
   } catch (error) {
-    return failure({ error: error.message }, error.statusCode);
+    return failure(error.message ?? error, error.statusCode);
   }
 };

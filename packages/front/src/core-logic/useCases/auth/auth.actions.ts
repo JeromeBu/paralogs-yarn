@@ -5,7 +5,7 @@ import { ErrorFromAction } from "../../utils";
 
 export const authActions = {
   logout: createStandardAction("LOGGOUT")(),
-  // logoutSuccess: createStandardAction("LOGGOUT_SUCCEEDED")(),
+  logoutSuccess: createStandardAction("LOGGOUT_SUCCEEDED")(),
 
   getMe: createStandardAction("GET_ME")(),
   getMeSuccess: createStandardAction("GET_ME_SUCCEEDED")<CurrentUserWithAuthToken>(),

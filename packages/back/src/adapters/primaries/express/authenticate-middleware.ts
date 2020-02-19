@@ -14,7 +14,7 @@ export const authenticateMiddlewareBuilder = (userRepo: UserRepo) => async (
 ) => {
   if (whiteListedRoutes.includes(req.path)) return next();
   const token = getTokenFromHeaders(req);
-  if (!token) return res.status(401).send("You need to authenticate first");
+  if (!token) return res.status(401).json({ message: "You need to authenticate first" });
   try {
     const { userId } = jwt.verify(token, config.jwtSecret) as { userId: UserId };
     const userEntity = await userRepo.findById(userId);
@@ -31,7 +31,7 @@ export const authenticateMiddlewareBuilder = (userRepo: UserRepo) => async (
 
 const sendForbiddenError = (res: Response) => {
   res.status(403);
-  return res.send("Provided token does not match a user or is exired");
+  return res.json({ message: "Provided token does not match a user or is exired" });
 };
 
 const getTokenFromHeaders = (req: Request) => req.headers.authorization?.slice(7);

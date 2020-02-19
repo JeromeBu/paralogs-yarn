@@ -32,19 +32,23 @@ const GET = <Output>(route: string, axiosConfig?: AxiosRequestConfig) => (): Obs
 
 const localClientStorage = new LocalClientStorage();
 
-const GETwithToken = <Output>(route: string) =>
-  GET<Output>(route, {
+const GETwithToken = <Output>(route: string) => () => {
+  const token = localClientStorage.get("token");
+  return GET<Output>(route, {
     headers: {
-      authorization: `Bearer ${localClientStorage.get("token")}`,
+      authorization: `Bearer ${token}`,
     },
   });
+};
 
-const POSTwithToken = <Input, Output>(route: string) =>
-  POST<Input, Output>(route, {
+const POSTwithToken = <Input, Output>(route: string) => () => {
+  const token = localClientStorage.get("token");
+  return POST<Input, Output>(route, {
     headers: {
-      authorization: `Bearer ${localClientStorage.get("token")}`,
+      authorization: `Bearer ${token}`,
     },
   });
+};
 
 export const httpClient = {
   getMe: GETwithToken<CurrentUserWithAuthToken>("users/getme"),

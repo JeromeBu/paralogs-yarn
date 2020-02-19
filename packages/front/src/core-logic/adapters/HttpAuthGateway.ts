@@ -12,6 +12,6 @@ export class HttpAuthGateway implements AuthGateway {
   }
 
   public getMe() {
-    return httpClient.getMe();
+    return httpClient.getMe()();
   }
 }

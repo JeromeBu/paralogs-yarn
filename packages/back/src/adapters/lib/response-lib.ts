@@ -5,8 +5,8 @@ export function success(body: unknown, statusCode = 200) {
   return buildResponse(statusCode, body);
 }
 
-export function failure(error: unknown, statusCode?: number) {
-  return buildResponse(statusCode ?? 500, error);
+export function failure(errorMessage: string, statusCode?: number) {
+  return buildResponse(statusCode ?? 500, { message: errorMessage });
 }
 
 export interface HttpResponse {
@@ -29,7 +29,7 @@ function buildResponse(statusCode: number, body: unknown): HttpResponse {
 export const sendBodyMissingError = (params: { res: Response; expected: string }) => {
   const { res, expected } = params;
   res.status(400);
-  return res.json(noBodyProvided(expected).message);
+  return res.json({ message: noBodyProvided(expected).message });
 };
 
 export const sendControllerResponse = (

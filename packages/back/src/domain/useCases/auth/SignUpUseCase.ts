@@ -15,32 +15,25 @@ export const signUpUseCaseCreator = ({
   userRepo,
   uuidGenerator,
   hashAndTokenManager,
-}: SignUpDependencies) => async (
+}: SignUpDependencies) => (
   signUpParams: SignUpParams,
 ): Promise<Result<CurrentUserWithAuthToken>> => {
-  return (
-    await (
-      await UserEntity.create(
-        {
-          ...signUpParams,
-          id: uuidGenerator.generate(),
-        },
-        { hashAndTokenManager },
-      )
-    ).flatMapAsync(async signedUpUserEntity => {
-      try {
-        await userRepo.save(signedUpUserEntity);
-        return Result.ok<UserEntity>(signedUpUserEntity);
-      } catch (error) {
-        return Result.fail<UserEntity>(error.message);
-      }
-    })
-  ).mapAsync(async signedUpUserEntity => {
-    return {
-      token: signedUpUserEntity.getProps().authToken,
-      currentUser: userMapper.entityToDTO(signedUpUserEntity),
-    };
-  });
+  return UserEntity.create(
+    {
+      ...signUpParams,
+      id: uuidGenerator.generate(),
+    },
+    { hashAndTokenManager },
+  )
+    .then(userResult => userResult.flatMapAsync(userEntity => userRepo.save(userEntity)))
+    .then(savedUserResult =>
+      savedUserResult.mapAsync(async savedUserEntity => {
+        return {
+          token: savedUserEntity.getProps().authToken,
+          currentUser: userMapper.entityToDTO(savedUserEntity),
+        };
+      }),
+    );
 };
 
 export type SignUpUseCase = ReturnType<typeof signUpUseCaseCreator>;
