@@ -6,7 +6,7 @@ export const feedWithCurrentUserCreator = (dependencies: InMemoryDependencies) =
 ) => {
   dependencies.authGateway.currentUserWithToken$.next(userDTOWithAuthToken);
 };
-export const feedWithErrorCreator = (dependencies: InMemoryDependencies) => (
+export const feedWithAuthErrorCreator = (dependencies: InMemoryDependencies) => (
   errorMessage: string,
 ) => {
   dependencies.authGateway.currentUserWithToken$.error(new Error(errorMessage));

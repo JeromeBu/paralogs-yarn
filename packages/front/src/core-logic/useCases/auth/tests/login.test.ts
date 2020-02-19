@@ -6,7 +6,7 @@ import {
   getInMemoryDependencies,
   InMemoryDependencies,
 } from "../../../testUtils";
-import { feedWithCurrentUserCreator, feedWithErrorCreator } from "./auth.testUtils";
+import { feedWithCurrentUserCreator, feedWithAuthErrorCreator } from "./auth.testUtils";
 import { authActions } from "../auth.actions";
 
 describe("Login", () => {
@@ -19,7 +19,7 @@ describe("Login", () => {
     dependencies = getInMemoryDependencies();
     store = configureReduxStore(dependencies);
     feedWithCurrentUser = feedWithCurrentUserCreator(dependencies);
-    feedWithError = feedWithErrorCreator(dependencies);
+    feedWithError = feedWithAuthErrorCreator(dependencies);
   });
 
   describe("Email and password are correct", () => {

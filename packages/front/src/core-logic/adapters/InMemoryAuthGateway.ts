@@ -18,6 +18,10 @@ export class InMemoryAuthGateway implements AuthGateway {
     return this._currentUserWithToken$.pipe(filter(val => val !== undefined));
   }
 
+  public getMe() {
+    return this._currentUserWithToken$.pipe(filter(val => val !== undefined));
+  }
+
   public logout() {
     return of();
   }

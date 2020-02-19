@@ -4,14 +4,14 @@ import { httpClient } from "./libs/httpClient";
 
 export class HttpAuthGateway implements AuthGateway {
   public login(params: LoginParams) {
-    return httpClient.logIn(params);
+    return httpClient.login(params);
   }
 
   public signUp(params: SignUpParams) {
     return httpClient.signUp(params);
   }
 
-  public logout() {
-    return httpClient.logout();
+  public getMe() {
+    return httpClient.getMe();
   }
 }
