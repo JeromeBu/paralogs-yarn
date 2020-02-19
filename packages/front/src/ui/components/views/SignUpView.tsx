@@ -37,7 +37,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export const SignUp: React.FC = () => {
+export const SignUpView: React.FC = () => {
   const dispatch = useDispatch();
   const error = useSelector(authSelectors.error);
   const classes = useStyles();

@@ -1,15 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Container, Fab, List, makeStyles, Typography } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import { useDispatch, useSelector } from "react-redux";
 
+import { AddFlightDTO } from "@paralogs/shared";
+
 import { RootState } from "../../../core-logic/reduxStore";
+import { flightActions } from "../../../core-logic/useCases/flights/flights.actions";
 
 import { roundButtonStyle } from "../commun/styles";
+import { AddFlightModal } from "../flight/AddFlightModal";
 import { AddWingModal } from "../wing/AddWingModal";
-import { wingsActions } from "../../../core-logic/useCases/wings/wings.actions";
-import { WingsListItem } from "../wing/WingsListItem";
-import { DisplayError } from "../commun/DisplayError";
+import { FlightListItem } from "../flight/FlightListItem";
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -35,33 +37,43 @@ const useStyles = makeStyles(theme => ({
   ...roundButtonStyle(theme),
 }));
 
-export const WingsList: React.FC = () => {
+export const FlightListView: React.FC = () => {
   const classes = useStyles();
-  const isAddWingFormVisible = useSelector(
-    ({ wings }: RootState) => wings.isAddWingFormVisible,
+  const isAddFlightFormVisible = useSelector(
+    ({ flights }: RootState) => flights.isAddFlightFormVisible,
   );
-  const { data: wings, error } = useSelector((state: RootState) => state.wings);
+  const flights = useSelector((state: RootState) => state.flights.data);
   const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(flightActions.retreiveFlightsRequest());
+  }, [dispatch]);
 
   return (
     <Container maxWidth="sm" className={classes.paper}>
       <Typography variant="h5">
-        Your wings
-        {!isAddWingFormVisible && (
+        Your flights
+        {!isAddFlightFormVisible && (
           <Fab
             color="primary"
             className={classes.roundButton}
-            onClick={() => dispatch(wingsActions.showAddWingForm())}
+            onClick={() => dispatch(flightActions.showAddFlightForm())}
           >
             <AddIcon />
           </Fab>
         )}
       </Typography>
-      <DisplayError error={error} />
+
+      <AddFlightModal
+        close={() => dispatch(flightActions.hideAddFlightForm())}
+        isOpen={isAddFlightFormVisible}
+        handleSubmit={async (addFlightDto: AddFlightDTO) => {
+          await dispatch(flightActions.addFlightRequest(addFlightDto));
+        }}
+      />
       <AddWingModal />
       <List className={classes.listWrapper}>
-        {wings.map(wing => (
-          <WingsListItem key={wing.id} {...wing} />
+        {flights.map(flight => (
+          <FlightListItem key={flight.id} {...flight} />
         ))}
       </List>
     </Container>
