@@ -16,9 +16,10 @@ import { flightActions } from "../../core-logic/useCases/flights/flights.actions
 const useRetreiveUserData = () => {
   const dispatch = useDispatch();
   const isAuthenticated = useSelector(authSelectors.isAuthenticated);
+
   useEffect(() => {
-    dispatch(authActions.getMe());
     if (isAuthenticated) {
+      dispatch(authActions.getMe());
       dispatch(wingActions.retreiveWingsRequest());
       dispatch(flightActions.retreiveFlightsRequest());
     }
