@@ -9,15 +9,15 @@ export const authActions = {
 
   getMe: createStandardAction("GET_ME")(),
   getMeSuccess: createStandardAction("GET_ME_SUCCEEDED")<CurrentUserWithAuthToken>(),
-  getMeError: createStandardAction("GET_ME_FAILD")<ErrorFromAction>(),
+  getMeError: createStandardAction("GET_ME_FAILED")<ErrorFromAction>(),
 
   signUpRequest: createStandardAction("SIGN_UP_REQUESTED")<SignUpParams>(),
   signUpSuccess: createStandardAction("SIGN_UP_SUCCEEDED")<CurrentUserWithAuthToken>(),
-  signUpError: createStandardAction("SIGN_UP_FAILD")<ErrorFromAction>(),
+  signUpError: createStandardAction("SIGN_UP_FAILED")<ErrorFromAction>(),
 
   loginRequest: createStandardAction("LOGIN_REQUESTED")<LoginParams>(),
   loginSuccess: createStandardAction("LOGIN_SUCCEEDED")<CurrentUserWithAuthToken>(),
-  loginError: createStandardAction("LOGIN_FAILD")<ErrorFromAction>(),
+  loginError: createStandardAction("LOGIN_FAILED")<ErrorFromAction>(),
 };
 
 export type AuthAction = ActionType<typeof authActions>;

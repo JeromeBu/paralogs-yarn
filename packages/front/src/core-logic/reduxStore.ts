@@ -24,8 +24,17 @@ export interface Dependencies {
 
 export const configureReduxStore = (dependencies: Dependencies): Store => {
   const epicMiddleware = createEpicMiddleware({ dependencies });
+  const token = dependencies.clientStorage.get("token");
+
   const store = createStore(
     rootReducer,
+    {
+      auth: {
+        isLoading: false,
+        currentUser: null,
+        token,
+      },
+    },
     composeWithDevTools(applyMiddleware(epicMiddleware)),
   );
   epicMiddleware.run(rootEpic);

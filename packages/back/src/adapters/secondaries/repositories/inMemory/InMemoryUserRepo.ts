@@ -6,6 +6,8 @@ import { Email } from "../../../../domain/valueObjects/user/Email";
 export class InMemoryUserRepo implements UserRepo {
   public async save(userEntity: UserEntity) {
     this._users = [...this._users, userEntity];
+    // eslint-disable-next-line no-console
+    console.log({ userRepo: this._users });
   }
 
   public async findByEmail(email: Email) {
