@@ -14,6 +14,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Formik, Form } from "formik";
 import { LoginParams, loginSchema } from "@paralogs/shared";
+import { useHistory, useLocation } from "react-router-dom";
 import { MyLink } from "../commun/MyLink";
 import { authActions } from "../../../core-logic/useCases/auth/auth.actions";
 import { DisplayError } from "../commun/DisplayError";
@@ -39,15 +40,24 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export const Login: React.FC = () => {
+export const LoginView: React.FC = () => {
+  const history = useHistory();
+  const location = useLocation();
+  const { from } = location.state || { from: { pathname: "/" } };
+
   const dispatch = useDispatch();
   const error = useSelector(authSelectors.error);
+  const isAuthenticated = useSelector(authSelectors.isAuthenticated);
   const classes = useStyles();
 
   const initialValues: LoginParams = {
     email: "",
     password: "",
   };
+
+  if (isAuthenticated) {
+    history.replace(from);
+  }
 
   return (
     <Container maxWidth="xs" className={classes.paper}>
