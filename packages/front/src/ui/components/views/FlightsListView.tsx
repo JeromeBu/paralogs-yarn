@@ -37,7 +37,7 @@ const useStyles = makeStyles(theme => ({
   ...roundButtonStyle(theme),
 }));
 
-export const FlightListView: React.FC = () => {
+export const FlightsListView: React.FC = () => {
   const classes = useStyles();
   const isAddFlightFormVisible = useSelector(
     ({ flights }: RootState) => flights.isAddFlightFormVisible,

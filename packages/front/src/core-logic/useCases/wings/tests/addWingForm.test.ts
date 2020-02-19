@@ -1,7 +1,7 @@
 import { Store } from "redux";
 
 import { RootState, configureReduxStore } from "../../../reduxStore";
-import { wingsActions } from "../wings.actions";
+import { wingActions } from "../wings.actions";
 import {
   expectStateToMatch,
   InMemoryDependencies,
@@ -18,13 +18,13 @@ describe("Add a wing", () => {
   });
 
   it("shows add wing form, then hides it", () => {
-    store.dispatch(wingsActions.showAddWingForm());
+    store.dispatch(wingActions.showAddWingForm());
     expectStateToMatch(store, {
       wings: {
         isAddWingFormVisible: true,
       },
     });
-    store.dispatch(wingsActions.hideAddWingForm());
+    store.dispatch(wingActions.hideAddWingForm());
     expectStateToMatch(store, {
       wings: {
         isAddWingFormVisible: false,

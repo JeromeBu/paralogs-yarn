@@ -7,7 +7,7 @@ import { RootState } from "../../../core-logic/reduxStore";
 
 import { roundButtonStyle } from "../commun/styles";
 import { AddWingModal } from "../wing/AddWingModal";
-import { wingsActions } from "../../../core-logic/useCases/wings/wings.actions";
+import { wingActions } from "../../../core-logic/useCases/wings/wings.actions";
 import { WingsListItem } from "../wing/WingsListItem";
 import { DisplayError } from "../commun/DisplayError";
 
@@ -51,7 +51,7 @@ export const WingsListView: React.FC = () => {
           <Fab
             color="primary"
             className={classes.roundButton}
-            onClick={() => dispatch(wingsActions.showAddWingForm())}
+            onClick={() => dispatch(wingActions.showAddWingForm())}
           >
             <AddIcon />
           </Fab>

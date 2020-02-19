@@ -1,6 +1,6 @@
 import { getType } from "typesafe-actions";
 import { WingDTO } from "@paralogs/shared";
-import { wingsActions, WingAction } from "./wings.actions";
+import { wingActions, WingAction } from "./wings.actions";
 import { shouldNeverBeCalled, ErrorFromAction } from "../../utils";
 
 type WingsState = Readonly<{
@@ -23,20 +23,20 @@ export const wingsReducer = (
   action: WingAction,
 ): WingsState => {
   switch (action.type) {
-    case getType(wingsActions.showAddWingForm):
+    case getType(wingActions.showAddWingForm):
       return { ...state, isAddWingFormVisible: true };
-    case getType(wingsActions.hideAddWingForm):
+    case getType(wingActions.hideAddWingForm):
       return { ...state, isAddWingFormVisible: false };
-    case getType(wingsActions.addWingRequest):
+    case getType(wingActions.addWingRequest):
       return { ...state, isSaving: true };
-    case getType(wingsActions.addWingSuccess):
+    case getType(wingActions.addWingSuccess):
       return { ...state, data: [...state.data, action.payload], isSaving: false };
-    case getType(wingsActions.retreiveWingsRequest):
+    case getType(wingActions.retreiveWingsRequest):
       return { ...state, isLoading: true };
-    case getType(wingsActions.retreiveWingsSuccess):
+    case getType(wingActions.retreiveWingsSuccess):
       return { ...state, data: action.payload, isLoading: false };
-    case getType(wingsActions.addWingError):
-    case getType(wingsActions.retreiveWingsError):
+    case getType(wingActions.addWingError):
+    case getType(wingActions.retreiveWingsError):
       return { ...state, error: action.payload };
     default:
       shouldNeverBeCalled(action);

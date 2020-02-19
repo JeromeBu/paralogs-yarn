@@ -6,7 +6,7 @@ import {
   InMemoryDependencies,
   getInMemoryDependencies,
 } from "../../../testUtils";
-import { wingsActions } from "../wings.actions";
+import { wingActions } from "../wings.actions";
 
 describe("Add a wing", () => {
   let store: Store<RootState>;
@@ -35,5 +35,5 @@ describe("Add a wing", () => {
   const feedWithWing = (wingDTO: WingDTO) =>
     dependencies.wingGateway.wings$.next([wingDTO]);
 
-  const addWing = (wing: AddWingDTO) => store.dispatch(wingsActions.addWingRequest(wing));
+  const addWing = (wing: AddWingDTO) => store.dispatch(wingActions.addWingRequest(wing));
 });

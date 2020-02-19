@@ -7,7 +7,7 @@ import { format } from "date-fns";
 
 import { uuid, AddWingDTO, addWingSchema } from "@paralogs/shared";
 
-import { wingsActions } from "../../../core-logic/useCases/wings/wings.actions";
+import { wingActions } from "../../../core-logic/useCases/wings/wings.actions";
 import { RootState } from "../../../core-logic/reduxStore";
 import { CenteredModal } from "../commun/CenteredModal";
 
@@ -28,7 +28,7 @@ const useStyles = makeStyles(theme => ({
 export const AddWingModal: React.FC = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const close = () => dispatch(wingsActions.hideAddWingForm());
+  const close = () => dispatch(wingActions.hideAddWingForm());
   const isOpen = useSelector(({ wings }: RootState) => wings.isAddWingFormVisible);
   const initialValues: AddWingDTO = {
     id: uuid(),
@@ -42,7 +42,7 @@ export const AddWingModal: React.FC = () => {
       <Formik
         initialValues={initialValues}
         onSubmit={async wingValues => {
-          await dispatch(wingsActions.addWingRequest(wingValues));
+          await dispatch(wingActions.addWingRequest(wingValues));
           close();
         }}
         validationSchema={addWingSchema}

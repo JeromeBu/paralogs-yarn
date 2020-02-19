@@ -47,7 +47,7 @@ const POSTwithToken = <Input, Output>(route: string) =>
   });
 
 export const httpClient = {
-  getMe: GETwithToken("users/getme"),
+  getMe: GETwithToken<CurrentUserWithAuthToken>("users/getme"),
   signUp: POST<SignUpParams, CurrentUserWithAuthToken>("users/signup"),
   login: POST<LoginParams, CurrentUserWithAuthToken>("users/login"),
   retrieveUsers: GETwithToken<UserDTO[]>("users"),

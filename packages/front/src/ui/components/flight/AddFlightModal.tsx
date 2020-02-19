@@ -14,7 +14,7 @@ import { Form, Formik } from "formik";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../core-logic/reduxStore";
-import { wingsActions } from "../../../core-logic/useCases/wings/wings.actions";
+import { wingActions } from "../../../core-logic/useCases/wings/wings.actions";
 import { CenteredModal } from "../commun/CenteredModal";
 
 const useStyles = makeStyles(theme => ({
@@ -85,7 +85,7 @@ export const AddFlightModal: React.FC<AddFlightModalProps> = ({
                 name="wingId"
                 onChange={e => {
                   if (e.target.value === "addNewWing") {
-                    dispatch(wingsActions.showAddWingForm());
+                    dispatch(wingActions.showAddWingForm());
                     return;
                   }
                   handleChange(e);
