@@ -5,9 +5,13 @@ import { Email } from "../../../../domain/valueObjects/user/Email";
 
 export class InMemoryUserRepo implements UserRepo {
   public async save(userEntity: UserEntity) {
+    const isEmailTaken = this._users.find(
+      user => user.getProps().email.value === userEntity.getProps().email.value,
+    );
+    if (isEmailTaken) throw new Error("Email is already taken. Consider logging in.");
     this._users = [...this._users, userEntity];
     // eslint-disable-next-line no-console
-    console.log({ userRepo: this._users });
+    // console.log({ userRepo: this._users.map(user => user.getProps().email) });
   }
 
   public async findByEmail(email: Email) {

@@ -19,15 +19,23 @@ export const signUpUseCaseCreator = ({
   signUpParams: SignUpParams,
 ): Promise<Result<CurrentUserWithAuthToken>> => {
   return (
-    await UserEntity.create(
-      {
-        ...signUpParams,
-        id: uuidGenerator.generate(),
-      },
-      { hashAndTokenManager },
-    )
+    await (
+      await UserEntity.create(
+        {
+          ...signUpParams,
+          id: uuidGenerator.generate(),
+        },
+        { hashAndTokenManager },
+      )
+    ).flatMapAsync(async signedUpUserEntity => {
+      try {
+        await userRepo.save(signedUpUserEntity);
+        return Result.ok<UserEntity>(signedUpUserEntity);
+      } catch (error) {
+        return Result.fail<UserEntity>(error.message);
+      }
+    })
   ).mapAsync(async signedUpUserEntity => {
-    await userRepo.save(signedUpUserEntity);
     return {
       token: signedUpUserEntity.getProps().authToken,
       currentUser: userMapper.entityToDTO(signedUpUserEntity),

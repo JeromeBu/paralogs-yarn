@@ -15,8 +15,6 @@ export class InMemoryFlightRepo implements FlightRepo {
 
   public async save(flightEntity: FlightEntity) {
     this._flights.push(flightEntity);
-    // eslint-disable-next-line no-console
-    console.log({ flightRepo: this._flights });
   }
 
   get flights() {

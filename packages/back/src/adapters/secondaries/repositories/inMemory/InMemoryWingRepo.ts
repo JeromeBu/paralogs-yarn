@@ -15,8 +15,6 @@ export class InMemoryWingRepo implements WingRepo {
 
   public async save(wing: WingEntity) {
     this._wings = [...this._wings, wing];
-    // eslint-disable-next-line no-console
-    console.log({ wingRepo: this._wings });
   }
 
   get wings() {

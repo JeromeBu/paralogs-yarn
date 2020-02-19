@@ -38,6 +38,25 @@ describe("User signUp", () => {
     });
   });
 
+  describe("email is already taken", () => {
+    it("fails to signUp with an explicit message", async () => {
+      const signUpParams = buildSignUpParams({
+        email: "some@mail.com",
+        firstName: "Lulu",
+      });
+      await signUpUseCase(signUpParams);
+      const sameEmailSignUpParams = buildSignUpParams({
+        email: "some@mail.com",
+        firstName: "lala",
+      });
+      const emailTakenResult = await signUpUseCase(sameEmailSignUpParams);
+      expectResultToBeError(
+        emailTakenResult,
+        "Email is already taken. Consider logging in.",
+      );
+    });
+  });
+
   describe("password doesn't match critierias", () => {
     it("fails to signUp with an explicit message", async () => {
       const signUpParamsCases = ["toShort", "nouppercar", "NOLOWERCHAR"].map(password =>
