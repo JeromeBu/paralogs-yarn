@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Container, Fab, List, makeStyles, Typography } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import { useDispatch, useSelector } from "react-redux";
@@ -44,9 +44,6 @@ export const FlightsListView: React.FC = () => {
   );
   const flights = useSelector((state: RootState) => state.flights.data);
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(flightActions.retreiveFlightsRequest());
-  }, [dispatch]);
 
   return (
     <Container maxWidth="sm" className={classes.paper}>

@@ -12,7 +12,7 @@ export class InMemoryClientStorage implements ClientStorage {
 
   public remove(key: string) {
     delete this._localStore[key];
-    return of<void>();
+    return of(undefined);
   }
 
   private _localStore: { [key: string]: string } = {};
