@@ -1,29 +1,25 @@
 import {
   Avatar,
-  Button,
   Container,
   Grid,
   makeStyles,
-  TextField,
   Typography,
+  Box,
+  useTheme,
 } from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Formik, Form, ErrorMessage as FormikErrorMessage } from "formik";
+import { Formik, Form } from "formik";
 import { SignUpParams, signUpSchema } from "@paralogs/shared";
 import { authActions } from "../../../core-logic/useCases/auth/auth.actions";
 import { MyLink } from "../commun/MyLink";
 import { DisplayError } from "../commun/DisplayError";
 import { authSelectors } from "../../selectors/authSelectors";
+import { InputTextField } from "../commun/form/InputTextField";
+import { UIButton } from "../commun/UIButton";
 
 const useStyles = makeStyles(theme => ({
-  paper: {
-    marginTop: theme.spacing(8),
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-  },
   avatar: {
     margin: theme.spacing(1),
     backgroundColor: theme.palette.secondary.main,
@@ -38,19 +34,11 @@ const useStyles = makeStyles(theme => ({
   error: { color: theme.palette.error.main },
 }));
 
-const ErrorMessage = (props: { name: string }) => {
-  const classes = useStyles();
-  return (
-    <FormikErrorMessage {...props}>
-      {errorMessage => <span className={classes.error}>{errorMessage}</span>}
-    </FormikErrorMessage>
-  );
-};
-
 export const SignUpView: React.FC = () => {
   const dispatch = useDispatch();
   const error = useSelector(authSelectors.error);
   const classes = useStyles();
+  const theme = useTheme();
 
   const handleSubmit = (values: SignUpParams) => {
     dispatch(authActions.signUpRequest(values));
@@ -64,70 +52,31 @@ export const SignUpView: React.FC = () => {
   };
 
   return (
-    <Container maxWidth="xs" className={classes.paper}>
-      <Avatar className={classes.avatar}>
-        <LockOutlinedIcon />
-      </Avatar>
-      <Typography variant="h5">Sign Up</Typography>
-      <DisplayError error={error} />
-      <Formik
-        onSubmit={handleSubmit}
-        initialValues={initialValues}
-        validationSchema={signUpSchema}
+    <Container maxWidth="xs">
+      <Box
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+        marginTop={theme.spacing(1)}
       >
-        {({ values, handleChange }) => (
+        <Avatar className={classes.avatar}>
+          <LockOutlinedIcon />
+        </Avatar>
+        <Typography variant="h5">Sign Up</Typography>
+        <DisplayError error={error} />
+        <Formik
+          onSubmit={handleSubmit}
+          initialValues={initialValues}
+          validationSchema={signUpSchema}
+        >
           <Form>
-            <TextField
-              variant="outlined"
-              margin="normal"
-              fullWidth
-              label="First name"
-              name="firstName"
-              value={values.firstName}
-              onChange={handleChange}
-            />
-            <ErrorMessage name="firstName" />
-            <TextField
-              variant="outlined"
-              margin="normal"
-              fullWidth
-              label="Last name"
-              name="lastName"
-              value={values.lastName}
-              onChange={handleChange}
-            />
-            <TextField
-              variant="outlined"
-              margin="normal"
-              fullWidth
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-              value={values.email}
-              onChange={handleChange}
-            />
-            <ErrorMessage name="email" />
-            <TextField
-              variant="outlined"
-              margin="normal"
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              value={values.password}
-              onChange={handleChange}
-              autoComplete="current-password"
-            />
-            <ErrorMessage name="password" />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-              className={classes.submit}
-            >
+            <InputTextField name="firstName" label="First name" />
+            <InputTextField name="lastName" label="Last name" />
+            <InputTextField name="email" label="Email address" />
+            <InputTextField name="password" label="password" type="password" />
+            <UIButton type="submit" className={classes.submit}>
               Sign Up
-            </Button>
+            </UIButton>
             <Grid container justify="flex-end">
               <Grid item>
                 <MyLink to="/login" variant="body2">
@@ -136,8 +85,8 @@ export const SignUpView: React.FC = () => {
               </Grid>
             </Grid>
           </Form>
-        )}
-      </Formik>
+        </Formik>
+      </Box>
     </Container>
   );
 };

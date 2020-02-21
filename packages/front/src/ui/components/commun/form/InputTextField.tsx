@@ -9,7 +9,7 @@ interface InputTextFieldProps {
 }
 
 export const InputTextField: React.FC<InputTextFieldProps> = ({ label, name, type }) => {
-  const [field, meta] = useField({ name });
+  const [field, { touched, error }] = useField({ name });
 
   return (
     <TextField
@@ -21,8 +21,8 @@ export const InputTextField: React.FC<InputTextFieldProps> = ({ label, name, typ
       name={name}
       type={type}
       {...field}
-      error={meta.touched && meta.error != null}
-      helperText={meta.touched && meta.error}
+      error={touched && error != null}
+      helperText={touched && error}
     />
   );
 };
