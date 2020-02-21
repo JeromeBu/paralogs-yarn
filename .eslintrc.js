@@ -38,7 +38,7 @@ module.exports = {
     "import/no-unresolved": "off",
     "react/destructuring-assignment": "off",
     "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "warn",
+    "react-hooks/exhaustive-deps": "off",
     "react/prop-types": "off",
     "react/no-unescaped-entities": "off",
     "no-underscore-dangle": "off",

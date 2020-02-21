@@ -1,12 +1,9 @@
 import {
   Avatar,
   Button,
-  Checkbox,
   Container,
-  FormControlLabel,
   Grid,
   makeStyles,
-  TextField,
   Typography,
 } from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
@@ -19,6 +16,7 @@ import { MyLink } from "../commun/MyLink";
 import { authActions } from "../../../core-logic/useCases/auth/auth.actions";
 import { DisplayError } from "../commun/DisplayError";
 import { authSelectors } from "../../selectors/authSelectors";
+import { InputTextField } from "../commun/form/InputTextField";
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -44,15 +42,15 @@ const useRedirectOnLogin = () => {
   const history = useHistory();
   const location = useLocation();
   const { from } = location.state || { from: "/" };
-
   const [renderCount, setCount] = useState(0);
   const isAuthenticated = useSelector(authSelectors.isAuthenticated);
+
   useEffect(() => {
     if (renderCount > 0 && isAuthenticated) {
       history.replace(from);
     }
     setCount(renderCount + 1);
-  }, [from, history, isAuthenticated, renderCount]);
+  }, [isAuthenticated]);
 };
 
 export const LoginView: React.FC = () => {
@@ -80,60 +78,31 @@ export const LoginView: React.FC = () => {
           dispatch(authActions.loginRequest(values));
         }}
       >
-        {({ values, handleChange }) => (
-          <Form className={classes.form}>
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-              value={values.email}
-              onChange={handleChange}
-            />
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-              value={values.password}
-              onChange={handleChange}
-            />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-              className={classes.submit}
-            >
-              Log In
-            </Button>
-            <Grid container>
-              <Grid item xs>
-                <MyLink to="#" variant="body2">
-                  Forgot password?
-                </MyLink>
-              </Grid>
-              <Grid item>
-                <MyLink to="/signup" variant="body2">
-                  Don't have an account? Sign Up
-                </MyLink>
-              </Grid>
+        <Form className={classes.form}>
+          <InputTextField label="Email address" name="email" />
+          <InputTextField label="Password" name="password" type="password" />
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
+            className={classes.submit}
+          >
+            Log In
+          </Button>
+          <Grid container>
+            <Grid item xs>
+              <MyLink to="#" variant="body2">
+                Forgot password?
+              </MyLink>
             </Grid>
-          </Form>
-        )}
+            <Grid item>
+              <MyLink to="/signup" variant="body2">
+                Don't have an account? Sign Up
+              </MyLink>
+            </Grid>
+          </Grid>
+        </Form>
       </Formik>
     </Container>
   );

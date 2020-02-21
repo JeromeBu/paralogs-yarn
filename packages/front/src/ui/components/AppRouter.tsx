@@ -23,7 +23,7 @@ const useRetreiveUserData = () => {
       dispatch(wingActions.retreiveWingsRequest());
       dispatch(flightActions.retreiveFlightsRequest());
     }
-  }, [dispatch, isAuthenticated]);
+  }, [isAuthenticated]);
 };
 
 export const AppRouter: React.FC = () => {
