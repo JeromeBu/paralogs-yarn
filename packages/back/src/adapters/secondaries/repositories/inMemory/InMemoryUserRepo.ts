@@ -3,6 +3,7 @@ import { UserRepo } from "../../../../domain/port/UserRepo";
 import { UserEntity } from "../../../../domain/entities/UserEntity";
 import { Email } from "../../../../domain/valueObjects/user/Email";
 import { Result } from "../../../../domain/core/Result";
+import { fromNullable } from "../../../../domain/core/Option";
 
 export class InMemoryUserRepo implements UserRepo {
   public async save(userEntity: UserEntity) {
@@ -23,9 +24,9 @@ export class InMemoryUserRepo implements UserRepo {
   }
 
   public async findByEmail(email: Email) {
-    return this._users.find(userEntity => {
-      return userEntity.getProps().email.value === email.value;
-    });
+    return fromNullable(
+      this._users.find(userEntity => userEntity.getProps().email.value === email.value),
+    );
   }
 
   public async findById(userId: UserId) {

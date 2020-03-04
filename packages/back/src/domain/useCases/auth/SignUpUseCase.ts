@@ -27,12 +27,10 @@ export const signUpUseCaseCreator = ({
   )
     .then(userResult => userResult.flatMapAsync(userEntity => userRepo.save(userEntity)))
     .then(savedUserResult =>
-      savedUserResult.mapAsync(async savedUserEntity => {
-        return {
-          token: savedUserEntity.getProps().authToken,
-          currentUser: userMapper.entityToDTO(savedUserEntity),
-        };
-      }),
+      savedUserResult.map(savedUserEntity => ({
+        token: savedUserEntity.getProps().authToken,
+        currentUser: userMapper.entityToDTO(savedUserEntity),
+      })),
     );
 };
 

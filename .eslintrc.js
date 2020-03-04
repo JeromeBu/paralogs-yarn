@@ -51,5 +51,6 @@ module.exports = {
     "@typescript-eslint/no-floating-promises": "error",
     "@typescript-eslint/no-non-null-assertion": "off",
     "no-case-declarations": "off",
+    "max-classes-per-file": "off",
   },
 };

@@ -18,19 +18,21 @@ export const loginUseCaseCreator = ({
   password,
 }: LoginParams): Promise<Result<CurrentUserWithAuthToken>> => {
   return Email.create(email).flatMapAsync(async correctEmail => {
-    const currentUserEntity = await userRepo.findByEmail(correctEmail);
-    if (!currentUserEntity) return Result.fail("No user found");
+    const optionUserEntity = await userRepo.findByEmail(correctEmail);
 
-    const isPasswordCorrect = await currentUserEntity.checkPassword(password, {
-      hashAndTokenManager,
+    const optionResultUserEntity = await optionUserEntity.mapAsync(async userEntity => {
+      const isPasswordCorrect = await userEntity.checkPassword(password, {
+        hashAndTokenManager,
+      });
+      return isPasswordCorrect
+        ? Result.ok<CurrentUserWithAuthToken>({
+            token: userEntity.getProps().authToken,
+            currentUser: userMapper.entityToDTO(userEntity),
+          })
+        : Result.fail<CurrentUserWithAuthToken>("Wrong password");
     });
 
-    return isPasswordCorrect
-      ? Result.ok<CurrentUserWithAuthToken>({
-          token: currentUserEntity.getProps().authToken,
-          currentUser: userMapper.entityToDTO(currentUserEntity),
-        })
-      : Result.fail<CurrentUserWithAuthToken>("Wrong password");
+    return optionResultUserEntity.getOrElse(() => Result.fail("No user found"));
   });
 };
 
