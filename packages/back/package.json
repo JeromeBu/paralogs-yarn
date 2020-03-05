@@ -10,7 +10,7 @@
     "ci:test": "yarn test --watchAll=false",
     "build": "tsc",
     "build:watch": "tsc --watch",
-    "start": "node .build/adapters/primaries/express/server.js",
+    "start": "node dist/adapters/primaries/express/server.js",
     "dev": "ts-node src/adapters/primaries/express/server.ts",
     "start:dev": "nodemon",
     "startServerless": "sls dynamodb install; sls offline start;",

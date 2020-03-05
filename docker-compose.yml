@@ -1,7 +1,7 @@
 version: '3'
 services:
-  node-app:
-    restart: always
+  node-backend:
+    restart: unless-stopped
     build: .
     ports:
       - "4000:4000"
