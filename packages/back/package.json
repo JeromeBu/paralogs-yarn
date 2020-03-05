@@ -10,7 +10,8 @@
     "ci:test": "yarn test --watchAll=false",
     "build": "tsc",
     "build:watch": "tsc --watch",
-    "start": "ts-node src/adapters/primaries/express/server.ts",
+    "start": "node .build/adapters/primaries/express/server.js",
+    "dev": "ts-node src/adapters/primaries/express/server.ts",
     "start:dev": "nodemon",
     "startServerless": "sls dynamodb install; sls offline start;",
     "precommit": "lint-staged"
@@ -64,13 +65,15 @@
     "watch": [
       "src"
     ],
-    "exec": "npm start",
+    "exec": "npm run dev",
     "ext": "ts"
   },
   "workspaces": {
     "nohoist": [
       "jest",
       "jest/**",
+      "@types/jest/**",
+      "@types/jest",
       "lint-staged",
       "lint-staged/**"
     ]
