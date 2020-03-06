@@ -14,7 +14,7 @@ export class InMemoryWingRepo implements WingRepo {
   }
 
   public async save(wing: WingEntity) {
-    this._wings = [...this._wings, wing];
+    this._wings = [wing, ...this._wings];
   }
 
   get wings() {

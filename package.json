@@ -10,7 +10,7 @@
     "startDev": "concurrently 'yarn:buildWatch-*' 'yarn:startDev-front'",
     "testWatch": "concurrently 'yarn:testWatch-*'",
     "buildWatch-shared": "cd packages/shared; yarn build:watch;",
-    "buildWatch-backend": "cd packages/back; yarn build:watch;",
+    "buildWatch-backend": "cd packages/back; yarn build;",
     "startDev-front": "cd packages/front; yarn start;",
     "testWatch-front": "cd packages/front; yarn test --watchAll;",
     "testWatch-back": "cd packages/back; yarn test --watchAll;"

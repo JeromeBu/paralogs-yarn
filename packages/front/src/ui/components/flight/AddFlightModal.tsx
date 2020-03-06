@@ -11,7 +11,7 @@ import SaveIcon from "@material-ui/icons/Save";
 import { AddFlightDTO, uuid } from "@paralogs/shared";
 import { format } from "date-fns";
 import { Form, Formik } from "formik";
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../core-logic/reduxStore";
 import { wingActions } from "../../../core-logic/useCases/wings/wings.actions";
@@ -46,19 +46,24 @@ export const AddFlightModal: React.FC<AddFlightModalProps> = ({
   const dispatch = useDispatch();
   const wings = useSelector((state: RootState) => state.wings.data);
 
+  const initialWingId = wings[0]?.id ?? "";
+
   const initialValues: AddFlightDTO = {
     id: uuid(),
     site: "",
     date: format(new Date(), "yyyy-MM-dd"),
     time: "14:30",
     duration: 60,
-    wingId: wings[0]?.id ?? "",
+    wingId: initialWingId,
   };
+
+  const [cachedValues, setCachedValues] = useState(initialValues);
 
   return (
     <CenteredModal open={isOpen} onClose={close}>
       <Formik
-        initialValues={initialValues}
+        enableReinitialize
+        initialValues={{ ...cachedValues, wingId: initialWingId }}
         onSubmit={async values => {
           await handleSubmit(values);
           close();
@@ -85,6 +90,7 @@ export const AddFlightModal: React.FC<AddFlightModalProps> = ({
                 name="wingId"
                 onChange={e => {
                   if (e.target.value === "addNewWing") {
+                    setCachedValues(values);
                     dispatch(wingActions.showAddWingForm());
                     return;
                   }
@@ -126,7 +132,7 @@ export const AddFlightModal: React.FC<AddFlightModalProps> = ({
             />
             <TextField
               className={classes.field}
-              label="FlightDTO duration"
+              label="Flight duration"
               type="number"
               name="duration"
               onChange={handleChange}

@@ -30,6 +30,7 @@ export const AddWingModal: React.FC = () => {
   const dispatch = useDispatch();
   const close = () => dispatch(wingActions.hideAddWingForm());
   const isOpen = useSelector(({ wings }: RootState) => wings.isAddWingFormVisible);
+
   const initialValues: AddWingDTO = {
     id: uuid(),
     brand: "",
@@ -92,7 +93,7 @@ export const AddWingModal: React.FC = () => {
             /> */}
             <TextField
               className={classes.field}
-              label="FlightDTO time of the wing when owned"
+              label="Flight time of the wing when owned"
               variant="standard"
               type="number"
               name="flightTimePriorToOwn"

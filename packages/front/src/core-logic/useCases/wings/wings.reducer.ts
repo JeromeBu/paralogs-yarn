@@ -30,7 +30,7 @@ export const wingsReducer = (
     case getType(wingActions.addWingRequest):
       return { ...state, isSaving: true };
     case getType(wingActions.addWingSuccess):
-      return { ...state, data: [...state.data, action.payload], isSaving: false };
+      return { ...state, data: [action.payload, ...state.data], isSaving: false };
     case getType(wingActions.retreiveWingsRequest):
       return { ...state, isLoading: true };
     case getType(wingActions.retreiveWingsSuccess):

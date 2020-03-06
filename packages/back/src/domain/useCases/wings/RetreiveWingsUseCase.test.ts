@@ -56,7 +56,7 @@ describe("wings retreival", () => {
 
       const retreivedWings = await retreiveWingsUseCase(currentUser);
 
-      expectWingsDTOResultToEqual(retreivedWings, [wing1, wing2]);
+      expectWingsDTOResultToEqual(retreivedWings, [wing2, wing1]);
     });
 
     const addWing = async (wingParams: Partial<WingDTO>) => {
@@ -69,5 +69,6 @@ describe("wings retreival", () => {
     expectedWingsDTO: WingDTO[],
   ) => {
     expect(wingsDTO).toEqual(expectedWingsDTO);
+    expect(wingsDTO[0]).toEqual(expectedWingsDTO[0]);
   };
 });
