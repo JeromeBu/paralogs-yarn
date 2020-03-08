@@ -2,7 +2,9 @@ import { compose, capitalize, trim } from "lodash/fp";
 import { Result } from "../../core/Result";
 
 export class PersonName {
-  private constructor(public readonly value: string) {
+  public readonly value: string;
+
+  private constructor(value: string) {
     this.value = value;
   }
 
