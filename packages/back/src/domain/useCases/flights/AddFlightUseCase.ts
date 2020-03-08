@@ -14,7 +14,7 @@ export const addFlightUseCaseCreator = ({ flightRepo }: AddFlightDependencies) =
   const existingFlightEntity = await flightRepo.findById(flightDto.id);
   if (existingFlightEntity) return Result.fail("A flight with this id already exists");
   return FlightEntity.create(flightDto).mapAsync(async flightEntity => {
-    await flightRepo.save(flightEntity);
+    await flightRepo.create(flightEntity);
     return flightMapper.entityToDTO(flightEntity);
   });
 };

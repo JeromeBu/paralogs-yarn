@@ -13,7 +13,7 @@ export class InMemoryWingRepo implements WingRepo {
     return this._wings.filter(wing => userId === wing.userId);
   }
 
-  public async save(wing: WingEntity) {
+  public async create(wing: WingEntity) {
     this._wings = [wing, ...this._wings];
   }
 

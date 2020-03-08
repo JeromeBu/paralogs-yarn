@@ -1,5 +1,6 @@
 import { UserId } from "@paralogs/shared";
 import { UserEntity } from "../../../../../domain/entities/UserEntity";
+import { Result } from "../../../../../domain/core/Result";
 
 export type UserPg = {
   id: UserId;
@@ -23,7 +24,6 @@ export const userPgMapper = {
     };
   },
   toEntity: (userPg: UserPg): UserEntity => {
-    // TODO :
-    return UserEntity.create(userPg);
+    return UserEntity.createFromPersistence(userPg);
   },
 };

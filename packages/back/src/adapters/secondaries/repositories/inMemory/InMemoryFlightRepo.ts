@@ -13,7 +13,7 @@ export class InMemoryFlightRepo implements FlightRepo {
     return this._flights.filter(flight => flight.getProps().userId === userId);
   }
 
-  public async save(flightEntity: FlightEntity) {
+  public async create(flightEntity: FlightEntity) {
     this._flights.push(flightEntity);
   }
 

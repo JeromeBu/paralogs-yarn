@@ -25,7 +25,9 @@ export const signUpUseCaseCreator = ({
     },
     { hashAndTokenManager },
   )
-    .then(userResult => userResult.flatMapAsync(userEntity => userRepo.save(userEntity)))
+    .then(userResult =>
+      userResult.flatMapAsync(userEntity => userRepo.create(userEntity)),
+    )
     .then(savedUserResult =>
       savedUserResult.map(savedUserEntity => ({
         token: savedUserEntity.getProps().authToken,

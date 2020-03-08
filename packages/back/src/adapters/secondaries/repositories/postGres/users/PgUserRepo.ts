@@ -1,15 +1,15 @@
 import { UserId } from "@paralogs/shared";
+import pg from "pg";
+import fp from "lodash/fp";
 import { UserRepo } from "../../../../../domain/port/UserRepo";
 import { UserEntity } from "../../../../../domain/entities/UserEntity";
 import { Email } from "../../../../../domain/valueObjects/user/Email";
 import { Result } from "../../../../../domain/core/Result";
 import { fromNullable, Option } from "../../../../../domain/core/Option";
-import pg from "pg";
 import { userPgMapper, UserPg } from "./UserPg";
-import fp from "lodash/fp";
 
 export class PgUserRepo implements UserRepo {
-  public async save(userEntity: UserEntity): Promise<Result<UserEntity>> {
+  public async create(userEntity: UserEntity): Promise<Result<UserEntity>> {
     // TODO : make a create and update methode, so the unicity check is done only on create
     const userPg = userPgMapper.toPg(userEntity);
 

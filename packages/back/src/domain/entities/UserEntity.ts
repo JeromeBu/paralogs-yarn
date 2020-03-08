@@ -20,6 +20,12 @@ interface UserDependencies {
   hashAndTokenManager: HashAndTokenManager;
 }
 
+type FromPersistenceParams = WithUserId &
+  Omit<SignUpParams, "password"> & {
+    hashedPassword: string;
+    authToken: string;
+  };
+
 export class UserEntity {
   get id() {
     return this.props.id;
@@ -27,6 +33,24 @@ export class UserEntity {
 
   public getProps() {
     return this.props;
+  }
+
+  static createFromPersistence(params: FromPersistenceParams): UserEntity {
+    return Result.combine({
+      email: Email.create(params.email),
+      firstName: PersonName.create(params.firstName),
+      lastName: PersonName.create(params.lastName),
+    })
+      .map(
+        validResults =>
+          new UserEntity({
+            ...validResults,
+            id: params.id,
+            authToken: params.authToken,
+            hashedPassword: params.authToken,
+          }),
+      )
+      .getOrThrow();
   }
 
   static create(

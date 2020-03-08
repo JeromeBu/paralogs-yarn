@@ -6,7 +6,7 @@ import { Result } from "../../../../domain/core/Result";
 import { fromNullable } from "../../../../domain/core/Option";
 
 export class InMemoryUserRepo implements UserRepo {
-  public async save(userEntity: UserEntity) {
+  public async create(userEntity: UserEntity) {
     const isEmailTaken = !!this._users.find(
       user => user.getProps().email.value === userEntity.getProps().email.value,
     );
