@@ -27,6 +27,7 @@
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.15",
     "morgan": "^1.9.1",
+    "pg": "^7.18.2",
     "serverless": "^1.59.3",
     "serverless-plugin-monorepo": "^0.8.0"
   },
@@ -40,6 +41,7 @@
     "@types/jsonwebtoken": "^8.3.6",
     "@types/lodash": "^4.14.147",
     "@types/morgan": "^1.7.37",
+    "@types/pg": "^7.14.1",
     "aws-sdk": "^2.570.0",
     "jest": "24.9.0",
     "lint-staged": "^9.4.2",
