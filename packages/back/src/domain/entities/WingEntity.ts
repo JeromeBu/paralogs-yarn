@@ -1,5 +1,11 @@
-import { WingDTO, DateString, NumberOfMinutes, WingId, UserId } from "@paralogs/shared";
-import { Result } from "../core/Result";
+import {
+  WingDTO,
+  DateString,
+  NumberOfMinutes,
+  WingId,
+  UserId,
+  Result,
+} from "@paralogs/shared";
 
 interface WingEntityProps {
   id: WingId;

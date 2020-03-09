@@ -1,9 +1,7 @@
-import { UserId } from "@paralogs/shared";
+import { UserId, Result, fromNullable } from "@paralogs/shared";
 import { UserRepo } from "../../../../domain/port/UserRepo";
 import { UserEntity } from "../../../../domain/entities/UserEntity";
 import { Email } from "../../../../domain/valueObjects/user/Email";
-import { Result } from "../../../../domain/core/Result";
-import { fromNullable } from "../../../../domain/core/Option";
 
 export class InMemoryUserRepo implements UserRepo {
   public async create(userEntity: UserEntity) {

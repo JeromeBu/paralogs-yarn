@@ -1,8 +1,7 @@
-import { SignUpParams, WithUserId, UserId } from "@paralogs/shared";
+import { SignUpParams, WithUserId, UserId, Result } from "@paralogs/shared";
 import { Email } from "../valueObjects/user/Email";
 import { Password } from "../valueObjects/user/Password";
 import { PersonName } from "../valueObjects/user/PersonName";
-import { Result } from "../core/Result";
 import { HashAndTokenManager } from "../port/HashAndTokenManager";
 
 interface UserEntityProps {

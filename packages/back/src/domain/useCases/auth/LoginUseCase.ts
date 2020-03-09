@@ -1,6 +1,6 @@
-import { LoginParams, CurrentUserWithAuthToken } from "@paralogs/shared";
+import { LoginParams, CurrentUserWithAuthToken, Result } from "@paralogs/shared";
 import { UserRepo } from "../../port/UserRepo";
-import { Result } from "../../core/Result";
+
 import { Email } from "../../valueObjects/user/Email";
 import { HashAndTokenManager } from "../../port/HashAndTokenManager";
 import { userMapper } from "../../mappers/user.mapper";

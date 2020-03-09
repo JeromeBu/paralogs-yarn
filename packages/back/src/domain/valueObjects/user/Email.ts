@@ -1,4 +1,4 @@
-import { Result } from "../../core/Result";
+import { Result } from "@paralogs/shared";
 
 const isEmail = (str: string): boolean =>
   !!str.match(

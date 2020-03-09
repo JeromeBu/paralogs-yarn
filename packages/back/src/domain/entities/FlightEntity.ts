@@ -5,8 +5,8 @@ import {
   DateString,
   NumberOfMinutes,
   FlightDTO,
+  Result,
 } from "@paralogs/shared";
-import { Result } from "../core/Result";
 
 interface FlightEntityProps {
   id: FlightId;

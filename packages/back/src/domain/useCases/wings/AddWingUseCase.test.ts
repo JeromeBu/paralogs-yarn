@@ -1,7 +1,6 @@
-import { makeWingDTO, uuid, WingDTO } from "@paralogs/shared";
+import { makeWingDTO, uuid, WingDTO, Result } from "@paralogs/shared";
 import { InMemoryWingRepo } from "../../../adapters/secondaries/repositories/inMemory/InMemoryWingRepo";
 import { AddWingUseCase, addWingUseCaseCreator } from "./AddWingUseCase";
-import { Result } from "../../core/Result";
 
 describe("wing creation", () => {
   let addWingUseCase: AddWingUseCase;

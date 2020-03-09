@@ -1,7 +1,6 @@
-import { FlightId, uuid, makeFlightDTO, FlightDTO } from "@paralogs/shared";
+import { FlightId, uuid, makeFlightDTO, FlightDTO, Result } from "@paralogs/shared";
 import { AddFlightUseCase, addFlightUseCaseCreator } from "./AddFlightUseCase";
 import { InMemoryFlightRepo } from "../../../adapters/secondaries/repositories/inMemory/InMemoryFlightRepo";
-import { Result } from "../../core/Result";
 
 describe("add a flight", () => {
   let addFlightUseCase: AddFlightUseCase;

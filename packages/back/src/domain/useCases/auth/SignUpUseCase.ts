@@ -1,7 +1,12 @@
-import { SignUpParams, UuidGenerator, CurrentUserWithAuthToken } from "@paralogs/shared";
+import {
+  SignUpParams,
+  UuidGenerator,
+  CurrentUserWithAuthToken,
+  Result,
+} from "@paralogs/shared";
 import { UserRepo } from "../../port/UserRepo";
 import { UserEntity } from "../../entities/UserEntity";
-import { Result } from "../../core/Result";
+
 import { userMapper } from "../../mappers/user.mapper";
 import { HashAndTokenManager } from "../../port/HashAndTokenManager";
 

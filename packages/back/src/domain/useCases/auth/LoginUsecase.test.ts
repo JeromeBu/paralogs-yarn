@@ -1,9 +1,8 @@
-import { CurrentUserWithAuthToken } from "@paralogs/shared";
+import { CurrentUserWithAuthToken, Result } from "@paralogs/shared";
 import { loginUseCaseCreator, LoginUseCase } from "./LoginUseCase";
 import { InMemoryUserRepo } from "../../../adapters/secondaries/repositories/inMemory/InMemoryUserRepo";
 import { TestHashAndTokenManager } from "../../../adapters/secondaries/TestHashAndTokenManager";
 import { makeUserEntityCreator } from "../../testBuilders/userEntityBuilder";
-import { Result } from "../../core/Result";
 
 describe("User Login", () => {
   let hashAndTokenManager: TestHashAndTokenManager;

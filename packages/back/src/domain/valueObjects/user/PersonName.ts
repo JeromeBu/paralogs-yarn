@@ -1,5 +1,5 @@
 import { compose, capitalize, trim } from "lodash/fp";
-import { Result } from "../../core/Result";
+import { Result } from "@paralogs/shared";
 
 export class PersonName {
   public readonly value: string;

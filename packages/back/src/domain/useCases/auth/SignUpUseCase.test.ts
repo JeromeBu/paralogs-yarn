@@ -3,12 +3,13 @@ import {
   FakeUuidGenerator,
   uuid,
   CurrentUserWithAuthToken,
+  Result,
 } from "@paralogs/shared";
 import _ from "lodash";
 import { InMemoryUserRepo } from "../../../adapters/secondaries/repositories/inMemory/InMemoryUserRepo";
 import { signUpUseCaseCreator, SignUpUseCase } from "./SignUpUseCase";
 import { UserEntity } from "../../entities/UserEntity";
-import { Result } from "../../core/Result";
+
 import { TestHashAndTokenManager } from "../../../adapters/secondaries/TestHashAndTokenManager";
 
 describe("User signUp", () => {

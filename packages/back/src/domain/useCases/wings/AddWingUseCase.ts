@@ -1,6 +1,5 @@
-import { WingDTO } from "@paralogs/shared";
+import { WingDTO, Result } from "@paralogs/shared";
 import { notUnique } from "../../core/errors";
-import { Result } from "../../core/Result";
 import { WingEntity } from "../../entities/WingEntity";
 import { WingRepo } from "../../port/WingRepo";
 import { wingMapper } from "../../mappers/wing.mapper";

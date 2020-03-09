@@ -20,14 +20,14 @@ type ConstructorParams<T> = OkParams<T> | FailParams<T>;
 export class Result<T> {
   public isSuccess: boolean;
   public error?: string;
-  private _value?: T;
+  private _val?: T;
 
   private constructor(params: ConstructorParams<T>) {
     const { isSuccess } = params;
     this.isSuccess = isSuccess;
 
     if (params.isSuccess) {
-      this._value = params.value;
+      this._val = params.value;
     } else {
       this.error = params.error;
     }
@@ -40,14 +40,14 @@ export class Result<T> {
       throw new Error(this.error ?? "Can't retrieve the value from a failed result.");
     }
 
-    return this._value!;
+    return this._val!;
   }
 
   public getOrElse(f: (error: string) => T): T {
     if (this.error) {
       return f(this.error);
     }
-    return this._value!;
+    return this._val!;
   }
 
   public static ok<U>(value?: U): Result<U> {

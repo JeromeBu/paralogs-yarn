@@ -1,4 +1,4 @@
-import { Result } from "../../core/Result";
+import { Result } from "@paralogs/shared";
 
 export class Password {
   private constructor(public readonly value: string) {
