@@ -1,24 +1,16 @@
-import { loginSchema, shapeValidator } from "@paralogs/shared";
-import { HttpResponse, success, failure } from "../../lib/response-lib";
+import { loginSchema } from "@paralogs/shared";
+import { loginUseCaseCreator } from "../../../domain/useCases/auth/LoginUseCase";
 import { ProductionHashAndTokenManager } from "../../secondaries/ProductionHashAndTokenManager";
 import { repositories } from "../../secondaries/repositories";
-import { loginUseCaseCreator } from "../../../domain/useCases/auth/LoginUseCase";
+import { buildController, identityAdapter } from "../express/controller.builder";
 
 const loginUseCase = loginUseCaseCreator({
   userRepo: repositories.user,
   hashAndTokenManager: new ProductionHashAndTokenManager(),
 });
 
-export const loginController = async (body: object): Promise<HttpResponse> => {
-  try {
-    const loginParams = await shapeValidator(loginSchema, body);
-
-    return (await loginUseCase(loginParams))
-      .map(currentUserWithToken => success(currentUserWithToken))
-      .getOrElse(error => {
-        return failure(error, 400);
-      });
-  } catch (error) {
-    return failure(error.errors ?? error, 400);
-  }
-};
+export const loginController = buildController({
+  validationSchema: loginSchema,
+  useCase: loginUseCase,
+  adapter: identityAdapter,
+});

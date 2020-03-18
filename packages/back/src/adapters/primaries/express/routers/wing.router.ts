@@ -5,8 +5,10 @@ import { addWingController } from "../../controllers/addWing.controller";
 
 export const wingRouter = Router();
 
+export const wingsRoute = "/wings";
+
 wingRouter
-  .route("/wings")
+  .route(wingsRoute)
   .get(async (req, res) =>
     sendControllerResponse(res, await retreiveWingsController(req.currentUser)),
   )

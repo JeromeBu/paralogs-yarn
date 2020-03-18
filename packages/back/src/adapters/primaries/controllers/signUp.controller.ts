@@ -1,8 +1,8 @@
-import { signUpSchema, ActualUuidGenerator, shapeValidator } from "@paralogs/shared";
-import { success, failure, HttpResponse } from "../../lib/response-lib";
+import { ActualUuidGenerator, signUpSchema } from "@paralogs/shared";
 import { signUpUseCaseCreator } from "../../../domain/useCases/auth/SignUpUseCase";
 import { ProductionHashAndTokenManager } from "../../secondaries/ProductionHashAndTokenManager";
 import { repositories } from "../../secondaries/repositories";
+import { buildController, identityAdapter } from "../express/controller.builder";
 
 const signUpUseCase = signUpUseCaseCreator({
   userRepo: repositories.user,
@@ -10,18 +10,8 @@ const signUpUseCase = signUpUseCaseCreator({
   hashAndTokenManager: new ProductionHashAndTokenManager(),
 });
 
-export const signUpController = async (body: object): Promise<HttpResponse> => {
-  try {
-    const signUpParams = await shapeValidator(signUpSchema, body);
-
-    return (await signUpUseCase(signUpParams))
-      .map(currentUserWithToken => {
-        return success(currentUserWithToken);
-      })
-      .getOrElse(error => {
-        return failure(error, 400);
-      });
-  } catch (error) {
-    return failure(error.errors ?? error, 400);
-  }
-};
+export const signUpController = buildController({
+  validationSchema: signUpSchema,
+  useCase: signUpUseCase,
+  adapter: identityAdapter,
+});

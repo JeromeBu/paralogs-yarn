@@ -1,17 +1,11 @@
-import { UserEntity } from "../../../domain/entities/UserEntity";
-import { success, failure } from "../../lib/response-lib";
 import { retreiveFlightsUseCaseCreator } from "../../../domain/useCases/flights/RetreiveFlightsUseCase";
 import { repositories } from "../../secondaries/repositories";
+import { buildControllerNoValidation } from "../express/controller.builder";
 
 const retreiveFlightsUseCase = retreiveFlightsUseCaseCreator({
   flightRepo: repositories.flight,
 });
 
-export const retreiveFlightsController = async (currentUser: UserEntity) => {
-  try {
-    const flightDTOs = await retreiveFlightsUseCase(currentUser);
-    return success(flightDTOs);
-  } catch (error) {
-    return failure(error.message ?? error, error.statusCode);
-  }
-};
+export const retreiveFlightsController = buildControllerNoValidation({
+  useCase: retreiveFlightsUseCase,
+});

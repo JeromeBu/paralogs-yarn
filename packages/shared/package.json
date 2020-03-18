@@ -19,7 +19,7 @@
   "devDependencies": {
     "@types/faker": "^4.1.9",
     "@types/uuid": "^3.4.6",
-    "@types/yup": "^0.26.29",
+    "@types/yup": "^0.26.32",
     "lint-staged": "^9.4.2"
   },
   "lint-staged": {

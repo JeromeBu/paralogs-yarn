@@ -1,23 +1,14 @@
-import { addWingSchema, shapeValidator } from "@paralogs/shared";
+import { addWingSchema } from "@paralogs/shared";
 import { addWingUseCaseCreator } from "../../../domain/useCases/wings/AddWingUseCase";
 import { repositories } from "../../secondaries/repositories";
-import { UserEntity } from "../../../domain/entities/UserEntity";
-import { success, failure } from "../../lib/response-lib";
+import { buildController, withUserIdAdapter } from "../express/controller.builder";
 
 const addWingUseCase = addWingUseCaseCreator({
   wingRepo: repositories.wing,
 });
 
-export const addWingController = async (body: object, currentUser: UserEntity) => {
-  try {
-    const addWingDto = await shapeValidator(addWingSchema, body);
-
-    return (await addWingUseCase({ ...addWingDto, userId: currentUser.id }))
-      .map(wingDto => success(wingDto))
-      .getOrElse(error => {
-        return failure(error, 400);
-      });
-  } catch (error) {
-    return failure(error.errors ?? error, 400);
-  }
-};
+export const addWingController = buildController({
+  validationSchema: addWingSchema,
+  useCase: addWingUseCase,
+  adapter: withUserIdAdapter,
+});

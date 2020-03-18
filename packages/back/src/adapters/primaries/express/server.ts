@@ -8,9 +8,7 @@ import { authenticateMiddlewareBuilder } from "./authenticate-middleware";
 import { repositories } from "../../secondaries/repositories";
 import { flightRouter } from "./routers/flight.router";
 
-const app = express();
-
-const port = 4000;
+export const app = express();
 
 app.use(bodyParser.json());
 app.use(cors());
@@ -21,6 +19,3 @@ app.use(authenticateMiddlewareBuilder(repositories.user));
 app.use(wingRouter);
 app.use(flightRouter);
 app.use(authRouter);
-
-// eslint-disable-next-line no-console
-app.listen(port, () => console.log(`--- App is running on port: ${port} ---`));
