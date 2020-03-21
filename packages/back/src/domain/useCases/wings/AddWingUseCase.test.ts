@@ -17,7 +17,7 @@ describe("wing creation", () => {
       await addWingUseCase(wingDto);
 
       const secondWingDto = makeWingDTO({ id, userId, model: "LALALA" });
-      await expect((await addWingUseCase(secondWingDto)).error).toMatch(
+      expect((await addWingUseCase(secondWingDto)).error).toMatch(
         "Wing Id is already used",
       );
     });
