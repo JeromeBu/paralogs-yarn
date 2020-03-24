@@ -1,13 +1,16 @@
 import { addWingSchema } from "@paralogs/shared";
 import { addWingUseCaseCreator } from "../../../domain/useCases/wings/AddWingUseCase";
 import { repositories } from "../../secondaries/repositories";
-import { buildController, withUserIdAdapter } from "../express/controller.builder";
+import {
+  buildControllerWithCurrentUser,
+  withUserIdAdapter,
+} from "../express/controller.builder";
 
 const addWingUseCase = addWingUseCaseCreator({
   wingRepo: repositories.wing,
 });
 
-export const addWingController = buildController({
+export const addWingController = buildControllerWithCurrentUser({
   validationSchema: addWingSchema,
   useCase: addWingUseCase,
   adapter: withUserIdAdapter,

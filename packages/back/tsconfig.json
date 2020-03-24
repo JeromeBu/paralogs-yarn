@@ -13,5 +13,5 @@
     "typeRoots": ["./customTypings", "./node_modules/@types"]
   },
   "include": ["src", "customTypings"],
-  "exclude": [".build"]
+  "exclude": ["dist"]
 }

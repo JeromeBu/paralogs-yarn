@@ -52,5 +52,6 @@ module.exports = {
     "@typescript-eslint/no-non-null-assertion": "off",
     "no-case-declarations": "off",
     "max-classes-per-file": "off",
+    "import/no-extraneous-dependencies": "off",
   },
 };

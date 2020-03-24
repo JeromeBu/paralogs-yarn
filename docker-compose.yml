@@ -1,7 +1,20 @@
 version: '3'
 services:
-  node-backend:
+  # node-backend:
+  #   restart: unless-stopped
+  #   build: .
+  #   ports:
+  #     - "4000:4000"
+  postgres:
+    image: postgres
     restart: unless-stopped
-    build: .
     ports:
-      - "4000:4000"
+      - "5432:5432"
+    env_file: ./packages/back/.env
+#    environment:
+#      POSTGRES_DB: paralogs-dev
+#      POSTGRES_USER: postgres
+#      POSTGRES_PASSWORD: postgres_password
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+

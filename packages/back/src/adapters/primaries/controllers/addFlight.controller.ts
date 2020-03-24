@@ -1,11 +1,14 @@
 import { addFlightSchema } from "@paralogs/shared";
 import { addFlightUseCaseCreator } from "../../../domain/useCases/flights/AddFlightUseCase";
 import { repositories } from "../../secondaries/repositories";
-import { buildController, withUserIdAdapter } from "../express/controller.builder";
+import {
+  buildControllerWithCurrentUser,
+  withUserIdAdapter,
+} from "../express/controller.builder";
 
 const addFlightUseCase = addFlightUseCaseCreator({ flightRepo: repositories.flight });
 
-export const addFlightController = buildController({
+export const addFlightController = buildControllerWithCurrentUser({
   useCase: addFlightUseCase,
   validationSchema: addFlightSchema,
   adapter: withUserIdAdapter,
