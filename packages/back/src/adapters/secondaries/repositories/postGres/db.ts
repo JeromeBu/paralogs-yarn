@@ -1,15 +1,7 @@
-import pg from "pg";
-import { ENV } from "../../../../config/env";
+import Knex from "knex";
+import knexconfig from "./knex/knexfile";
 
-export const createPgClient = () => new pg.Pool(ENV.pg);
+type DatabaseEnv = keyof typeof knexconfig;
 
-// // eslint-disable-next-line no-console
-// pgClient.query("CREATE TABLE IF NOT EXISTS values (number INT)").catch(console.log);
-
-// pgClient.on("connect", () => {
-//   // eslint-disable-next-line no-console
-//   console.log("Connected to the PG Database");
-// });
-
-// // eslint-disable-next-line no-console
-// pgClient.on("error", error => console.log("Lost PG connection : ", error.message));
+export const getKnex = (databaseEnv?: DatabaseEnv) =>
+  Knex(knexconfig[databaseEnv || "development"]);

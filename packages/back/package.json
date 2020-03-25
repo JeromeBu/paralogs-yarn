@@ -13,6 +13,7 @@
     "build:watch": "tsc --watch",
     "start": "node dist/adapters/primaries/express/start.js",
     "dev": "ts-node src/adapters/primaries/express/start.ts",
+    "create-migration":  "knex migrate:make --knexfile ~/code/JeromeBu/paralogs/packages/back/src/adapters/secondaries/repositories/postGres/knex/knexfile.ts",
     "start:dev": "nodemon",
     "startServerless": "sls dynamodb install; sls offline start;",
     "precommit": "lint-staged"

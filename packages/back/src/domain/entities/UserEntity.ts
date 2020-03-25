@@ -19,11 +19,17 @@ interface UserDependencies {
   hashAndTokenManager: HashAndTokenManager;
 }
 
-type FromPersistenceParams = WithUserId &
-  Omit<SignUpParams, "password"> & {
-    hashedPassword: string;
-    authToken: string;
-  };
+export type UserPersistence = {
+  id: UserId;
+  email: string;
+  first_name: string;
+  last_name?: string;
+  hashed_password: string;
+  auth_token: string;
+};
+
+// Question : comment assurer qu'on a bien toutes les clés dans necessaire dans UserPg au niveau du typage ?
+// les clés doivent matcher les key de UserEntityProps dans UserEntity
 
 export class UserEntity {
   get id() {
@@ -34,19 +40,19 @@ export class UserEntity {
     return this.props;
   }
 
-  static createFromPersistence(params: FromPersistenceParams): UserEntity {
+  static createFromPersistence(params: UserPersistence): UserEntity {
     return Result.combine({
       email: Email.create(params.email),
-      firstName: PersonName.create(params.firstName),
-      lastName: PersonName.create(params.lastName),
+      firstName: PersonName.create(params.first_name),
+      lastName: PersonName.create(params.last_name),
     })
       .map(
         validResults =>
           new UserEntity({
             ...validResults,
             id: params.id,
-            authToken: params.authToken,
-            hashedPassword: params.authToken,
+            authToken: params.auth_token,
+            hashedPassword: params.hashed_password,
           }),
       )
       .getOrThrow();

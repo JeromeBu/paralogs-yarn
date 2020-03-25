@@ -35,7 +35,7 @@ describe("flights retreival", () => {
 
   describe("user has some flights", () => {
     let addFlightUseCase: AddFlightUseCase;
-    it("retreives only the user's flights", async () => {
+    it("retrieves only the user's flights", async () => {
       addFlightUseCase = addFlightUseCaseCreator({ flightRepo });
       const flightDTO = makeFlightDTO({ userId: currentUser.id });
       const someoneElseFlightDTO = makeFlightDTO({ userId: uuid() });
@@ -43,8 +43,8 @@ describe("flights retreival", () => {
         addFlightUseCase(flightDTO),
         addFlightUseCase(someoneElseFlightDTO),
       ]);
-      const retreivedFlightDTOs = await retreiveFlightUseCase(currentUser);
-      expect(retreivedFlightDTOs).toEqual([flightDTO]);
+      const retrievedFlightDTOs = await retreiveFlightUseCase(currentUser);
+      expect(retrievedFlightDTOs).toEqual([flightDTO]);
     });
   });
 });

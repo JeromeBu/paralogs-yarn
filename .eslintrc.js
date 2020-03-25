@@ -53,5 +53,6 @@ module.exports = {
     "no-case-declarations": "off",
     "max-classes-per-file": "off",
     "import/no-extraneous-dependencies": "off",
+    "@typescript-eslint/camelcase": "off",
   },
 };
