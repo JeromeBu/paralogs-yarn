@@ -1,5 +1,5 @@
 import { InMemoryWingRepo } from "./inMemory/InMemoryWingRepo";
-import { createInMemoryUserRepo } from "./inMemory/InMemoryUserRepo";
+import { InMemoryUserRepo } from "./inMemory/InMemoryUserRepo";
 import { UserRepo } from "../../../domain/port/UserRepo";
 import { WingRepo } from "../../../domain/port/WingRepo";
 import { FlightRepo } from "../../../domain/port/FlightRepo";
@@ -12,7 +12,7 @@ interface Repositories {
 }
 
 const inMemoryRepos: Repositories = {
-  user: createInMemoryUserRepo(),
+  user: new InMemoryUserRepo(),
   wing: new InMemoryWingRepo(),
   flight: new InMemoryFlightRepo(),
 };

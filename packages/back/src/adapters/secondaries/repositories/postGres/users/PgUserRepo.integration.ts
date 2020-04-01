@@ -1,6 +1,6 @@
 import { getKnex, resetDb } from "../db";
 import { UserRepo } from "../../../../../domain/port/UserRepo";
-import { createPgUserRepo } from "./PgUserRepo";
+import { PgUserRepo } from "./PgUserRepo";
 import { makeUserEntityCreator } from "../../../../../domain/testBuilders/userEntityBuilder";
 import { TestHashAndTokenManager } from "../../../../secondaries/TestHashAndTokenManager";
 import { UserEntity, UserPersistence } from "../../../../../domain/entities/UserEntity";
@@ -19,7 +19,7 @@ describe("User repository postgres tests", () => {
   });
 
   beforeEach(() => {
-    pgUserRepo = createPgUserRepo(knex);
+    pgUserRepo = new PgUserRepo(knex);
   });
 
   it("Creates a user", async () => {
