@@ -11,12 +11,19 @@ describe("Options", () => {
     expect(optionA.getOrNull()).toBe(null);
   });
   it("turns a value to an option", () => {
-    const vehicules: string[] = ["car"];
-    const optionNone = fromNullable(vehicules.find(el => el === "not fount"));
-    const optionSome = fromNullable(vehicules.find(el => el === "car"));
-    expect(optionSome.getOrNull()).toBe("car");
+    const vehicles: string[] = ["car"];
+    const spyNone = jest.fn();
+    const optionNone = fromNullable(vehicles.find(el => el === "not fount"));
+    optionNone.map(spyNone);
     expect(optionNone.getOrNull()).toBe(null);
     expect(optionNone.getOrElse(() => "something else")).toBe("something else");
+    expect(spyNone).not.toHaveBeenCalled();
+
+    const spySome = jest.fn(<A>(a: A) => a);
+    const optionSome = fromNullable(vehicles.find(el => el === "car"));
+    expect(optionSome.getOrNull()).toBe("car");
+    optionSome.map(spySome).getOrNull();
+    expect(spySome).toHaveBeenCalled();
   });
   it("makes it possible to flatMap values", () => {
     const a = { some: Option.of("someValue"), none: Option.none() };

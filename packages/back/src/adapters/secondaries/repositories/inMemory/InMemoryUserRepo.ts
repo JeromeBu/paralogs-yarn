@@ -2,44 +2,41 @@ import { UserId, Result, fromNullable } from "@paralogs/shared";
 import { UserRepo } from "../../../../domain/port/UserRepo";
 import { UserEntity } from "../../../../domain/entities/UserEntity";
 import { Email } from "../../../../domain/valueObjects/user/Email";
+import { FromRepoCreator } from "../fromRepoCreator";
 
-export class InMemoryUserRepo implements UserRepo {
-  public async create(userEntity: UserEntity) {
-    const isEmailTaken = !!this._users.find(
-      user => user.getProps().email.value === userEntity.getProps().email.value,
-    );
-    if (isEmailTaken)
-      return Result.fail<UserEntity>("Email is already taken. Consider logging in.");
-    this._users = [...this._users, userEntity];
-    // eslint-disable-next-line no-console
-    // console.log({
-    //   userRepo: this._users.map(user => ({
-    //     email: user.getProps().email.value,
-    //     token: user.getProps().authToken,
-    //   })),
-    // });
-    return Result.ok(userEntity);
-  }
+export const createInMemoryUserRepo = () => {
+  const _users: UserEntity[] = [];
 
-  public async findByEmail(email: Email) {
-    return fromNullable(
-      this._users.find(userEntity => userEntity.getProps().email.value === email.value),
-    );
-  }
+  return {
+    create: async (userEntity: UserEntity) => {
+      const isEmailTaken = !!_users.find(
+        user => user.getProps().email.value === userEntity.getProps().email.value,
+      );
+      if (isEmailTaken)
+        return Result.fail<UserEntity>("Email is already taken. Consider logging in.");
+      _users.push(userEntity);
+      return Result.ok(userEntity);
+    },
 
-  public async findById(userId: UserId) {
-    return this._users.find(userEntity => {
-      return userEntity.id === userId;
-    });
-  }
+    findByEmail: async (email: Email) =>
+      fromNullable(
+        _users.find(userEntity => userEntity.getProps().email.value === email.value),
+      ),
 
-  public get users() {
-    return this._users;
-  }
+    async findById(userId: UserId) {
+      return _users.find(userEntity => {
+        return userEntity.id === userId;
+      });
+    },
 
-  public setUsers(users: UserEntity[]) {
-    this._users = users;
-  }
+    users() {
+      return _users;
+    },
 
-  private _users: UserEntity[] = [];
-}
+    setUsers(users: UserEntity[]) {
+      _users.splice(0, users.length, ...users);
+    },
+  };
+};
+
+export type InMemoryUserRepo = FromRepoCreator<typeof createInMemoryUserRepo, UserRepo>;

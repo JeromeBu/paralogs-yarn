@@ -1,10 +1,3 @@
-// type Monad<A> = {
-//   map: <B>(f: (param: A) => B) => Monad<B>;
-//   flatMap: <B>(f: (param: A) => Monad<B>) => Monad<B>;
-//   mapAsync: <B>(f: (param: A) => Promise<B>) => Promise<Monad<B>>;
-//   flatMapAsync: <B>(f: (param: A) => Promise<Monad<B>>) => Promise<Monad<B>>;
-// };
-
 export class Future<A> {
   private readonly promise: Promise<A>;
 

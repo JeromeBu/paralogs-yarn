@@ -1,34 +1,33 @@
-import Knex from "knex";
-import { getKnex } from "../db";
+import { getKnex, resetDb } from "../db";
 import { UserRepo } from "../../../../../domain/port/UserRepo";
-import { PgUserRepo } from "./PgUserRepo";
+import { createPgUserRepo } from "./PgUserRepo";
 import { makeUserEntityCreator } from "../../../../../domain/testBuilders/userEntityBuilder";
 import { TestHashAndTokenManager } from "../../../../secondaries/TestHashAndTokenManager";
-import { UserPersistence } from "../../../../../domain/entities/UserEntity";
+import { UserEntity, UserPersistence } from "../../../../../domain/entities/UserEntity";
+import { Email } from "../../../../../domain/valueObjects/user/Email";
 
 describe("User repository postgres tests", () => {
   const makeUserEntity = makeUserEntityCreator(new TestHashAndTokenManager());
   let pgUserRepo: UserRepo;
-  let knex: Knex;
+  const knex = getKnex();
+  const johnEmail = "john@mail.com";
+  let johnEntity: UserEntity;
 
   beforeAll(async () => {
-    knex = getKnex();
-    await knex.migrate.down();
-    await knex.migrate.up();
+    await resetDb(knex);
+    johnEntity = await makeUserEntity({ email: johnEmail });
   });
 
   beforeEach(() => {
-    knex = getKnex();
-    pgUserRepo = new PgUserRepo(knex);
+    pgUserRepo = createPgUserRepo(knex);
   });
 
   it("Creates a user", async () => {
-    const userEntity = await makeUserEntity({ email: "john@mail.com" });
-    const resultSavedUserEntity = await pgUserRepo.create(userEntity);
+    const resultSavedUserEntity = await pgUserRepo.create(johnEntity);
 
-    const props = userEntity.getProps();
+    const props = johnEntity.getProps();
     resultSavedUserEntity.map(savedUserEntity =>
-      expect(savedUserEntity).toEqual(userEntity),
+      expect(savedUserEntity).toEqual(johnEntity),
     );
 
     const userPersistenceToMatch: UserPersistence = {
@@ -42,17 +41,40 @@ describe("User repository postgres tests", () => {
 
     expect(
       await knex<UserPersistence>("users")
-        .where({ id: userEntity.id })
+        .where({ id: johnEntity.id })
         .first(),
     ).toMatchObject(userPersistenceToMatch);
   });
 
   it("Cannot create a user with the same email", async () => {
-    const userEntity = await makeUserEntity({ email: "john@mail.com" });
+    const userEntity = await makeUserEntity({ email: johnEmail });
     const resultSavedUserEntity = await pgUserRepo.create(userEntity);
 
     expect(resultSavedUserEntity.error).toBe(
       "Email is already taken. Consider logging in.",
     );
+  });
+
+  it("finds a user from its email", async () => {
+    (await pgUserRepo.findByEmail(Email.create(johnEmail).getOrThrow())).map(userEntity =>
+      expect(userEntity).toEqual(johnEntity),
+    );
+  });
+
+  it("does not find user if it doesn't exist", async () => {
+    expect(
+      (
+        await pgUserRepo.findByEmail(Email.create("notfound@mail.com").getOrThrow())
+      ).isNone(),
+    ).toBe(true);
+  });
+
+  it("finds a user from its id", async () => {
+    const userEntity = await pgUserRepo.findById(johnEntity.id);
+    expect(userEntity).toEqual(johnEntity);
+  });
+
+  it("does not find user if it doesn't exist", async () => {
+    expect(await pgUserRepo.findById("not found")).toBeUndefined();
   });
 });
