@@ -1,6 +1,6 @@
 import { addWingSchema } from "@paralogs/shared";
 import { addWingUseCaseCreator } from "../../../domain/useCases/wings/AddWingUseCase";
-import { repositories } from "../../secondaries/repositories";
+import { repositories } from "../../secondaries/repositories/repositoryChoice";
 import {
   buildControllerWithCurrentUser,
   withUserIdAdapter,

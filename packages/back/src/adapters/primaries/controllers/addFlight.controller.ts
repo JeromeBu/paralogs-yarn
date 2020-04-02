@@ -1,6 +1,6 @@
 import { addFlightSchema } from "@paralogs/shared";
 import { addFlightUseCaseCreator } from "../../../domain/useCases/flights/AddFlightUseCase";
-import { repositories } from "../../secondaries/repositories";
+import { repositories } from "../../secondaries/repositories/repositoryChoice";
 import {
   buildControllerWithCurrentUser,
   withUserIdAdapter,

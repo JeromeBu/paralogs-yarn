@@ -1,7 +1,7 @@
 import { ActualUuidGenerator, signUpSchema } from "@paralogs/shared";
 import { signUpUseCaseCreator } from "../../../domain/useCases/auth/SignUpUseCase";
 import { ProductionHashAndTokenManager } from "../../secondaries/ProductionHashAndTokenManager";
-import { repositories } from "../../secondaries/repositories";
+import { repositories } from "../../secondaries/repositories/repositoryChoice";
 import { buildControllerNoCurrentUser } from "../express/controller.builder";
 
 const signUpUseCase = signUpUseCaseCreator({

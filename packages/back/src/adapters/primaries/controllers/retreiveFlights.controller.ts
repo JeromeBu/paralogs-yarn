@@ -1,5 +1,5 @@
 import { retreiveFlightsUseCaseCreator } from "../../../domain/useCases/flights/RetreiveFlightsUseCase";
-import { repositories } from "../../secondaries/repositories";
+import { repositories } from "../../secondaries/repositories/repositoryChoice";
 import { buildControllerNoValidation } from "../express/controller.builder";
 
 const retreiveFlightsUseCase = retreiveFlightsUseCaseCreator({

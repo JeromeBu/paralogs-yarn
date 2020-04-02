@@ -5,10 +5,10 @@ interface ConstructorParams<A> {
 
 export class Option<A> {
   private readonly value: A;
-  private readonly isNone: boolean;
+  private readonly _isNone: boolean;
 
   private constructor({ value, isNone }: ConstructorParams<A>) {
-    this.isNone = isNone;
+    this._isNone = isNone;
     this.value = value;
     Object.freeze(this);
   }
@@ -25,7 +25,7 @@ export class Option<A> {
   }
 
   public flatMap<B>(f: (a: A) => Option<B>): Option<B> {
-    if (this.isNone) return Option.none();
+    if (this._isNone) return Option.none();
     return f(this.value);
   }
 
@@ -38,19 +38,23 @@ export class Option<A> {
   }
 
   public async mapAsync<B>(f: (a: A) => Promise<B>): Promise<Option<B>> {
-    if (this.isNone) return Option.none();
+    if (this._isNone) return Option.none();
     const b = await f(this.value);
     return Option.of(b);
   }
 
   public getOrElse(cb: () => A): A {
-    if (this.isNone) return cb();
+    if (this._isNone) return cb();
     return this.value;
   }
 
   public getOrNull() {
-    if (this.isNone) return null;
+    if (this._isNone) return null;
     return this.value;
+  }
+
+  public isNone() {
+    return this._isNone;
   }
 }
 

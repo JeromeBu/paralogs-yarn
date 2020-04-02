@@ -1,7 +1,7 @@
 import { loginSchema } from "@paralogs/shared";
 import { loginUseCaseCreator } from "../../../domain/useCases/auth/LoginUseCase";
 import { ProductionHashAndTokenManager } from "../../secondaries/ProductionHashAndTokenManager";
-import { repositories } from "../../secondaries/repositories";
+import { repositories } from "../../secondaries/repositories/repositoryChoice";
 import { buildControllerNoCurrentUser } from "../express/controller.builder";
 
 const loginUseCase = loginUseCaseCreator({
