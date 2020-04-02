@@ -9,7 +9,10 @@ import { userPersistenceMapper } from "../users/userPersistenceMapper";
 import { FlightRepo } from "../../../../../domain/port/FlightRepo";
 import { PgWingRepo } from "../wings/PgWingRepo";
 import { makeFlightEntity } from "../../../../../domain/testBuilders/flightEntityBuilder";
-import { FlightPersistence } from "../../../../../domain/entities/FlightEntity";
+import {
+  FlightEntity,
+  FlightPersistence,
+} from "../../../../../domain/entities/FlightEntity";
 
 describe("Flight repository postgres tests", () => {
   const makeUserEntity = makeUserEntityCreator(new TestHashAndTokenManager());
@@ -18,6 +21,7 @@ describe("Flight repository postgres tests", () => {
   const knex = getKnex();
   const johnEmail = "johnWing@mail.com";
   let johnEntity: UserEntity;
+  let flightEntity: FlightEntity;
 
   beforeAll(async () => {
     await resetDb(knex);
@@ -33,7 +37,7 @@ describe("Flight repository postgres tests", () => {
   it("creates a flight", async () => {
     const wingEntity = makeWingEntity({ userId: johnEntity.id });
     await pgWingRepo.create(wingEntity);
-    const flightEntity = makeFlightEntity({
+    flightEntity = makeFlightEntity({
       userId: johnEntity.id,
       wingId: wingEntity.id,
     });
@@ -55,5 +59,15 @@ describe("Flight repository postgres tests", () => {
         .where({ id })
         .first(),
     ).toMatchObject(flightPersistenceToMatch);
+  });
+
+  it("gets a flight from it's id", async () => {
+    const foundFlight = await pgFlightRepo.findById(flightEntity.id);
+    expect(foundFlight).toEqual(flightEntity);
+  });
+
+  it("gets all the flights that belong to a user", async () => {
+    const foundFlight = await pgFlightRepo.findByUserId(johnEntity.id);
+    expect(foundFlight).toEqual([flightEntity]);
   });
 });

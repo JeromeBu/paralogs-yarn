@@ -5,7 +5,7 @@ import { UserEntity } from "../../../../../domain/entities/UserEntity";
 import { WingRepo } from "../../../../../domain/port/WingRepo";
 import { PgWingRepo } from "./PgWingRepo";
 import { makeWingEntity } from "../../../../../domain/testBuilders/wingEntityBuilder";
-import { WingPersistence } from "../../../../../domain/entities/WingEntity";
+import { WingEntity, WingPersistence } from "../../../../../domain/entities/WingEntity";
 import { userPersistenceMapper } from "../users/userPersistenceMapper";
 
 describe("Wing repository postgres tests", () => {
@@ -14,6 +14,7 @@ describe("Wing repository postgres tests", () => {
   const knex = getKnex();
   const johnEmail = "johnWing@mail.com";
   let johnEntity: UserEntity;
+  let wingEntity: WingEntity;
 
   beforeAll(async () => {
     await resetDb(knex);
@@ -26,7 +27,7 @@ describe("Wing repository postgres tests", () => {
   });
 
   it("creates a wing", async () => {
-    const wingEntity = makeWingEntity({ userId: johnEntity.id });
+    wingEntity = makeWingEntity({ userId: johnEntity.id });
     await pgWingRepo.create(wingEntity);
     const {
       id,
@@ -52,5 +53,15 @@ describe("Wing repository postgres tests", () => {
         .where({ id })
         .first(),
     ).toMatchObject(wingPersistenceToMatch);
+  });
+
+  it("gets a wing from it's id", async () => {
+    const foundWing = await pgWingRepo.findById(wingEntity.id);
+    expect(foundWing).toEqual(wingEntity);
+  });
+
+  it("gets all the wings that belong to a user", async () => {
+    const foundWing = await pgWingRepo.findByUserId(johnEntity.id);
+    expect(foundWing).toEqual([wingEntity]);
   });
 });
