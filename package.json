@@ -7,12 +7,15 @@
   ],
   "scripts": {
     "build": "yarn workspaces run build",
-    "startDev": "concurrently 'yarn:buildWatch-*' 'yarn:startDev-front'",
-    "testWatch": "concurrently 'yarn:testWatch-*'",
-    "buildWatch-shared": "cd packages/shared; yarn build:watch;",
-    "buildWatch-backend": "cd packages/back; yarn build;",
-    "startDev-front": "cd packages/front; yarn start;",
-    "testWatch-front": "cd packages/front; yarn test --watchAll;",
+    "build:watch-shared": "cd packages/shared; yarn build:watch;",
+    "build:watch-front-core": "cd packages/front-core; yarn build:watch;",
+
+    "start:dev": "concurrently 'yarn:build:watch-*' 'yarn:start:dev-*'",
+    "start:dev-back": "cd packages/back; yarn start:dev;",
+    "start:dev-front-web": "cd packages/front-web; yarn start;",
+
+    "test:watch": "concurrently 'yarn:testWatch-*'",
+    "testWatch-front": "cd packages/front-core; yarn test --watchAll;",
     "testWatch-back": "cd packages/back; yarn test --watchAll;"
   },
   "devDependencies": {
@@ -29,7 +32,7 @@
     "eslint-plugin-react-hooks": "1.7.0",
     "husky": "2.0.0",
     "prettier": "^1.19.1",
-    "typescript": "3.7.2"
+    "typescript": "^3.8.3"
   },
   "husky": {
     "hooks": {

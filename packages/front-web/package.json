@@ -1,0 +1,62 @@
+{
+  "name": "@paralogs/front-web",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "deploy:preview": "netlify deploy --dir=./build -m \"$(git log -1 --pretty=%B)\" --auth $NETLIFY_AUTH_TOKEN --site b515011b-3c51-4b76-9c77-d187fccd06c2",
+    "deploy:production": "yarn deploy:preview -p",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "precommit": "lint-staged"
+  },
+  "dependencies": {
+    "@material-ui/core": "^4.3.0",
+    "@material-ui/icons": "^4.2.1",
+    "@paralogs/shared": "*",
+    "@paralogs/front-core": "*",
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.3.2",
+    "@testing-library/user-event": "^7.1.2",
+    "formik": "^2.1.4",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-scripts": "3.4.1",
+    "react-redux": "^7.1.0",
+    "react-router-dom": "^5.1.2"
+  },
+  "devDependencies": {
+    "@types/jest": "24.0.21",
+    "@types/lodash": "^4.14.136",
+    "@types/node": "12.12.3",
+    "@types/react": "^16.9.22",
+    "@types/react-dom": "16.9.3",
+    "@types/react-redux": "^7.1.1",
+    "@types/react-router-dom": "^5.1.3",
+    "lint-staged": "^9.4.3",
+    "netlify-cli": "^2.20.1",
+    "typescript": "3.8.3"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "lint-staged": {
+    "src/**/*.{ts,tsx,js}": [
+      "eslint --config ../../.eslintrc.commit.js --fix",
+      "git add"
+    ]
+  }
+}

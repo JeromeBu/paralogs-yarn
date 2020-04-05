@@ -5,7 +5,8 @@
     "allowSyntheticDefaultImports": true,
     "module": "commonjs",
     "moduleResolution": "node",
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "forceConsistentCasingInFileNames": true,
   },
   "parserOptions": {
     "project": ["packages/*/tsconfig.json"]

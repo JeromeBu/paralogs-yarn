@@ -8,7 +8,7 @@ const request = supertest(app);
 
 describe("Wing routes", () => {
   const email = "john.doe@mail.com";
-  const password = "CraZy123";
+  const password = "Bépo1234";
   const signUpParams: SignUpParams = {
     email,
     firstName: "John",
