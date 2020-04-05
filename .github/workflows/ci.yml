@@ -35,7 +35,7 @@ jobs:
     - name: Frontend tests
       env:
         REACT_APP_BACKEND_URL: http://localhost:4000/
-      run: cd packages/front; yarn ci:test;
+      run: cd packages/front-core; yarn ci:test;
 
 # Deploy
     - name: Deploy backend to staging when staging branch
