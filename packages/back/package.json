@@ -6,9 +6,10 @@
   "types": ".build/src/index.d.ts",
   "scripts": {
     "deploy": "sls config credentials --provider aws --key $AWS_ACCESS_KEY_ID --secret $AWS_SECRET_KEY && sls deploy",
-    "test": "jest --watch",
+    "unit-test": "jest",
+    "test:watch": "yarn unit-test --watchAll",
     "integration-test": "jest —c jest.config.integration.js",
-    "ci:test": "yarn test --watchAll=false",
+    "ci:test": "yarn unit-test --watchAll=false;",
     "build": "tsc",
     "build:watch": "tsc --watch",
     "start": "node dist/adapters/primaries/express/start.js",
