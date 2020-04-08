@@ -11,7 +11,7 @@ import { userPersistenceMapper } from "../users/userPersistenceMapper";
 describe("Wing repository postgres tests", () => {
   const makeUserEntity = makeUserEntityCreator(new TestHashAndTokenManager());
   let pgWingRepo: WingRepo;
-  const knex = getKnex();
+  const knex = getKnex("test");
   const johnEmail = "johnWing@mail.com";
   let johnEntity: UserEntity;
   let wingEntity: WingEntity;

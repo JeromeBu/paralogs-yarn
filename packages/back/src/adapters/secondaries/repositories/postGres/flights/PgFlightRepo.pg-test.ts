@@ -18,7 +18,7 @@ describe("Flight repository postgres tests", () => {
   const makeUserEntity = makeUserEntityCreator(new TestHashAndTokenManager());
   let pgFlightRepo: FlightRepo;
   let pgWingRepo: WingRepo;
-  const knex = getKnex();
+  const knex = getKnex("test");
   const johnEmail = "johnWing@mail.com";
   let johnEntity: UserEntity;
   let flightEntity: FlightEntity;

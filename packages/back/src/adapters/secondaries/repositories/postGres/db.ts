@@ -3,8 +3,9 @@ import knexconfig from "./knex/knexfile";
 
 type DatabaseEnv = keyof typeof knexconfig;
 
-export const getKnex = (databaseEnv?: DatabaseEnv) =>
-  Knex(knexconfig[databaseEnv || "development"]);
+export const getKnex = (databaseEnv: DatabaseEnv) => {
+  return Knex(knexconfig[databaseEnv]);
+};
 
 export const resetDb = async (knex: Knex) => {
   await knex.migrate.rollback({}, true);

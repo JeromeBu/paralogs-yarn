@@ -8,7 +8,10 @@
     "deploy": "sls config credentials --provider aws --key $AWS_ACCESS_KEY_ID --secret $AWS_SECRET_KEY && sls deploy",
     "unit-test": "jest",
     "test:watch": "yarn unit-test --watchAll",
-    "integration-test": "jest —c jest.config.integration.js",
+    "http-test": "REPOSITORIES=IN_MEMORY jest --testMatch '**/*.http-test.ts'",
+    "pg-test": "jest --testMatch '**/*.pg-test.ts' --run-in-band --forceExit;",
+    "pg-test-with-docker": "docker-compose -f ../../docker-compose.test.yml up -d && yarn pg-test; docker-compose down;",
+    "integration-test": "yarn http-test && yarn pg-test",
     "ci:test": "yarn unit-test --watchAll=false;",
     "build": "tsc",
     "build:watch": "tsc --watch",
@@ -17,9 +20,9 @@
     "start:dev": "nodemon",
     "startServerless": "sls dynamodb install; sls offline start;",
     "precommit": "lint-staged",
-    "create-migration":  "knex migrate:make --knexfile ~/code/JeromeBu/paralogs/packages/back/src/adapters/secondaries/repositories/postGres/knex/knexfile.ts",
-    "migrate:latest": "knex migrate:latest --knexfile ~/code/JeromeBu/paralogs/packages/back/src/adapters/secondaries/repositories/postGres/knex/knexfile.ts",
-    "migrate:rollback": "knex migrate:rollback --all --knexfile ~/code/JeromeBu/paralogs/packages/back/src/adapters/secondaries/repositories/postGres/knex/knexfile.ts"
+    "create-migration":  "knex migrate:make --knexfile ./src/adapters/secondaries/repositories/postGres/knex/knexfile.ts",
+    "migrate:latest": "knex migrate:latest --knexfile ./src/adapters/secondaries/repositories/postGres/knex/knexfile.ts",
+    "migrate:rollback": "knex migrate:rollback --all --knexfile ./src/adapters/secondaries/repositories/postGres/knex/knexfile.ts"
   },
   "dependencies": {
     "@paralogs/shared": "*",

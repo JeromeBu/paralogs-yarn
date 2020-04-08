@@ -2,8 +2,8 @@ import { retreiveWingsUseCaseCreator } from "../../../domain/useCases/wings/Retr
 import { repositories } from "../../secondaries/repositories/repositoryChoice";
 import { buildControllerNoValidation } from "../express/controller.builder";
 
-const retreiveWingsUseCase = retreiveWingsUseCaseCreator(repositories.wing);
+const retrieveWingsUseCase = retreiveWingsUseCaseCreator(repositories.wing);
 
-export const retreiveWingsController = buildControllerNoValidation({
-  useCase: retreiveWingsUseCase,
+export const retrieveWingsController = buildControllerNoValidation({
+  useCase: retrieveWingsUseCase,
 });
