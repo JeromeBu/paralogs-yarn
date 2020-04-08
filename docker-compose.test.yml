@@ -1,0 +1,20 @@
+version: '3'
+services:
+  # node-backend:
+  #   restart: unless-stopped
+  #   build: .
+  #   ports:
+  #     - "4000:4000"
+  postgres:
+    image: postgres
+    restart: unless-stopped
+    ports:
+      - "5433:5432"
+#    env_file: ./packages/back/.env
+    environment:
+      POSTGRES_DB: paralogs-test
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: paralogs-test-secret
+    volumes:
+      - ./pgdata/test:/var/lib/postgresql/data
+

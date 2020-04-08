@@ -8,6 +8,7 @@ import { PgUserRepo } from "./postGres/users/PgUserRepo";
 import { getKnex } from "./postGres/db";
 import { PgWingRepo } from "./postGres/wings/PgWingRepo";
 import { PgFlightRepo } from "./postGres/flights/PgFlightRepo";
+import { ENV } from "../../../config/env";
 
 interface Repositories {
   user: UserRepo;
@@ -22,7 +23,7 @@ const getInMemoryRepos = (): Repositories => ({
 });
 
 const getPgRepos = (): Repositories => {
-  const knex = getKnex();
+  const knex = getKnex(ENV.environment);
   return {
     user: new PgUserRepo(knex),
     wing: new PgWingRepo(knex),
@@ -30,9 +31,22 @@ const getPgRepos = (): Repositories => {
   };
 };
 
-// eslint-disable-next-line no-console
-console.log("Repositories are : ", process.env.IN_MEMORY_REPOS ? "IN MEMORY" : "PG");
+type RepositoriesOption = "IN_MEMORY" | "PG";
 
-export const repositories = process.env.IN_MEMORY_REPOS
-  ? getInMemoryRepos()
-  : getPgRepos();
+const getRepositories = (repositories: RepositoriesOption) => {
+  // eslint-disable-next-line no-console
+  console.log("Repositories are : ", repositories);
+
+  switch (repositories) {
+    case "IN_MEMORY":
+      return getInMemoryRepos();
+    case "PG":
+      return getPgRepos();
+    default:
+      throw new Error("REPOSITORIES where not defined");
+  }
+};
+
+export const repositories = getRepositories(
+  process.env.REPOSITORIES! as RepositoriesOption,
+);

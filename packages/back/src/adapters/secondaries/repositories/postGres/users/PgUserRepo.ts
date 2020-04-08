@@ -16,9 +16,9 @@ export class PgUserRepo implements UserRepo {
       return Result.ok(userEntity);
     } catch (error) {
       const isEmailTaken: boolean =
-        error.detail.includes("already exists") && error.detail.includes("email");
+        error.detail?.includes("already exists") && error.detail?.includes("email");
       return Result.fail(
-        isEmailTaken ? "Email is already taken. Consider logging in." : error.detail,
+        isEmailTaken ? "Email is already taken. Consider logging in." : error,
       );
     }
   }

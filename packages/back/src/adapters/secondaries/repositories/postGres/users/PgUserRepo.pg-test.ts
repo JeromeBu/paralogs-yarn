@@ -9,7 +9,7 @@ import { Email } from "../../../../../domain/valueObjects/user/Email";
 describe("User repository postgres tests", () => {
   const makeUserEntity = makeUserEntityCreator(new TestHashAndTokenManager());
   let pgUserRepo: UserRepo;
-  const knex = getKnex();
+  const knex = getKnex("test");
   const johnEmail = "john@mail.com";
   let johnEntity: UserEntity;
 
