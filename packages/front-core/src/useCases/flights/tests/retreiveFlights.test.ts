@@ -9,7 +9,7 @@ import {
   InMemoryDependencies,
   getInMemoryDependencies,
 } from "../../../testUtils";
-import { flightActions } from "../flights.actions";
+import { flightActions } from "../flights.slice";
 
 describe("Retreive flights", () => {
   let store: Store<RootState>;
@@ -65,20 +65,20 @@ describe("Retreive flights", () => {
     expectStateToMatch(store, {
       flights: {
         data: [],
-        error: new Error(errorToDisplay),
+        error: errorToDisplay,
         isLoading: false,
         isSaving: false,
       },
     });
   });
 
-  const retrieveFlights = () => store.dispatch(flightActions.retreiveFlightsRequest());
+  const retrieveFlights = () => store.dispatch(flightActions.retrieveFlightsRequest());
 
   const feedWithFlights = (flights: FlightDTO[]) =>
     dependencies.flightGateway.flights$.next(flights);
 
   const feedWithError = (errorMessage: string) => {
-    dependencies.flightGateway.flights$.error(new Error(errorMessage));
+    dependencies.flightGateway.flights$.error(errorMessage);
   };
 
   const expectFlightToBeOrderedByDate = (storeState: Store<RootState>) => {

@@ -1,9 +1,8 @@
 import { Epic } from "redux-observable";
 import { filter, switchMap, map, catchError } from "rxjs/operators";
-import { isActionOf } from "typesafe-actions";
 import { of } from "rxjs";
-import { AuthAction, authActions } from "../auth.actions";
 import { RootState, Dependencies } from "../../../reduxStore";
+import { AuthAction, authActions } from "../auth.slice";
 
 export const getMeEpic: Epic<AuthAction, AuthAction, RootState, Dependencies> = (
   action$,
@@ -11,14 +10,14 @@ export const getMeEpic: Epic<AuthAction, AuthAction, RootState, Dependencies> = 
   { authGateway, clientStorage },
 ) =>
   action$.pipe(
-    filter(isActionOf(authActions.getMe)),
+    filter(authActions.getMe.match),
     switchMap(() => {
       return authGateway.getMe().pipe(
         switchMap(currentUserWithToken => {
           clientStorage.set("token", currentUserWithToken.token);
           return of(currentUserWithToken);
         }),
-        map(authActions.getMeSuccess),
+        map(authActions.setCurrentUserAndAuthToken),
         catchError(err => of(authActions.getMeError(err))),
       );
     }),

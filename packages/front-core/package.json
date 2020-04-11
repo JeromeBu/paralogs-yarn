@@ -13,6 +13,7 @@
   "types": "dist/src/index.d.ts",
   "dependencies": {
     "@paralogs/shared": "^0.0.1",
+    "@reduxjs/toolkit": "^1.3.4",
     "axios": "^0.19.1",
     "date-fns": "^2.1.0",
     "dotenv": "^8.2.0",
@@ -22,8 +23,7 @@
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.8",
     "redux-observable": "^1.1.0",
-    "rxjs": "^6.5.2",
-    "typesafe-actions": "^4.4.2"
+    "rxjs": "^6.5.2"
   },
   "devDependencies": {
     "@types/faker": "^4.1.9",

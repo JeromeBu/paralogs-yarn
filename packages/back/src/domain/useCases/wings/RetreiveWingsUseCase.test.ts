@@ -2,9 +2,9 @@ import { WingDTO, makeWingDTO, uuid } from "@paralogs/shared";
 import { InMemoryWingRepo } from "../../../adapters/secondaries/repositories/inMemory/InMemoryWingRepo";
 import { addWingUseCaseCreator, AddWingUseCase } from "./AddWingUseCase";
 import {
-  retreiveWingsUseCaseCreator,
-  RetreiveWingsUseCase,
-} from "./RetreiveWingsUseCase";
+  retrieveWingsUseCaseCreator,
+  RetrieveWingsUseCase,
+} from "./RetrieveWingsUseCase";
 import { UserEntity } from "../../entities/UserEntity";
 import {
   setupCurrentUserCreator,
@@ -15,7 +15,7 @@ import { TestHashAndTokenManager } from "../../../adapters/secondaries/TestHashA
 import { HashAndTokenManager } from "../../port/HashAndTokenManager";
 
 describe("wings retreival", () => {
-  let retreiveWingsUseCase: RetreiveWingsUseCase;
+  let retreiveWingsUseCase: RetrieveWingsUseCase;
   let wingRepo: InMemoryWingRepo; // cannot use WingRepo because need access .wings
   let userRepo: InMemoryUserRepo; // cannot use UserRepo because need access .users
   let setupCurrentUser: SetupCurrentUser;
@@ -28,7 +28,7 @@ describe("wings retreival", () => {
     hashAndTokenManager = new TestHashAndTokenManager();
     setupCurrentUser = setupCurrentUserCreator({ hashAndTokenManager, userRepo });
     currentUser = await setupCurrentUser();
-    retreiveWingsUseCase = retreiveWingsUseCaseCreator(wingRepo);
+    retreiveWingsUseCase = retrieveWingsUseCaseCreator(wingRepo);
   });
 
   describe("user has no wings", () => {

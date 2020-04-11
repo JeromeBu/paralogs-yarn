@@ -1,12 +1,12 @@
 import { Store } from "redux";
 
 import { RootState, configureReduxStore } from "../../../reduxStore";
-import { wingActions } from "../wings.actions";
 import {
   expectStateToMatch,
   InMemoryDependencies,
   getInMemoryDependencies,
 } from "../../../testUtils";
+import { wingActions } from "../wings.slice";
 
 describe("Add a wing", () => {
   let store: Store<RootState>;

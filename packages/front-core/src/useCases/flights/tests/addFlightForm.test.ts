@@ -1,12 +1,12 @@
 import { Store } from "redux";
 
 import { RootState, configureReduxStore } from "../../../reduxStore";
-import { flightActions } from "../flights.actions";
 import {
   expectStateToMatch,
   InMemoryDependencies,
   getInMemoryDependencies,
 } from "../../../testUtils";
+import { flightActions } from "../flights.slice";
 
 describe("Add a flight", () => {
   let store: Store<RootState>;

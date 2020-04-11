@@ -6,10 +6,10 @@ interface RetrieveFlightsDependencies {
   flightRepo: FlightRepo;
 }
 
-export const retreiveFlightsUseCaseCreator = ({
+export const retrieveFlightsUseCaseCreator = ({
   flightRepo,
 }: RetrieveFlightsDependencies) => async (currentUser: UserEntity) => {
   return (await flightRepo.findByUserId(currentUser.id)).map(flightMapper.entityToDTO);
 };
 
-export type RetrieveFlightsUseCase = ReturnType<typeof retreiveFlightsUseCaseCreator>;
+export type RetrieveFlightsUseCase = ReturnType<typeof retrieveFlightsUseCaseCreator>;

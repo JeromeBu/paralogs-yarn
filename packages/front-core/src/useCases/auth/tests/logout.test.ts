@@ -7,7 +7,7 @@ import {
   InMemoryDependencies,
 } from "../../../testUtils";
 import { feedWithCurrentUserCreator } from "./auth.testUtils";
-import { authActions } from "../auth.actions";
+import { authActions } from "../auth.slice";
 
 describe("Logout", () => {
   let store: Store<RootState>;

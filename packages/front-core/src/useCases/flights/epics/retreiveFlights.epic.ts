@@ -1,9 +1,8 @@
 import { Epic } from "redux-observable";
 import { of } from "rxjs";
 import { catchError, filter, map, switchMap } from "rxjs/operators";
-import { isActionOf } from "typesafe-actions";
 import { RootState, Dependencies } from "../../../reduxStore";
-import { flightActions, FlightAction } from "../flights.actions";
+import { FlightAction, flightActions } from "../flights.slice";
 
 export const retreiveFlightsEpic: Epic<
   FlightAction,
@@ -12,11 +11,11 @@ export const retreiveFlightsEpic: Epic<
   Dependencies
 > = (action$, state$, { flightGateway }) =>
   action$.pipe(
-    filter(isActionOf(flightActions.retreiveFlightsRequest)),
+    filter(flightActions.retrieveFlightsRequest.match),
     switchMap(() =>
       flightGateway.retrieveFlights().pipe(
-        map(flightActions.retreiveFlightsSuccess),
-        catchError(err => of(flightActions.retreiveFlightsError(err))),
+        map(flightActions.retrieveFlightsSuccess),
+        catchError(err => of(flightActions.retrieveFlightsError(err))),
       ),
     ),
   );

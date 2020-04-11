@@ -7,7 +7,7 @@ import {
   InMemoryDependencies,
 } from "../../../testUtils";
 import { feedWithCurrentUserCreator, feedWithAuthErrorCreator } from "./auth.testUtils";
-import { authActions } from "../auth.actions";
+import { authActions } from "../auth.slice";
 
 describe("Login", () => {
   let store: Store<RootState>;
@@ -51,7 +51,7 @@ describe("Login", () => {
       expectStateToMatch(store, {
         auth: {
           isLoading: false,
-          error: new Error(errorMessage),
+          error: errorMessage,
           token: null,
           currentUser: null,
         },

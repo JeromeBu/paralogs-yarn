@@ -1,8 +1,7 @@
-import { ActionType } from "typesafe-actions";
-
-import { authActions } from "../useCases/auth/auth.actions";
-import { flightActions } from "../useCases/flights/flights.actions";
-import { wingActions } from "../useCases/wings/wings.actions";
+import { ValueOf } from "@paralogs/shared";
+import { authActions } from "../useCases/auth/auth.slice";
+import { wingActions } from "../useCases/wings/wings.slice";
+import { flightActions } from "../useCases/flights/flights.slice";
 
 const rootAction = {
   currentUser: authActions,
@@ -10,4 +9,4 @@ const rootAction = {
   wing: wingActions,
 };
 
-export type RootAction = ActionType<typeof rootAction>;
+export type RootAction = ValueOf<typeof rootAction>;

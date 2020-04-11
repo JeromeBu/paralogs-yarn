@@ -1,9 +1,8 @@
 import { Epic } from "redux-observable";
 import { of } from "rxjs";
 import { catchError, filter, map, switchMap } from "rxjs/operators";
-import { isActionOf } from "typesafe-actions";
-import { wingActions, WingAction } from "../wings.actions";
 import { RootState, Dependencies } from "../../../reduxStore";
+import { WingAction, wingActions } from "../wings.slice";
 
 export const addWingEpic: Epic<WingAction, WingAction, RootState, Dependencies> = (
   action$,
@@ -11,7 +10,7 @@ export const addWingEpic: Epic<WingAction, WingAction, RootState, Dependencies> 
   { wingGateway },
 ) =>
   action$.pipe(
-    filter(isActionOf(wingActions.addWingRequest)),
+    filter(wingActions.addWingRequest.match),
     switchMap(({ payload }) =>
       wingGateway.addWing(payload).pipe(
         map(wingActions.addWingSuccess),
