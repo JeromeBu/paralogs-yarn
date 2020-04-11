@@ -6,7 +6,7 @@ import {
   InMemoryDependencies,
   getInMemoryDependencies,
 } from "../../../testUtils";
-import { wingActions } from "../wings.actions";
+import { wingActions } from "../wings.slice";
 
 describe("Add a wing", () => {
   let store: Store<RootState>;

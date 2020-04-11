@@ -1,9 +1,8 @@
 import { Epic } from "redux-observable";
 import { of } from "rxjs";
 import { catchError, filter, map, switchMap } from "rxjs/operators";
-import { isActionOf } from "typesafe-actions";
 import { RootState, Dependencies } from "../../../reduxStore";
-import { authActions, AuthAction } from "../auth.actions";
+import { AuthAction, authActions } from "../auth.slice";
 
 export const signUpEpic: Epic<AuthAction, AuthAction, RootState, Dependencies> = (
   action$,
@@ -11,14 +10,14 @@ export const signUpEpic: Epic<AuthAction, AuthAction, RootState, Dependencies> =
   { authGateway, clientStorage },
 ) =>
   action$.pipe(
-    filter(isActionOf(authActions.signUpRequest)),
+    filter(authActions.signUpRequest.match),
     switchMap(({ payload }) => {
       return authGateway.signUp(payload).pipe(
         switchMap(currentUserWithToken => {
           clientStorage.set("token", currentUserWithToken.token);
           return of(currentUserWithToken);
         }),
-        map(authActions.signUpSuccess),
+        map(authActions.setCurrentUserAndAuthToken),
         catchError(err => of(authActions.signUpError(err))),
       );
     }),

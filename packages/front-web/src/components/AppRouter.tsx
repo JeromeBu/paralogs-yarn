@@ -18,8 +18,8 @@ const useRetrieveUserData = () => {
   useEffect(() => {
     if (isAuthenticated) {
       dispatch(authActions.getMe());
-      dispatch(wingActions.retreiveWingsRequest());
-      dispatch(flightActions.retreiveFlightsRequest());
+      dispatch(wingActions.retrieveWingsRequest());
+      dispatch(flightActions.retrieveFlightsRequest());
     }
   }, [isAuthenticated]);
 };

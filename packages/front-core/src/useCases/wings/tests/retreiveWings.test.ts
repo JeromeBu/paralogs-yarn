@@ -6,7 +6,7 @@ import {
   InMemoryDependencies,
   getInMemoryDependencies,
 } from "../../../testUtils";
-import { wingActions } from "../wings.actions";
+import { wingActions } from "../wings.slice";
 
 describe("Retreive wings", () => {
   let store: Store<RootState>;
@@ -39,17 +39,17 @@ describe("Retreive wings", () => {
     expectStateToMatch(store, {
       wings: {
         data: [],
-        error: new Error(errorToDisplay),
+        error: errorToDisplay,
         isLoading: false,
         isSaving: false,
       },
     });
   });
 
-  const retrieveWings = () => store.dispatch(wingActions.retreiveWingsRequest());
+  const retrieveWings = () => store.dispatch(wingActions.retrieveWingsRequest());
 
   const feedWithWings = (wings: WingDTO[]) => dependencies.wingGateway.wings$.next(wings);
   const feedWithError = (errorMessage: string) => {
-    dependencies.wingGateway.wings$.error(new Error(errorMessage));
+    dependencies.wingGateway.wings$.error(errorMessage);
   };
 });

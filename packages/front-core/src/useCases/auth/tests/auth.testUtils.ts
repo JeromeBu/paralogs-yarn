@@ -9,5 +9,5 @@ export const feedWithCurrentUserCreator = (dependencies: InMemoryDependencies) =
 export const feedWithAuthErrorCreator = (dependencies: InMemoryDependencies) => (
   errorMessage: string,
 ) => {
-  dependencies.authGateway.currentUserWithToken$.error(new Error(errorMessage));
+  dependencies.authGateway.currentUserWithToken$.error(errorMessage);
 };

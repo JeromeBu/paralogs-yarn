@@ -6,7 +6,7 @@ import { TestHashAndTokenManager } from "../../../adapters/secondaries/TestHashA
 import { HashAndTokenManager } from "../../port/HashAndTokenManager";
 import {
   RetrieveFlightsUseCase,
-  retreiveFlightsUseCaseCreator,
+  retrieveFlightsUseCaseCreator,
 } from "./RetreiveFlightsUseCase";
 import { InMemoryFlightRepo } from "../../../adapters/secondaries/repositories/inMemory/InMemoryFlightRepo";
 import { AddFlightUseCase, addFlightUseCaseCreator } from "./AddFlightUseCase";
@@ -23,7 +23,7 @@ describe("flights retreival", () => {
     userRepo = new InMemoryUserRepo();
     hashAndTokenManager = new TestHashAndTokenManager();
     currentUser = await setupCurrentUserCreator({ hashAndTokenManager, userRepo })();
-    retreiveFlightUseCase = retreiveFlightsUseCaseCreator({ flightRepo });
+    retreiveFlightUseCase = retrieveFlightsUseCaseCreator({ flightRepo });
   });
 
   describe("user has no flights", () => {

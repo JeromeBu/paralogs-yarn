@@ -1,6 +1,5 @@
 import { makeUserDTO, CurrentUserWithAuthToken } from "@paralogs/shared";
 import { Store } from "redux";
-import { authActions } from "../auth.actions";
 import {
   getInMemoryDependencies,
   expectStateToMatch,
@@ -8,6 +7,7 @@ import {
 } from "../../../testUtils";
 import { configureReduxStore, RootState } from "../../../reduxStore";
 import { feedWithAuthErrorCreator, feedWithCurrentUserCreator } from "./auth.testUtils";
+import { authActions } from "../auth.slice";
 
 describe("GetMe :  recover current user informations", () => {
   let store: Store<RootState>;
@@ -30,7 +30,7 @@ describe("GetMe :  recover current user informations", () => {
       feedWithError(errorMessage);
       expectStateToMatch(store, {
         auth: {
-          error: new Error(errorMessage),
+          error: errorMessage,
           token: null,
           isLoading: false,
         },

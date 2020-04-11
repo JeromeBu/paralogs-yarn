@@ -1,8 +1,7 @@
 import { Epic } from "redux-observable";
 import { filter, switchMap, map } from "rxjs/operators";
-import { isActionOf } from "typesafe-actions";
 import { RootState, Dependencies } from "../../../reduxStore";
-import { AuthAction, authActions } from "../auth.actions";
+import { AuthAction, authActions } from "../auth.slice";
 
 export const logoutEpic: Epic<AuthAction, AuthAction, RootState, Dependencies> = (
   action$,
@@ -10,7 +9,7 @@ export const logoutEpic: Epic<AuthAction, AuthAction, RootState, Dependencies> =
   { clientStorage },
 ) =>
   action$.pipe(
-    filter(isActionOf(authActions.logout)),
+    filter(authActions.logout.match),
     switchMap(() =>
       clientStorage.remove("token").pipe(map(() => authActions.logoutSuccess())),
     ),

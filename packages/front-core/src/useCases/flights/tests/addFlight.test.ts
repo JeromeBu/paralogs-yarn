@@ -6,7 +6,7 @@ import {
   getInMemoryDependencies,
   InMemoryDependencies,
 } from "../../../testUtils";
-import { flightActions } from "../flights.actions";
+import { flightActions } from "../flights.slice";
 
 describe("Add a flight", () => {
   let store: Store<RootState>;
