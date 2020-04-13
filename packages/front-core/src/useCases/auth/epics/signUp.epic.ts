@@ -18,7 +18,7 @@ export const signUpEpic: Epic<AuthAction, AuthAction, RootState, Dependencies> =
           return of(currentUserWithToken);
         }),
         map(authActions.setCurrentUserAndAuthToken),
-        catchError(err => of(authActions.signUpError(err))),
+        catchError(err => of(authActions.signUpError(err.message))),
       );
     }),
   );

@@ -70,7 +70,7 @@ export const LoginView: React.FC = () => {
         <LockOutlinedIcon />
       </Avatar>
       <Typography variant="h5">Log in</Typography>
-      <DisplayError error={error} />
+      <DisplayError errorMessage={error} />
       <Formik
         validationSchema={loginSchema}
         initialValues={initialValues}

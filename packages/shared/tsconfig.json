@@ -2,7 +2,7 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "target": "es2017",
-    "lib": ["esnext"],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "declaration": true,
     "composite": true,
     "outDir": "./dist"

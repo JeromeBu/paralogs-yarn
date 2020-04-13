@@ -2,7 +2,7 @@ import React from "react";
 import { Typography, makeStyles } from "@material-ui/core";
 
 interface DisplayErrorProps {
-  error?: Error;
+  errorMessage?: string;
 }
 
 const useStyles = makeStyles(theme => ({
@@ -11,13 +11,13 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export const DisplayError: React.FC<DisplayErrorProps> = ({ error }) => {
+export const DisplayError: React.FC<DisplayErrorProps> = ({ errorMessage }) => {
   const classes = useStyles();
 
-  if (!error) return null;
+  if (!errorMessage) return null;
   return (
     <Typography variant="body1" className={classes.error}>
-      {error.message ? error.message : error}
+      {errorMessage}
     </Typography>
   );
 };

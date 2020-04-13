@@ -25,13 +25,18 @@ export const authenticateMiddlewareBuilder = (userRepo: UserRepo) => async (
   } catch (error) {
     // eslint-disable-next-line no-console
     console.log({ error });
-    return sendForbiddenError(res);
+    return sendUnknownError(res, error.message);
   }
 };
 
 const sendForbiddenError = (res: Response) => {
   res.status(403);
-  return res.json({ message: "Provided token does not match a user or is exired" });
+  return res.json({ message: "Provided token does not match a user or is expired" });
+};
+
+const sendUnknownError = (res: Response, errorMessage: string) => {
+  res.status(500);
+  return res.json({ message: errorMessage });
 };
 
 const getTokenFromHeaders = (req: Request) => req.headers.authorization?.slice(7);

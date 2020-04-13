@@ -2,5 +2,5 @@
 **/dist
 **/.build
 **/build
-**/front
+**/pgdata
 .git

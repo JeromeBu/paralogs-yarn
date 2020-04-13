@@ -1,0 +1,15 @@
+version: '3'
+services:
+  postgres:
+    image: postgres
+    restart: unless-stopped
+    ports:
+      - "5434:5432"
+    env_file: ./packages/back/.env
+#    environment:
+#      POSTGRES_DB: paralogs-dev
+#      POSTGRES_USER: postgres
+#      POSTGRES_PASSWORD: paralogs-dev-secret
+    volumes:
+      - ./pgdata/dev:/var/lib/postgresql/data
+

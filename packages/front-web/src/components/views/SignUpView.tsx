@@ -64,7 +64,7 @@ export const SignUpView: React.FC = () => {
           <LockOutlinedIcon />
         </Avatar>
         <Typography variant="h5">Sign Up</Typography>
-        <DisplayError error={error} />
+        <DisplayError errorMessage={error} />
         <Formik
           onSubmit={handleSubmit}
           initialValues={initialValues}

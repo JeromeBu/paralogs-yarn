@@ -7,15 +7,15 @@ export interface WithUserId {
   id: UserId;
 }
 
-interface WithPassword {
+export interface WithPassword {
   password: string;
 }
 
-interface WithEmail {
+export interface WithEmail {
   email: string;
 }
 
-interface WithOtherInformations {
+export interface WithOtherInformations {
   firstName: string;
   lastName?: string;
 }

@@ -1,20 +1,43 @@
 version: '3'
 services:
-  # node-backend:
-  #   restart: unless-stopped
-  #   build: .
-  #   ports:
-  #     - "4000:4000"
-  postgres:
+  db:
     image: postgres
     restart: unless-stopped
     ports:
-      - "5434:5432"
+      - "5432:5432"
     env_file: ./packages/back/.env
-#    environment:
-#      POSTGRES_DB: paralogs-dev
-#      POSTGRES_USER: postgres
-#      POSTGRES_PASSWORD: paralogs-dev-secret
     volumes:
       - ./pgdata/dev:/var/lib/postgresql/data
+  back:
+    restart: unless-stopped
+    build:
+      dockerfile: Dockerfile.back.dev
+      context: .
+    env_file: ./packages/back/.env
+    ports:
+      - "4000:4000"
+    volumes:
+      - /paralogs/node_modules
+      - /paralogs/packages/shared/node_modules
+      - /paralogs/packages/back/node_modules
+      - ./packages/shared:/paralogs/packages/shared
+      - ./packages/back:/paralogs/packages/back
+  front-web:
+    restart: unless-stopped
+    build:
+      dockerfile: Dockerfile.frontweb.dev
+      context: .
+    ports:
+      - "3000:3000"
+    volumes:
+      - /paralogs/node_modules
+      - /paralogs/packages/shared/node_modules
+      - /paralogs/packages/front-core/node_modules
+      - /paralogs/packages/front-web/node_modules
+#      - ./packages/shared:/paralogs/packages/shared
+#      - ./packages/front-core:/paralogs/packages/front-core
+#      - ./packages/front-web:/paralogs/packages/front-web
+    tty: true
+
+
 

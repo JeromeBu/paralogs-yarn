@@ -1,0 +1,26 @@
+FROM node:12.16
+WORKDIR /paralogs
+
+COPY ./package.json .
+COPY ./tsconfig.json .
+COPY ./yarn.lock .
+COPY ./packages/shared/package.json ./packages/shared/
+COPY ./packages/front-core/package.json ./packages/front-core/
+COPY ./packages/front-web/package.json ./packages/front-web/
+
+RUN yarn global add typescript@3.8
+RUN yarn install
+
+COPY ./packages/shared ./packages/shared/
+COPY ./packages/front-core ./packages/front-core/
+COPY ./packages/front-web ./packages/front-web/
+
+WORKDIR /paralogs/packages/shared
+RUN yarn build
+
+WORKDIR /paralogs/packages/front-core
+RUN yarn build
+
+WORKDIR /paralogs/packages/front-web
+
+CMD ["yarn", "start"]

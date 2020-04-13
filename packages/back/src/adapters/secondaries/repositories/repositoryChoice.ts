@@ -24,6 +24,8 @@ const getInMemoryRepos = (): Repositories => ({
 
 const getPgRepos = (): Repositories => {
   const knex = getKnex(ENV.environment);
+  // eslint-disable-next-line @typescript-eslint/no-floating-promises
+  knex.migrate.latest();
   return {
     user: new PgUserRepo(knex),
     wing: new PgWingRepo(knex),

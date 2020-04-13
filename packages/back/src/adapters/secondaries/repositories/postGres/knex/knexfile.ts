@@ -3,11 +3,14 @@ import { Environment } from "../../../../../config/env";
 const knexconfig: { [key in Environment]: any } = {
   development: {
     client: "pg",
-    connection: {
-      database: "paralogs-dev",
-      user: "postgres",
-      password: "paralogs-dev-secret",
-    },
+    // connection: "postgres://username:pgpassword@db:5432/db-name",
+    connection: "postgres://postgres:paralogs-dev-secret@db:5432/paralogs-dev",
+    // connection: {
+    //   port: 5432,
+    //   database: "paralogs-dev",
+    //   user: "postgres",
+    //   password: "paralogs-dev-secret",
+    // },
     pool: {
       min: 2,
       max: 10,

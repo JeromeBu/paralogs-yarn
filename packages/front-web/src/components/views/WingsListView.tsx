@@ -56,7 +56,7 @@ export const WingsListView: React.FC = () => {
           </Fab>
         )}
       </Typography>
-      <DisplayError error={error} />
+      <DisplayError errorMessage={error} />
       <AddWingModal />
       <List className={classes.listWrapper}>
         {wings.map(wing => (

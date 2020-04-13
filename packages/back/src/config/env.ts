@@ -5,7 +5,7 @@ dotenv.config({ path: `${__dirname}/../../.env` });
 export type Environment = "development" | "test"; // | "staging" | "production";
 
 const jwtSecret = process.env.JWT_SECRET ?? "someFakeSecret";
-const environment: Environment = (process.env.environment as Environment) ?? "test";
+const environment: Environment = (process.env.ENVIRONMENT as Environment) ?? "test";
 
 export const ENV = {
   environment,
@@ -13,4 +13,4 @@ export const ENV = {
 };
 
 // eslint-disable-next-line no-console
-console.log(ENV);
+console.log("ENV variables : ", ENV);

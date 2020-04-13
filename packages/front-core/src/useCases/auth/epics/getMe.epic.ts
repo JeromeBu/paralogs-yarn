@@ -18,7 +18,7 @@ export const getMeEpic: Epic<AuthAction, AuthAction, RootState, Dependencies> = 
           return of(currentUserWithToken);
         }),
         map(authActions.setCurrentUserAndAuthToken),
-        catchError(err => of(authActions.getMeError(err))),
+        catchError(err => of(authActions.getMeError(err.message))),
       );
     }),
   );
