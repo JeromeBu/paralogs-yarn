@@ -5,8 +5,10 @@ import { retrieveFlightsController } from "../../controllers/retrieveFlightsCont
 
 export const flightRouter = Router();
 
+export const flightsRoute = "/flights";
+
 flightRouter
-  .route("/flights")
+  .route(flightsRoute)
   .post(async (req, res) =>
     sendHttpResponse(res, await addFlightController(req.body, req.currentUser)),
   )

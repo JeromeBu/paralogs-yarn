@@ -1,7 +1,7 @@
 import supertest from "supertest";
 import { SignUpParams, LoginParams } from "@paralogs/shared";
-import { app } from "../server";
-import { getMeRoute, loginRoute, signUpRoute } from "../../controllers/auth.controller";
+import { app } from "../express/server";
+import { getMeRoute, loginRoute, signUpRoute } from "./auth.controller";
 
 const request = supertest(app);
 

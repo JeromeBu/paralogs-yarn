@@ -1,12 +1,12 @@
 import { AddWingDTO, SignUpParams, uuid } from "@paralogs/shared";
 import supertest from "supertest";
-import { app } from "../server";
-import { signUpRoute } from "../../controllers/auth.controller";
-import { wingsRoute } from "../../controllers/wings.controller";
+import { app } from "../express/server";
+import { signUpRoute } from "./auth.controller";
+import { wingsRoute } from "./wings.controller";
 
 const request = supertest(app);
 
-describe("Wing routes", () => {
+describe("Wings routes", () => {
   const email = "john.doe@mail.com";
   const password = "Bépo1234";
   const signUpParams: SignUpParams = {
@@ -16,7 +16,7 @@ describe("Wing routes", () => {
     password,
   };
 
-  it("calls adds a wing then retrieves wings", async () => {
+  it("adds a wing then retrieves wings", async () => {
     const {
       body: { token },
     } = await request.post(signUpRoute).send(signUpParams);
