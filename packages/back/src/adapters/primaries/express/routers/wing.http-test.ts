@@ -1,8 +1,8 @@
 import { AddWingDTO, SignUpParams, uuid } from "@paralogs/shared";
 import supertest from "supertest";
 import { app } from "../server";
-import { signUpRoute } from "./auth.router";
 import { wingsRoute } from "./wing.router";
+import { signUpRoute } from "../../controllers/auth.controller";
 
 const request = supertest(app);
 

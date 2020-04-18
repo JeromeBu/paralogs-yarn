@@ -1,12 +1,12 @@
 import supertest from "supertest";
 import { SignUpParams, LoginParams } from "@paralogs/shared";
 import { app } from "../server";
-import { signUpRoute, loginRoute } from "./auth.router";
+import { loginRoute, signUpRoute } from "../../controllers/auth.controller";
 
 const request = supertest(app);
 
 describe("Authentication routes", () => {
-  it("calls sign up than login in", async () => {
+  it("calls sign up than login", async () => {
     const email = "hey@mail.com";
     const password = "CraZy123";
     const signUpParams: SignUpParams = {

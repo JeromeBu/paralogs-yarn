@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 import { UserId } from "@paralogs/shared";
 import { ENV } from "../../../config/env";
 import { UserRepo } from "../../../domain/port/UserRepo";
-import { loginRoute, signUpRoute } from "./routers/auth.router";
+import { loginRoute, signUpRoute } from "../controllers/auth.controller";
 
 const whiteListedRoutes = [loginRoute, signUpRoute];
 
