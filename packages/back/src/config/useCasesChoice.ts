@@ -5,6 +5,8 @@ import { ProductionHashAndTokenManager } from "../adapters/secondaries/Productio
 import { signUpUseCaseCreator } from "../domain/useCases/auth/SignUpUseCase";
 import { addWingUseCaseCreator } from "../domain/useCases/wings/AddWingUseCase";
 import { retrieveWingsUseCaseCreator } from "../domain/useCases/wings/RetrieveWingsUseCase";
+import { addFlightUseCaseCreator } from "../domain/useCases/flights/AddFlightUseCase";
+import { retrieveFlightsUseCaseCreator } from "../domain/useCases/flights/RetreiveFlightsUseCase";
 
 const userRepo = repositories.user;
 const hashAndTokenManager = new ProductionHashAndTokenManager();
@@ -27,4 +29,11 @@ export const wingsUseCases = {
     wingRepo: repositories.wing,
   }),
   retrieveWings: retrieveWingsUseCaseCreator(repositories.wing),
+};
+
+export const flightsUseCases = {
+  addFlight: addFlightUseCaseCreator({ flightRepo: repositories.flight }),
+  retrieveFlights: retrieveFlightsUseCaseCreator({
+    flightRepo: repositories.flight,
+  }),
 };

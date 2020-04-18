@@ -29,7 +29,7 @@ describe("flights retreival", () => {
   describe("user has no flights", () => {
     it("returns no flights", async () => {
       const flightDTOs = await retreiveFlightUseCase(currentUser);
-      expect(flightDTOs).toEqual([]);
+      expect(flightDTOs.getOrThrow()).toEqual([]);
     });
   });
 
@@ -44,7 +44,7 @@ describe("flights retreival", () => {
         addFlightUseCase(someoneElseFlightDTO),
       ]);
       const retrievedFlightDTOs = await retreiveFlightUseCase(currentUser);
-      expect(retrievedFlightDTOs).toEqual([flightDTO]);
+      expect(retrievedFlightDTOs.getOrThrow()).toEqual([flightDTO]);
     });
   });
 });

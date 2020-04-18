@@ -15,7 +15,7 @@ export const loginRoute = "/users/login";
 export const signUpRoute = "/users/signup";
 export const getMeRoute = "/users/getme";
 
-export const getAuthRouter = (): Router => {
+export const authController = (): Router => {
   authRouter.post(loginRoute, async (req, res) => {
     const resultParams = await validateSchema(loginSchema, req.body);
     const httpResponse = await callUseCase({ resultParams, useCase: authUseCases.login });

@@ -3,7 +3,7 @@ import supertest from "supertest";
 import { app } from "../express/server";
 import { signUpRoute } from "./auth.controller";
 import { wingsRoute } from "./wings.controller";
-import { flightsRoute } from "../express/routers/flight.router";
+import { flightsRoute } from "./flights.controller";
 
 const request = supertest(app);
 

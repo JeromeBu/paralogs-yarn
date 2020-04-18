@@ -7,7 +7,7 @@ const wingsRouter = Router();
 
 export const wingsRoute = "/wings";
 
-export const getWingsRouter = () => {
+export const wingsController = () => {
   wingsRouter
     .route(wingsRoute)
     .get(async (req, res) =>
