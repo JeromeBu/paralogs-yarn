@@ -1,7 +1,7 @@
 import { Response } from "express";
 import { ObjectSchema, Shape } from "yup";
 import { Result } from "@paralogs/shared";
-import { noBodyProvided } from "../../domain/core/errors";
+import _ from "lodash";
 
 export const success = (body: unknown, statusCode = 200) =>
   buildResponse(statusCode, body);
@@ -26,20 +26,16 @@ function buildResponse(statusCode: number, body: unknown): HttpResponse {
   };
 }
 
-export const sendBodyMissingError = (params: { res: Response; expected: string }) => {
-  const { res, expected } = params;
-  res.status(400);
-  return res.json({ message: noBodyProvided(expected).message });
-};
-
-export const validateSchema = <T extends object>(
+export const validateSchema = async <T extends object>(
   validationSchema: ObjectSchema<Shape<object, T>>,
   body: any,
-) =>
-  validationSchema
+): Promise<Result<Shape<object, T>>> => {
+  if (_.isEmpty(body)) return Result.fail("No body was provided");
+  return validationSchema
     .validate(body, { abortEarly: false })
     .then(Result.ok)
-    .catch(error => Result.fail<Shape<object, T>>(error));
+    .catch(error => Result.fail(error));
+};
 
 type CallUseCaseParams<P> = {
   useCase: (params: P) => Promise<Result<unknown>>;

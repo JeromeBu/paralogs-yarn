@@ -2,7 +2,6 @@ import { Router } from "express";
 import { loginSchema, signUpSchema } from "@paralogs/shared";
 import {
   callUseCase,
-  sendBodyMissingError,
   sendHttpResponse,
   success,
   validateSchema,
@@ -18,14 +17,12 @@ export const getMeRoute = "/users/getme";
 
 export const getAuthRouter = (): Router => {
   authRouter.post(loginRoute, async (req, res) => {
-    if (!req.body) return sendBodyMissingError({ res, expected: "Login params" });
     const resultParams = await validateSchema(loginSchema, req.body);
     const httpResponse = await callUseCase({ resultParams, useCase: authUseCases.login });
     return sendHttpResponse(res, httpResponse);
   });
 
   authRouter.post(signUpRoute, async (req, res) => {
-    if (!req.body) return sendBodyMissingError({ res, expected: "SignUp params" });
     const resultParams = await validateSchema(signUpSchema, req.body);
     const httpResponse = await callUseCase({
       resultParams,
