@@ -18,7 +18,7 @@ export const loginEpic: Epic<AuthAction, AuthAction, RootState, Dependencies> = 
           return of(currentUserWithToken);
         }),
         map(authActions.setCurrentUserAndAuthToken),
-        catchError(err => of(authActions.loginError(err.message))),
+        catchError(err => of(authActions.loginError(err))),
       ),
     ),
   );

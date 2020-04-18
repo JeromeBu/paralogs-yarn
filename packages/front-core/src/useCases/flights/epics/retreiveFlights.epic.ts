@@ -15,7 +15,7 @@ export const retreiveFlightsEpic: Epic<
     switchMap(() =>
       flightGateway.retrieveFlights().pipe(
         map(flightActions.retrieveFlightsSuccess),
-        catchError(err => of(flightActions.retrieveFlightsError(err.message))),
+        catchError(err => of(flightActions.retrieveFlightsError(err))),
       ),
     ),
   );
