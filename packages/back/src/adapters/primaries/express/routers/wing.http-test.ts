@@ -1,8 +1,8 @@
 import { AddWingDTO, SignUpParams, uuid } from "@paralogs/shared";
 import supertest from "supertest";
 import { app } from "../server";
-import { wingsRoute } from "./wing.router";
 import { signUpRoute } from "../../controllers/auth.controller";
+import { wingsRoute } from "../../controllers/wings.controller";
 
 const request = supertest(app);
 
@@ -16,7 +16,7 @@ describe("Wing routes", () => {
     password,
   };
 
-  it("calls adds a wing then retreives wings", async () => {
+  it("calls adds a wing then retrieves wings", async () => {
     const {
       body: { token },
     } = await request.post(signUpRoute).send(signUpParams);
@@ -36,11 +36,11 @@ describe("Wing routes", () => {
       .send(addWingParams)
       .set("Authorization", `Bearer ${token}`);
 
-    const retreivedWings = await request
+    const retrievedWings = await request
       .get(wingsRoute)
       .set("Authorization", `Bearer ${token}`);
 
-    expect(retreivedWings.body).toMatchObject([
+    expect(retrievedWings.body).toMatchObject([
       {
         brand,
         model,

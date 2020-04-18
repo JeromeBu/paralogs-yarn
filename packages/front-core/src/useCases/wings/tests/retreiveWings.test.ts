@@ -8,7 +8,7 @@ import {
 } from "../../../testUtils";
 import { wingActions } from "../wings.slice";
 
-describe("Retreive wings", () => {
+describe("Retrieve wings", () => {
   let store: Store<RootState>;
   let dependencies: InMemoryDependencies; /* cannot be typed APIGateway because we need to access .wings$ */
 

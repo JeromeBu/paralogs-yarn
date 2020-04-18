@@ -4,7 +4,7 @@ import { catchError, filter, map, switchMap } from "rxjs/operators";
 import { RootState, Dependencies } from "../../../reduxStore";
 import { WingAction, wingActions } from "../wings.slice";
 
-export const retreiveWingsEpic: Epic<WingAction, WingAction, RootState, Dependencies> = (
+export const retrieveWingsEpic: Epic<WingAction, WingAction, RootState, Dependencies> = (
   action$,
   state$,
   { wingGateway },

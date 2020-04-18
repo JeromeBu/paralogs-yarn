@@ -14,8 +14,8 @@ import { InMemoryUserRepo } from "../../../adapters/secondaries/repositories/inM
 import { TestHashAndTokenManager } from "../../../adapters/secondaries/TestHashAndTokenManager";
 import { HashAndTokenManager } from "../../port/HashAndTokenManager";
 
-describe("wings retreival", () => {
-  let retreiveWingsUseCase: RetrieveWingsUseCase;
+describe("wings retrieval", () => {
+  let retrieveWingsUseCase: RetrieveWingsUseCase;
   let wingRepo: InMemoryWingRepo; // cannot use WingRepo because need access .wings
   let userRepo: InMemoryUserRepo; // cannot use UserRepo because need access .users
   let setupCurrentUser: SetupCurrentUser;
@@ -28,19 +28,19 @@ describe("wings retreival", () => {
     hashAndTokenManager = new TestHashAndTokenManager();
     setupCurrentUser = setupCurrentUserCreator({ hashAndTokenManager, userRepo });
     currentUser = await setupCurrentUser();
-    retreiveWingsUseCase = retrieveWingsUseCaseCreator(wingRepo);
+    retrieveWingsUseCase = retrieveWingsUseCaseCreator(wingRepo);
   });
 
   describe("user has no wings", () => {
     it("returns no wing", async () => {
-      const wings = await retreiveWingsUseCase(currentUser);
-      expectWingsDTOResultToEqual(wings, []);
+      const wings = await retrieveWingsUseCase(currentUser);
+      expectWingsDTOResultToEqual(wings.getOrThrow(), []);
     });
   });
 
   describe("user has some wings", () => {
     let addWingUseCase: AddWingUseCase;
-    it("retreives only the user's wings", async () => {
+    it("retrieves only the user's wings", async () => {
       addWingUseCase = addWingUseCaseCreator({ wingRepo });
 
       const wing1 = (
@@ -54,9 +54,9 @@ describe("wings retreival", () => {
         userId: uuid(),
       });
 
-      const retreivedWings = await retreiveWingsUseCase(currentUser);
+      const retrievedWings = await retrieveWingsUseCase(currentUser);
 
-      expectWingsDTOResultToEqual(retreivedWings, [wing2, wing1]);
+      expectWingsDTOResultToEqual(retrievedWings.getOrThrow(), [wing2, wing1]);
     });
 
     const addWing = async (wingParams: Partial<WingDTO>) => {
