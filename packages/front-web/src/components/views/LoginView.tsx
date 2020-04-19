@@ -7,16 +7,16 @@ import {
   Typography,
 } from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Formik, Form } from "formik";
 import { LoginParams, loginSchema } from "@paralogs/shared";
-import { useHistory, useLocation } from "react-router-dom";
 import { authActions } from "@paralogs/front-core";
 import { MyLink } from "../commun/MyLink";
 import { DisplayError } from "../commun/DisplayError";
 import { authSelectors } from "../../selectors/authSelectors";
 import { InputTextField } from "../commun/form/InputTextField";
+import { useRedirectOnAuthentication } from "../../hooks/useRedirectOnAuthentication";
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -38,26 +38,11 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const useRedirectOnLogin = () => {
-  const history = useHistory();
-  const location = useLocation();
-  const { from } = (location.state as { from: string }) || { from: "/" };
-  const [renderCount, setCount] = useState(0);
-  const isAuthenticated = useSelector(authSelectors.isAuthenticated);
-
-  useEffect(() => {
-    if (renderCount > 0 && isAuthenticated) {
-      history.replace(from);
-    }
-    setCount(renderCount + 1);
-  }, [isAuthenticated]);
-};
-
 export const LoginView: React.FC = () => {
   const dispatch = useDispatch();
   const error = useSelector(authSelectors.error);
   const classes = useStyles();
-  useRedirectOnLogin();
+  useRedirectOnAuthentication();
 
   const initialValues: LoginParams = {
     email: "",

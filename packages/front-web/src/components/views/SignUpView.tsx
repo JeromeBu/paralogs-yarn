@@ -19,6 +19,7 @@ import { DisplayError } from "../commun/DisplayError";
 import { authSelectors } from "../../selectors/authSelectors";
 import { InputTextField } from "../commun/form/InputTextField";
 import { UIButton } from "../commun/UIButton";
+import { useRedirectOnAuthentication } from "../../hooks/useRedirectOnAuthentication";
 
 const useStyles = makeStyles(theme => ({
   avatar: {
@@ -40,6 +41,8 @@ export const SignUpView: React.FC = () => {
   const error = useSelector(authSelectors.error);
   const classes = useStyles();
   const theme = useTheme();
+
+  useRedirectOnAuthentication();
 
   const handleSubmit = (values: SignUpParams) => {
     dispatch(authActions.signUpRequest(values));
