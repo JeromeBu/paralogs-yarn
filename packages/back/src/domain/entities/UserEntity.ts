@@ -1,4 +1,10 @@
-import { SignUpParams, WithUserId, UserId, Result } from "@paralogs/shared";
+import {
+  SignUpParams,
+  WithUserId,
+  UserId,
+  Result,
+  UpdateUserDTO,
+} from "@paralogs/shared";
 import { Email } from "../valueObjects/user/Email";
 import { Password } from "../valueObjects/user/Password";
 import { PersonName } from "../valueObjects/user/PersonName";
@@ -38,6 +44,15 @@ export class UserEntity {
 
   public getProps() {
     return this.props;
+  }
+
+  update(params: UpdateUserDTO) {
+    return Result.combine({
+      ...(params.firstName ? { firstName: PersonName.create(params.firstName) } : {}),
+      ...(params.lastName ? { lastName: PersonName.create(params.lastName) } : {}),
+    }).map(validParamsToUpdate => {
+      return new UserEntity({ ...this.props, ...validParamsToUpdate });
+    });
   }
 
   static createFromPersistence(params: UserPersistence): UserEntity {
@@ -90,4 +105,8 @@ export class UserEntity {
   }
 
   private constructor(private props: UserEntityProps) {}
+}
+
+export interface WithCurrentUser {
+  currentUser: UserEntity;
 }
