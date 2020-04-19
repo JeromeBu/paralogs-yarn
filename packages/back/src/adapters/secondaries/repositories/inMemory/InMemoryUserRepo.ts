@@ -16,6 +16,13 @@ export class InMemoryUserRepo implements UserRepo {
     return Result.ok(userEntity);
   }
 
+  public async save(userEntity: UserEntity): Promise<Result<void>> {
+    const indexOfUser = await this._users.findIndex(({ id }) => id === userEntity.id);
+    if (indexOfUser === -1) return Result.fail("No user found with this id");
+    this._users[indexOfUser] = userEntity;
+    return Result.ok();
+  }
+
   public async findByEmail(email: Email) {
     return fromNullable(
       this._users.find(userEntity => userEntity.getProps().email.value === email.value),
