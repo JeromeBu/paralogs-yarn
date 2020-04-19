@@ -33,12 +33,16 @@ export const NavBar: React.FC = () => {
               <HomeIcon /> <p> Paralogs</p>
             </Box>
           </MyLink>
-          <MyLink to="/wings" className={classes.leftSideLink}>
-            My Wings
-          </MyLink>
-          <MyLink to="/flights" className={classes.leftSideLink}>
-            My Flights
-          </MyLink>
+          {isAuthenticated && (
+            <>
+              <MyLink to="/wings" className={classes.leftSideLink}>
+                My Wings
+              </MyLink>
+              <MyLink to="/flights" className={classes.leftSideLink}>
+                My Flights
+              </MyLink>
+            </>
+          )}
         </Box>
         {isAuthenticated ? (
           <Button color="inherit" onClick={() => dispatch(authActions.logout())}>
