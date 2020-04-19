@@ -1,6 +1,10 @@
-export type ErrorFromAction = Error;
+import { PayloadAction } from "@reduxjs/toolkit";
+import { StringError } from "@paralogs/shared";
+import { of } from "rxjs";
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const shouldNeverBeCalled = (param: never) => {
-  // Function is used only to type check that it is never called
+export const handleActionError = (
+  action: (payload: StringError) => PayloadAction<StringError>,
+) => (err: any) => {
+  if (typeof err === "string") return of(action(err));
+  return of(action(err.message));
 };

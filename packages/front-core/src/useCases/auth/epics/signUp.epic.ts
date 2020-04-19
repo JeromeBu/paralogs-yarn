@@ -3,6 +3,7 @@ import { of } from "rxjs";
 import { catchError, filter, map, switchMap } from "rxjs/operators";
 import { RootState, Dependencies } from "../../../reduxStore";
 import { AuthAction, authActions } from "../auth.slice";
+import { handleActionError } from "../../../utils";
 
 export const signUpEpic: Epic<AuthAction, AuthAction, RootState, Dependencies> = (
   action$,
@@ -18,7 +19,7 @@ export const signUpEpic: Epic<AuthAction, AuthAction, RootState, Dependencies> =
           return of(currentUserWithToken);
         }),
         map(authActions.setCurrentUserAndAuthToken),
-        catchError(err => of(authActions.signUpError(err))),
+        catchError(handleActionError(authActions.signUpError)),
       );
     }),
   );

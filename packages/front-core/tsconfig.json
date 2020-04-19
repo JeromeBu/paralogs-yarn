@@ -14,7 +14,6 @@
     "skipLibCheck": true,
     "module": "esnext",
     "isolatedModules": true,
-    "noEmit": true,
     "jsx": "react"
   },
   "include": [
