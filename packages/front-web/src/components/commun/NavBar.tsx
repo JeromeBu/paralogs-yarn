@@ -1,13 +1,5 @@
-import {
-  AppBar,
-  Button,
-  IconButton,
-  Theme,
-  Toolbar,
-  Typography,
-  makeStyles,
-} from "@material-ui/core";
-import MenuIcon from "@material-ui/icons/Menu";
+import { AppBar, Button, Theme, makeStyles, Box } from "@material-ui/core";
+import HomeIcon from "@material-ui/icons/Home";
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { authActions } from "@paralogs/front-core";
@@ -21,8 +13,9 @@ const useStyles = makeStyles((theme: Theme) => ({
   menuButton: {
     marginRight: theme.spacing(2),
   },
-  title: {
-    flexGrow: 1,
+  leftSideLink: {
+    display: "block",
+    paddingLeft: "1rem",
   },
 }));
 
@@ -33,20 +26,20 @@ export const NavBar: React.FC = () => {
 
   return (
     <AppBar position="static" className={classes.root}>
-      <Toolbar>
-        <MyLink to="flights">
-          <IconButton
-            edge="start"
-            className={classes.menuButton}
-            color="inherit"
-            aria-label="menu"
-          >
-            <MenuIcon />
-          </IconButton>
-        </MyLink>
-        <Typography variant="h6" className={classes.title}>
-          Paralogs
-        </Typography>
+      <Box display="flex" justifyContent="space-between" alignItems="center">
+        <Box display="flex" alignItems="center">
+          <MyLink to="/" className={classes.leftSideLink}>
+            <Box display="flex" alignItems="center">
+              <HomeIcon /> <p> Paralogs</p>
+            </Box>
+          </MyLink>
+          <MyLink to="/wings" className={classes.leftSideLink}>
+            My Wings
+          </MyLink>
+          <MyLink to="/flights" className={classes.leftSideLink}>
+            My Flights
+          </MyLink>
+        </Box>
         {isAuthenticated ? (
           <Button color="inherit" onClick={() => dispatch(authActions.logout())}>
             Logout
@@ -56,7 +49,7 @@ export const NavBar: React.FC = () => {
             <Button color="inherit">Login</Button>
           </MyLink>
         )}
-      </Toolbar>
+      </Box>
     </AppBar>
   );
 };
