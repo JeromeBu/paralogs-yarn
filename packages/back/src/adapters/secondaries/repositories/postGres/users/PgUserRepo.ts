@@ -24,9 +24,21 @@ export class PgUserRepo implements UserRepo {
   }
 
   public async save(userEntity: UserEntity) {
-    // eslint-disable-next-line no-console
-    console.log(userEntity);
-    return Result.ok<void>();
+    const { firstName, lastName } = userEntity.getProps();
+
+    return this.knex("users")
+      .from<UserPersistence>("users")
+      .where({ id: userEntity.id })
+      .update({
+        first_name: firstName.value,
+        ...(lastName
+          ? {
+              last_name: lastName?.value,
+            }
+          : {}),
+      })
+      .then(() => Result.ok<void>())
+      .catch(err => Result.fail<void>(err));
   }
 
   public async findByEmail(email: Email) {

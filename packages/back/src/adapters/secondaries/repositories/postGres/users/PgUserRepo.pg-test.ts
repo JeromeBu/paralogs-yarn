@@ -1,3 +1,4 @@
+import { UpdateUserDTO } from "@paralogs/shared";
 import { getKnex, resetDb } from "../db";
 import { UserRepo } from "../../../../../domain/port/UserRepo";
 import { PgUserRepo } from "./PgUserRepo";
@@ -5,6 +6,7 @@ import { makeUserEntityCreator } from "../../../../../domain/testBuilders/userEn
 import { TestHashAndTokenManager } from "../../../../secondaries/TestHashAndTokenManager";
 import { UserEntity, UserPersistence } from "../../../../../domain/entities/UserEntity";
 import { Email } from "../../../../../domain/valueObjects/user/Email";
+import { PersonName } from "../../../../../domain/valueObjects/user/PersonName";
 
 describe("User repository postgres tests", () => {
   const makeUserEntity = makeUserEntityCreator(new TestHashAndTokenManager());
@@ -76,5 +78,20 @@ describe("User repository postgres tests", () => {
 
   it("does not find user if it doesn't exist", async () => {
     expect(await pgUserRepo.findById("not found")).toBeUndefined();
+  });
+
+  it("saves modifications on a user", async () => {
+    const newParams: UpdateUserDTO = {
+      firstName: "Newfirstname",
+      lastName: "Newlastname",
+    };
+    await johnEntity.update(newParams).map(john => pgUserRepo.save(john));
+
+    const updatedJohn = (await pgUserRepo.findById(johnEntity.id))!;
+    expect(updatedJohn.getProps()).toMatchObject({
+      ...johnEntity.getProps(),
+      firstName: PersonName.create(newParams.firstName).getOrThrow(),
+      lastName: PersonName.create(newParams.lastName).getOrThrow(),
+    });
   });
 });
