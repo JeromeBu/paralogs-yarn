@@ -1,5 +1,11 @@
 import { Router } from "express";
-import { loginSchema, signUpSchema } from "@paralogs/shared";
+import {
+  getMeRoute,
+  loginRoute,
+  loginSchema,
+  signUpRoute,
+  signUpSchema,
+} from "@paralogs/shared";
 import {
   callUseCase,
   sendHttpResponse,
@@ -10,10 +16,6 @@ import { authUseCases } from "../../../config/useCasesChoice";
 import { userMapper } from "../../../domain/mappers/user.mapper";
 
 const authRouter = Router();
-
-export const loginRoute = "/users/login";
-export const signUpRoute = "/users/signup";
-export const getMeRoute = "/users/getme";
 
 export const authController = (): Router => {
   authRouter.post(loginRoute, async (req, res) => {

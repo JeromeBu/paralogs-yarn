@@ -1,12 +1,13 @@
 import { ActualUuidGenerator } from "@paralogs/shared";
 import { loginUseCaseCreator } from "../domain/useCases/auth/LoginUseCase";
-import { repositories } from "../adapters/secondaries/repositories/repositoryChoice";
+import { repositories } from "./repositoryChoice";
 import { ProductionHashAndTokenManager } from "../adapters/secondaries/ProductionHashAndTokenManager";
 import { signUpUseCaseCreator } from "../domain/useCases/auth/SignUpUseCase";
 import { addWingUseCaseCreator } from "../domain/useCases/wings/AddWingUseCase";
 import { retrieveWingsUseCaseCreator } from "../domain/useCases/wings/RetrieveWingsUseCase";
 import { addFlightUseCaseCreator } from "../domain/useCases/flights/AddFlightUseCase";
 import { retrieveFlightsUseCaseCreator } from "../domain/useCases/flights/RetreiveFlightsUseCase";
+import { updateUserUseCaseCreator } from "../domain/useCases/users/UpdateUserUseCase";
 
 const userRepo = repositories.user;
 const hashAndTokenManager = new ProductionHashAndTokenManager();
@@ -21,6 +22,12 @@ export const authUseCases = {
     userRepo,
     hashAndTokenManager,
     uuidGenerator,
+  }),
+};
+
+export const userUseCases = {
+  update: updateUserUseCaseCreator({
+    userRepo,
   }),
 };
 

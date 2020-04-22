@@ -23,6 +23,12 @@ export class PgUserRepo implements UserRepo {
     }
   }
 
+  public async save(userEntity: UserEntity) {
+    // eslint-disable-next-line no-console
+    console.log(userEntity);
+    return Result.ok<void>();
+  }
+
   public async findByEmail(email: Email) {
     const userPgOrUndefined = await this.knex
       .from<UserPersistence>("users")

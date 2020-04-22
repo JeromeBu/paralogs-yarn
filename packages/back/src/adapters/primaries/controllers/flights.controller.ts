@@ -1,11 +1,9 @@
 import { Router } from "express";
-import { addFlightSchema, Result } from "@paralogs/shared";
+import { addFlightSchema, flightsRoute, Result } from "@paralogs/shared";
 import { callUseCase, sendHttpResponse, validateSchema } from "../../lib/response-lib";
 import { flightsUseCases } from "../../../config/useCasesChoice";
 
 export const flightsRouter = Router();
-
-export const flightsRoute = "/flights";
 
 export const flightsController = () => {
   flightsRouter

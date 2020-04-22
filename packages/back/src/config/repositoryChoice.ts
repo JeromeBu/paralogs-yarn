@@ -1,14 +1,14 @@
-import { InMemoryWingRepo } from "./inMemory/InMemoryWingRepo";
-import { InMemoryUserRepo } from "./inMemory/InMemoryUserRepo";
-import { UserRepo } from "../../../domain/port/UserRepo";
-import { WingRepo } from "../../../domain/port/WingRepo";
-import { FlightRepo } from "../../../domain/port/FlightRepo";
-import { InMemoryFlightRepo } from "./inMemory/InMemoryFlightRepo";
-import { PgUserRepo } from "./postGres/users/PgUserRepo";
-import { getKnex } from "./postGres/db";
-import { PgWingRepo } from "./postGres/wings/PgWingRepo";
-import { PgFlightRepo } from "./postGres/flights/PgFlightRepo";
-import { ENV } from "../../../config/env";
+import { InMemoryWingRepo } from "../adapters/secondaries/repositories/inMemory/InMemoryWingRepo";
+import { InMemoryUserRepo } from "../adapters/secondaries/repositories/inMemory/InMemoryUserRepo";
+import { UserRepo } from "../domain/port/UserRepo";
+import { WingRepo } from "../domain/port/WingRepo";
+import { FlightRepo } from "../domain/port/FlightRepo";
+import { InMemoryFlightRepo } from "../adapters/secondaries/repositories/inMemory/InMemoryFlightRepo";
+import { PgUserRepo } from "../adapters/secondaries/repositories/postGres/users/PgUserRepo";
+import { getKnex } from "../adapters/secondaries/repositories/postGres/db";
+import { PgWingRepo } from "../adapters/secondaries/repositories/postGres/wings/PgWingRepo";
+import { PgFlightRepo } from "../adapters/secondaries/repositories/postGres/flights/PgFlightRepo";
+import { ENV } from "./env";
 
 interface Repositories {
   user: UserRepo;

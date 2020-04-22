@@ -1,11 +1,9 @@
 import { Router } from "express";
-import { addWingSchema, Result } from "@paralogs/shared";
+import { addWingSchema, Result, wingsRoute } from "@paralogs/shared";
 import { callUseCase, sendHttpResponse, validateSchema } from "../../lib/response-lib";
 import { wingsUseCases } from "../../../config/useCasesChoice";
 
 const wingsRouter = Router();
-
-export const wingsRoute = "/wings";
 
 export const wingsController = () => {
   wingsRouter

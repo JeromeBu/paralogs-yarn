@@ -1,8 +1,12 @@
-import { AddWingDTO, SignUpParams, uuid } from "@paralogs/shared";
+import {
+  AddWingDTO,
+  SignUpParams,
+  signUpRoute,
+  uuid,
+  wingsRoute,
+} from "@paralogs/shared";
 import supertest from "supertest";
 import { app } from "../express/server";
-import { signUpRoute } from "./auth.controller";
-import { wingsRoute } from "./wings.controller";
 
 const request = supertest(app);
 

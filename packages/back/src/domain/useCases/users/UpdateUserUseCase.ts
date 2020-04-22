@@ -8,7 +8,7 @@ type UpdateUserUseCaseDependencies = {
 
 type UpdateUserParams = UpdateUserDTO & WithCurrentUser;
 
-export const createUpdateUserUseCase = ({
+export const updateUserUseCaseCreator = ({
   userRepo,
 }: UpdateUserUseCaseDependencies) => async ({
   currentUser,
@@ -17,4 +17,4 @@ export const createUpdateUserUseCase = ({
   return currentUser.update(paramsToUpdate).flatMapAsync(u => userRepo.save(u));
 };
 
-export type UpdateUserUseCase = ReturnType<typeof createUpdateUserUseCase>;
+export type UpdateUserUseCase = ReturnType<typeof updateUserUseCaseCreator>;

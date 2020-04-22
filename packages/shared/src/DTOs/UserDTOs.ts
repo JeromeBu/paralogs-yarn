@@ -50,3 +50,8 @@ export const signUpSchema = Yup.object().shape<SignUpParams>({
 });
 
 export type UpdateUserDTO = Partial<WithOtherInformations>;
+
+export const updateUserSchema = Yup.object().shape<UpdateUserDTO>({
+  firstName: Yup.string(),
+  lastName: Yup.string(),
+});
