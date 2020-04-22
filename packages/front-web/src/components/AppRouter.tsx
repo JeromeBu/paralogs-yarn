@@ -10,6 +10,7 @@ import { SignUpView } from "./views/SignUpView";
 import { WingsListView } from "./views/WingsListView";
 import { authSelectors } from "../selectors/authSelectors";
 import { PrivateRoute } from "./PrivateRoute";
+import { AccountView } from "./views/AccountView";
 
 const useRetrieveUserData = () => {
   const dispatch = useDispatch();
@@ -29,6 +30,7 @@ export const AppRouter: React.FC = () => {
       <Route exact path="/" component={HomeView} />
       <PrivateRoute path="/flights" component={FlightsListView} />
       <PrivateRoute path="/wings" component={WingsListView} />
+      <PrivateRoute path="/account" component={AccountView} />
       <Route path="/login" component={LoginView} />
       <Route path="/signup" component={SignUpView} />
     </Router>

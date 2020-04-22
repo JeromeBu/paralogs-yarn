@@ -1,5 +1,6 @@
 import { AppBar, Button, Theme, makeStyles, Box } from "@material-ui/core";
 import HomeIcon from "@material-ui/icons/Home";
+import PersonIcon from "@material-ui/icons/Person";
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { authActions } from "@paralogs/front-core";
@@ -45,9 +46,14 @@ export const NavBar: React.FC = () => {
           )}
         </Box>
         {isAuthenticated ? (
-          <Button color="inherit" onClick={() => dispatch(authActions.logoutRequested())}>
-            Logout
-          </Button>
+          <Box display="flex" alignItems="center">
+            <MyLink to="/account">
+              <PersonIcon />
+            </MyLink>
+            <Button color="inherit" onClick={() => dispatch(authActions.logoutRequested())}>
+              Logout
+            </Button>
+          </Box>
         ) : (
           <MyLink to="login">
             <Button color="inherit">Login</Button>
