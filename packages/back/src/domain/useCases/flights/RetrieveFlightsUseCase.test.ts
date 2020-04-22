@@ -3,16 +3,16 @@ import { UserEntity } from "../../entities/UserEntity";
 import { setupCurrentUserCreator } from "../../testBuilders/userEntityBuilder";
 import { InMemoryUserRepo } from "../../../adapters/secondaries/repositories/inMemory/InMemoryUserRepo";
 import { TestHashAndTokenManager } from "../../../adapters/secondaries/TestHashAndTokenManager";
-import { HashAndTokenManager } from "../../port/HashAndTokenManager";
+import { HashAndTokenManager } from "../../gateways/HashAndTokenManager";
 import {
   RetrieveFlightsUseCase,
   retrieveFlightsUseCaseCreator,
-} from "./RetreiveFlightsUseCase";
+} from "./RetrieveFlightsUseCase";
 import { InMemoryFlightRepo } from "../../../adapters/secondaries/repositories/inMemory/InMemoryFlightRepo";
 import { AddFlightUseCase, addFlightUseCaseCreator } from "./AddFlightUseCase";
 
-describe("flights retreival", () => {
-  let retreiveFlightUseCase: RetrieveFlightsUseCase;
+describe("flights retrieval", () => {
+  let retrieveFlightUseCase: RetrieveFlightsUseCase;
   let flightRepo: InMemoryFlightRepo;
   let userRepo: InMemoryUserRepo; // cannot use UserRepo because need access .users
   let currentUser: UserEntity;
@@ -23,12 +23,12 @@ describe("flights retreival", () => {
     userRepo = new InMemoryUserRepo();
     hashAndTokenManager = new TestHashAndTokenManager();
     currentUser = await setupCurrentUserCreator({ hashAndTokenManager, userRepo })();
-    retreiveFlightUseCase = retrieveFlightsUseCaseCreator({ flightRepo });
+    retrieveFlightUseCase = retrieveFlightsUseCaseCreator({ flightRepo });
   });
 
   describe("user has no flights", () => {
     it("returns no flights", async () => {
-      const flightDTOs = await retreiveFlightUseCase(currentUser);
+      const flightDTOs = await retrieveFlightUseCase(currentUser);
       expect(flightDTOs.getOrThrow()).toEqual([]);
     });
   });
@@ -43,7 +43,7 @@ describe("flights retreival", () => {
         addFlightUseCase(flightDTO),
         addFlightUseCase(someoneElseFlightDTO),
       ]);
-      const retrievedFlightDTOs = await retreiveFlightUseCase(currentUser);
+      const retrievedFlightDTOs = await retrieveFlightUseCase(currentUser);
       expect(retrievedFlightDTOs.getOrThrow()).toEqual([flightDTO]);
     });
   });

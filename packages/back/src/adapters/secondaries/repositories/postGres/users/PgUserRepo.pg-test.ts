@@ -1,6 +1,6 @@
 import { UpdateUserDTO } from "@paralogs/shared";
 import { getKnex, resetDb } from "../db";
-import { UserRepo } from "../../../../../domain/port/UserRepo";
+import { UserRepo } from "../../../../../domain/gateways/UserRepo";
 import { PgUserRepo } from "./PgUserRepo";
 import { makeUserEntityCreator } from "../../../../../domain/testBuilders/userEntityBuilder";
 import { TestHashAndTokenManager } from "../../../../secondaries/TestHashAndTokenManager";

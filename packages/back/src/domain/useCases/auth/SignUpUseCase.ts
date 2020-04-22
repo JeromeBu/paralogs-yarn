@@ -4,11 +4,11 @@ import {
   CurrentUserWithAuthToken,
   Result,
 } from "@paralogs/shared";
-import { UserRepo } from "../../port/UserRepo";
+import { UserRepo } from "../../gateways/UserRepo";
 import { UserEntity } from "../../entities/UserEntity";
 
 import { userMapper } from "../../mappers/user.mapper";
-import { HashAndTokenManager } from "../../port/HashAndTokenManager";
+import { HashAndTokenManager } from "../../gateways/HashAndTokenManager";
 
 interface SignUpDependencies {
   userRepo: UserRepo;

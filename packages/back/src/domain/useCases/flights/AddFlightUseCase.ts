@@ -1,5 +1,5 @@
 import { FlightDTO, Result } from "@paralogs/shared";
-import { FlightRepo } from "../../port/FlightRepo";
+import { FlightRepo } from "../../gateways/FlightRepo";
 import { FlightEntity } from "../../entities/FlightEntity";
 import { flightMapper } from "../../mappers/flight.mapper";
 

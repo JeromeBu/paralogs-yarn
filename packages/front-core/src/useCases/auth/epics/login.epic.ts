@@ -18,7 +18,7 @@ export const loginEpic: Epic<AuthAction, AuthAction, RootState, Dependencies> = 
           clientStorage.set("token", currentUserWithToken.token);
           return of(currentUserWithToken);
         }),
-        map(authActions.setCurrentUserAndAuthToken),
+        map(authActions.authenticationSucceed),
         catchError(handleActionError(authActions.loginError)),
       ),
     ),

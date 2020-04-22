@@ -12,7 +12,7 @@ import {
 } from "../../testBuilders/userEntityBuilder";
 import { InMemoryUserRepo } from "../../../adapters/secondaries/repositories/inMemory/InMemoryUserRepo";
 import { TestHashAndTokenManager } from "../../../adapters/secondaries/TestHashAndTokenManager";
-import { HashAndTokenManager } from "../../port/HashAndTokenManager";
+import { HashAndTokenManager } from "../../gateways/HashAndTokenManager";
 
 describe("wings retrieval", () => {
   let retrieveWingsUseCase: RetrieveWingsUseCase;

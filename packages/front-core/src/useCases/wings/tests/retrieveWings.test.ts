@@ -2,19 +2,22 @@ import { Store } from "redux";
 import { WingDTO, makeWingDTO } from "@paralogs/shared";
 import { RootState, configureReduxStore } from "../../../reduxStore";
 import {
-  expectStateToMatch,
   InMemoryDependencies,
   getInMemoryDependencies,
+  expectStateToMatchCreator,
+  ExpectStateToMatch,
 } from "../../../testUtils";
 import { wingActions } from "../wings.slice";
 
 describe("Retrieve wings", () => {
   let store: Store<RootState>;
-  let dependencies: InMemoryDependencies; /* cannot be typed APIGateway because we need to access .wings$ */
+  let dependencies: InMemoryDependencies;
+  let expectStateToMatch: ExpectStateToMatch;
 
   beforeEach(() => {
     dependencies = getInMemoryDependencies();
     store = configureReduxStore(dependencies);
+    expectStateToMatch = expectStateToMatchCreator(store.getState(), store);
   });
 
   it("gets all the Wings", () => {
@@ -23,7 +26,7 @@ describe("Retrieve wings", () => {
     const someWings: WingDTO[] = [wing1, wing2];
     retrieveWings();
     feedWithWings(someWings);
-    expectStateToMatch(store, {
+    expectStateToMatch({
       wings: {
         data: someWings,
         isLoading: false,
@@ -36,7 +39,7 @@ describe("Retrieve wings", () => {
     const errorToDisplay = "Could not fetch";
     retrieveWings();
     feedWithError(errorToDisplay);
-    expectStateToMatch(store, {
+    expectStateToMatch({
       wings: {
         data: [],
         error: errorToDisplay,

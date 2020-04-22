@@ -2,7 +2,7 @@ import { Response, NextFunction, Request } from "express";
 import jwt from "jsonwebtoken";
 import { UserId, loginRoute, signUpRoute } from "@paralogs/shared";
 import { ENV } from "../../../config/env";
-import { UserRepo } from "../../../domain/port/UserRepo";
+import { UserRepo } from "../../../domain/gateways/UserRepo";
 
 const whiteListedRoutes = [loginRoute, signUpRoute];
 

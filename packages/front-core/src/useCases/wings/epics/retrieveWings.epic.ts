@@ -1,16 +1,20 @@
 import { Epic } from "redux-observable";
 import { catchError, filter, map, switchMap } from "rxjs/operators";
 import { RootState, Dependencies } from "../../../reduxStore";
-import { WingAction, wingActions } from "../wings.slice";
-import { handleActionError } from "../../../utils";
+import { wingActions } from "../wings.slice";
+import { handleActionError, matchActions } from "../../../utils";
+import { authActions } from "../../auth/auth.slice";
+import { RootAction } from "../../../store/root-action";
 
-export const retrieveWingsEpic: Epic<WingAction, WingAction, RootState, Dependencies> = (
+export const retrieveWingsEpic: Epic<RootAction, RootAction, RootState, Dependencies> = (
   action$,
   state$,
   { wingGateway },
-) =>
-  action$.pipe(
-    filter(wingActions.retrieveWingsRequest.match),
+) => {
+  return action$.pipe(
+    filter(
+      matchActions(wingActions.retrieveWingsRequest, authActions.authenticationSucceed),
+    ),
     switchMap(() =>
       wingGateway
         .retrieveWings()
@@ -20,3 +24,4 @@ export const retrieveWingsEpic: Epic<WingAction, WingAction, RootState, Dependen
         ),
     ),
   );
+};

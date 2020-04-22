@@ -2,24 +2,27 @@ import { makeUserDTO, CurrentUserWithAuthToken } from "@paralogs/shared";
 import { Store } from "redux";
 import {
   getInMemoryDependencies,
-  expectStateToMatch,
+  expectStateToMatchCreator,
   InMemoryDependencies,
+  ExpectStateToMatch,
 } from "../../../testUtils";
 import { configureReduxStore, RootState } from "../../../reduxStore";
 import { feedWithAuthErrorCreator, feedWithCurrentUserCreator } from "./auth.testUtils";
 import { authActions } from "../auth.slice";
 
-describe("GetMe :  recover current user informations", () => {
+describe("GetMe :  recover current user information", () => {
   let store: Store<RootState>;
-  let dependencies: InMemoryDependencies; /* cannot be typed Dependencies because we need to access .currentUser$ */
+  let dependencies: InMemoryDependencies;
   let feedWithCurrentUser: (params: CurrentUserWithAuthToken) => void;
   let feedWithError: (errorMessage: string) => void;
+  let expectStateToMatch: ExpectStateToMatch;
 
   beforeEach(() => {
     dependencies = getInMemoryDependencies();
     store = configureReduxStore(dependencies);
     feedWithError = feedWithAuthErrorCreator(dependencies);
     feedWithCurrentUser = feedWithCurrentUserCreator(dependencies);
+    expectStateToMatch = expectStateToMatchCreator(store.getState(), store);
   });
 
   describe("No one is logged in", () => {
@@ -28,7 +31,7 @@ describe("GetMe :  recover current user informations", () => {
 
       getMe();
       feedWithError(errorMessage);
-      expectStateToMatch(store, {
+      expectStateToMatch({
         auth: {
           error: errorMessage,
           token: null,
@@ -47,7 +50,7 @@ describe("GetMe :  recover current user informations", () => {
         currentUser,
         token,
       });
-      expectStateToMatch(store, {
+      expectStateToMatch({
         auth: {
           currentUser,
           token,

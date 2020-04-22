@@ -6,7 +6,7 @@ import { signUpUseCaseCreator } from "../domain/useCases/auth/SignUpUseCase";
 import { addWingUseCaseCreator } from "../domain/useCases/wings/AddWingUseCase";
 import { retrieveWingsUseCaseCreator } from "../domain/useCases/wings/RetrieveWingsUseCase";
 import { addFlightUseCaseCreator } from "../domain/useCases/flights/AddFlightUseCase";
-import { retrieveFlightsUseCaseCreator } from "../domain/useCases/flights/RetreiveFlightsUseCase";
+import { retrieveFlightsUseCaseCreator } from "../domain/useCases/flights/RetrieveFlightsUseCase";
 import { updateUserUseCaseCreator } from "../domain/useCases/users/UpdateUserUseCase";
 
 const userRepo = repositories.user;

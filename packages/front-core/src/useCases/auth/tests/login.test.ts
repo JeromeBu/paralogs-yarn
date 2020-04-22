@@ -2,7 +2,8 @@ import { Store } from "redux";
 import { CurrentUserWithAuthToken, makeUserDTO } from "@paralogs/shared";
 import { RootState, configureReduxStore } from "../../../reduxStore";
 import {
-  expectStateToMatch,
+  ExpectStateToMatch,
+  expectStateToMatchCreator,
   getInMemoryDependencies,
   InMemoryDependencies,
 } from "../../../testUtils";
@@ -14,12 +15,14 @@ describe("Login", () => {
   let dependencies: InMemoryDependencies; /* cannot be typed Dependencies because we need to access .currentUser$ */
   let feedWithCurrentUser: (params: CurrentUserWithAuthToken) => void;
   let feedWithError: (errorMessage: string) => void;
+  let expectStateToMatch: ExpectStateToMatch;
 
   beforeEach(() => {
     dependencies = getInMemoryDependencies();
     store = configureReduxStore(dependencies);
     feedWithCurrentUser = feedWithCurrentUserCreator(dependencies);
     feedWithError = feedWithAuthErrorCreator(dependencies);
+    expectStateToMatch = expectStateToMatchCreator(store.getState(), store);
   });
 
   describe("Email and password are correct", () => {
@@ -30,7 +33,7 @@ describe("Login", () => {
       const token = "fakeLoginToken";
       loginUser({ email, password });
       feedWithCurrentUser({ currentUser, token });
-      expectStateToMatch(store, {
+      expectStateToMatch({
         auth: {
           isLoading: false,
           currentUser,
@@ -48,7 +51,7 @@ describe("Login", () => {
       const errorMessage = "Email or password is incorrect...";
       loginUser({ email, password });
       feedWithError(errorMessage);
-      expectStateToMatch(store, {
+      expectStateToMatch({
         auth: {
           isLoading: false,
           error: errorMessage,

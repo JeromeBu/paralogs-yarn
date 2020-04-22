@@ -2,11 +2,11 @@ import { getKnex, resetDb } from "../db";
 import { makeUserEntityCreator } from "../../../../../domain/testBuilders/userEntityBuilder";
 import { TestHashAndTokenManager } from "../../../../secondaries/TestHashAndTokenManager";
 import { UserEntity } from "../../../../../domain/entities/UserEntity";
-import { WingRepo } from "../../../../../domain/port/WingRepo";
+import { WingRepo } from "../../../../../domain/gateways/WingRepo";
 import { PgFlightRepo } from "./PgFlightRepo";
 import { makeWingEntity } from "../../../../../domain/testBuilders/wingEntityBuilder";
 import { userPersistenceMapper } from "../users/userPersistenceMapper";
-import { FlightRepo } from "../../../../../domain/port/FlightRepo";
+import { FlightRepo } from "../../../../../domain/gateways/FlightRepo";
 import { PgWingRepo } from "../wings/PgWingRepo";
 import { makeFlightEntity } from "../../../../../domain/testBuilders/flightEntityBuilder";
 import {

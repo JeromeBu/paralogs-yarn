@@ -1,5 +1,5 @@
 import { FlightId, UserId } from "@paralogs/shared";
-import { FlightRepo } from "../../../../domain/port/FlightRepo";
+import { FlightRepo } from "../../../../domain/gateways/FlightRepo";
 import { FlightEntity } from "../../../../domain/entities/FlightEntity";
 
 export class InMemoryFlightRepo implements FlightRepo {

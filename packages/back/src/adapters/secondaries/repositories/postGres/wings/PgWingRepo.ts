@@ -1,6 +1,6 @@
 import Knex from "knex";
 import { UserId, WingId } from "@paralogs/shared";
-import { WingRepo } from "../../../../../domain/port/WingRepo";
+import { WingRepo } from "../../../../../domain/gateways/WingRepo";
 import { WingEntity, WingPersistence } from "../../../../../domain/entities/WingEntity";
 import { wingPersistenceMapper } from "./wingPersistenceMapper";
 

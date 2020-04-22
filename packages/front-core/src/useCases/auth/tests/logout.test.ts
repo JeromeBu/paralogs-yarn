@@ -2,7 +2,8 @@ import { Store } from "redux";
 import { CurrentUserWithAuthToken, makeUserDTO } from "@paralogs/shared";
 import { RootState, configureReduxStore } from "../../../reduxStore";
 import {
-  expectStateToMatch,
+  ExpectStateToMatch,
+  expectStateToMatchCreator,
   getInMemoryDependencies,
   InMemoryDependencies,
 } from "../../../testUtils";
@@ -11,23 +12,25 @@ import { authActions } from "../auth.slice";
 
 describe("Logout", () => {
   let store: Store<RootState>;
-  let dependencies: InMemoryDependencies; /* cannot be typed Dependencies because we need to access .currentUser$ */
+  let dependencies: InMemoryDependencies;
   let feedWithCurrentUser: (params: CurrentUserWithAuthToken) => void;
+  let expectStateToMatch: ExpectStateToMatch;
 
   beforeEach(() => {
     dependencies = getInMemoryDependencies();
     store = configureReduxStore(dependencies);
     feedWithCurrentUser = feedWithCurrentUserCreator(dependencies);
+    expectStateToMatch = expectStateToMatchCreator(store.getState(), store);
   });
 
-  it("Clears all user's informations and authentications", () => {
+  it("Clears all user's information and authentications", () => {
     const email = "auth@works.com";
     const currentUser = makeUserDTO({ email });
     const password = "password";
     const token = "fakeLoginToken";
     loginUser({ email, password });
     feedWithCurrentUser({ currentUser, token });
-    expectStateToMatch(store, {
+    expectStateToMatch({
       auth: {
         isLoading: false,
         currentUser,
@@ -35,7 +38,7 @@ describe("Logout", () => {
       },
     });
     logout();
-    expectStateToMatch(store, {
+    expectStateToMatch({
       auth: { isLoading: false, currentUser: null, token: null },
     });
     expectTokenToNotToBeInClientStorage();

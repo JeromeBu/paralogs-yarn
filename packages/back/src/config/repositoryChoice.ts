@@ -1,8 +1,8 @@
 import { InMemoryWingRepo } from "../adapters/secondaries/repositories/inMemory/InMemoryWingRepo";
 import { InMemoryUserRepo } from "../adapters/secondaries/repositories/inMemory/InMemoryUserRepo";
-import { UserRepo } from "../domain/port/UserRepo";
-import { WingRepo } from "../domain/port/WingRepo";
-import { FlightRepo } from "../domain/port/FlightRepo";
+import { UserRepo } from "../domain/gateways/UserRepo";
+import { WingRepo } from "../domain/gateways/WingRepo";
+import { FlightRepo } from "../domain/gateways/FlightRepo";
 import { InMemoryFlightRepo } from "../adapters/secondaries/repositories/inMemory/InMemoryFlightRepo";
 import { PgUserRepo } from "../adapters/secondaries/repositories/postGres/users/PgUserRepo";
 import { getKnex } from "../adapters/secondaries/repositories/postGres/db";

@@ -55,10 +55,7 @@ const authSlice = createSlice({
     loginRequest: startLoading<LoginParams>(),
     loginError: setError,
 
-    setCurrentUserAndAuthToken: (
-      state,
-      action: PayloadAction<CurrentUserWithAuthToken>,
-    ) => {
+    authenticationSucceed: (state, action: PayloadAction<CurrentUserWithAuthToken>) => {
       return { ...state, isLoading: false, error: undefined, ...action.payload };
     },
   },

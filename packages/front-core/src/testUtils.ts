@@ -13,10 +13,11 @@ type Partial2Levels<T> = {
     : Partial<T[P]>;
 };
 
-export const expectStateToMatch = (
-  store: Store,
+export const expectStateToMatchCreator = (initialState: RootState, store: Store) => (
   expectedState: Partial2Levels<RootState>,
-) => expect(store.getState()).toMatchObject(expectedState);
+) => expect(store.getState()).toMatchObject({ ...initialState, ...expectedState });
+
+export type ExpectStateToMatch = ReturnType<typeof expectStateToMatchCreator>;
 
 export const getInMemoryDependencies = () => ({
   authGateway: new InMemoryAuthGateway(),

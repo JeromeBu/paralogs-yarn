@@ -1,7 +1,7 @@
 import { WingDTO, Result } from "@paralogs/shared";
 import { notUnique } from "../../core/errors";
 import { WingEntity } from "../../entities/WingEntity";
-import { WingRepo } from "../../port/WingRepo";
+import { WingRepo } from "../../gateways/WingRepo";
 import { wingMapper } from "../../mappers/wing.mapper";
 
 interface AddWingDependencies {

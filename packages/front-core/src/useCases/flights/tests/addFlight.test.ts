@@ -2,7 +2,8 @@ import { Store } from "redux";
 import { FlightDTO, makeFlightDTO, makeWingDTO } from "@paralogs/shared";
 import { RootState, configureReduxStore } from "../../../reduxStore";
 import {
-  expectStateToMatch,
+  ExpectStateToMatch,
+  expectStateToMatchCreator,
   getInMemoryDependencies,
   InMemoryDependencies,
 } from "../../../testUtils";
@@ -10,11 +11,13 @@ import { flightActions } from "../flights.slice";
 
 describe("Add a flight", () => {
   let store: Store<RootState>;
-  let dependencies: InMemoryDependencies; /* cannot be typed Dependencies because we need to access .flights$ */
+  let dependencies: InMemoryDependencies;
+  let expectStateToMatch: ExpectStateToMatch;
 
   beforeEach(() => {
     dependencies = getInMemoryDependencies();
     store = configureReduxStore(dependencies);
+    expectStateToMatch = expectStateToMatchCreator(store.getState(), store);
   });
 
   it("adds a new flight", () => {
@@ -22,7 +25,7 @@ describe("Add a flight", () => {
     const flightDto = makeFlightDTO({ wingId: wingDto.id });
     addFlight(flightDto);
     feedWithFlight(flightDto);
-    expectStateToMatch(store, {
+    expectStateToMatch({
       flights: {
         data: [flightDto],
         isLoading: false,

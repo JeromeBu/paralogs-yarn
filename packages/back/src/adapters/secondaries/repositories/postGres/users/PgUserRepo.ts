@@ -3,7 +3,7 @@ import Knex from "knex";
 import { UserEntity, UserPersistence } from "../../../../../domain/entities/UserEntity";
 import { Email } from "../../../../../domain/valueObjects/user/Email";
 import { userPersistenceMapper } from "./userPersistenceMapper";
-import { UserRepo } from "../../../../../domain/port/UserRepo";
+import { UserRepo } from "../../../../../domain/gateways/UserRepo";
 
 export class PgUserRepo implements UserRepo {
   constructor(private knex: Knex<any, unknown[]>) {}

@@ -2,7 +2,7 @@ import * as bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { UserId } from "@paralogs/shared";
 import { Password } from "../../domain/valueObjects/user/Password";
-import { HashAndTokenManager } from "../../domain/port/HashAndTokenManager";
+import { HashAndTokenManager } from "../../domain/gateways/HashAndTokenManager";
 import { ENV } from "../../config/env";
 
 // the number passed in bcrypt.hash is the number of salt loops.

@@ -8,7 +8,7 @@ import {
 import { Email } from "../valueObjects/user/Email";
 import { Password } from "../valueObjects/user/Password";
 import { PersonName } from "../valueObjects/user/PersonName";
-import { HashAndTokenManager } from "../port/HashAndTokenManager";
+import { HashAndTokenManager } from "../gateways/HashAndTokenManager";
 
 interface UserEntityProps {
   id: UserId;

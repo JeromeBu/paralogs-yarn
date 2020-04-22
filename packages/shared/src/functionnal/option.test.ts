@@ -1,7 +1,7 @@
 // import { Option, fromNullable } from "./Option";
 
 // describe("Options", () => {
-//   it("transform a value in an option, and retreive value", () => {
+//   it("transform a value in an option, and retrieve value", () => {
 //     const a = "voiture";
 //     const optionA = Option.of(a);
 //     expect(optionA.getOrNull()).toBe(a);

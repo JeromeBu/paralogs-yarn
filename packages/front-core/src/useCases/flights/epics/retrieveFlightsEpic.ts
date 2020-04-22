@@ -1,17 +1,24 @@
 import { Epic } from "redux-observable";
 import { catchError, filter, map, switchMap } from "rxjs/operators";
 import { RootState, Dependencies } from "../../../reduxStore";
-import { FlightAction, flightActions } from "../flights.slice";
-import { handleActionError } from "../../../utils";
+import { flightActions } from "../flights.slice";
+import { handleActionError, matchActions } from "../../../utils";
+import { authActions } from "../../auth/auth.slice";
+import { RootAction } from "../../../store/root-action";
 
 export const retrieveFlightsEpic: Epic<
-  FlightAction,
-  FlightAction,
+  RootAction,
+  RootAction,
   RootState,
   Dependencies
 > = (action$, state$, { flightGateway }) =>
   action$.pipe(
-    filter(flightActions.retrieveFlightsRequest.match),
+    filter(
+      matchActions(
+        flightActions.retrieveFlightsRequest,
+        authActions.authenticationSucceed,
+      ),
+    ),
     switchMap(() =>
       flightGateway
         .retrieveFlights()

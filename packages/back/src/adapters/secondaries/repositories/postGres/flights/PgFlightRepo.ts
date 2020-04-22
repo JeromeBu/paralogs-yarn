@@ -1,7 +1,7 @@
 import Knex from "knex";
 import { FlightId, UserId } from "@paralogs/shared";
 import { flightPersistenceMapper } from "./flightPersistenceMapper";
-import { FlightRepo } from "../../../../../domain/port/FlightRepo";
+import { FlightRepo } from "../../../../../domain/gateways/FlightRepo";
 import {
   FlightEntity,
   FlightPersistence,

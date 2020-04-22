@@ -1,5 +1,5 @@
 import { WingId, UserId } from "@paralogs/shared";
-import { WingRepo } from "../../../../domain/port/WingRepo";
+import { WingRepo } from "../../../../domain/gateways/WingRepo";
 import { WingEntity } from "../../../../domain/entities/WingEntity";
 
 export class InMemoryWingRepo implements WingRepo {

@@ -1,6 +1,7 @@
-import { PayloadAction } from "@reduxjs/toolkit";
+import { ActionCreatorWithOptionalPayload, PayloadAction } from "@reduxjs/toolkit";
 import { StringError } from "@paralogs/shared";
 import { of } from "rxjs";
+import { RootAction } from "./store/root-action";
 
 export const handleActionError = (
   action: (payload: StringError) => PayloadAction<StringError>,
@@ -8,3 +9,7 @@ export const handleActionError = (
   if (typeof err === "string") return of(action(err));
   return of(action(err.message));
 };
+
+export const matchActions = (
+  ...watchedActions: ActionCreatorWithOptionalPayload<any>[]
+) => (action: RootAction) => watchedActions.some(({ match }) => match(action));

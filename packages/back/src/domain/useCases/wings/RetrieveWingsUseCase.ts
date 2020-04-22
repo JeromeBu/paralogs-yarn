@@ -1,5 +1,5 @@
 import { Result, WingDTO } from "@paralogs/shared";
-import { WingRepo } from "../../port/WingRepo";
+import { WingRepo } from "../../gateways/WingRepo";
 import { wingMapper } from "../../mappers/wing.mapper";
 import { UserEntity } from "../../entities/UserEntity";
 

@@ -2,19 +2,22 @@ import { Store } from "redux";
 import { WingDTO, makeWingDTO, AddWingDTO } from "@paralogs/shared";
 import { RootState, configureReduxStore } from "../../../reduxStore";
 import {
-  expectStateToMatch,
+  expectStateToMatchCreator,
   InMemoryDependencies,
   getInMemoryDependencies,
+  ExpectStateToMatch,
 } from "../../../testUtils";
 import { wingActions } from "../wings.slice";
 
 describe("Add a wing", () => {
   let store: Store<RootState>;
-  let dependencies: InMemoryDependencies; /* cannot be typed Dependencies because we need to access .wings$ */
+  let dependencies: InMemoryDependencies;
+  let expectStateToMatch: ExpectStateToMatch;
 
   beforeEach(() => {
     dependencies = getInMemoryDependencies();
     store = configureReduxStore(dependencies);
+    expectStateToMatch = expectStateToMatchCreator(store.getState(), store);
   });
 
   it("adds a new wing", async () => {
@@ -24,7 +27,7 @@ describe("Add a wing", () => {
 
     feedWithWing(wingDto);
     addWing(addWingDTO);
-    expectStateToMatch(store, {
+    expectStateToMatch({
       wings: {
         isSaving: false,
         data: [wingDto],

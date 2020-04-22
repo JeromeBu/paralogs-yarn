@@ -1,8 +1,8 @@
 import { LoginParams, CurrentUserWithAuthToken, Result } from "@paralogs/shared";
-import { UserRepo } from "../../port/UserRepo";
+import { UserRepo } from "../../gateways/UserRepo";
 
 import { Email } from "../../valueObjects/user/Email";
-import { HashAndTokenManager } from "../../port/HashAndTokenManager";
+import { HashAndTokenManager } from "../../gateways/HashAndTokenManager";
 import { userMapper } from "../../mappers/user.mapper";
 
 interface LoginDependencies {

@@ -5,19 +5,22 @@ import { FlightDTO, uuid, makeUserDTO, makeWingDTO } from "@paralogs/shared";
 
 import { RootState, configureReduxStore } from "../../../reduxStore";
 import {
-  expectStateToMatch,
   InMemoryDependencies,
   getInMemoryDependencies,
+  expectStateToMatchCreator,
+  ExpectStateToMatch,
 } from "../../../testUtils";
 import { flightActions } from "../flights.slice";
 
-describe("Retreive flights", () => {
+describe("Retrieve flights", () => {
   let store: Store<RootState>;
-  let dependencies: InMemoryDependencies; /* cannot be typed Dependencies because we need to access .flights$ */
+  let dependencies: InMemoryDependencies;
+  let expectStateToMatch: ExpectStateToMatch;
 
   beforeEach(() => {
     dependencies = getInMemoryDependencies();
     store = configureReduxStore(dependencies);
+    expectStateToMatch = expectStateToMatchCreator(store.getState(), store);
   });
 
   it("gets all the Flights", () => {
@@ -45,7 +48,7 @@ describe("Retreive flights", () => {
     ];
     retrieveFlights();
     feedWithFlights(someFlights);
-    expectStateToMatch(store, {
+    expectStateToMatch({
       flights: {
         data: someFlights,
         isLoading: false,
@@ -62,7 +65,7 @@ describe("Retreive flights", () => {
     const errorToDisplay = "Could not fetch";
     retrieveFlights();
     feedWithError(errorToDisplay);
-    expectStateToMatch(store, {
+    expectStateToMatch({
       flights: {
         data: [],
         error: errorToDisplay,

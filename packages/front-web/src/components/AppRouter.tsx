@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { BrowserRouter as Router, Route } from "react-router-dom";
-import { wingActions, authActions, flightActions } from "@paralogs/front-core";
+import { authActions } from "@paralogs/front-core";
 import { NavBar } from "./commun/NavBar";
 import { FlightsListView } from "./views/FlightsListView";
 import { HomeView } from "./views/HomeView";
@@ -16,11 +16,7 @@ const useRetrieveUserData = () => {
   const isAuthenticated = useSelector(authSelectors.isAuthenticated);
 
   useEffect(() => {
-    if (isAuthenticated) {
-      dispatch(authActions.getMe());
-      dispatch(wingActions.retrieveWingsRequest());
-      dispatch(flightActions.retrieveFlightsRequest());
-    }
+    if (isAuthenticated) dispatch(authActions.getMe());
   }, [isAuthenticated]);
 };
 

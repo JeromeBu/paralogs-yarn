@@ -1,5 +1,5 @@
 import { UserId, Result, fromNullable } from "@paralogs/shared";
-import { UserRepo } from "../../../../domain/port/UserRepo";
+import { UserRepo } from "../../../../domain/gateways/UserRepo";
 import { UserEntity } from "../../../../domain/entities/UserEntity";
 import { Email } from "../../../../domain/valueObjects/user/Email";
 
