@@ -1,4 +1,4 @@
-import { createUpdateUserUseCase, UpdateUserUseCase } from "./UpdateUserUseCase";
+import { updateUserUseCaseCreator, UpdateUserUseCase } from "./UpdateUserUseCase";
 import { InMemoryUserRepo } from "../../../adapters/secondaries/repositories/inMemory/InMemoryUserRepo";
 import { TestHashAndTokenManager } from "../../../adapters/secondaries/TestHashAndTokenManager";
 import { setupCurrentUserCreator } from "../../testBuilders/userEntityBuilder";
@@ -6,7 +6,7 @@ import { HashAndTokenManager } from "../../port/HashAndTokenManager";
 import { UserEntity } from "../../entities/UserEntity";
 import { userMapper } from "../../mappers/user.mapper";
 
-describe("update user", () => {
+describe("Update user", () => {
   describe("all is good", () => {
     let userRepo: InMemoryUserRepo;
     let hashAndTokenManager: HashAndTokenManager;
@@ -17,7 +17,7 @@ describe("update user", () => {
       userRepo = new InMemoryUserRepo();
       hashAndTokenManager = new TestHashAndTokenManager();
       currentUser = await setupCurrentUserCreator({ hashAndTokenManager, userRepo })();
-      updateUserUseCase = createUpdateUserUseCase({ userRepo });
+      updateUserUseCase = updateUserUseCaseCreator({ userRepo });
     });
 
     it("updates user's data", async () => {

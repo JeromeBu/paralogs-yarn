@@ -8,6 +8,12 @@ import {
   AddWingDTO,
   AddFlightDTO,
   FlightDTO,
+  getMeRoute,
+  signUpRoute,
+  loginRoute,
+  usersRoute,
+  wingsRoute,
+  flightsRoute,
 } from "@paralogs/shared";
 import { from } from "rxjs/internal/observable/from";
 import { map } from "rxjs/internal/operators/map";
@@ -51,12 +57,12 @@ const POSTwithToken = <Input, Output>(route: string) => () => {
 };
 
 export const httpClient = {
-  getMe: GETwithToken<CurrentUserWithAuthToken>("users/getme"),
-  signUp: POST<SignUpParams, CurrentUserWithAuthToken>("users/signup"),
-  login: POST<LoginParams, CurrentUserWithAuthToken>("users/login"),
-  retrieveUsers: GETwithToken<UserDTO[]>("users"),
-  retrieveWings: GETwithToken<WingDTO[]>("wings"),
-  addWing: POSTwithToken<AddWingDTO, WingDTO>("wings"),
-  addFlight: POSTwithToken<AddFlightDTO, FlightDTO>("flights"),
-  retrieveFlights: GETwithToken<FlightDTO[]>("flights"),
+  getMe: GETwithToken<CurrentUserWithAuthToken>(getMeRoute),
+  signUp: POST<SignUpParams, CurrentUserWithAuthToken>(signUpRoute),
+  login: POST<LoginParams, CurrentUserWithAuthToken>(loginRoute),
+  retrieveUsers: GETwithToken<UserDTO[]>(usersRoute),
+  retrieveWings: GETwithToken<WingDTO[]>(wingsRoute),
+  addWing: POSTwithToken<AddWingDTO, WingDTO>(wingsRoute),
+  addFlight: POSTwithToken<AddFlightDTO, FlightDTO>(flightsRoute),
+  retrieveFlights: GETwithToken<FlightDTO[]>(flightsRoute),
 };
