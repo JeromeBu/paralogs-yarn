@@ -2,7 +2,7 @@ import { CurrentUserWithAuthToken, Result } from "@paralogs/shared";
 import { loginUseCaseCreator, LoginUseCase } from "./LoginUseCase";
 import { InMemoryUserRepo } from "../../../adapters/secondaries/repositories/inMemory/InMemoryUserRepo";
 import { TestHashAndTokenManager } from "../../../adapters/secondaries/TestHashAndTokenManager";
-import { makeUserEntityCreator } from "../../testBuilders/userEntityBuilder";
+import { makeUserEntityCreator } from "../../testBuilders/makeUserEntityCreator";
 
 describe("User Login", () => {
   let hashAndTokenManager: TestHashAndTokenManager;

@@ -1,7 +1,7 @@
 import { updateUserUseCaseCreator, UpdateUserUseCase } from "./UpdateUserUseCase";
 import { InMemoryUserRepo } from "../../../adapters/secondaries/repositories/inMemory/InMemoryUserRepo";
 import { TestHashAndTokenManager } from "../../../adapters/secondaries/TestHashAndTokenManager";
-import { setupCurrentUserCreator } from "../../testBuilders/userEntityBuilder";
+import { setupCurrentUserCreator } from "../../testBuilders/makeUserEntityCreator";
 import { HashAndTokenManager } from "../../gateways/HashAndTokenManager";
 import { UserEntity } from "../../entities/UserEntity";
 import { userMapper } from "../../mappers/user.mapper";

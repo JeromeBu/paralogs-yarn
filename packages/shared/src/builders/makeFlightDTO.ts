@@ -1,7 +1,7 @@
 import _ from "lodash";
 import { FlightDTO } from "../DTOs";
 import { uuid } from "../generalTypes/uuid";
-import { makeWingDTO } from "./wingDTOBuilder";
+import { makeWingDTO } from "./makeWingDTO";
 
 export const makeFlightDTO = (flightParams?: Partial<FlightDTO>): FlightDTO => {
   const randomFlight: FlightDTO = {

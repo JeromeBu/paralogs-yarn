@@ -2,7 +2,7 @@ import { UpdateUserDTO } from "@paralogs/shared";
 import { getKnex, resetDb } from "../db";
 import { UserRepo } from "../../../../../domain/gateways/UserRepo";
 import { PgUserRepo } from "./PgUserRepo";
-import { makeUserEntityCreator } from "../../../../../domain/testBuilders/userEntityBuilder";
+import { makeUserEntityCreator } from "../../../../../domain/testBuilders/makeUserEntityCreator";
 import { TestHashAndTokenManager } from "../../../../secondaries/TestHashAndTokenManager";
 import { UserEntity, UserPersistence } from "../../../../../domain/entities/UserEntity";
 import { Email } from "../../../../../domain/valueObjects/user/Email";

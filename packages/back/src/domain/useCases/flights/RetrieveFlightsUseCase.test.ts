@@ -1,6 +1,6 @@
 import { makeFlightDTO, uuid } from "@paralogs/shared";
 import { UserEntity } from "../../entities/UserEntity";
-import { setupCurrentUserCreator } from "../../testBuilders/userEntityBuilder";
+import { setupCurrentUserCreator } from "../../testBuilders/makeUserEntityCreator";
 import { InMemoryUserRepo } from "../../../adapters/secondaries/repositories/inMemory/InMemoryUserRepo";
 import { TestHashAndTokenManager } from "../../../adapters/secondaries/TestHashAndTokenManager";
 import { HashAndTokenManager } from "../../gateways/HashAndTokenManager";
