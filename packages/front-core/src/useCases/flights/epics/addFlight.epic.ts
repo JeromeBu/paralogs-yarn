@@ -2,7 +2,7 @@ import { Epic } from "redux-observable";
 import { catchError, filter, map, switchMap } from "rxjs/operators";
 import { RootState, Dependencies } from "../../../reduxStore";
 import { FlightAction, flightActions } from "../flights.slice";
-import { handleActionError } from "../../../utils";
+import { handleActionError } from "../../../actionsUtils";
 
 export const addFlightEpic: Epic<FlightAction, FlightAction, RootState, Dependencies> = (
   action$,

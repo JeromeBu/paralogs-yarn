@@ -8,6 +8,7 @@ import { retrieveWingsUseCaseCreator } from "../domain/useCases/wings/RetrieveWi
 import { addFlightUseCaseCreator } from "../domain/useCases/flights/AddFlightUseCase";
 import { retrieveFlightsUseCaseCreator } from "../domain/useCases/flights/RetrieveFlightsUseCase";
 import { updateUserUseCaseCreator } from "../domain/useCases/users/UpdateUserUseCase";
+import { updateWingUseCaseCreator } from "../domain/useCases/wings/UpdateWingUseCase";
 
 const userRepo = repositories.user;
 const hashAndTokenManager = new ProductionHashAndTokenManager();
@@ -36,6 +37,7 @@ export const wingsUseCases = {
     wingRepo: repositories.wing,
   }),
   retrieveWings: retrieveWingsUseCaseCreator(repositories.wing),
+  updateWing: updateWingUseCaseCreator({ wingRepo: repositories.wing }),
 };
 
 export const flightsUseCases = {

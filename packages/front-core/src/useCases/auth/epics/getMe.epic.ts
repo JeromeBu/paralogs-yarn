@@ -3,7 +3,7 @@ import { filter, switchMap, map, catchError } from "rxjs/operators";
 import { of } from "rxjs";
 import { RootState, Dependencies } from "../../../reduxStore";
 import { AuthAction, authActions } from "../auth.slice";
-import { handleActionError } from "../../../utils";
+import { handleActionError } from "../../../actionsUtils";
 
 export const getMeEpic: Epic<AuthAction, AuthAction, RootState, Dependencies> = (
   action$,

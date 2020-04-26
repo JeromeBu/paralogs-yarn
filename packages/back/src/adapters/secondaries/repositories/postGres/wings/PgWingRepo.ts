@@ -24,4 +24,24 @@ export class PgWingRepo implements WingRepo {
       .first();
     return wingPersistence && wingPersistenceMapper.toEntity(wingPersistence);
   }
+
+  public async save(wingEntity: WingEntity) {
+    const {
+      brand,
+      model,
+      flightTimePriorToOwn,
+      ownerFrom,
+      ownerUntil,
+    } = wingEntity.getProps();
+    await this.knex
+      .from<WingPersistence>("wings")
+      .where({ id: wingEntity.id })
+      .update({
+        brand,
+        model,
+        flight_time_prior_to_own: flightTimePriorToOwn,
+        owner_from: ownerFrom,
+        owner_until: ownerUntil,
+      });
+  }
 }

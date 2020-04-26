@@ -8,7 +8,7 @@
     "deploy": "sls config credentials --provider aws --key $AWS_ACCESS_KEY_ID --secret $AWS_SECRET_KEY && sls deploy",
     "unit-test": "jest",
     "test:watch": "yarn unit-test --watchAll",
-    "http-test": "REPOSITORIES=IN_MEMORY jest --testMatch '**/*.http-test.ts' --run-in-band",
+    "http-test": "REPOSITORIES=IN_MEMORY jest --run-in-band --testMatch '**/*.http-test.ts'",
     "pg-test": "jest --testMatch '**/*.pg-test.ts' --run-in-band --forceExit;",
     "pg-test-with-docker": "docker-compose -f ../../docker-compose.test.yml up -d && yarn pg-test; docker-compose down;",
     "integration-test": "yarn http-test && yarn pg-test",
