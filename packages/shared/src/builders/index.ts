@@ -1,3 +1,3 @@
-export * from "./wingDTOBuilder";
-export * from "./flightDTOBuilder";
-export * from "./userDTOBuilder";
+export * from "./makeWingDTO";
+export * from "./makeFlightDTO";
+export * from "./makeUserDTO";

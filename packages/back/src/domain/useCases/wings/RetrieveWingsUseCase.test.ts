@@ -9,7 +9,7 @@ import { UserEntity } from "../../entities/UserEntity";
 import {
   setupCurrentUserCreator,
   SetupCurrentUser,
-} from "../../testBuilders/userEntityBuilder";
+} from "../../testBuilders/makeUserEntityCreator";
 import { InMemoryUserRepo } from "../../../adapters/secondaries/repositories/inMemory/InMemoryUserRepo";
 import { TestHashAndTokenManager } from "../../../adapters/secondaries/TestHashAndTokenManager";
 import { HashAndTokenManager } from "../../gateways/HashAndTokenManager";
