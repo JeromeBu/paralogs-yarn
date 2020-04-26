@@ -14,6 +14,7 @@ import {
   usersRoute,
   wingsRoute,
   flightsRoute,
+  UpdateWingDTO,
 } from "@paralogs/shared";
 import { from } from "rxjs/internal/observable/from";
 import { map } from "rxjs/internal/operators/map";
@@ -31,6 +32,11 @@ const POST = <Input, Output>(route: string, axiosConfig?: AxiosRequestConfig) =>
   responseToObservable(
     axios.post<Output>(`${config.apiUrl}${route}`, input, axiosConfig),
   );
+
+const PUT = <Input, Output>(route: string, axiosConfig?: AxiosRequestConfig) => (
+  input: Input,
+): Observable<Output> =>
+  responseToObservable(axios.put<Output>(`${config.apiUrl}${route}`, input, axiosConfig));
 
 const GET = <Output>(route: string, axiosConfig?: AxiosRequestConfig) => (): Observable<
   Output
@@ -56,6 +62,15 @@ const POSTwithToken = <Input, Output>(route: string) => () => {
   });
 };
 
+const PUTwithToken = <Input, Output>(route: string) => () => {
+  const token = localClientStorage.get("token");
+  return PUT<Input, Output>(route, {
+    headers: {
+      authorization: `Bearer ${token}`,
+    },
+  });
+};
+
 export const httpClient = {
   getMeRequested: GETwithToken<CurrentUserWithAuthToken>(getMeRoute),
   signUp: POST<SignUpParams, CurrentUserWithAuthToken>(signUpRoute),
@@ -65,4 +80,5 @@ export const httpClient = {
   addWing: POSTwithToken<AddWingDTO, WingDTO>(wingsRoute),
   addFlight: POSTwithToken<AddFlightDTO, FlightDTO>(flightsRoute),
   retrieveFlights: GETwithToken<FlightDTO[]>(flightsRoute),
+  updateWing: PUTwithToken<UpdateWingDTO, WingDTO>(wingsRoute),
 };

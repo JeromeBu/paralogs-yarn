@@ -24,7 +24,7 @@ describe("Update wing", () => {
     it("the provided field is updated", async () => {
       const wingDto = makeWingDTO();
       // putting the wingDto in place initially (is it a right way ?(using an other action to do that))
-      store.dispatch(wingActions.addWingSuccess(wingDto));
+      store.dispatch(wingActions.addWingSucceeded(wingDto));
       const newModel = "New model";
       // need to feed before we call dispatch. Is it normal ?
       feedWithWing({ ...wingDto, model: newModel });
