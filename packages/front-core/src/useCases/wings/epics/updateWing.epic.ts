@@ -5,19 +5,19 @@ import { wingActions } from "../wings.slice";
 import { handleActionError } from "../../../utils";
 import { RootAction } from "../../../store/root-action";
 
-export const addWingEpic: Epic<RootAction, RootAction, RootState, Dependencies> = (
+export const updateWingEpic: Epic<RootAction, RootAction, RootState, Dependencies> = (
   action$,
   state$,
   { wingGateway },
 ) =>
   action$.pipe(
-    filter(wingActions.addWingRequested.match),
+    filter(wingActions.updateWingRequested.match),
     switchMap(({ payload }) =>
       wingGateway
-        .addWing(payload)
+        .updateWing(payload)
         .pipe(
-          map(wingActions.addWingSucceeded),
-          catchError(handleActionError(wingActions.addWingFailed)),
+          map(wingActions.updateWingSucceeded),
+          catchError(handleActionError(wingActions.updateWingFailed)),
         ),
     ),
   );
