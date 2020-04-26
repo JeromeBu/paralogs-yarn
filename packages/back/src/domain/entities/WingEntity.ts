@@ -5,6 +5,7 @@ import {
   WingId,
   UserId,
   Result,
+  UpdateWingDTO,
 } from "@paralogs/shared";
 
 interface WingEntityProps {
@@ -30,6 +31,10 @@ export interface WingPersistence {
 export class WingEntity {
   get id() {
     return this.props.id;
+  }
+
+  public update(updateParams: UpdateWingDTO) {
+    return new WingEntity({ ...this.getProps(), ...updateParams });
   }
 
   static createFromPersistence({

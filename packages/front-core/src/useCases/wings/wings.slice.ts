@@ -1,12 +1,12 @@
 import {
   AddWingDTO,
+  findByIdAndReplace,
   StringError,
   UpdateWingDTO,
   ValueOf,
   WingDTO,
 } from "@paralogs/shared";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { findAndReplace } from "../../utils";
 
 type WingsState = Readonly<{
   isAddWingFormVisible: boolean;
@@ -57,11 +57,7 @@ const wingsSlice = createSlice({
     updateWingSucceeded: (state, action: PayloadAction<WingDTO>) => ({
       ...state,
       isSaving: false,
-      data: findAndReplace(
-        state.data,
-        action.payload,
-        wing => wing.id === action.payload.id,
-      ),
+      data: findByIdAndReplace(state.data, action.payload),
     }),
     updateWingFailed: setError,
 

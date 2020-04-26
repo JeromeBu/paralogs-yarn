@@ -1,3 +1,4 @@
+import { UpdateWingDTO } from "@paralogs/shared";
 import { getKnex, resetDb } from "../db";
 import { makeUserEntityCreator } from "../../../../../domain/testBuilders/makeUserEntityCreator";
 import { TestHashAndTokenManager } from "../../../../secondaries/TestHashAndTokenManager";
@@ -63,5 +64,28 @@ describe("Wing repository postgres tests", () => {
   it("gets all the wings that belong to a user", async () => {
     const foundWing = await pgWingRepo.findByUserId(johnEntity.id);
     expect(foundWing).toEqual([wingEntity]);
+  });
+
+  it("updates the wing", async () => {
+    const wingToUpdate = (await pgWingRepo.findById(wingEntity.id))!;
+    const updateParams: UpdateWingDTO = {
+      id: wingEntity.id,
+      model: "new model name",
+      brand: "new brand",
+      flightTimePriorToOwn: 25,
+      ownerFrom: "2015",
+      ownerUntil: "2030",
+    };
+    await pgWingRepo.save(wingToUpdate.update(updateParams));
+    const updatedWing = await pgWingRepo.findById(wingEntity.id);
+    expect(updatedWing!.getProps()).toEqual({
+      id: wingEntity.id,
+      userId: wingEntity.userId,
+      model: updateParams.model,
+      brand: updateParams.brand,
+      flightTimePriorToOwn: updateParams.flightTimePriorToOwn,
+      ownerFrom: updateParams.ownerFrom,
+      ownerUntil: updateParams.ownerUntil,
+    });
   });
 });

@@ -2,7 +2,7 @@ import { Epic } from "redux-observable";
 import { catchError, filter, map, switchMap } from "rxjs/operators";
 import { Dependencies, RootState } from "../../../reduxStore";
 import { wingActions } from "../wings.slice";
-import { handleActionError } from "../../../utils";
+import { handleActionError } from "../../../actionsUtils";
 import { RootAction } from "../../../store/root-action";
 
 export const updateWingEpic: Epic<RootAction, RootAction, RootState, Dependencies> = (

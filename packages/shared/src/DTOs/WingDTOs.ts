@@ -29,3 +29,12 @@ export interface WingDTO extends AddWingDTO {
 export interface UpdateWingDTO extends Partial<AddWingDTO> {
   id: WingId;
 }
+
+export const updateWingSchema = Yup.object().shape<UpdateWingDTO>({
+  id: Yup.string().required(),
+  brand: Yup.string(),
+  model: Yup.string(),
+  ownerFrom: Yup.string(),
+  ownerUntil: Yup.string(),
+  flightTimePriorToOwn: Yup.number(),
+});

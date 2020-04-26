@@ -2,6 +2,7 @@ import {
   AddWingDTO,
   SignUpParams,
   signUpRoute,
+  UpdateWingDTO,
   uuid,
   wingsRoute,
 } from "@paralogs/shared";
@@ -20,7 +21,7 @@ describe("Wings routes", () => {
     password,
   };
 
-  it("adds a wing then retrieves wings", async () => {
+  it("adds a wing then retrieves it, then updates", async () => {
     const {
       body: { token },
     } = await request.post(signUpRoute).send(signUpParams);
@@ -48,6 +49,32 @@ describe("Wings routes", () => {
       {
         brand,
         model,
+      },
+    ]);
+
+    const updateWingParams: UpdateWingDTO = {
+      id: addWingParams.id,
+      brand: "New brand",
+      model: "New model",
+      ownerFrom: new Date("2020-04-20").toUTCString(),
+    };
+
+    const updateResponse = await request
+      .put(wingsRoute)
+      .send(updateWingParams)
+      .set("Authorization", `Bearer ${token}`);
+
+    expect(updateResponse.body).toBe("");
+    expect(updateResponse.status).toBe(200);
+
+    const updatedWings = await request
+      .get(wingsRoute)
+      .set("Authorization", `Bearer ${token}`);
+
+    expect(updatedWings.body).toMatchObject([
+      {
+        ...addWingParams,
+        ...updateWingParams,
       },
     ]);
   });
