@@ -44,10 +44,10 @@ describe("Logout", () => {
     expectTokenToNotToBeInClientStorage();
   });
 
-  const logout = () => store.dispatch(authActions.logout());
+  const logout = () => store.dispatch(authActions.logoutRequested());
 
   const loginUser = ({ email, password }: { email: string; password: string }) =>
-    store.dispatch(authActions.loginRequest({ email, password }));
+    store.dispatch(authActions.loginRequested({ email, password }));
 
   const expectTokenToNotToBeInClientStorage = () => {
     expect(dependencies.clientStorage.get("token")).toBe(null);

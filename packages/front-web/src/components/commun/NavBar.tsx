@@ -45,7 +45,7 @@ export const NavBar: React.FC = () => {
           )}
         </Box>
         {isAuthenticated ? (
-          <Button color="inherit" onClick={() => dispatch(authActions.logout())}>
+          <Button color="inherit" onClick={() => dispatch(authActions.logoutRequested())}>
             Logout
           </Button>
         ) : (

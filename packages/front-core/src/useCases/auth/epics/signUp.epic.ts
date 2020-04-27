@@ -11,15 +11,15 @@ export const signUpEpic: Epic<AuthAction, AuthAction, RootState, Dependencies> =
   { authGateway, clientStorage },
 ) =>
   action$.pipe(
-    filter(authActions.signUpRequest.match),
+    filter(authActions.signUpRequested.match),
     switchMap(({ payload }) => {
       return authGateway.signUp(payload).pipe(
         switchMap(currentUserWithToken => {
           clientStorage.set("token", currentUserWithToken.token);
           return of(currentUserWithToken);
         }),
-        map(authActions.authenticationSucceed),
-        catchError(handleActionError(authActions.signUpError)),
+        map(authActions.authenticationSucceeded),
+        catchError(handleActionError(authActions.signUpFailed)),
       );
     }),
   );

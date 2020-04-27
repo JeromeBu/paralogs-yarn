@@ -71,7 +71,7 @@ describe("Sign up", () => {
   });
 
   const signUpUser = (signUpParams: SignUpParams) => {
-    store.dispatch(authActions.signUpRequest(signUpParams));
+    store.dispatch(authActions.signUpRequested(signUpParams));
   };
 
   const expectTokenToBeStoredInClientStorage = (token: string) => {

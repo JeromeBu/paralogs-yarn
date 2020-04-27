@@ -38,24 +38,24 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    logout: startLoading<void>(),
-    logoutSuccess: state => ({
+    logoutRequested: startLoading<void>(),
+    logoutSucceeded: state => ({
       ...state,
       isLoading: false,
       currentUser: null,
       token: null,
     }),
 
-    getMe: startLoading<void>(),
-    getMeError: setError,
+    getMeRequested: startLoading<void>(),
+    getMeFailed: setError,
 
-    signUpRequest: startLoading<SignUpParams>(),
-    signUpError: setError,
+    signUpRequested: startLoading<SignUpParams>(),
+    signUpFailed: setError,
 
-    loginRequest: startLoading<LoginParams>(),
-    loginError: setError,
+    loginRequested: startLoading<LoginParams>(),
+    loginFailed: setError,
 
-    authenticationSucceed: (state, action: PayloadAction<CurrentUserWithAuthToken>) => {
+    authenticationSucceeded: (state, action: PayloadAction<CurrentUserWithAuthToken>) => {
       return { ...state, isLoading: false, error: undefined, ...action.payload };
     },
   },

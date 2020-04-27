@@ -60,5 +60,5 @@ describe("GetMe :  recover current user information", () => {
     });
   });
 
-  const getMe = () => store.dispatch(authActions.getMe());
+  const getMe = () => store.dispatch(authActions.getMeRequested());
 });

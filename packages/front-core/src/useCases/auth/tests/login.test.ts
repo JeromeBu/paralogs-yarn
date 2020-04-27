@@ -63,7 +63,7 @@ describe("Login", () => {
   });
 
   const loginUser = ({ email, password }: { email: string; password: string }) =>
-    store.dispatch(authActions.loginRequest({ email, password }));
+    store.dispatch(authActions.loginRequested({ email, password }));
 
   const expectTokenToBeStoredInClientStorage = (token: string) => {
     expect(dependencies.clientStorage.get("token")).toBe(token);

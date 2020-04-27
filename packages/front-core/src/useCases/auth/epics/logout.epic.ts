@@ -9,8 +9,8 @@ export const logoutEpic: Epic<AuthAction, AuthAction, RootState, Dependencies> =
   { clientStorage },
 ) =>
   action$.pipe(
-    filter(authActions.logout.match),
+    filter(authActions.logoutRequested.match),
     switchMap(() =>
-      clientStorage.remove("token").pipe(map(() => authActions.logoutSuccess())),
+      clientStorage.remove("token").pipe(map(() => authActions.logoutSucceeded())),
     ),
   );

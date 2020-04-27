@@ -60,7 +60,7 @@ export const LoginView: React.FC = () => {
         validationSchema={loginSchema}
         initialValues={initialValues}
         onSubmit={async values => {
-          dispatch(authActions.loginRequest(values));
+          dispatch(authActions.loginRequested(values));
         }}
       >
         <Form className={classes.form}>

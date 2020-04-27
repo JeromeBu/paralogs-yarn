@@ -45,7 +45,7 @@ export const SignUpView: React.FC = () => {
   useRedirectOnAuthentication();
 
   const handleSubmit = (values: SignUpParams) => {
-    dispatch(authActions.signUpRequest(values));
+    dispatch(authActions.signUpRequested(values));
   };
 
   const initialValues: SignUpParams = {

@@ -16,7 +16,7 @@ export const retrieveFlightsEpic: Epic<
     filter(
       matchActions(
         flightActions.retrieveFlightsRequest,
-        authActions.authenticationSucceed,
+        authActions.authenticationSucceeded,
       ),
     ),
     switchMap(() =>

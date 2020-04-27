@@ -16,7 +16,7 @@ const useRetrieveUserData = () => {
   const isAuthenticated = useSelector(authSelectors.isAuthenticated);
 
   useEffect(() => {
-    if (isAuthenticated) dispatch(authActions.getMe());
+    if (isAuthenticated) dispatch(authActions.getMeRequested());
   }, [isAuthenticated]);
 };
 

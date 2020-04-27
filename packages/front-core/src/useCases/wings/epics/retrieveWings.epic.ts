@@ -13,7 +13,7 @@ export const retrieveWingsEpic: Epic<RootAction, RootAction, RootState, Dependen
 ) => {
   return action$.pipe(
     filter(
-      matchActions(wingActions.retrieveWingsRequest, authActions.authenticationSucceed),
+      matchActions(wingActions.retrieveWingsRequest, authActions.authenticationSucceeded),
     ),
     switchMap(() =>
       wingGateway

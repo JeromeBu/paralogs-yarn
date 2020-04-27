@@ -11,15 +11,15 @@ export const getMeEpic: Epic<AuthAction, AuthAction, RootState, Dependencies> = 
   { authGateway, clientStorage },
 ) =>
   action$.pipe(
-    filter(authActions.getMe.match),
+    filter(authActions.getMeRequested.match),
     switchMap(() => {
       return authGateway.getMe().pipe(
         switchMap(currentUserWithToken => {
           clientStorage.set("token", currentUserWithToken.token);
           return of(currentUserWithToken);
         }),
-        map(authActions.authenticationSucceed),
-        catchError(handleActionError(authActions.getMeError)),
+        map(authActions.authenticationSucceeded),
+        catchError(handleActionError(authActions.getMeFailed)),
       );
     }),
   );
