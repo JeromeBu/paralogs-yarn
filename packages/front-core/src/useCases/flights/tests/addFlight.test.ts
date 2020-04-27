@@ -39,5 +39,5 @@ describe("Add a flight", () => {
     dependencies.flightGateway.flights$.next([flight]);
 
   const addFlight = (flight: FlightDTO) =>
-    store.dispatch(flightActions.addFlightRequest(flight));
+    store.dispatch(flightActions.addFlightRequested(flight));
 });

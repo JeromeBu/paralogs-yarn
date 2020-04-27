@@ -49,7 +49,7 @@ describe("Retrieve wings", () => {
     });
   });
 
-  const retrieveWings = () => store.dispatch(wingActions.retrieveWingsRequest());
+  const retrieveWings = () => store.dispatch(wingActions.retrieveWingsRequested());
 
   const feedWithWings = (wings: WingDTO[]) => dependencies.wingGateway.wings$.next(wings);
   const feedWithError = (errorMessage: string) => {

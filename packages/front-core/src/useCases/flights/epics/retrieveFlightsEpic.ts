@@ -15,7 +15,7 @@ export const retrieveFlightsEpic: Epic<
   action$.pipe(
     filter(
       matchActions(
-        flightActions.retrieveFlightsRequest,
+        flightActions.retrieveFlightsRequested,
         authActions.authenticationSucceeded,
       ),
     ),
@@ -23,8 +23,8 @@ export const retrieveFlightsEpic: Epic<
       flightGateway
         .retrieveFlights()
         .pipe(
-          map(flightActions.retrieveFlightsSuccess),
-          catchError(handleActionError(flightActions.retrieveFlightsError)),
+          map(flightActions.retrieveFlightsSucceeded),
+          catchError(handleActionError(flightActions.retrieveFlightsFailed)),
         ),
     ),
   );

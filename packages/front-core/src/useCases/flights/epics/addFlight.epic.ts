@@ -10,11 +10,11 @@ export const addFlightEpic: Epic<FlightAction, FlightAction, RootState, Dependen
   { flightGateway },
 ) =>
   action$.pipe(
-    filter(flightActions.addFlightRequest.match),
+    filter(flightActions.addFlightRequested.match),
     switchMap(({ payload }) =>
       flightGateway.addFlight(payload).pipe(
         // map(flightActions.addedFlight),
-        map(flightActions.retrieveFlightsRequest),
+        map(flightActions.retrieveFlightsRequested),
         catchError(handleActionError(flightActions.addFlightFailed)),
       ),
     ),

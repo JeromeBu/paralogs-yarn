@@ -30,17 +30,17 @@ const flightsSlice = createSlice({
     showAddFlightForm: state => ({ ...state, isAddFlightFormVisible: true }),
     hideAddFlightForm: state => ({ ...state, isAddFlightFormVisible: false }),
 
-    retrieveFlightsRequest: state => ({ ...state, isLoading: true }),
-    retrieveFlightsSuccess: (state, action: PayloadAction<FlightDTO[]>) => ({
+    retrieveFlightsRequested: state => ({ ...state, isLoading: true }),
+    retrieveFlightsSucceeded: (state, action: PayloadAction<FlightDTO[]>) => ({
       ...state,
       data: action.payload,
       isLoading: false,
       isSaving: false,
     }),
-    retrieveFlightsError: setError,
+    retrieveFlightsFailed: setError,
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    addFlightRequest: (state, action: PayloadAction<AddFlightDTO>) => ({
+    addFlightRequested: (state, action: PayloadAction<AddFlightDTO>) => ({
       ...state,
       isSaving: true,
     }),

@@ -10,13 +10,13 @@ export const addWingEpic: Epic<WingAction, WingAction, RootState, Dependencies> 
   { wingGateway },
 ) =>
   action$.pipe(
-    filter(wingActions.addWingRequest.match),
+    filter(wingActions.addWingRequested.match),
     switchMap(({ payload }) =>
       wingGateway
         .addWing(payload)
         .pipe(
-          map(wingActions.addWingSuccess),
-          catchError(handleActionError(wingActions.addWingError)),
+          map(wingActions.addWingSucceeded),
+          catchError(handleActionError(wingActions.addWingFailed)),
         ),
     ),
   );

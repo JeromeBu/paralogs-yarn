@@ -61,7 +61,7 @@ export const FlightsListView: React.FC = () => {
         close={() => dispatch(flightActions.hideAddFlightForm())}
         isOpen={isAddFlightFormVisible}
         handleSubmit={async (addFlightDto: AddFlightDTO) => {
-          await dispatch(flightActions.addFlightRequest(addFlightDto));
+          await dispatch(flightActions.addFlightRequested(addFlightDto));
         }}
       />
       <AddWingModal />

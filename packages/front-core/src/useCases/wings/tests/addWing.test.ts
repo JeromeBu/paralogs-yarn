@@ -38,5 +38,6 @@ describe("Add a wing", () => {
   const feedWithWing = (wingDTO: WingDTO) =>
     dependencies.wingGateway.wings$.next([wingDTO]);
 
-  const addWing = (wing: AddWingDTO) => store.dispatch(wingActions.addWingRequest(wing));
+  const addWing = (wing: AddWingDTO) =>
+    store.dispatch(wingActions.addWingRequested(wing));
 });

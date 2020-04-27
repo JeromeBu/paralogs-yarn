@@ -75,7 +75,7 @@ describe("Retrieve flights", () => {
     });
   });
 
-  const retrieveFlights = () => store.dispatch(flightActions.retrieveFlightsRequest());
+  const retrieveFlights = () => store.dispatch(flightActions.retrieveFlightsRequested());
 
   const feedWithFlights = (flights: FlightDTO[]) =>
     dependencies.flightGateway.flights$.next(flights);

@@ -41,7 +41,7 @@ export const AddWingModal: React.FC = () => {
       <Formik
         initialValues={initialValues}
         onSubmit={async wingValues => {
-          await dispatch(wingActions.addWingRequest(wingValues));
+          await dispatch(wingActions.addWingRequested(wingValues));
           close();
         }}
         validationSchema={addWingSchema}
