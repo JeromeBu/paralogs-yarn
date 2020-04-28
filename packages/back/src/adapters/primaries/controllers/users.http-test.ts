@@ -1,4 +1,10 @@
-import { SignUpParams, signUpRoute, UpdateUserDTO, usersRoute } from "@paralogs/shared";
+import {
+  getMeRoute,
+  SignUpParams,
+  signUpRoute,
+  UpdateUserDTO,
+  usersRoute,
+} from "@paralogs/shared";
 import supertest from "supertest";
 import { app } from "../express/server";
 
@@ -20,15 +26,20 @@ describe("Users routes", () => {
     } = await request.post(signUpRoute).send(signUpParams);
 
     const updateUserParams: UpdateUserDTO = {
-      firstName: "Newfirstname",
-      lastName: "Newlastname",
+      firstName: "New-FirsTname",
+      lastName: "New-Lastname",
     };
 
-    const response = await request
+    const updateResponse = await request
       .put(usersRoute)
       .send(updateUserParams)
       .set("Authorization", `Bearer ${token}`);
 
-    expect(response.status).toBe(200);
+    expect(updateResponse.status).toBe(200);
+
+    const me = await request.get(getMeRoute).set("Authorization", `Bearer ${token}`);
+
+    expect(me.body.currentUser.firstName).toBe(updateUserParams.firstName);
+    expect(me.body.currentUser.lastName).toBe(updateUserParams.lastName);
   });
 });

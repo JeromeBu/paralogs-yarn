@@ -82,8 +82,8 @@ describe("User repository postgres tests", () => {
 
   it("saves modifications on a user", async () => {
     const newParams: UpdateUserDTO = {
-      firstName: "Newfirstname",
-      lastName: "Newlastname",
+      firstName: "New-Firstname",
+      lastName: "New-Lastname",
     };
     await johnEntity.update(newParams).map(john => pgUserRepo.save(john));
 
