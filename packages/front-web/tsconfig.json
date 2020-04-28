@@ -14,6 +14,7 @@
     "isolatedModules": true,
     "jsx": "react",
     "module": "esnext",
+    "noEmit": true
   },
   "include": [
     "src"
