@@ -73,7 +73,7 @@ describe("User signUp", () => {
   });
 
   describe("all is good", () => {
-    it("signs up a user and reformats names and email", async () => {
+    it("signs up a user and reformat email and trim names", async () => {
       const signUpParams = buildSignUpParams();
       const someFakeToken = "someFakeToken";
       hashAndTokenManager.setGeneratedToken(someFakeToken);
@@ -82,9 +82,8 @@ describe("User signUp", () => {
         currentUser: {
           id: userId,
           email: "john@mail.com",
-          firstName: "John",
-          lastName: "Doe",
         },
+        pilotInformation: { firstName: "John", lastName: "Doe" },
         token: someFakeToken,
       });
       const userEntity = userRepo.users[0];

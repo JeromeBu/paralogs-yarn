@@ -7,6 +7,7 @@ import {
   FlightDTO,
   Result,
 } from "@paralogs/shared";
+import { Entity } from "../core/Entity";
 
 interface FlightEntityProps {
   id: FlightId;
@@ -28,7 +29,7 @@ export interface FlightPersistence {
   duration: number;
 }
 
-export class FlightEntity {
+export class FlightEntity extends Entity {
   get id() {
     return this.props.id;
   }
@@ -37,7 +38,9 @@ export class FlightEntity {
     return this.props;
   }
 
-  private constructor(private props: FlightEntityProps) {}
+  private constructor(private props: FlightEntityProps) {
+    super();
+  }
 
   static createFromPersistence({
     id,

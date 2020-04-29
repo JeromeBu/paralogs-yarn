@@ -24,12 +24,14 @@ export const loginUseCaseCreator = ({
       const isPasswordCorrect = await userEntity.checkPassword(password, {
         hashAndTokenManager,
       });
-      return isPasswordCorrect
-        ? Result.ok<CurrentUserWithAuthToken>({
-            token: userEntity.getProps().authToken,
-            currentUser: userMapper.entityToDTO(userEntity),
-          })
-        : Result.fail<CurrentUserWithAuthToken>("Wrong password");
+      if (!isPasswordCorrect)
+        return Result.fail<CurrentUserWithAuthToken>("Wrong password");
+      const { user, pilot } = userMapper.entityToDTO(userEntity);
+      return Result.ok<CurrentUserWithAuthToken>({
+        token: userEntity.getProps().authToken,
+        currentUser: user,
+        pilotInformation: pilot,
+      });
     });
 
     return optionResultUserEntity.getOrElse(() => Result.fail("No user found"));

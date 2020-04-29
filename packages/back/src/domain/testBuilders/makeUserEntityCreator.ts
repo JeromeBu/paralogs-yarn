@@ -1,4 +1,4 @@
-import { makeUserDTO, SignUpParams } from "@paralogs/shared";
+import { makePilotDTO, makeUserDTO, SignUpParams } from "@paralogs/shared";
 import { UserEntity } from "../entities/UserEntity";
 import { HashAndTokenManager } from "../gateways/HashAndTokenManager";
 import { InMemoryUserRepo } from "../../adapters/secondaries/repositories/inMemory/InMemoryUserRepo";
@@ -6,10 +6,14 @@ import { InMemoryUserRepo } from "../../adapters/secondaries/repositories/inMemo
 export const makeUserEntityCreator = (hashAndTokenManager: HashAndTokenManager) => async (
   userParams: Partial<SignUpParams> = {},
 ): Promise<UserEntity> => {
-  const { password = "Bépo1234", ...userDTOParams } = userParams;
-  const userDto = makeUserDTO(userDTOParams);
+  const { password = "Bépo1234", email, ...pilotParams } = userParams;
+  const userDTO = makeUserDTO({ email });
+  const pilotDTO = makePilotDTO(pilotParams);
   return (
-    await UserEntity.create({ ...userDto, password }, { hashAndTokenManager })
+    await UserEntity.create(
+      { ...userDTO, ...pilotDTO, password },
+      { hashAndTokenManager },
+    )
   ).getOrThrow();
 };
 

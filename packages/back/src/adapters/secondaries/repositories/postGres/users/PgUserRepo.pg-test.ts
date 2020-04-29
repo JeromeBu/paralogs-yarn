@@ -1,4 +1,4 @@
-import { UpdateUserDTO } from "@paralogs/shared";
+import { UpdatePilotDTO } from "@paralogs/shared";
 import { getKnex, resetDb } from "../db";
 import { UserRepo } from "../../../../../domain/gateways/UserRepo";
 import { PgUserRepo } from "./PgUserRepo";
@@ -81,7 +81,7 @@ describe("User repository postgres tests", () => {
   });
 
   it("saves modifications on a user", async () => {
-    const newParams: UpdateUserDTO = {
+    const newParams: UpdatePilotDTO = {
       firstName: "New-Firstname",
       lastName: "New-Lastname",
     };

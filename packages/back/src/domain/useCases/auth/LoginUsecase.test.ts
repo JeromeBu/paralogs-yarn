@@ -69,9 +69,8 @@ describe("User Login", () => {
         currentUser: {
           id: userEntity.id,
           email,
-          firstName,
-          lastName,
         },
+        pilotInformation: { firstName, lastName },
       });
     });
   });

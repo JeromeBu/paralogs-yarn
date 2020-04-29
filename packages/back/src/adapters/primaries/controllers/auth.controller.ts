@@ -35,11 +35,13 @@ export const authController = (): Router => {
 
   authRouter.get(getMeRoute, async (req, res) => {
     const { currentUser } = req;
+    const { pilot, user } = userMapper.entityToDTO(currentUser);
 
     return sendHttpResponse(
       res,
       success({
-        currentUser: userMapper.entityToDTO(currentUser),
+        currentUser: user,
+        pilotInformation: pilot,
         token: currentUser.getProps().authToken,
       }),
     );

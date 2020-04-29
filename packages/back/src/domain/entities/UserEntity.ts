@@ -3,12 +3,13 @@ import {
   WithUserId,
   UserId,
   Result,
-  UpdateUserDTO,
+  UpdatePilotDTO,
 } from "@paralogs/shared";
 import { Email } from "../valueObjects/user/Email";
 import { Password } from "../valueObjects/user/Password";
 import { PersonName } from "../valueObjects/user/PersonName";
 import { HashAndTokenManager } from "../gateways/HashAndTokenManager";
+import { Entity } from "../core/Entity";
 
 interface UserEntityProps {
   id: UserId;
@@ -37,7 +38,7 @@ export type UserPersistence = {
 // Question : comment assurer qu'on a bien toutes les clés dans necessaire dans UserPg au niveau du typage ?
 // les clés doivent matcher les key de UserEntityProps dans UserEntity
 
-export class UserEntity {
+export class UserEntity extends Entity {
   get id() {
     return this.props.id;
   }
@@ -46,7 +47,7 @@ export class UserEntity {
     return this.props;
   }
 
-  update(params: UpdateUserDTO) {
+  update(params: UpdatePilotDTO) {
     return Result.combine({
       ...(params.firstName ? { firstName: PersonName.create(params.firstName) } : {}),
       ...(params.lastName ? { lastName: PersonName.create(params.lastName) } : {}),
@@ -104,7 +105,9 @@ export class UserEntity {
     );
   }
 
-  private constructor(private props: UserEntityProps) {}
+  private constructor(private props: UserEntityProps) {
+    super();
+  }
 }
 
 export interface WithCurrentUser {

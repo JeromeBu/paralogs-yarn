@@ -34,10 +34,14 @@ export const signUpUseCaseCreator = ({
       userResult.flatMapAsync(userEntity => userRepo.create(userEntity)),
     )
     .then(savedUserResult =>
-      savedUserResult.map(savedUserEntity => ({
-        token: savedUserEntity.getProps().authToken,
-        currentUser: userMapper.entityToDTO(savedUserEntity),
-      })),
+      savedUserResult.map(savedUserEntity => {
+        const { user, pilot } = userMapper.entityToDTO(savedUserEntity);
+        return {
+          token: savedUserEntity.getProps().authToken,
+          currentUser: user,
+          pilotInformation: pilot,
+        };
+      }),
     );
 };
 

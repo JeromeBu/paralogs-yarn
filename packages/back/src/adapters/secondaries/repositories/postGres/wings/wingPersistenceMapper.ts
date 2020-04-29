@@ -12,6 +12,7 @@ export const wingPersistenceMapper = {
       ownerUntil,
     } = wingEntity.getProps();
     return {
+      surrogateId: wingEntity.getIdentity(),
       id,
       user_id: userId,
       brand,
@@ -21,7 +22,27 @@ export const wingPersistenceMapper = {
       owner_until: ownerUntil ?? null,
     };
   },
-  toEntity: (wingPersistence: WingPersistence) => {
-    return WingEntity.createFromPersistence(wingPersistence);
+  toEntity: ({
+    surrogateId,
+    id,
+    user_id,
+    brand,
+    model,
+    owner_from,
+    owner_until,
+    flight_time_prior_to_own,
+  }: WingPersistence): WingEntity => {
+    const wingEntity = WingEntity.fromDTO({
+      id,
+      userId: user_id,
+      brand,
+      model,
+      ownerFrom: owner_from,
+      ownerUntil: owner_until ?? undefined,
+      flightTimePriorToOwn: flight_time_prior_to_own,
+    });
+
+    wingEntity.setIdentity(surrogateId);
+    return wingEntity;
   },
 };

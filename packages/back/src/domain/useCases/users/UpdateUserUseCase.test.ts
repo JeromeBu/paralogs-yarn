@@ -32,10 +32,14 @@ describe("Update user", () => {
 
       const updatedCurrentUser = await userRepo.findById(currentUser.id);
       expect(userMapper.entityToDTO(updatedCurrentUser!)).toMatchObject({
-        id,
-        email: email.value,
-        firstName: newFirstName,
-        lastName: lastName?.value,
+        user: {
+          id,
+          email: email.value,
+        },
+        pilot: {
+          firstName: newFirstName,
+          lastName: lastName?.value,
+        },
       });
     });
   });

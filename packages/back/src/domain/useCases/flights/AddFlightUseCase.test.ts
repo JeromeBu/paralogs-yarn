@@ -44,6 +44,7 @@ describe("add a flight", () => {
   };
 
   const expectRepoToHaveFlight = async (flightId: FlightId) => {
-    expect(await flightRepo.findById(flightId)).toBeDefined();
+    expect(flightRepo.flights.map(({ id }) => id)).toContain(flightId);
+    // expect(await flightRepo.findById(flightId)).toBeDefined();
   };
 });
