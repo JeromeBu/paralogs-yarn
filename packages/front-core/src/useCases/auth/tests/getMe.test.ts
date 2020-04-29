@@ -1,4 +1,4 @@
-import { makeUserDTO, CurrentUserWithAuthToken } from "@paralogs/shared";
+import { makeUserDTO, CurrentUserWithAuthToken, makePilotDTO } from "@paralogs/shared";
 import { Store } from "redux";
 import {
   getInMemoryDependencies,
@@ -42,12 +42,14 @@ describe("GetMe :  recover current user information", () => {
   });
 
   describe("You are logged in", () => {
-    it("recovers current user informations", () => {
+    it("recovers current user information", () => {
       const currentUser = makeUserDTO();
+      const pilotInformation = makePilotDTO();
       const token = "someFakeToken";
       getMe();
       feedWithCurrentUser({
         currentUser,
+        pilotInformation,
         token,
       });
       expectStateToMatch({
@@ -55,6 +57,7 @@ describe("GetMe :  recover current user information", () => {
           currentUser,
           token,
         },
+        pilot: { pilotInformation },
       });
       expect(dependencies.clientStorage.get("token")).toBe(token);
     });

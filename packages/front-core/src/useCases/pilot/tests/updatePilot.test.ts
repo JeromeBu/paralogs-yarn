@@ -1,5 +1,5 @@
 import { Store } from "redux";
-import { makeUserDTO } from "@paralogs/shared";
+import { makePilotDTO, makeUserDTO } from "@paralogs/shared";
 import { configureReduxStore, RootState } from "../../../reduxStore";
 import {
   ExpectStateToMatch,
@@ -7,9 +7,10 @@ import {
   getInMemoryDependencies,
   InMemoryDependencies,
 } from "../../../testUtils";
-import { authActions } from "../auth.slice";
+import { pilotActions } from "../pilote.slice";
+import { authActions } from "../../auth/auth.slice";
 
-describe("update user ", () => {
+describe("update pilot ", () => {
   let store: Store<RootState>;
   let dependencies: InMemoryDependencies;
   let expectStateToMatch: ExpectStateToMatch;
@@ -23,18 +24,27 @@ describe("update user ", () => {
   describe("when all is good", () => {
     it("updates the user with the provided data", async () => {
       const currentUser = makeUserDTO();
+      const pilotInformation = makePilotDTO();
       const token = "someFakeToken";
 
-      store.dispatch(authActions.authenticationSucceeded({ currentUser, token }));
+      store.dispatch(
+        authActions.authenticationSucceeded({ currentUser, pilotInformation, token }),
+      );
+      const loggedState = store.getState();
 
       const updateParams = {
         firstName: "NewFirstName",
         lastName: "NewLastName",
       };
 
-      store.dispatch(authActions.updateUserRequested(updateParams));
-
-      expectStateToMatch({ auth: { currentUser: { ...currentUser, ...updateParams } } });
+      store.dispatch(pilotActions.updatePilotRequested(updateParams));
+      expectStateToMatch({
+        ...loggedState,
+        pilot: {
+          isSaving: false,
+          pilotInformation: updateParams,
+        },
+      });
     });
   });
 });

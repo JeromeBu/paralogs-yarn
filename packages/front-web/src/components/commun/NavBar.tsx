@@ -50,7 +50,10 @@ export const NavBar: React.FC = () => {
             <MyLink to="/account">
               <PersonIcon />
             </MyLink>
-            <Button color="inherit" onClick={() => dispatch(authActions.logoutRequested())}>
+            <Button
+              color="inherit"
+              onClick={() => dispatch(authActions.logoutRequested())}
+            >
               Logout
             </Button>
           </Box>

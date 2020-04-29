@@ -1,5 +1,10 @@
 import { Store } from "redux";
-import { CurrentUserWithAuthToken, SignUpParams, makeUserDTO } from "@paralogs/shared";
+import {
+  CurrentUserWithAuthToken,
+  SignUpParams,
+  makeUserDTO,
+  makePilotDTO,
+} from "@paralogs/shared";
 import { RootState, configureReduxStore } from "../../../reduxStore";
 import {
   expectStateToMatchCreator,
@@ -32,16 +37,20 @@ describe("Sign up", () => {
       const firstName = "John";
       const lastName = "Doe";
 
-      const currentUser = makeUserDTO({ email, firstName, lastName });
+      const currentUser = makeUserDTO({ email });
+      const pilotInformation = makePilotDTO({ firstName, lastName });
       const token = "someFakeToken";
 
       signUpUser({ email, password, firstName, lastName });
-      feedWithCurrentUser({ currentUser, token });
+      feedWithCurrentUser({ currentUser, pilotInformation, token });
       expectStateToMatch({
         auth: {
           currentUser,
           isLoading: false,
           token,
+        },
+        pilot: {
+          pilotInformation,
         },
       });
       expectTokenToBeStoredInClientStorage(token);

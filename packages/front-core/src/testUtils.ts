@@ -4,6 +4,7 @@ import { InMemoryAuthGateway } from "./adapters/InMemoryAuthGateway";
 import { InMemoryWingGateway } from "./adapters/InMemoryWingGateway";
 import { InMemoryFlightGateway } from "./adapters/InMemoryFlightGateway";
 import { InMemoryClientStorage } from "./adapters/InMemoryClientStorage";
+import { InMemoryPilotGateway } from "./adapters/InMemoryPilotGateway";
 
 type Partial2Levels<T> = {
   [P in keyof T]?: T[P] extends Array<infer U>
@@ -23,6 +24,7 @@ export const getInMemoryDependencies = () => ({
   authGateway: new InMemoryAuthGateway(),
   wingGateway: new InMemoryWingGateway(),
   flightGateway: new InMemoryFlightGateway(),
+  pilotGateway: new InMemoryPilotGateway(),
   clientStorage: new InMemoryClientStorage(),
 });
 

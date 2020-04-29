@@ -2,7 +2,7 @@ import { BehaviorSubject, of } from "rxjs";
 
 import { FlightDTO, AddFlightDTO, uuid } from "@paralogs/shared";
 
-import { FlightGateway } from "../useCases/flights/port/FlightGateway";
+import { FlightGateway } from "../useCases/flights/gateways/FlightGateway";
 
 export class InMemoryFlightGateway implements FlightGateway {
   private _flights$ = new BehaviorSubject<FlightDTO[]>([]);

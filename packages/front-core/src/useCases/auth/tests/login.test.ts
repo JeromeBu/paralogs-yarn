@@ -1,5 +1,5 @@
 import { Store } from "redux";
-import { CurrentUserWithAuthToken, makeUserDTO } from "@paralogs/shared";
+import { CurrentUserWithAuthToken, makePilotDTO, makeUserDTO } from "@paralogs/shared";
 import { RootState, configureReduxStore } from "../../../reduxStore";
 import {
   ExpectStateToMatch,
@@ -29,16 +29,18 @@ describe("Login", () => {
     it("returns logged user with authentication token", () => {
       const email = "auth@works.com";
       const currentUser = makeUserDTO({ email });
+      const pilotInformation = makePilotDTO();
       const password = "password";
       const token = "fakeLoginToken";
       loginUser({ email, password });
-      feedWithCurrentUser({ currentUser, token });
+      feedWithCurrentUser({ currentUser, pilotInformation, token });
       expectStateToMatch({
         auth: {
           isLoading: false,
           currentUser,
           token,
         },
+        pilot: { pilotInformation },
       });
       expectTokenToBeStoredInClientStorage(token);
     });

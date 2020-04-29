@@ -4,6 +4,7 @@ import { Result } from "../functionnal/Result";
 export * from "./FlightDTOs";
 export * from "./WingDTOs";
 export * from "./UserDTOs";
+export * from "./PilotDTOs";
 
 export const shapeValidator = <T extends Yup.ObjectSchema<Yup.Shape<object, any>>>(
   schema: T,

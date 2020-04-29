@@ -1,5 +1,6 @@
 import * as Yup from "yup";
 import { Flavor } from "../generalTypes/types";
+import { PilotDTO } from "./PilotDTOs";
 
 export type UserId = Flavor<string, "UserId">;
 
@@ -15,15 +16,11 @@ export interface WithEmail {
   email: string;
 }
 
-export interface WithOtherInformations {
-  firstName: string;
-  lastName?: string;
-}
-
-export type UserDTO = WithUserId & WithEmail & WithOtherInformations;
+export type UserDTO = WithUserId & WithEmail;
 
 export type CurrentUserWithAuthToken = {
   currentUser: UserDTO;
+  pilotInformation: PilotDTO;
   token: string;
 };
 
@@ -36,7 +33,7 @@ export const loginSchema = Yup.object().shape<LoginParams>({
   password: Yup.string().required(),
 });
 
-export type SignUpParams = WithEmail & WithPassword & WithOtherInformations;
+export type SignUpParams = WithEmail & WithPassword & PilotDTO;
 
 export const signUpSchema = Yup.object().shape<SignUpParams>({
   email: Yup.string()
@@ -46,12 +43,5 @@ export const signUpSchema = Yup.object().shape<SignUpParams>({
     .required()
     .min(8),
   firstName: Yup.string().required(),
-  lastName: Yup.string(),
-});
-
-export type UpdateUserDTO = Partial<WithOtherInformations>;
-
-export const updateUserSchema = Yup.object().shape<UpdateUserDTO>({
-  firstName: Yup.string(),
   lastName: Yup.string(),
 });

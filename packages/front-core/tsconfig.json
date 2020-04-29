@@ -12,9 +12,7 @@
     "outDir": "./dist",
     "allowJs": true,
     "skipLibCheck": true,
-    "module": "esnext",
-    "isolatedModules": true,
-    "jsx": "react"
+    "module": "esnext"
   },
   "include": [
     "src"
