@@ -1,5 +1,5 @@
 import { of } from "rxjs";
-import { ClientStorage } from "../useCases/auth/port/ClientStorage";
+import { ClientStorage } from "../useCases/auth/gateways/ClientStorage";
 
 export class InMemoryClientStorage implements ClientStorage {
   public async set(key: string, value: string) {

@@ -2,18 +2,18 @@ import { Epic } from "redux-observable";
 import { filter, map, switchMap } from "rxjs/operators";
 import { RootAction } from "../../../store/root-action";
 import { Dependencies, RootState } from "../../../reduxStore";
-import { authActions } from "../auth.slice";
+import { pilotActions } from "../pilote.slice";
 
-export const updateUserEpic: Epic<RootAction, RootAction, RootState, Dependencies> = (
+export const updatePilotEpic: Epic<RootAction, RootAction, RootState, Dependencies> = (
   action$,
   state$,
-  { authGateway },
+  { pilotGateway },
 ) =>
   action$.pipe(
-    filter(authActions.updateUserRequested.match),
+    filter(pilotActions.updatePilotRequested.match),
     switchMap(({ payload }) =>
-      authGateway
+      pilotGateway
         .updateUser(payload)
-        .pipe(map(() => authActions.updateUserSucceeded(payload))),
+        .pipe(map(() => pilotActions.updatePilotSucceeded(payload))),
     ),
   );

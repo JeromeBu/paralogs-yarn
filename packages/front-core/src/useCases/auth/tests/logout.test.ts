@@ -1,5 +1,5 @@
 import { Store } from "redux";
-import { CurrentUserWithAuthToken, makeUserDTO } from "@paralogs/shared";
+import { CurrentUserWithAuthToken, makePilotDTO, makeUserDTO } from "@paralogs/shared";
 import { RootState, configureReduxStore } from "../../../reduxStore";
 import {
   ExpectStateToMatch,
@@ -26,20 +26,23 @@ describe("Logout", () => {
   it("Clears all user's information and authentications", () => {
     const email = "auth@works.com";
     const currentUser = makeUserDTO({ email });
+    const pilotInformation = makePilotDTO();
     const password = "password";
     const token = "fakeLoginToken";
     loginUser({ email, password });
-    feedWithCurrentUser({ currentUser, token });
+    feedWithCurrentUser({ currentUser, pilotInformation, token });
     expectStateToMatch({
       auth: {
         isLoading: false,
         currentUser,
         token,
       },
+      pilot: { pilotInformation },
     });
     logout();
     expectStateToMatch({
       auth: { isLoading: false, currentUser: null, token: null },
+      pilot: { pilotInformation: null },
     });
     expectTokenToNotToBeInClientStorage();
   });

@@ -1,7 +1,7 @@
 import { AddWingDTO, UpdateWingDTO, WingDTO } from "@paralogs/shared";
 import { BehaviorSubject } from "rxjs";
 import { map } from "rxjs/operators";
-import { WingGateway } from "../useCases/wings/port/WingGateway";
+import { WingGateway } from "../useCases/wings/gateways/WingGateway";
 
 export class InMemoryWingGateway implements WingGateway {
   private _wings$ = new BehaviorSubject<WingDTO[]>([]);

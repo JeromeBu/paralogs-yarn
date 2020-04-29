@@ -1,0 +1,29 @@
+import { Store } from "redux";
+import { configureReduxStore, RootState } from "../../../reduxStore";
+import {
+  ExpectStateToMatch,
+  expectStateToMatchCreator,
+  getInMemoryDependencies,
+  InMemoryDependencies,
+} from "../../../testUtils";
+import { pilotActions } from "../pilote.slice";
+
+describe("update Pilot form", () => {
+  let store: Store<RootState>;
+  let dependencies: InMemoryDependencies;
+  let expectStateToMatch: ExpectStateToMatch;
+
+  beforeEach(() => {
+    dependencies = getInMemoryDependencies();
+    store = configureReduxStore(dependencies);
+    expectStateToMatch = expectStateToMatchCreator(store.getState(), store);
+  });
+
+  it("shows update Pilot form and then hides it", () => {
+    store.dispatch(pilotActions.showUpdateForm());
+    expectStateToMatch({ pilot: { isUpdateFormVisible: true } });
+
+    store.dispatch(pilotActions.hideUpdateForm());
+    expectStateToMatch({ pilot: { isUpdateFormVisible: false } });
+  });
+});
