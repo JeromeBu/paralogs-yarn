@@ -40,6 +40,7 @@ describe("Wing repository postgres tests", () => {
     } = wingEntity.getProps();
 
     const wingPersistenceToMatch: WingPersistence = {
+      surrogateId: wingEntity.getIdentity(),
       id,
       user_id: userId,
       brand,

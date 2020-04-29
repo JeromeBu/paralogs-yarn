@@ -1,4 +1,4 @@
-import { Result, UpdateUserDTO } from "@paralogs/shared";
+import { Result, UpdatePilotDTO } from "@paralogs/shared";
 import { WithCurrentUser } from "../../entities/UserEntity";
 import { UserRepo } from "../../gateways/UserRepo";
 
@@ -6,7 +6,7 @@ type UpdateUserUseCaseDependencies = {
   userRepo: UserRepo;
 };
 
-type UpdateUserParams = UpdateUserDTO & WithCurrentUser;
+type UpdateUserParams = UpdatePilotDTO & WithCurrentUser;
 
 export const updateUserUseCaseCreator = ({
   userRepo,

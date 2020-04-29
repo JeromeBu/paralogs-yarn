@@ -33,11 +33,8 @@ describe("Authentication routes", () => {
       };
       const signUpResponse = await request.post(signUpRoute).send(signUpParams);
       expect(signUpResponse.body).toMatchObject({
-        currentUser: {
-          email,
-          firstName: "John",
-          lastName: "Doe",
-        },
+        currentUser: { email },
+        pilotInformation: { firstName: "John", lastName: "Doe" },
       });
 
       const loginParams: LoginParams = {
@@ -46,11 +43,8 @@ describe("Authentication routes", () => {
       };
       const loginResponse = await request.post(loginRoute).send(loginParams);
       expect(loginResponse.body).toMatchObject({
-        currentUser: {
-          email,
-          firstName: "John",
-          lastName: "Doe",
-        },
+        currentUser: { email },
+        pilotInformation: { firstName: "John", lastName: "Doe" },
       });
 
       const { token } = loginResponse.body;
@@ -58,11 +52,8 @@ describe("Authentication routes", () => {
         .get(getMeRoute)
         .set("Authorization", `Bearer ${token}`);
       expect(getMeResponse.body).toMatchObject({
-        currentUser: {
-          email,
-          firstName: "John",
-          lastName: "Doe",
-        },
+        currentUser: { email },
+        pilotInformation: { firstName: "John", lastName: "Doe" },
       });
     });
   });

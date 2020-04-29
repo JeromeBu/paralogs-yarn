@@ -7,6 +7,7 @@ import {
   Result,
   UpdateWingDTO,
 } from "@paralogs/shared";
+import { Entity } from "../core/Entity";
 
 interface WingEntityProps {
   id: WingId;
@@ -19,6 +20,7 @@ interface WingEntityProps {
 }
 
 export interface WingPersistence {
+  surrogateId: number;
   id: WingId;
   user_id: UserId;
   brand: string;
@@ -28,33 +30,13 @@ export interface WingPersistence {
   flight_time_prior_to_own: NumberOfMinutes;
 }
 
-export class WingEntity {
+export class WingEntity extends Entity {
   get id() {
     return this.props.id;
   }
 
   public update(updateParams: UpdateWingDTO) {
     return new WingEntity({ ...this.getProps(), ...updateParams });
-  }
-
-  static createFromPersistence({
-    id,
-    user_id,
-    brand,
-    model,
-    owner_from,
-    owner_until,
-    flight_time_prior_to_own,
-  }: WingPersistence): WingEntity {
-    return new WingEntity({
-      id,
-      userId: user_id,
-      brand,
-      model,
-      ownerFrom: owner_from,
-      ownerUntil: owner_until ?? undefined,
-      flightTimePriorToOwn: flight_time_prior_to_own,
-    });
   }
 
   public getProps() {
@@ -65,9 +47,15 @@ export class WingEntity {
     return this.props.userId;
   }
 
-  private constructor(private props: WingEntityProps) {}
+  private constructor(private props: WingEntityProps) {
+    super();
+  }
 
   static create(props: WingDTO): Result<WingEntity> {
     return Result.ok(new WingEntity(props));
+  }
+
+  static fromDTO(props: WingDTO): WingEntity {
+    return new WingEntity(props);
   }
 }

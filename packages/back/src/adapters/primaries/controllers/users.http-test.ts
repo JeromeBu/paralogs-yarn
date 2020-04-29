@@ -2,7 +2,7 @@ import {
   getMeRoute,
   SignUpParams,
   signUpRoute,
-  UpdateUserDTO,
+  UpdatePilotDTO,
   usersRoute,
 } from "@paralogs/shared";
 import supertest from "supertest";
@@ -25,7 +25,7 @@ describe("Users routes", () => {
       body: { token },
     } = await request.post(signUpRoute).send(signUpParams);
 
-    const updateUserParams: UpdateUserDTO = {
+    const updateUserParams: UpdatePilotDTO = {
       firstName: "New-FirsTname",
       lastName: "New-Lastname",
     };
@@ -39,7 +39,6 @@ describe("Users routes", () => {
 
     const me = await request.get(getMeRoute).set("Authorization", `Bearer ${token}`);
 
-    expect(me.body.currentUser.firstName).toBe(updateUserParams.firstName);
-    expect(me.body.currentUser.lastName).toBe(updateUserParams.lastName);
+    expect(me.body.pilotInformation).toEqual(updateUserParams);
   });
 });
