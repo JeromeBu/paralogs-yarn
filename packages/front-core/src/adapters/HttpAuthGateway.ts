@@ -1,4 +1,5 @@
-import { LoginParams, SignUpParams } from "@paralogs/shared";
+import { LoginParams, SignUpParams, UpdateUserDTO } from "@paralogs/shared";
+import { Observable } from "rxjs";
 import { AuthGateway } from "../useCases/auth/port/AuthGateway";
 import { httpClient } from "./libs/httpClient";
 
@@ -13,5 +14,9 @@ export class HttpAuthGateway implements AuthGateway {
 
   public getMe() {
     return httpClient.getMeRequested()();
+  }
+
+  public updateUser(params: UpdateUserDTO): Observable<void> {
+    return httpClient.updateUser()(params);
   }
 }

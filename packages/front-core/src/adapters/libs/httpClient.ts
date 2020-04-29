@@ -19,6 +19,7 @@ import {
 import { from } from "rxjs/internal/observable/from";
 import { map } from "rxjs/internal/operators/map";
 import { Observable } from "rxjs/internal/Observable";
+import { UpdateUserDTO } from "@paralogs/shared/dist/src/DTOs/UserDTOs";
 import { config } from "../../config";
 import { LocalClientStorage } from "../LocalClientStorage";
 
@@ -75,10 +76,13 @@ export const httpClient = {
   getMeRequested: GETwithToken<CurrentUserWithAuthToken>(getMeRoute),
   signUp: POST<SignUpParams, CurrentUserWithAuthToken>(signUpRoute),
   login: POST<LoginParams, CurrentUserWithAuthToken>(loginRoute),
+  updateUser: PUTwithToken<UpdateUserDTO, void>(usersRoute),
   retrieveUsers: GETwithToken<UserDTO[]>(usersRoute),
+
   retrieveWings: GETwithToken<WingDTO[]>(wingsRoute),
   addWing: POSTwithToken<AddWingDTO, WingDTO>(wingsRoute),
+  updateWing: PUTwithToken<UpdateWingDTO, WingDTO>(wingsRoute),
+
   addFlight: POSTwithToken<AddFlightDTO, FlightDTO>(flightsRoute),
   retrieveFlights: GETwithToken<FlightDTO[]>(flightsRoute),
-  updateWing: PUTwithToken<UpdateWingDTO, WingDTO>(wingsRoute),
 };

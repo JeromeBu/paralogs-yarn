@@ -1,5 +1,10 @@
-import { LoginParams, SignUpParams, CurrentUserWithAuthToken } from "@paralogs/shared";
-import { BehaviorSubject } from "rxjs";
+import {
+  LoginParams,
+  SignUpParams,
+  CurrentUserWithAuthToken,
+  UpdateUserDTO,
+} from "@paralogs/shared";
+import { BehaviorSubject, Observable, of } from "rxjs";
 import { filter } from "rxjs/operators";
 import { AuthGateway } from "../useCases/auth/port/AuthGateway";
 
@@ -20,6 +25,11 @@ export class InMemoryAuthGateway implements AuthGateway {
 
   public getMe() {
     return this._currentUserWithToken$.pipe(filter(val => val !== undefined));
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public updateUser(params: UpdateUserDTO): Observable<void> {
+    return of(undefined);
   }
 
   get currentUserWithToken$() {

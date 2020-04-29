@@ -7,6 +7,7 @@ import { addWingEpic } from "../useCases/wings/epics/addWing.epic";
 import { retrieveWingsEpic } from "../useCases/wings/epics/retrieveWings.epic";
 import { getMeEpic } from "../useCases/auth/epics/getMe.epic";
 import { logoutEpic } from "../useCases/auth/epics/logout.epic";
+import { updateUserEpic } from "../useCases/auth/epics/updateUser.epic";
 import { updateWingEpic } from "../useCases/wings/epics/updateWing.epic";
 
 export const rootEpic = combineEpics<any>(
@@ -19,4 +20,5 @@ export const rootEpic = combineEpics<any>(
   addWingEpic,
   retrieveWingsEpic,
   updateWingEpic,
+  updateUserEpic,
 );

@@ -4,6 +4,7 @@ import {
   LoginParams,
   SignUpParams,
   StringError,
+  UpdateUserDTO,
   UserDTO,
   ValueOf,
 } from "@paralogs/shared";
@@ -55,9 +56,22 @@ const authSlice = createSlice({
     loginRequested: startLoading<LoginParams>(),
     loginFailed: setError,
 
-    authenticationSucceeded: (state, action: PayloadAction<CurrentUserWithAuthToken>) => {
-      return { ...state, isLoading: false, error: undefined, ...action.payload };
-    },
+    authenticationSucceeded: (
+      state,
+      action: PayloadAction<CurrentUserWithAuthToken>,
+    ) => ({
+      ...state,
+      isLoading: false,
+      error: undefined,
+      ...action.payload,
+    }),
+
+    updateUserRequested: startLoading<UpdateUserDTO>(),
+    updateUserSucceeded: (state, action: PayloadAction<UpdateUserDTO>) => ({
+      ...state,
+      currentUser: state.currentUser && { ...state.currentUser, ...action.payload },
+      isLoading: false,
+    }),
   },
 });
 
