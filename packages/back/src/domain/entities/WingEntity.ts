@@ -19,32 +19,24 @@ interface WingEntityProps {
   flightTimePriorToOwn: NumberOfMinutes;
 }
 
-export class WingEntity extends Entity {
-  get id() {
-    return this.props.id;
+export class WingEntity extends Entity<WingEntityProps> {
+  static create(props: WingDTO): Result<WingEntity> {
+    return Result.ok(new WingEntity(props));
   }
 
   public update(updateParams: UpdateWingDTO) {
     return new WingEntity({ ...this.getProps(), ...updateParams });
   }
 
-  public getProps() {
-    return this.props;
-  }
-
   get userId() {
     return this.props.userId;
   }
 
-  private constructor(private props: WingEntityProps) {
-    super();
-  }
-
-  static create(props: WingDTO): Result<WingEntity> {
-    return Result.ok(new WingEntity(props));
-  }
-
   static fromDTO(props: WingEntityProps): WingEntity {
     return new WingEntity(props);
+  }
+
+  private constructor(props: WingEntityProps) {
+    super(props);
   }
 }
