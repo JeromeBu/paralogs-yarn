@@ -2,10 +2,8 @@ import Knex from "knex";
 import { FlightId, UserId } from "@paralogs/shared";
 import { flightPersistenceMapper } from "./flightPersistenceMapper";
 import { FlightRepo } from "../../../../../domain/gateways/FlightRepo";
-import {
-  FlightEntity,
-  FlightPersistence,
-} from "../../../../../domain/entities/FlightEntity";
+import { FlightEntity } from "../../../../../domain/entities/FlightEntity";
+import { FlightPersistence } from "./FlightPersistence";
 
 export class PgFlightRepo implements FlightRepo {
   constructor(private knex: Knex<any, unknown[]>) {}

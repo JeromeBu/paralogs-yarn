@@ -4,7 +4,7 @@ import { HashAndTokenManager } from "../gateways/HashAndTokenManager";
 import { InMemoryUserRepo } from "../../adapters/secondaries/repositories/inMemory/InMemoryUserRepo";
 
 export const makeUserEntityCreator = (hashAndTokenManager: HashAndTokenManager) => async (
-  userParams: Partial<SignUpParams> = {},
+  userParams: Partial<SignUpParams & { surrogateId: number }> = {},
 ): Promise<UserEntity> => {
   const { password = "Bépo1234", email, ...pilotParams } = userParams;
   const userDTO = makeUserDTO({ email });
@@ -14,7 +14,12 @@ export const makeUserEntityCreator = (hashAndTokenManager: HashAndTokenManager) 
       { ...userDTO, ...pilotDTO, password },
       { hashAndTokenManager },
     )
-  ).getOrThrow();
+  )
+    .map(userEntity => {
+      if (userParams.surrogateId) userEntity.setIdentity(userParams.surrogateId);
+      return userEntity;
+    })
+    .getOrThrow();
 };
 
 interface SetupCurrentUserDependencies {

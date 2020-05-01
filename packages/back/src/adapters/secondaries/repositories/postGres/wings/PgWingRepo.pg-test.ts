@@ -6,8 +6,9 @@ import { UserEntity } from "../../../../../domain/entities/UserEntity";
 import { WingRepo } from "../../../../../domain/gateways/WingRepo";
 import { PgWingRepo } from "./PgWingRepo";
 import { makeWingEntity } from "../../../../../domain/testBuilders/makeWingEntity";
-import { WingEntity, WingPersistence } from "../../../../../domain/entities/WingEntity";
+import { WingEntity } from "../../../../../domain/entities/WingEntity";
 import { userPersistenceMapper } from "../users/userPersistenceMapper";
+import { WingPersistence } from "./WingPersistence";
 
 describe("Wing repository postgres tests", () => {
   const makeUserEntity = makeUserEntityCreator(new TestHashAndTokenManager());
@@ -40,7 +41,7 @@ describe("Wing repository postgres tests", () => {
     } = wingEntity.getProps();
 
     const wingPersistenceToMatch: WingPersistence = {
-      surrogateId: wingEntity.getIdentity(),
+      surrogate_id: wingEntity.getIdentity(),
       id,
       user_id: userId,
       brand,

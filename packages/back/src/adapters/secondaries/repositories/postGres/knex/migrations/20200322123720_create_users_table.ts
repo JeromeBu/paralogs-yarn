@@ -3,9 +3,12 @@ import * as Knex from "knex";
 export async function up(knex: Knex): Promise<any> {
   return knex.schema.createTable("users", table => {
     table
+      .increments("surrogate_id")
+      .primary()
+      .notNullable();
+    table
       .string("id", 60)
       .unique()
-      .primary()
       .notNullable();
     table
       .string("email", 60)

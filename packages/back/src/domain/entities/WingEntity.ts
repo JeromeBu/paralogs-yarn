@@ -1,11 +1,11 @@
 import {
-  WingDTO,
   DateString,
   NumberOfMinutes,
-  WingId,
-  UserId,
   Result,
   UpdateWingDTO,
+  UserId,
+  WingDTO,
+  WingId,
 } from "@paralogs/shared";
 import { Entity } from "../core/Entity";
 
@@ -17,17 +17,6 @@ interface WingEntityProps {
   ownerFrom: DateString;
   ownerUntil?: DateString;
   flightTimePriorToOwn: NumberOfMinutes;
-}
-
-export interface WingPersistence {
-  surrogateId: number;
-  id: WingId;
-  user_id: UserId;
-  brand: string;
-  model: string;
-  owner_from: DateString;
-  owner_until: DateString | null;
-  flight_time_prior_to_own: NumberOfMinutes;
 }
 
 export class WingEntity extends Entity {
@@ -55,7 +44,7 @@ export class WingEntity extends Entity {
     return Result.ok(new WingEntity(props));
   }
 
-  static fromDTO(props: WingDTO): WingEntity {
+  static fromDTO(props: WingEntityProps): WingEntity {
     return new WingEntity(props);
   }
 }

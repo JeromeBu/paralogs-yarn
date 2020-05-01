@@ -4,9 +4,10 @@ import { UserRepo } from "../../../../../domain/gateways/UserRepo";
 import { PgUserRepo } from "./PgUserRepo";
 import { makeUserEntityCreator } from "../../../../../domain/testBuilders/makeUserEntityCreator";
 import { TestHashAndTokenManager } from "../../../../secondaries/TestHashAndTokenManager";
-import { UserEntity, UserPersistence } from "../../../../../domain/entities/UserEntity";
+import { UserEntity } from "../../../../../domain/entities/UserEntity";
 import { Email } from "../../../../../domain/valueObjects/user/Email";
 import { PersonName } from "../../../../../domain/valueObjects/user/PersonName";
+import { UserPersistence } from "./UserPersistence";
 
 describe("User repository postgres tests", () => {
   const makeUserEntity = makeUserEntityCreator(new TestHashAndTokenManager());
@@ -33,6 +34,7 @@ describe("User repository postgres tests", () => {
     );
 
     const userPersistenceToMatch: UserPersistence = {
+      surrogate_id: johnEntity.getIdentity(),
       id: props.id,
       email: props.email.value,
       first_name: props.firstName.value,
@@ -49,7 +51,7 @@ describe("User repository postgres tests", () => {
   });
 
   it("Cannot create a user with the same email", async () => {
-    const userEntity = await makeUserEntity({ email: johnEmail });
+    const userEntity = await makeUserEntity({ surrogateId: 10, email: johnEmail });
     const resultSavedUserEntity = await pgUserRepo.create(userEntity);
 
     expect(resultSavedUserEntity.error).toBe(
