@@ -26,6 +26,7 @@ describe("Update user", () => {
         currentUser,
         firstName: newFirstName,
       });
+      expect(result.error).toBeUndefined();
       expect(result.isSuccess).toBe(true);
 
       const { email, id, lastName } = currentUser.getProps();

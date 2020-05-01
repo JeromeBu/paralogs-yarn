@@ -12,5 +12,6 @@ export const findByIdAndReplace = <T extends { id: string }>(
   newValue: T,
 ): T[] => {
   const indexToReplace = arrayToSearch.findIndex(({ id }) => id === newValue.id);
+  if (indexToReplace === -1) return arrayToSearch;
   return Object.assign([], arrayToSearch, { [indexToReplace]: newValue });
 };

@@ -1,3 +1,4 @@
+import { uuid } from "@paralogs/shared";
 import { getKnex, resetDb } from "../db";
 import { makeUserEntityCreator } from "../../../../../domain/testBuilders/makeUserEntityCreator";
 import { TestHashAndTokenManager } from "../../../../secondaries/TestHashAndTokenManager";
@@ -11,6 +12,8 @@ import { PgWingRepo } from "../wings/PgWingRepo";
 import { makeFlightEntity } from "../../../../../domain/testBuilders/makeFlightEntity";
 import { FlightEntity } from "../../../../../domain/entities/FlightEntity";
 import { FlightPersistence } from "./FlightPersistence";
+import { WingPersistence } from "../wings/WingPersistence";
+import { flightPersistenceMapper } from "./flightPersistenceMapper";
 
 describe("Flight repository postgres tests", () => {
   const makeUserEntity = makeUserEntityCreator(new TestHashAndTokenManager());
@@ -21,29 +24,59 @@ describe("Flight repository postgres tests", () => {
   let johnEntity: UserEntity;
   let flightEntity: FlightEntity;
 
-  beforeAll(async () => {
+  beforeEach(async () => {
     await resetDb(knex);
-    johnEntity = await makeUserEntity({ email: johnEmail });
-    await knex("users").insert(userPersistenceMapper.toPersistence(johnEntity));
-  });
-
-  beforeEach(() => {
     pgFlightRepo = new PgFlightRepo(knex);
     pgWingRepo = new PgWingRepo(knex);
+    johnEntity = await makeUserEntity({ surrogateId: 10, email: johnEmail });
+    await knex("users").insert(userPersistenceMapper.toPersistence(johnEntity));
+
+    const koyotWingPersistence: WingPersistence = {
+      surrogate_id: 10,
+      id: uuid(),
+      model: "Koyot 2",
+      brand: "Niviuk",
+      user_id: johnEntity.id,
+      flight_time_prior_to_own: 40,
+      owner_from: "2020-01-01",
+      owner_until: null,
+    };
+    await knex<WingPersistence>("wings").insert(koyotWingPersistence);
+
+    const flightPersistence: FlightPersistence = {
+      surrogate_id: 5,
+      id: uuid(),
+      date: "2020-01-10",
+      duration: 123,
+      site: "La Scia",
+      time: "10h55",
+      user_id: johnEntity.id,
+      wing_id: koyotWingPersistence.id,
+    };
+    await knex<FlightPersistence>("flights").insert(flightPersistence);
+    flightEntity = flightPersistenceMapper.toEntity(flightPersistence);
   });
 
   it("creates a flight", async () => {
     const wingEntity = makeWingEntity({ userId: johnEntity.id });
-    await pgWingRepo.create(wingEntity);
-    flightEntity = makeFlightEntity({
+    await pgWingRepo.save(wingEntity);
+    const createdFlightEntity = makeFlightEntity({
       userId: johnEntity.id,
       wingId: wingEntity.id,
     });
-    await pgFlightRepo.create(flightEntity);
-    const { id, userId, wingId, date, duration, time, site } = flightEntity.getProps();
+    await pgFlightRepo.save(createdFlightEntity);
+    const {
+      id,
+      userId,
+      wingId,
+      date,
+      duration,
+      time,
+      site,
+    } = createdFlightEntity.getProps();
 
     const flightPersistenceToMatch: FlightPersistence = {
-      surrogate_id: flightEntity.getIdentity(),
+      surrogate_id: createdFlightEntity.getIdentity(),
       id,
       user_id: userId,
       wing_id: wingId,
