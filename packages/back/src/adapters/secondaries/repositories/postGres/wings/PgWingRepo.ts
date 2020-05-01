@@ -1,14 +1,15 @@
 import Knex from "knex";
 import { UserId, WingId } from "@paralogs/shared";
 import { WingRepo } from "../../../../../domain/gateways/WingRepo";
-import { WingEntity, WingPersistence } from "../../../../../domain/entities/WingEntity";
+import { WingEntity } from "../../../../../domain/entities/WingEntity";
 import { wingPersistenceMapper } from "./wingPersistenceMapper";
+import { WingPersistence } from "./WingPersistence";
 
 export class PgWingRepo implements WingRepo {
   constructor(private knex: Knex<any, unknown[]>) {}
   public async create(wingEntity: WingEntity) {
     const wingPersistence = wingPersistenceMapper.toPersistence(wingEntity);
-    await this.knex("wings").insert(wingPersistence);
+    await this.knex<WingPersistence>("wings").insert(wingPersistence);
   }
 
   public async findByUserId(userId: UserId) {

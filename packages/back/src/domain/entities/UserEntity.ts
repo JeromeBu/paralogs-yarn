@@ -1,9 +1,9 @@
 import {
-  SignUpParams,
-  WithUserId,
-  UserId,
   Result,
+  SignUpParams,
   UpdatePilotDTO,
+  UserId,
+  WithUserId,
 } from "@paralogs/shared";
 import { Email } from "../valueObjects/user/Email";
 import { Password } from "../valueObjects/user/Password";
@@ -26,18 +26,6 @@ interface UserDependencies {
   hashAndTokenManager: HashAndTokenManager;
 }
 
-export type UserPersistence = {
-  id: UserId;
-  email: string;
-  first_name: string;
-  last_name?: string;
-  hashed_password: string;
-  auth_token: string;
-};
-
-// Question : comment assurer qu'on a bien toutes les clés dans necessaire dans UserPg au niveau du typage ?
-// les clés doivent matcher les key de UserEntityProps dans UserEntity
-
 export class UserEntity extends Entity {
   get id() {
     return this.props.id;
@@ -56,22 +44,8 @@ export class UserEntity extends Entity {
     });
   }
 
-  static createFromPersistence(params: UserPersistence): UserEntity {
-    return Result.combine({
-      email: Email.create(params.email),
-      firstName: PersonName.create(params.first_name),
-      lastName: PersonName.create(params.last_name),
-    })
-      .map(
-        validResults =>
-          new UserEntity({
-            ...validResults,
-            id: params.id,
-            authToken: params.auth_token,
-            hashedPassword: params.hashed_password,
-          }),
-      )
-      .getOrThrow();
+  static fromDTO(props: UserEntityProps): UserEntity {
+    return new UserEntity(props);
   }
 
   static create(

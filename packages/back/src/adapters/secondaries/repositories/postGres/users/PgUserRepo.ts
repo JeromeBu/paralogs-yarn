@@ -1,9 +1,10 @@
 import { UserId, Result, fromNullable } from "@paralogs/shared";
 import Knex from "knex";
-import { UserEntity, UserPersistence } from "../../../../../domain/entities/UserEntity";
+import { UserEntity } from "../../../../../domain/entities/UserEntity";
 import { Email } from "../../../../../domain/valueObjects/user/Email";
 import { userPersistenceMapper } from "./userPersistenceMapper";
 import { UserRepo } from "../../../../../domain/gateways/UserRepo";
+import { UserPersistence } from "./UserPersistence";
 
 export class PgUserRepo implements UserRepo {
   constructor(private knex: Knex<any, unknown[]>) {}

@@ -9,10 +9,8 @@ import { userPersistenceMapper } from "../users/userPersistenceMapper";
 import { FlightRepo } from "../../../../../domain/gateways/FlightRepo";
 import { PgWingRepo } from "../wings/PgWingRepo";
 import { makeFlightEntity } from "../../../../../domain/testBuilders/makeFlightEntity";
-import {
-  FlightEntity,
-  FlightPersistence,
-} from "../../../../../domain/entities/FlightEntity";
+import { FlightEntity } from "../../../../../domain/entities/FlightEntity";
+import { FlightPersistence } from "./FlightPersistence";
 
 describe("Flight repository postgres tests", () => {
   const makeUserEntity = makeUserEntityCreator(new TestHashAndTokenManager());
@@ -45,6 +43,7 @@ describe("Flight repository postgres tests", () => {
     const { id, userId, wingId, date, duration, time, site } = flightEntity.getProps();
 
     const flightPersistenceToMatch: FlightPersistence = {
+      surrogate_id: flightEntity.getIdentity(),
       id,
       user_id: userId,
       wing_id: wingId,

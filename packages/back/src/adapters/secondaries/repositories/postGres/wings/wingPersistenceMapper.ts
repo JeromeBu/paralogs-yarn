@@ -1,4 +1,5 @@
-import { WingEntity, WingPersistence } from "../../../../../domain/entities/WingEntity";
+import { WingEntity } from "../../../../../domain/entities/WingEntity";
+import { WingPersistence } from "./WingPersistence";
 
 export const wingPersistenceMapper = {
   toPersistence: (wingEntity: WingEntity): WingPersistence => {
@@ -12,7 +13,7 @@ export const wingPersistenceMapper = {
       ownerUntil,
     } = wingEntity.getProps();
     return {
-      surrogateId: wingEntity.getIdentity(),
+      surrogate_id: wingEntity.getIdentity(),
       id,
       user_id: userId,
       brand,
@@ -23,7 +24,7 @@ export const wingPersistenceMapper = {
     };
   },
   toEntity: ({
-    surrogateId,
+    surrogate_id,
     id,
     user_id,
     brand,
@@ -42,7 +43,7 @@ export const wingPersistenceMapper = {
       flightTimePriorToOwn: flight_time_prior_to_own,
     });
 
-    wingEntity.setIdentity(surrogateId);
+    wingEntity.setIdentity(surrogate_id);
     return wingEntity;
   },
 };

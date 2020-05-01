@@ -3,8 +3,11 @@ import * as Knex from "knex";
 export async function up(knex: Knex): Promise<any> {
   return knex.schema.createTable("flights", table => {
     table
-      .string("id", 60)
+      .increments("surrogate_id")
       .primary()
+      .notNullable();
+    table
+      .string("id", 60)
       .unique()
       .notNullable();
     table
