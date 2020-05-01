@@ -9,6 +9,7 @@ import { makeWingEntity } from "../../../../../domain/testBuilders/makeWingEntit
 import { WingEntity } from "../../../../../domain/entities/WingEntity";
 import { userPersistenceMapper } from "../users/userPersistenceMapper";
 import { WingPersistence } from "./WingPersistence";
+import { Entity } from "../../../../../domain/core/Entity";
 
 describe("Wing repository postgres tests", () => {
   const makeUserEntity = makeUserEntityCreator(new TestHashAndTokenManager());
@@ -60,7 +61,7 @@ describe("Wing repository postgres tests", () => {
 
   it("gets a wing from it's id", async () => {
     const foundWing = await pgWingRepo.findById(wingEntity.id);
-    expect(foundWing).toEqual(wingEntity);
+    expectEntityToMatch(foundWing!, wingEntity);
   });
 
   it("gets all the wings that belong to a user", async () => {
@@ -90,4 +91,11 @@ describe("Wing repository postgres tests", () => {
       ownerUntil: updateParams.ownerUntil,
     });
   });
+
+  const expectEntityToMatch = <P extends { id: string }>(
+    entity: Entity<P>,
+    entityToMatch: Entity<P>,
+  ) => {
+    expect(entity).toEqual(entityToMatch);
+  };
 });

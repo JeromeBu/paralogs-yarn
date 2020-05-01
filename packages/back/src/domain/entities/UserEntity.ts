@@ -26,28 +26,7 @@ interface UserDependencies {
   hashAndTokenManager: HashAndTokenManager;
 }
 
-export class UserEntity extends Entity {
-  get id() {
-    return this.props.id;
-  }
-
-  public getProps() {
-    return this.props;
-  }
-
-  update(params: UpdatePilotDTO) {
-    return Result.combine({
-      ...(params.firstName ? { firstName: PersonName.create(params.firstName) } : {}),
-      ...(params.lastName ? { lastName: PersonName.create(params.lastName) } : {}),
-    }).map(validParamsToUpdate => {
-      return new UserEntity({ ...this.props, ...validParamsToUpdate });
-    });
-  }
-
-  static fromDTO(props: UserEntityProps): UserEntity {
-    return new UserEntity(props);
-  }
-
+export class UserEntity extends Entity<UserEntityProps> {
   static create(
     params: SignUpParams & WithUserId,
     { hashAndTokenManager }: UserDependencies,
@@ -69,6 +48,19 @@ export class UserEntity extends Entity {
     });
   }
 
+  update(params: UpdatePilotDTO) {
+    return Result.combine({
+      ...(params.firstName ? { firstName: PersonName.create(params.firstName) } : {}),
+      ...(params.lastName ? { lastName: PersonName.create(params.lastName) } : {}),
+    }).map(validParamsToUpdate => {
+      return new UserEntity({ ...this.props, ...validParamsToUpdate });
+    });
+  }
+
+  static fromDTO(props: UserEntityProps): UserEntity {
+    return new UserEntity(props);
+  }
+
   public checkPassword(
     candidatePassword: string,
     { hashAndTokenManager }: UserDependencies,
@@ -79,8 +71,8 @@ export class UserEntity extends Entity {
     );
   }
 
-  private constructor(private props: UserEntityProps) {
-    super();
+  private constructor(props: UserEntityProps) {
+    super(props);
   }
 }
 

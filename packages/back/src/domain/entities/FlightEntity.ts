@@ -19,24 +19,16 @@ interface FlightEntityProps {
   duration: NumberOfMinutes;
 }
 
-export class FlightEntity extends Entity {
-  get id() {
-    return this.props.id;
-  }
-
-  public getProps() {
-    return this.props;
-  }
-
-  private constructor(private props: FlightEntityProps) {
-    super();
+export class FlightEntity extends Entity<FlightEntityProps> {
+  static create(props: FlightDTO): Result<FlightEntity> {
+    return Result.ok(new FlightEntity(props));
   }
 
   static fromDTO(props: FlightEntityProps) {
     return new FlightEntity(props);
   }
 
-  static create(props: FlightDTO): Result<FlightEntity> {
-    return Result.ok(new FlightEntity(props));
+  private constructor(props: FlightEntityProps) {
+    super(props);
   }
 }
