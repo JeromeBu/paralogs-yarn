@@ -7,10 +7,6 @@ import { WingPersistence } from "./WingPersistence";
 
 export class PgWingRepo implements WingRepo {
   constructor(private knex: Knex<any, unknown[]>) {}
-  public async create(wingEntity: WingEntity) {
-    const wingPersistence = wingPersistenceMapper.toPersistence(wingEntity);
-    await this.knex<WingPersistence>("wings").insert(wingPersistence);
-  }
 
   public async findByUserId(userId: UserId) {
     return (
@@ -27,6 +23,18 @@ export class PgWingRepo implements WingRepo {
   }
 
   public async save(wingEntity: WingEntity) {
+    return wingEntity.hasIdentity() ? this._update(wingEntity) : this._create(wingEntity);
+  }
+
+  private async _create(wingEntity: WingEntity) {
+    const wingPersistence = wingPersistenceMapper.toPersistence(wingEntity);
+    await this.knex<WingPersistence>("wings").insert({
+      ...wingPersistence,
+      surrogate_id: undefined,
+    });
+  }
+
+  private async _update(wingEntity: WingEntity) {
     const {
       brand,
       model,
@@ -34,15 +42,13 @@ export class PgWingRepo implements WingRepo {
       ownerFrom,
       ownerUntil,
     } = wingEntity.getProps();
-    await this.knex
-      .from<WingPersistence>("wings")
-      .where({ id: wingEntity.id })
-      .update({
-        brand,
-        model,
-        flight_time_prior_to_own: flightTimePriorToOwn,
-        owner_from: ownerFrom,
-        owner_until: ownerUntil,
-      });
+
+    await this.knex.from<WingPersistence>("wings").update({
+      brand,
+      model,
+      flight_time_prior_to_own: flightTimePriorToOwn,
+      owner_from: ownerFrom,
+      owner_until: ownerUntil,
+    });
   }
 }

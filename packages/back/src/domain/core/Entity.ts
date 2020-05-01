@@ -1,9 +1,11 @@
-export abstract class Entity<Props extends { id: string }> {
+import { Flavor } from "@paralogs/shared";
+
+export abstract class Entity<Props extends { id: Flavor<string, string> }> {
   private surrogateId = -1;
 
   protected constructor(protected props: Props) {}
 
-  get id() {
+  get id(): Props["id"] {
     return this.props.id;
   }
 

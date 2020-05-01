@@ -6,21 +6,9 @@ import { Email } from "../../../../domain/valueObjects/user/Email";
 export class InMemoryUserRepo implements UserRepo {
   private _users: UserEntity[] = [];
 
-  public async create(userEntity: UserEntity) {
-    const isEmailTaken = !!this._users.find(
-      user => user.getProps().email.value === userEntity.getProps().email.value,
-    );
-    if (isEmailTaken)
-      return Result.fail<UserEntity>("Email is already taken. Consider logging in.");
-    this._users.push(userEntity);
-    return Result.ok(userEntity);
-  }
-
   public async save(userEntity: UserEntity): Promise<Result<void>> {
-    const indexOfUser = await this._users.findIndex(({ id }) => id === userEntity.id);
-    if (indexOfUser === -1) return Result.fail("No user found with this id");
-    this._users[indexOfUser] = userEntity;
-    return Result.ok();
+    if (userEntity.hasIdentity()) return this._update(userEntity);
+    return this._create(userEntity);
   }
 
   public async findByEmail(email: Email) {
@@ -33,6 +21,23 @@ export class InMemoryUserRepo implements UserRepo {
     return this._users.find(userEntity => {
       return userEntity.id === userId;
     });
+  }
+
+  public async _create(userEntity: UserEntity): Promise<Result<void>> {
+    const isEmailTaken = !!this._users.find(
+      user => user.getProps().email.value === userEntity.getProps().email.value,
+    );
+    if (isEmailTaken)
+      return Result.fail<void>("Email is already taken. Consider logging in.");
+    this._users.push(userEntity);
+    return Result.ok();
+  }
+
+  private async _update(userEntity: UserEntity): Promise<Result<void>> {
+    const indexOfUser = await this._users.findIndex(({ id }) => id === userEntity.id);
+    if (indexOfUser === -1) return Result.fail("No user found with this id");
+    this._users[indexOfUser] = userEntity;
+    return Result.ok();
   }
 
   get users() {

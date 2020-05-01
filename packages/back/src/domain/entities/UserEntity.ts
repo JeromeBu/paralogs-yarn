@@ -53,7 +53,9 @@ export class UserEntity extends Entity<UserEntityProps> {
       ...(params.firstName ? { firstName: PersonName.create(params.firstName) } : {}),
       ...(params.lastName ? { lastName: PersonName.create(params.lastName) } : {}),
     }).map(validParamsToUpdate => {
-      return new UserEntity({ ...this.props, ...validParamsToUpdate });
+      const userEntity = new UserEntity({ ...this.props, ...validParamsToUpdate });
+      userEntity.setIdentity(this.getIdentity());
+      return userEntity;
     });
   }
 

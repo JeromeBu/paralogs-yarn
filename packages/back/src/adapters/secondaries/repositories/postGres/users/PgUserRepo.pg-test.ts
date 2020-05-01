@@ -8,6 +8,7 @@ import { UserEntity } from "../../../../../domain/entities/UserEntity";
 import { Email } from "../../../../../domain/valueObjects/user/Email";
 import { PersonName } from "../../../../../domain/valueObjects/user/PersonName";
 import { UserPersistence } from "./UserPersistence";
+import { userPersistenceMapper } from "./userPersistenceMapper";
 
 describe("User repository postgres tests", () => {
   const makeUserEntity = makeUserEntityCreator(new TestHashAndTokenManager());
@@ -16,25 +17,24 @@ describe("User repository postgres tests", () => {
   const johnEmail = "john@mail.com";
   let johnEntity: UserEntity;
 
-  beforeAll(async () => {
+  beforeEach(async () => {
     await resetDb(knex);
-    johnEntity = await makeUserEntity({ email: johnEmail });
-  });
-
-  beforeEach(() => {
     pgUserRepo = new PgUserRepo(knex);
+    johnEntity = await makeUserEntity({ surrogateId: 10, email: johnEmail });
+    const johnPersistence = userPersistenceMapper.toPersistence(johnEntity);
+    await knex<UserPersistence>("users").insert(johnPersistence);
   });
 
   it("Creates a user", async () => {
-    const resultSavedUserEntity = await pgUserRepo.create(johnEntity);
+    const createdUserEntity = await makeUserEntity({ email: "createduser@mail.com" });
+    const resultSavedUserEntity = await pgUserRepo.save(createdUserEntity);
 
-    const props = johnEntity.getProps();
-    resultSavedUserEntity.map(savedUserEntity =>
-      expect(savedUserEntity).toEqual(johnEntity),
-    );
+    const props = createdUserEntity.getProps();
+    expect(resultSavedUserEntity.error).toBeUndefined();
+    expect(resultSavedUserEntity.isSuccess).toBe(true);
 
     const userPersistenceToMatch: UserPersistence = {
-      surrogate_id: johnEntity.getIdentity(),
+      surrogate_id: createdUserEntity.getIdentity(),
       id: props.id,
       email: props.email.value,
       first_name: props.firstName.value,
@@ -45,15 +45,15 @@ describe("User repository postgres tests", () => {
 
     expect(
       await knex<UserPersistence>("users")
-        .where({ id: johnEntity.id })
+        .where({ id: createdUserEntity.id })
         .first(),
     ).toMatchObject(userPersistenceToMatch);
   });
 
   it("Cannot create a user with the same email", async () => {
-    const userEntity = await makeUserEntity({ surrogateId: 10, email: johnEmail });
-    const resultSavedUserEntity = await pgUserRepo.create(userEntity);
-
+    const userEntity = await makeUserEntity({ email: johnEmail });
+    const resultSavedUserEntity = await pgUserRepo.save(userEntity);
+    await knex.from<UserPersistence>("users");
     expect(resultSavedUserEntity.error).toBe(
       "Email is already taken. Consider logging in.",
     );
@@ -84,8 +84,8 @@ describe("User repository postgres tests", () => {
 
   it("saves modifications on a user", async () => {
     const newParams: UpdatePilotDTO = {
-      firstName: "New-Firstname",
-      lastName: "New-Lastname",
+      firstName: "New-FirstName",
+      lastName: "New-LastName",
     };
     await johnEntity.update(newParams).map(john => pgUserRepo.save(john));
 

@@ -7,8 +7,13 @@ import { FlightPersistence } from "./FlightPersistence";
 
 export class PgFlightRepo implements FlightRepo {
   constructor(private knex: Knex<any, unknown[]>) {}
-  public async create(flightEntity: FlightEntity) {
+  public async save(flightEntity: FlightEntity) {
     const flightPersistence = flightPersistenceMapper.toPersistence(flightEntity);
+    if (flightEntity.hasIdentity()) {
+      // eslint-disable-next-line no-console
+      console.error("TODO handle update");
+      return;
+    }
     await this.knex("flights").insert(flightPersistence);
   }
 

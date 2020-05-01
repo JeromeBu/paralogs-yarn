@@ -14,7 +14,7 @@ export const addWingUseCaseCreator = ({ wingRepo }: AddWingDependencies) => {
     if (existingWingEntity) return Result.fail(notUnique("Wing"));
 
     return WingEntity.create(wingDto).mapAsync(async wingEntity => {
-      await wingRepo.create(wingEntity);
+      await wingRepo.save(wingEntity);
       return wingMapper.entityToDTO(wingEntity);
     });
   };

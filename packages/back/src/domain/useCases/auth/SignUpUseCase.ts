@@ -30,9 +30,12 @@ export const signUpUseCaseCreator = ({
     },
     { hashAndTokenManager },
   )
-    .then(userResult =>
-      userResult.flatMapAsync(userEntity => userRepo.create(userEntity)),
-    )
+    .then(userResult => {
+      return userResult.flatMapAsync(async userEntity => {
+        const resultUserSaved = await userRepo.save(userEntity);
+        return resultUserSaved.map(() => userEntity);
+      });
+    })
     .then(savedUserResult =>
       savedUserResult.map(savedUserEntity => {
         const { user, pilot } = userMapper.entityToDTO(savedUserEntity);
