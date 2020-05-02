@@ -1,8 +1,8 @@
-import { FlightUuid, UserUuid } from "@paralogs/shared";
+import { FlightUuid, Result, UserUuid } from "@paralogs/shared";
 import { FlightEntity } from "../entities/FlightEntity";
 
 export interface FlightRepo {
-  findById: (id: FlightUuid) => Promise<FlightEntity | undefined>;
-  findByUserId: (id: UserUuid) => Promise<FlightEntity[]>;
-  save: (FlightEntity: FlightEntity) => Promise<void>;
+  findByUuid: (id: FlightUuid) => Promise<FlightEntity | undefined>;
+  findByUserUuid: (id: UserUuid) => Promise<FlightEntity[]>;
+  save: (FlightEntity: FlightEntity) => Promise<Result<void>>;
 }

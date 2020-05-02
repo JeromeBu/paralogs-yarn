@@ -31,7 +31,7 @@ describe("Update user", () => {
 
       const { email, uuid, lastName } = currentUser.getProps();
 
-      const updatedCurrentUser = await userRepo.findById(currentUser.uuid);
+      const updatedCurrentUser = await userRepo.findByUuid(currentUser.uuid);
       expect(userMapper.entityToDTO(updatedCurrentUser!)).toMatchObject({
         user: {
           uuid,

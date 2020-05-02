@@ -1,12 +1,7 @@
-import {
-  FlightUuid,
-  generateUuid,
-  makeFlightDTO,
-  FlightDTO,
-  Result,
-} from "@paralogs/shared";
+import { FlightUuid, generateUuid, makeFlightDTO, FlightDTO } from "@paralogs/shared";
 import { AddFlightUseCase, addFlightUseCaseCreator } from "./AddFlightUseCase";
 import { InMemoryFlightRepo } from "../../../adapters/secondaries/repositories/inMemory/InMemoryFlightRepo";
+import { flightMapper } from "../../mappers/flight.mapper";
 
 describe("add a flight", () => {
   let addFlightUseCase: AddFlightUseCase;
@@ -32,25 +27,15 @@ describe("add a flight", () => {
 
   describe("all is good", () => {
     it("creates a flight", async () => {
-      const id: FlightUuid = generateUuid();
-      const flightDto = makeFlightDTO({ uuid: id });
-      const createdFlight = await addFlightUseCase(flightDto);
-      expectFlightDtoResultToEqual(createdFlight, flightDto);
-      await expectRepoToHaveFlight(id);
+      const uuid: FlightUuid = generateUuid();
+      const flightDto = makeFlightDTO({ uuid });
+      await addFlightUseCase(flightDto);
+      expectFlightDtoToBeSaved(flightDto);
     });
   });
 
-  const expectFlightDtoResultToEqual = (
-    result: Result<FlightDTO>,
-    expected: FlightDTO,
-  ) => {
-    result
-      .map(createdFlightDTO => expect(createdFlightDTO).toEqual(expected))
-      .getOrThrow();
-  };
-
-  const expectRepoToHaveFlight = async (flightId: FlightUuid) => {
-    expect(flightRepo.flights.map(({ uuid }) => uuid)).toContain(flightId);
-    // expect(await flightRepo.findById(flightId)).toBeDefined();
+  const expectFlightDtoToBeSaved = (flightDTO: FlightDTO) => {
+    const flightFound = flightRepo.flights.find(({ uuid }) => uuid === flightDTO.uuid)!;
+    expect(flightMapper.entityToDTO(flightFound)).toEqual(flightDTO);
   };
 });

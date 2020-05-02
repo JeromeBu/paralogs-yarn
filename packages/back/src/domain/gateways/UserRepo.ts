@@ -4,6 +4,6 @@ import { Email } from "../valueObjects/user/Email";
 
 export interface UserRepo {
   findByEmail: (email: Email) => Promise<Option<UserEntity>>;
-  findById: (id: UserUuid) => Promise<UserEntity | undefined>;
+  findByUuid: (id: UserUuid) => Promise<UserEntity | undefined>;
   save: (userEntity: UserEntity) => Promise<Result<void>>;
 }

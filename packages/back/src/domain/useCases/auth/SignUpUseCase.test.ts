@@ -13,15 +13,15 @@ import { UserEntity } from "../../entities/UserEntity";
 import { TestHashAndTokenManager } from "../../../adapters/secondaries/TestHashAndTokenManager";
 
 describe("User signUp", () => {
-  let userId = generateUuid();
-  const fakeUuidGenerator = new FakeUuidGenerator(userId);
+  let userUuid = generateUuid();
+  const fakeUuidGenerator = new FakeUuidGenerator(userUuid);
   let hashAndTokenManager: TestHashAndTokenManager;
   let signUpUseCase: SignUpUseCase;
   let userRepo: InMemoryUserRepo;
 
   beforeEach(() => {
-    userId = generateUuid();
-    fakeUuidGenerator.setUuid(userId);
+    userUuid = generateUuid();
+    fakeUuidGenerator.setUuid(userUuid);
     userRepo = new InMemoryUserRepo();
     hashAndTokenManager = new TestHashAndTokenManager();
     signUpUseCase = signUpUseCaseCreator({
@@ -80,14 +80,14 @@ describe("User signUp", () => {
       const currentUserWithToken = await signUpUseCase(signUpParams);
       expectUserResultToEqual(currentUserWithToken, {
         currentUser: {
-          uuid: userId,
+          uuid: userUuid,
           email: "john@mail.com",
         },
         pilotInformation: { firstName: "John", lastName: "Doe" },
         token: someFakeToken,
       });
       const userEntity = userRepo.users[0];
-      expect(userEntity.uuid).toEqual(userId);
+      expect(userEntity.uuid).toEqual(userUuid);
       // expectUserEmailNotToBeConfirmed(userEntity);
       // How to improve hashing process testing ?
       expectUserHashedPasswordExist(userEntity);

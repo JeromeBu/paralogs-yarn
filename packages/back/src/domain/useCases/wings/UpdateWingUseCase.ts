@@ -7,7 +7,7 @@ export interface UpdateWingDependencies {
 
 export const updateWingUseCaseCreator = ({ wingRepo }: UpdateWingDependencies) => {
   return async (wingDTO: UpdateWingDTO & WithUserUuid): Promise<Result<void>> => {
-    const wingEntity = await wingRepo.findById(wingDTO.uuid);
+    const wingEntity = await wingRepo.findByUuid(wingDTO.uuid);
     if (!wingEntity) return Result.fail("No such wing identity found");
     return wingRepo.save(wingEntity.update(wingDTO));
   };

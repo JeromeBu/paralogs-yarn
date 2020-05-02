@@ -6,12 +6,12 @@ import { getNextId } from "./helpers";
 export class InMemoryWingRepo implements WingRepo {
   private _wings: WingEntity[] = [];
 
-  public async findById(wingId: WingUuid) {
-    return this._wings.find(wing => wing.uuid === wingId);
+  public async findByUuid(wingUuid: WingUuid) {
+    return this._wings.find(wing => wing.uuid === wingUuid);
   }
 
-  public async findByUserId(userId: UserUuid) {
-    return this._wings.filter(wing => userId === wing.userUuid);
+  public async findByUserUuid(userUuid: UserUuid) {
+    return this._wings.filter(wing => userUuid === wing.userUuid);
   }
 
   public async save(wingEntity: WingEntity) {

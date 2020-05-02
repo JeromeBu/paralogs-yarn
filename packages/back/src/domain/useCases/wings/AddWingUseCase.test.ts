@@ -11,12 +11,12 @@ describe("wing creation", () => {
   });
   describe("a wing already exists with the same identity", () => {
     it("cannot create a wing with the same id", async () => {
-      const id = generateUuid();
-      const userId = generateUuid();
-      const wingDto = makeWingDTO({ uuid: id });
+      const uuid = generateUuid();
+      const userUuid = generateUuid();
+      const wingDto = makeWingDTO({ uuid });
       await addWingUseCase(wingDto);
 
-      const secondWingDto = makeWingDTO({ uuid: id, userUuid: userId, model: "LALALA" });
+      const secondWingDto = makeWingDTO({ uuid, userUuid, model: "LALALA" });
       expect((await addWingUseCase(secondWingDto)).error).toMatch(
         "Wing Id is already used",
       );

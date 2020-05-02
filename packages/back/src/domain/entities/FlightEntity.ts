@@ -28,6 +28,14 @@ export class FlightEntity extends Entity<FlightEntityProps> {
     return new FlightEntity(props);
   }
 
+  public get userUuid() {
+    return this.getProps().userUuid;
+  }
+
+  public get wingUuid() {
+    return this.getProps().wingUuid;
+  }
+
   private constructor(props: FlightEntityProps) {
     super(props);
   }

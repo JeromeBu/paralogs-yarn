@@ -16,7 +16,7 @@ export const authenticateMiddlewareBuilder = (userRepo: UserRepo) => async (
   if (!token) return res.status(401).json({ message: "You need to authenticate first" });
   try {
     const { userUuid } = jwt.verify(token, ENV.jwtSecret) as WithUserUuid;
-    const userEntity = await userRepo.findById(userUuid);
+    const userEntity = await userRepo.findByUuid(userUuid);
     if (!userEntity || userEntity.getProps().authToken !== token)
       return sendForbiddenError(res);
     req.currentUser = userEntity;
