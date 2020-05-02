@@ -16,7 +16,7 @@ export const flightsController = () => {
           useCase: flightsUseCases.addFlight,
           resultParams: resultAddFlightBody.map(addFlightBody => ({
             ...addFlightBody,
-            userId: req.currentUser.id,
+            userUuid: req.currentUser.uuid,
           })),
         }),
       );

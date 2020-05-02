@@ -3,7 +3,7 @@ import {
   SignUpParams,
   signUpRoute,
   UpdateWingDTO,
-  uuid,
+  generateUuid,
   wingsRoute,
 } from "@paralogs/shared";
 import supertest from "supertest";
@@ -29,7 +29,7 @@ describe("Wings routes", () => {
     const brand = "Nova";
     const model = "Ion 5";
     const addWingParams: AddWingDTO = {
-      id: uuid(),
+      uuid: generateUuid(),
       brand,
       model,
       ownerFrom: new Date().toUTCString(),
@@ -53,7 +53,7 @@ describe("Wings routes", () => {
     ]);
 
     const updateWingParams: UpdateWingDTO = {
-      id: addWingParams.id,
+      uuid: addWingParams.uuid,
       brand: "New brand",
       model: "New model",
       ownerFrom: new Date("2020-04-20").toUTCString(),

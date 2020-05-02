@@ -22,7 +22,7 @@ describe("Add a flight", () => {
 
   it("adds a new flight", () => {
     const wingDto = makeWingDTO();
-    const flightDto = makeFlightDTO({ wingId: wingDto.id });
+    const flightDto = makeFlightDTO({ wingUuid: wingDto.uuid });
     addFlight(flightDto);
     feedWithFlight(flightDto);
     expectStateToMatch({

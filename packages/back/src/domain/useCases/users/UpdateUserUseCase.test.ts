@@ -29,12 +29,12 @@ describe("Update user", () => {
       expect(result.error).toBeUndefined();
       expect(result.isSuccess).toBe(true);
 
-      const { email, id, lastName } = currentUser.getProps();
+      const { email, uuid, lastName } = currentUser.getProps();
 
-      const updatedCurrentUser = await userRepo.findById(currentUser.id);
+      const updatedCurrentUser = await userRepo.findById(currentUser.uuid);
       expect(userMapper.entityToDTO(updatedCurrentUser!)).toMatchObject({
         user: {
-          id,
+          uuid,
           email: email.value,
         },
         pilot: {

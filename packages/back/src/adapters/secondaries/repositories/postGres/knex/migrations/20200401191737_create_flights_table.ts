@@ -7,20 +7,20 @@ export async function up(knex: Knex): Promise<any> {
       .primary()
       .notNullable();
     table
-      .string("id", 60)
+      .string("uuid", 60)
       .unique()
       .notNullable();
     table
-      .string("user_id", 100)
+      .string("user_uuid", 100)
       .notNullable()
-      .references("id")
+      .references("uuid")
       .inTable("users")
       .onDelete("CASCADE")
       .index();
     table
-      .string("wing_id", 100)
+      .string("wing_uuid", 100)
       .notNullable()
-      .references("id")
+      .references("uuid")
       .inTable("wings")
       .onDelete("CASCADE")
       .index();

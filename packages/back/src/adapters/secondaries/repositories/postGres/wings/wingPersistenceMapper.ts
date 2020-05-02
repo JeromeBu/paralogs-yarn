@@ -4,8 +4,8 @@ import { WingPersistence } from "./WingPersistence";
 export const wingPersistenceMapper = {
   toPersistence: (wingEntity: WingEntity): WingPersistence => {
     const {
-      id,
-      userId,
+      uuid,
+      userUuid,
       brand,
       model,
       flightTimePriorToOwn,
@@ -14,8 +14,8 @@ export const wingPersistenceMapper = {
     } = wingEntity.getProps();
     return {
       surrogate_id: wingEntity.getIdentity(),
-      id,
-      user_id: userId,
+      uuid,
+      user_uuid: userUuid,
       brand,
       model,
       flight_time_prior_to_own: flightTimePriorToOwn,
@@ -25,8 +25,8 @@ export const wingPersistenceMapper = {
   },
   toEntity: ({
     surrogate_id,
-    id,
-    user_id,
+    uuid,
+    user_uuid,
     brand,
     model,
     owner_from,
@@ -34,8 +34,8 @@ export const wingPersistenceMapper = {
     flight_time_prior_to_own,
   }: WingPersistence): WingEntity => {
     const wingEntity = WingEntity.fromDTO({
-      id,
-      userId: user_id,
+      uuid,
+      userUuid: user_uuid,
       brand,
       model,
       ownerFrom: owner_from,

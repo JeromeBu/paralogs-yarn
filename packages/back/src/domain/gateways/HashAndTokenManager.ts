@@ -1,8 +1,8 @@
-import { UserId } from "@paralogs/shared";
+import { WithUserUuid } from "@paralogs/shared";
 import { Password } from "../valueObjects/user/Password";
 
 export interface HashAndTokenManager {
-  generateToken: (params: { userId: UserId }) => string;
+  generateToken: (params: WithUserUuid) => string;
   hash: (password: Password) => Promise<string>;
   compareHashes: (
     candidatePassword: string,

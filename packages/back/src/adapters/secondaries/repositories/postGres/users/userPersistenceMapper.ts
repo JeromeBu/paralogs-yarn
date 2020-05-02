@@ -12,11 +12,11 @@ export const userPersistenceMapper = {
       lastName,
       authToken,
       hashedPassword,
-      id,
+      uuid,
     } = userEntity.getProps();
     return {
       surrogate_id: userEntity.getIdentity(),
-      id,
+      uuid,
       email: email.value,
       first_name: firstName.value,
       ...(lastName ? { last_name: lastName.value } : {}),
@@ -33,7 +33,7 @@ export const userPersistenceMapper = {
       .map(validResults => {
         const userEntity = UserEntity.fromDTO({
           ...validResults,
-          id: params.id,
+          uuid: params.uuid,
           authToken: params.auth_token,
           hashedPassword: params.hashed_password,
         });

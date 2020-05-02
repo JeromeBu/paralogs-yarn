@@ -8,7 +8,7 @@ import {
 } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import SaveIcon from "@material-ui/icons/Save";
-import { AddFlightDTO, uuid } from "@paralogs/shared";
+import { AddFlightDTO, generateUuid } from "@paralogs/shared";
 import { format } from "date-fns";
 import { Form, Formik } from "formik";
 import React, { useState } from "react";
@@ -45,15 +45,15 @@ export const AddFlightModal: React.FC<AddFlightModalProps> = ({
   const dispatch = useDispatch();
   const wings = useSelector((state: RootState) => state.wings.data);
 
-  const initialWingId = wings[0]?.id ?? "";
+  const initialWingId = wings[0]?.uuid ?? "";
 
   const initialValues: AddFlightDTO = {
-    id: uuid(),
+    uuid: generateUuid(),
     site: "",
     date: format(new Date(), "yyyy-MM-dd"),
     time: "14:30",
     duration: 60,
-    wingId: initialWingId,
+    wingUuid: initialWingId,
   };
 
   const [cachedValues, setCachedValues] = useState(initialValues);
@@ -100,7 +100,7 @@ export const AddFlightModal: React.FC<AddFlightModalProps> = ({
                   <AddIcon /> Add new wing
                 </MenuItem>
                 {wings.map(wing => (
-                  <MenuItem value={wing.id} key={wing.id}>
+                  <MenuItem value={wing.uuid} key={wing.uuid}>
                     {wing.brand} {wing.model}
                   </MenuItem>
                 ))}

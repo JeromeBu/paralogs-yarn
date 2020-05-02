@@ -10,7 +10,7 @@ import { app } from "../express/server";
 
 const request = supertest(app);
 
-describe("Users routes", () => {
+describe("Pilots routes", () => {
   const email = "john.doe@mail.com";
   const password = "Bépo1234";
   const signUpParams: SignUpParams = {
@@ -35,6 +35,7 @@ describe("Users routes", () => {
       .send(updateUserParams)
       .set("Authorization", `Bearer ${token}`);
 
+    expect(updateResponse.body).toBe("");
     expect(updateResponse.status).toBe(200);
 
     const me = await request.get(getMeRoute).set("Authorization", `Bearer ${token}`);

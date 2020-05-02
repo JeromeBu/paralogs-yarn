@@ -3,12 +3,20 @@ import { FlightPersistence } from "./FlightPersistence";
 
 export const flightPersistenceMapper = {
   toPersistence: (flightEntity: FlightEntity): FlightPersistence => {
-    const { id, userId, wingId, date, duration, site, time } = flightEntity.getProps();
+    const {
+      uuid,
+      userUuid,
+      wingUuid,
+      date,
+      duration,
+      site,
+      time,
+    } = flightEntity.getProps();
     return {
       surrogate_id: flightEntity.getIdentity(),
-      id,
-      user_id: userId,
-      wing_id: wingId,
+      uuid,
+      user_uuid: userUuid,
+      wing_uuid: wingUuid,
       date,
       duration,
       site,
@@ -18,18 +26,18 @@ export const flightPersistenceMapper = {
 
   toEntity: ({
     surrogate_id,
-    id,
-    wing_id,
-    user_id,
+    uuid,
+    wing_uuid,
+    user_uuid,
     time,
     site,
     duration,
     date,
   }: FlightPersistence) => {
     const flightEntity = FlightEntity.fromDTO({
-      id,
-      userId: user_id,
-      wingId: wing_id,
+      uuid,
+      userUuid: user_uuid,
+      wingUuid: wing_uuid,
       time: time ?? undefined,
       site,
       duration,

@@ -25,10 +25,10 @@ describe("update wing use case", () => {
       // the userId here is just a uuid -> see in makeWingDTO.ts
       const wingDTO = makeWingDTO();
       wingRepo.wings.push(makeWingEntity(wingDTO));
-      const { id, userId } = wingDTO;
+      const { uuid, userUuid } = wingDTO;
       const newParams = {
-        id,
-        userId,
+        uuid,
+        userUuid,
         brand: "Nova",
         model: "Ion 5",
         flightTimePriorToOwn: 60,

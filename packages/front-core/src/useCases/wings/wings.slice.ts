@@ -1,6 +1,6 @@
 import {
   AddWingDTO,
-  findByIdAndReplace,
+  findByUuidAndReplace,
   StringError,
   UpdateWingDTO,
   ValueOf,
@@ -57,7 +57,7 @@ const wingsSlice = createSlice({
     updateWingSucceeded: (state, action: PayloadAction<WingDTO>) => ({
       ...state,
       isSaving: false,
-      data: findByIdAndReplace(state.data, action.payload),
+      data: findByUuidAndReplace(state.data, action.payload),
     }),
     updateWingFailed: setError,
 

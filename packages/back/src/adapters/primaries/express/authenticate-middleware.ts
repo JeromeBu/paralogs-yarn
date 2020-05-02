@@ -1,6 +1,6 @@
 import { Response, NextFunction, Request } from "express";
 import jwt from "jsonwebtoken";
-import { UserId, loginRoute, signUpRoute } from "@paralogs/shared";
+import { loginRoute, signUpRoute, WithUserUuid } from "@paralogs/shared";
 import { ENV } from "../../../config/env";
 import { UserRepo } from "../../../domain/gateways/UserRepo";
 
@@ -15,8 +15,8 @@ export const authenticateMiddlewareBuilder = (userRepo: UserRepo) => async (
   const token = getTokenFromHeaders(req);
   if (!token) return res.status(401).json({ message: "You need to authenticate first" });
   try {
-    const { userId } = jwt.verify(token, ENV.jwtSecret) as { userId: UserId };
-    const userEntity = await userRepo.findById(userId);
+    const { userUuid } = jwt.verify(token, ENV.jwtSecret) as WithUserUuid;
+    const userEntity = await userRepo.findById(userUuid);
     if (!userEntity || userEntity.getProps().authToken !== token)
       return sendForbiddenError(res);
     req.currentUser = userEntity;

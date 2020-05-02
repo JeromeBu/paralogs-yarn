@@ -1,6 +1,6 @@
 import * as bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { UserId } from "@paralogs/shared";
+import { WithUserUuid } from "@paralogs/shared";
 import { Password } from "../../domain/valueObjects/user/Password";
 import { HashAndTokenManager } from "../../domain/gateways/HashAndTokenManager";
 
@@ -10,7 +10,7 @@ import { HashAndTokenManager } from "../../domain/gateways/HashAndTokenManager";
 export class TestHashAndTokenManager implements HashAndTokenManager {
   private token: string | null = null;
 
-  public generateToken(params: { userId: UserId }) {
+  public generateToken(params: WithUserUuid) {
     return this.token ?? jwt.sign(params, "TODO: change Secret");
   }
 

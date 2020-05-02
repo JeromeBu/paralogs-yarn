@@ -1,16 +1,16 @@
-import { FlightId, UserId } from "@paralogs/shared";
+import { FlightUuid, UserUuid } from "@paralogs/shared";
 import { FlightRepo } from "../../../../domain/gateways/FlightRepo";
 import { FlightEntity } from "../../../../domain/entities/FlightEntity";
 
 export class InMemoryFlightRepo implements FlightRepo {
   private _flights: FlightEntity[] = [];
 
-  public async findById(flightId: FlightId) {
-    return this._flights.find(flight => flight.id === flightId);
+  public async findById(flightId: FlightUuid) {
+    return this._flights.find(flight => flight.uuid === flightId);
   }
 
-  public async findByUserId(userId: UserId) {
-    return this._flights.filter(flight => flight.getProps().userId === userId);
+  public async findByUserId(userId: UserUuid) {
+    return this._flights.filter(flight => flight.getProps().userUuid === userId);
   }
 
   public async save(flightEntity: FlightEntity) {

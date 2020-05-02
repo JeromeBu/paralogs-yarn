@@ -4,8 +4,8 @@ import {
   flightsRoute,
   SignUpParams,
   signUpRoute,
-  uuid,
-  WingId,
+  generateUuid,
+  WingUuid,
   wingsRoute,
 } from "@paralogs/shared";
 import supertest from "supertest";
@@ -25,9 +25,9 @@ describe("Flights routes", () => {
 
   const brand = "Nova";
   const model = "Ion 5";
-  const wingId: WingId = uuid();
+  const wingId: WingUuid = generateUuid();
   const addWingParams: AddWingDTO = {
-    id: wingId,
+    uuid: wingId,
     brand,
     model,
     ownerFrom: new Date("2020-03-03").toUTCString(),
@@ -45,12 +45,12 @@ describe("Flights routes", () => {
       .set("Authorization", `Bearer ${token}`);
 
     const addFlightParams: AddFlightDTO = {
-      id: uuid(),
+      uuid: generateUuid(),
       date: new Date("2020-04-04").toUTCString(),
       duration: 35,
       site: "La scia",
       time: "15h35",
-      wingId,
+      wingUuid: wingId,
     };
 
     await request

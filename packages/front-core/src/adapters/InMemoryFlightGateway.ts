@@ -1,6 +1,6 @@
 import { BehaviorSubject, of } from "rxjs";
 
-import { FlightDTO, AddFlightDTO, uuid } from "@paralogs/shared";
+import { FlightDTO, AddFlightDTO, generateUuid } from "@paralogs/shared";
 
 import { FlightGateway } from "../useCases/flights/gateways/FlightGateway";
 
@@ -12,7 +12,7 @@ export class InMemoryFlightGateway implements FlightGateway {
   }
 
   addFlight(addFlightDto: AddFlightDTO) {
-    const flightDto: FlightDTO = { ...addFlightDto, userId: uuid() };
+    const flightDto: FlightDTO = { ...addFlightDto, userUuid: generateUuid() };
     return of(flightDto);
   }
 

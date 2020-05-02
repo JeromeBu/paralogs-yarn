@@ -1,4 +1,4 @@
-import { makeFlightDTO, uuid } from "@paralogs/shared";
+import { makeFlightDTO, generateUuid } from "@paralogs/shared";
 import { UserEntity } from "../../entities/UserEntity";
 import { setupCurrentUserCreator } from "../../testBuilders/makeUserEntityCreator";
 import { InMemoryUserRepo } from "../../../adapters/secondaries/repositories/inMemory/InMemoryUserRepo";
@@ -37,8 +37,8 @@ describe("flights retrieval", () => {
     let addFlightUseCase: AddFlightUseCase;
     it("retrieves only the user's flights", async () => {
       addFlightUseCase = addFlightUseCaseCreator({ flightRepo });
-      const flightDTO = makeFlightDTO({ userId: currentUser.id });
-      const someoneElseFlightDTO = makeFlightDTO({ userId: uuid() });
+      const flightDTO = makeFlightDTO({ userUuid: currentUser.uuid });
+      const someoneElseFlightDTO = makeFlightDTO({ userUuid: generateUuid() });
       await Promise.all([
         addFlightUseCase(flightDTO),
         addFlightUseCase(someoneElseFlightDTO),

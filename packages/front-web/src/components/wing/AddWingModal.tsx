@@ -4,7 +4,7 @@ import { Form, Formik } from "formik";
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { format } from "date-fns";
-import { uuid, AddWingDTO, addWingSchema } from "@paralogs/shared";
+import { generateUuid, AddWingDTO, addWingSchema } from "@paralogs/shared";
 import { wingActions, RootState } from "@paralogs/front-core";
 
 import { CenteredModal } from "../commun/CenteredModal";
@@ -30,7 +30,7 @@ export const AddWingModal: React.FC = () => {
   const isOpen = useSelector(({ wings }: RootState) => wings.isAddWingFormVisible);
 
   const initialValues: AddWingDTO = {
-    id: uuid(),
+    uuid: generateUuid(),
     brand: "",
     model: "",
     flightTimePriorToOwn: 0,

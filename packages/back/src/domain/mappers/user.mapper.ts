@@ -7,7 +7,7 @@ export const userMapper = {
 
     return {
       user: {
-        id: userEntity.id,
+        uuid: userEntity.uuid,
         email: email.value,
       },
       pilot: {

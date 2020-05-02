@@ -1,11 +1,11 @@
 import * as Yup from "yup";
 import { DateString, Flavor, NumberOfMinutes } from "../generalTypes/types";
-import { UserId } from "./UserDTOs";
+import { UserUuid } from "./UserDTOs";
 
-export type WingId = Flavor<string, "WingId">;
+export type WingUuid = Flavor<string, "WingUuid">;
 
 export interface AddWingDTO {
-  id: WingId;
+  uuid: WingUuid;
   brand: string;
   model: string;
   ownerFrom: DateString;
@@ -14,7 +14,7 @@ export interface AddWingDTO {
 }
 
 export const addWingSchema = Yup.object().shape<AddWingDTO>({
-  id: Yup.string().required(),
+  uuid: Yup.string().required(),
   brand: Yup.string().required(),
   model: Yup.string().required(),
   ownerFrom: Yup.string().required(),
@@ -23,15 +23,15 @@ export const addWingSchema = Yup.object().shape<AddWingDTO>({
 });
 
 export interface WingDTO extends AddWingDTO {
-  userId: UserId;
+  userUuid: UserUuid;
 }
 
 export interface UpdateWingDTO extends Partial<AddWingDTO> {
-  id: WingId;
+  uuid: WingUuid;
 }
 
 export const updateWingSchema = Yup.object().shape<UpdateWingDTO>({
-  id: Yup.string().required(),
+  uuid: Yup.string().required(),
   brand: Yup.string(),
   model: Yup.string(),
   ownerFrom: Yup.string(),

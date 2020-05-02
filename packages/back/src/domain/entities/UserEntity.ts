@@ -2,8 +2,8 @@ import {
   Result,
   SignUpParams,
   UpdatePilotDTO,
-  UserId,
-  WithUserId,
+  UserUuid,
+  WithUuid,
 } from "@paralogs/shared";
 import { Email } from "../valueObjects/user/Email";
 import { Password } from "../valueObjects/user/Password";
@@ -12,7 +12,7 @@ import { HashAndTokenManager } from "../gateways/HashAndTokenManager";
 import { Entity } from "../core/Entity";
 
 interface UserEntityProps {
-  id: UserId;
+  uuid: UserUuid;
   email: Email;
   firstName: PersonName;
   lastName?: PersonName;
@@ -28,7 +28,7 @@ interface UserDependencies {
 
 export class UserEntity extends Entity<UserEntityProps> {
   static create(
-    params: SignUpParams & WithUserId,
+    params: SignUpParams & WithUuid,
     { hashAndTokenManager }: UserDependencies,
   ): Promise<Result<UserEntity>> {
     return Result.combine({
@@ -39,10 +39,10 @@ export class UserEntity extends Entity<UserEntityProps> {
     }).mapAsync(async ({ password, ...validResults }) => {
       const hashedPassword = await hashAndTokenManager.hash(password);
       return new UserEntity({
-        id: params.id,
+        uuid: params.uuid,
         ...validResults,
         // isEmailConfirmed: false,
-        authToken: hashAndTokenManager.generateToken({ userId: params.id }),
+        authToken: hashAndTokenManager.generateToken({ userUuid: params.uuid }),
         hashedPassword,
       });
     });

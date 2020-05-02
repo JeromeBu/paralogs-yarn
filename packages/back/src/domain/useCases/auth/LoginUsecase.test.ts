@@ -67,7 +67,7 @@ describe("User Login", () => {
       expectUserResultToEqual(response, {
         token: jwtToken,
         currentUser: {
-          id: userEntity.id,
+          uuid: userEntity.uuid,
           email,
         },
         pilotInformation: { firstName, lastName },

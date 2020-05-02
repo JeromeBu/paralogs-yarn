@@ -1,9 +1,9 @@
-import { DateString, NumberOfMinutes, UserId, WingId } from "@paralogs/shared";
+import { DateString, NumberOfMinutes, UserUuid, WingUuid } from "@paralogs/shared";
 
 export interface WingPersistence {
   surrogate_id: number;
-  id: WingId;
-  user_id: UserId;
+  uuid: WingUuid;
+  user_uuid: UserUuid;
   user_surrogate_id?: number;
   brand: string;
   model: string;

@@ -26,7 +26,7 @@ export const signUpUseCaseCreator = ({
   return UserEntity.create(
     {
       ...signUpParams,
-      id: uuidGenerator.generate(),
+      uuid: uuidGenerator.generate(),
     },
     { hashAndTokenManager },
   )
