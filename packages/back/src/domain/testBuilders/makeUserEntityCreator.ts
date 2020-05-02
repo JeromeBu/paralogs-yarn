@@ -33,7 +33,7 @@ export const setupCurrentUserCreator = ({
 }: SetupCurrentUserDependencies) => async (userParams?: Partial<SignUpParams>) => {
   const makeUserEntity = makeUserEntityCreator(hashAndTokenManager);
   const currentUserEntity = await makeUserEntity(userParams);
-  if (!currentUserEntity.hasIdentity()) currentUserEntity.setIdentity(1);
+  if (!currentUserEntity.hasIdentity()) currentUserEntity.setIdentity(125);
   userRepo.setUsers([currentUserEntity]);
   return currentUserEntity;
 };

@@ -20,7 +20,7 @@ describe("User repository postgres tests", () => {
   beforeEach(async () => {
     await resetDb(knex);
     pgUserRepo = new PgUserRepo(knex);
-    johnEntity = await makeUserEntity({ surrogateId: 10, email: johnEmail });
+    johnEntity = await makeUserEntity({ surrogateId: 125, email: johnEmail });
     const johnPersistence = userPersistenceMapper.toPersistence(johnEntity);
     await knex<UserPersistence>("users").insert(johnPersistence);
   });

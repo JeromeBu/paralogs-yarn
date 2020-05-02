@@ -1,4 +1,4 @@
-import { WingId, UserId, findByIdAndReplace } from "@paralogs/shared";
+import { WingId, UserId, findByIdAndReplace, Result } from "@paralogs/shared";
 import { WingRepo } from "../../../../domain/gateways/WingRepo";
 import { WingEntity } from "../../../../domain/entities/WingEntity";
 
@@ -17,6 +17,7 @@ export class InMemoryWingRepo implements WingRepo {
     this._wings = wingEntity.hasIdentity()
       ? findByIdAndReplace(this._wings, wingEntity)
       : [wingEntity, ...this._wings];
+    return Result.ok<void>();
   }
 
   get wings() {
