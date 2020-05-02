@@ -1,4 +1,7 @@
-import { updateUserUseCaseCreator, UpdateUserUseCase } from "./UpdateUserUseCase";
+import {
+  updateUserCommandHandlerCreator,
+  UpdateUserCommandHandler,
+} from "./UpdateUserCommandHandler";
 import { InMemoryUserRepo } from "../../../adapters/secondaries/repositories/inMemory/InMemoryUserRepo";
 import { TestHashAndTokenManager } from "../../../adapters/secondaries/TestHashAndTokenManager";
 import { setupCurrentUserCreator } from "../../testBuilders/makeUserEntityCreator";
@@ -11,13 +14,13 @@ describe("Update user", () => {
     let userRepo: InMemoryUserRepo;
     let hashAndTokenManager: HashAndTokenManager;
     let currentUser: UserEntity;
-    let updateUserUseCase: UpdateUserUseCase;
+    let updateUserUseCase: UpdateUserCommandHandler;
 
     beforeEach(async () => {
       userRepo = new InMemoryUserRepo();
       hashAndTokenManager = new TestHashAndTokenManager();
       currentUser = await setupCurrentUserCreator({ hashAndTokenManager, userRepo })();
-      updateUserUseCase = updateUserUseCaseCreator({ userRepo });
+      updateUserUseCase = updateUserCommandHandlerCreator({ userRepo });
     });
 
     it("updates user's data", async () => {

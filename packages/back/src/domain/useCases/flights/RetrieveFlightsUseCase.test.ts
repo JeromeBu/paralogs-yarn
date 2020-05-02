@@ -9,7 +9,10 @@ import {
   retrieveFlightsUseCaseCreator,
 } from "./RetrieveFlightsUseCase";
 import { InMemoryFlightRepo } from "../../../adapters/secondaries/repositories/inMemory/InMemoryFlightRepo";
-import { AddFlightUseCase, addFlightUseCaseCreator } from "./AddFlightUseCase";
+import {
+  AddFlightCommandHandler,
+  addFlightCommandHandlerCreator,
+} from "./AddFlightCommandHandler";
 
 describe("flights retrieval", () => {
   let retrieveFlightUseCase: RetrieveFlightsUseCase;
@@ -34,9 +37,9 @@ describe("flights retrieval", () => {
   });
 
   describe("user has some flights", () => {
-    let addFlightUseCase: AddFlightUseCase;
+    let addFlightUseCase: AddFlightCommandHandler;
     it("retrieves only the user's flights", async () => {
-      addFlightUseCase = addFlightUseCaseCreator({ flightRepo });
+      addFlightUseCase = addFlightCommandHandlerCreator({ flightRepo });
       const flightDTO = makeFlightDTO({ userUuid: currentUser.uuid });
       const someoneElseFlightDTO = makeFlightDTO({ userUuid: generateUuid() });
       await Promise.all([

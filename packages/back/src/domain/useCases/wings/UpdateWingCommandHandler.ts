@@ -5,7 +5,7 @@ export interface UpdateWingDependencies {
   wingRepo: WingRepo;
 }
 
-export const updateWingUseCaseCreator = ({ wingRepo }: UpdateWingDependencies) => {
+export const updateWingCommandHandlerCreator = ({ wingRepo }: UpdateWingDependencies) => {
   return async (wingDTO: UpdateWingDTO & WithUserUuid): Promise<Result<void>> => {
     const wingEntity = await wingRepo.findByUuid(wingDTO.uuid);
     if (!wingEntity) return Result.fail("No such wing identity found");
@@ -13,4 +13,4 @@ export const updateWingUseCaseCreator = ({ wingRepo }: UpdateWingDependencies) =
   };
 };
 
-export type UpdateWingUseCase = ReturnType<typeof updateWingUseCaseCreator>;
+export type UpdateWingCommandHandler = ReturnType<typeof updateWingCommandHandlerCreator>;

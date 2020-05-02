@@ -7,7 +7,10 @@ import {
 } from "@paralogs/shared";
 import _ from "lodash";
 import { InMemoryUserRepo } from "../../../adapters/secondaries/repositories/inMemory/InMemoryUserRepo";
-import { signUpUseCaseCreator, SignUpUseCase } from "./SignUpUseCase";
+import {
+  signUpCommandHandlerCreator,
+  SignUpCommandHandler,
+} from "./SignUpCommandHandler";
 import { UserEntity } from "../../entities/UserEntity";
 
 import { TestHashAndTokenManager } from "../../../adapters/secondaries/TestHashAndTokenManager";
@@ -16,7 +19,7 @@ describe("User signUp", () => {
   let userUuid = generateUuid();
   const fakeUuidGenerator = new FakeUuidGenerator(userUuid);
   let hashAndTokenManager: TestHashAndTokenManager;
-  let signUpUseCase: SignUpUseCase;
+  let signUpUseCase: SignUpCommandHandler;
   let userRepo: InMemoryUserRepo;
 
   beforeEach(() => {
@@ -24,7 +27,7 @@ describe("User signUp", () => {
     fakeUuidGenerator.setUuid(userUuid);
     userRepo = new InMemoryUserRepo();
     hashAndTokenManager = new TestHashAndTokenManager();
-    signUpUseCase = signUpUseCaseCreator({
+    signUpUseCase = signUpCommandHandlerCreator({
       userRepo,
       uuidGenerator: fakeUuidGenerator,
       hashAndTokenManager,

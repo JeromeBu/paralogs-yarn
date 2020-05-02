@@ -16,7 +16,7 @@ interface SignUpDependencies {
   hashAndTokenManager: HashAndTokenManager;
 }
 
-export const signUpUseCaseCreator = ({
+export const signUpCommandHandlerCreator = ({
   userRepo,
   uuidGenerator,
   hashAndTokenManager,
@@ -48,4 +48,4 @@ export const signUpUseCaseCreator = ({
     );
 };
 
-export type SignUpUseCase = ReturnType<typeof signUpUseCaseCreator>;
+export type SignUpCommandHandler = ReturnType<typeof signUpCommandHandlerCreator>;

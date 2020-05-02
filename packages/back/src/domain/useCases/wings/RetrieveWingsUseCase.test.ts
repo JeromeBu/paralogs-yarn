@@ -1,6 +1,9 @@
 import { WingDTO, makeWingDTO, generateUuid } from "@paralogs/shared";
 import { InMemoryWingRepo } from "../../../adapters/secondaries/repositories/inMemory/InMemoryWingRepo";
-import { addWingUseCaseCreator, AddWingUseCase } from "./AddWingUseCase";
+import {
+  addWingCommandHandlerCreator,
+  AddWingCommandHandler,
+} from "./AddWingCommandHandler";
 import {
   retrieveWingsUseCaseCreator,
   RetrieveWingsUseCase,
@@ -39,9 +42,9 @@ describe("wings retrieval", () => {
   });
 
   describe("user has some wings", () => {
-    let addWingUseCase: AddWingUseCase;
+    let addWingUseCase: AddWingCommandHandler;
     it("retrieves only the user's wings", async () => {
-      addWingUseCase = addWingUseCaseCreator({ wingRepo });
+      addWingUseCase = addWingCommandHandlerCreator({ wingRepo });
 
       const wing1 = (
         await addWing({ model: "Wing 1", userUuid: currentUser.uuid })

@@ -8,7 +8,7 @@ interface AddWingDependencies {
   wingRepo: WingRepo;
 }
 
-export const addWingUseCaseCreator = ({ wingRepo }: AddWingDependencies) => {
+export const addWingCommandHandlerCreator = ({ wingRepo }: AddWingDependencies) => {
   return async (wingDto: WingDTO): Promise<Result<WingDTO>> => {
     const existingWingEntity = await wingRepo.findByUuid(wingDto.uuid);
     if (existingWingEntity) return Result.fail(notUnique("Wing"));
@@ -20,4 +20,4 @@ export const addWingUseCaseCreator = ({ wingRepo }: AddWingDependencies) => {
   };
 };
 
-export type AddWingUseCase = ReturnType<typeof addWingUseCaseCreator>;
+export type AddWingCommandHandler = ReturnType<typeof addWingCommandHandlerCreator>;
