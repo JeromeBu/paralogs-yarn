@@ -28,15 +28,16 @@ describe("Flight repository postgres tests", () => {
     await resetDb(knex);
     pgFlightRepo = new PgFlightRepo(knex);
     pgWingRepo = new PgWingRepo(knex);
-    johnEntity = await makeUserEntity({ surrogateId: 10, email: johnEmail });
+    johnEntity = await makeUserEntity({ surrogateId: 125, email: johnEmail });
     await knex("users").insert(userPersistenceMapper.toPersistence(johnEntity));
 
     const koyotWingPersistence: WingPersistence = {
-      surrogate_id: 10,
+      surrogate_id: 200,
       id: uuid(),
       model: "Koyot 2",
       brand: "Niviuk",
       user_id: johnEntity.id,
+      user_surrogate_id: johnEntity.getIdentity(),
       flight_time_prior_to_own: 40,
       owner_from: "2020-01-01",
       owner_until: null,
@@ -44,7 +45,7 @@ describe("Flight repository postgres tests", () => {
     await knex<WingPersistence>("wings").insert(koyotWingPersistence);
 
     const flightPersistence: FlightPersistence = {
-      surrogate_id: 5,
+      surrogate_id: 300,
       id: uuid(),
       date: "2020-01-10",
       duration: 123,

@@ -11,6 +11,7 @@ import { userPersistenceMapper } from "../users/userPersistenceMapper";
 import { WingPersistence } from "./WingPersistence";
 import { UserPersistence } from "../users/UserPersistence";
 import { wingPersistenceMapper } from "./wingPersistenceMapper";
+import { expectResultOk } from "../../../../../utils/testHelpers";
 
 describe("Wing repository postgres tests", () => {
   const makeUserEntity = makeUserEntityCreator(new TestHashAndTokenManager());
@@ -23,18 +24,19 @@ describe("Wing repository postgres tests", () => {
   beforeEach(async () => {
     await resetDb(knex);
     pgWingRepo = new PgWingRepo(knex);
-    johnEntity = await makeUserEntity({ email: johnEmail });
+    johnEntity = await makeUserEntity({ email: johnEmail, surrogateId: 125 });
 
     await knex<UserPersistence>("users").insert(
       userPersistenceMapper.toPersistence(johnEntity),
     );
 
     const koyotWingPersistence: WingPersistence = {
-      surrogate_id: 10,
+      surrogate_id: 200,
       id: uuid(),
       model: "Koyot 2",
       brand: "Niviuk",
       user_id: johnEntity.id,
+      user_surrogate_id: johnEntity.getIdentity(),
       flight_time_prior_to_own: 40,
       owner_from: "2020-01-01",
       owner_until: null,
@@ -44,9 +46,16 @@ describe("Wing repository postgres tests", () => {
     koyotWingEntity = wingPersistenceMapper.toEntity(koyotWingPersistence);
   });
 
+  it("fails to create a wing when userId does not exist", async () => {
+    const wingEntity = makeWingEntity({ userId: uuid() });
+    const result = await pgWingRepo.save(wingEntity);
+    expect(result.error).toBe("No user matched this userId");
+  });
+
   it("creates a wing", async () => {
     const wingEntity = makeWingEntity({ userId: johnEntity.id });
-    await pgWingRepo.save(wingEntity);
+    const result = await pgWingRepo.save(wingEntity);
+    expectResultOk(result);
     const {
       id,
       userId,
