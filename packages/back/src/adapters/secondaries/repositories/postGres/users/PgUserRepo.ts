@@ -24,10 +24,10 @@ export class PgUserRepo implements UserRepo {
     );
   }
 
-  public async findById(userId: UserUuid) {
+  public async findByUuid(uuid: UserUuid) {
     const userPersistence = await this.knex
       .from<UserPersistence>("users")
-      .where({ uuid: userId })
+      .where({ uuid })
       .first();
     return userPersistence && userPersistenceMapper.toEntity(userPersistence);
   }

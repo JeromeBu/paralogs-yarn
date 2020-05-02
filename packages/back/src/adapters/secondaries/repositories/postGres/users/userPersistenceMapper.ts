@@ -15,7 +15,7 @@ export const userPersistenceMapper = {
       uuid,
     } = userEntity.getProps();
     return {
-      surrogate_id: userEntity.getIdentity(),
+      id: userEntity.getIdentity(),
       uuid,
       email: email.value,
       first_name: firstName.value,
@@ -37,7 +37,7 @@ export const userPersistenceMapper = {
           authToken: params.auth_token,
           hashedPassword: params.hashed_password,
         });
-        userEntity.setIdentity(params.surrogate_id);
+        userEntity.setIdentity(params.id);
         return userEntity;
       })
       .getOrThrow();

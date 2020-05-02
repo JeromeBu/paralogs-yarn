@@ -20,7 +20,7 @@ describe("User repository postgres tests", () => {
   beforeEach(async () => {
     await resetDb(knex);
     pgUserRepo = new PgUserRepo(knex);
-    johnEntity = await makeUserEntity({ surrogateId: 125, email: johnEmail });
+    johnEntity = await makeUserEntity({ id: 125, email: johnEmail });
     const johnPersistence = userPersistenceMapper.toPersistence(johnEntity);
     await knex<UserPersistence>("users").insert(johnPersistence);
   });
@@ -34,7 +34,7 @@ describe("User repository postgres tests", () => {
     expect(resultSavedUserEntity.isSuccess).toBe(true);
 
     const userPersistenceToMatch: UserPersistence = {
-      surrogate_id: createdUserEntity.getIdentity(),
+      id: createdUserEntity.getIdentity(),
       uuid: props.uuid,
       email: props.email.value,
       first_name: props.firstName.value,
@@ -74,12 +74,12 @@ describe("User repository postgres tests", () => {
   });
 
   it("finds a user from its id", async () => {
-    const userEntity = await pgUserRepo.findById(johnEntity.uuid);
+    const userEntity = await pgUserRepo.findByUuid(johnEntity.uuid);
     expect(userEntity).toEqual(johnEntity);
   });
 
   it("does not find user if it doesn't exist", async () => {
-    expect(await pgUserRepo.findById("not found")).toBeUndefined();
+    expect(await pgUserRepo.findByUuid("not found")).toBeUndefined();
   });
 
   it("saves modifications on a user", async () => {
@@ -89,7 +89,7 @@ describe("User repository postgres tests", () => {
     };
     await johnEntity.update(newParams).map(john => pgUserRepo.save(john));
 
-    const updatedJohn = (await pgUserRepo.findById(johnEntity.uuid))!;
+    const updatedJohn = (await pgUserRepo.findByUuid(johnEntity.uuid))!;
     expect(updatedJohn.getProps()).toMatchObject({
       ...johnEntity.getProps(),
       firstName: PersonName.create(newParams.firstName).getOrThrow(),

@@ -13,7 +13,7 @@ export const wingPersistenceMapper = {
       ownerUntil,
     } = wingEntity.getProps();
     return {
-      surrogate_id: wingEntity.getIdentity(),
+      id: wingEntity.getIdentity(),
       uuid,
       user_uuid: userUuid,
       brand,
@@ -24,7 +24,7 @@ export const wingPersistenceMapper = {
     };
   },
   toEntity: ({
-    surrogate_id,
+    id,
     uuid,
     user_uuid,
     brand,
@@ -43,7 +43,7 @@ export const wingPersistenceMapper = {
       flightTimePriorToOwn: flight_time_prior_to_own,
     });
 
-    wingEntity.setIdentity(surrogate_id);
+    wingEntity.setIdentity(id);
     return wingEntity;
   },
 };

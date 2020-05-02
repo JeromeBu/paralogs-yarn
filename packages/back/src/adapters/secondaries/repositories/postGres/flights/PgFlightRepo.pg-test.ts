@@ -28,16 +28,16 @@ describe("Flight repository postgres tests", () => {
     await resetDb(knex);
     pgFlightRepo = new PgFlightRepo(knex);
     pgWingRepo = new PgWingRepo(knex);
-    johnEntity = await makeUserEntity({ surrogateId: 125, email: johnEmail });
+    johnEntity = await makeUserEntity({ id: 125, email: johnEmail });
     await knex("users").insert(userPersistenceMapper.toPersistence(johnEntity));
 
     const koyotWingPersistence: WingPersistence = {
-      surrogate_id: 200,
+      id: 200,
       uuid: generateUuid(),
       model: "Koyot 2",
       brand: "Niviuk",
       user_uuid: johnEntity.uuid,
-      user_surrogate_id: johnEntity.getIdentity(),
+      user_id: johnEntity.getIdentity(),
       flight_time_prior_to_own: 40,
       owner_from: "2020-01-01",
       owner_until: null,
@@ -45,14 +45,16 @@ describe("Flight repository postgres tests", () => {
     await knex<WingPersistence>("wings").insert(koyotWingPersistence);
 
     const flightPersistence: FlightPersistence = {
-      surrogate_id: 300,
+      id: 300,
       uuid: generateUuid(),
       date: "2020-01-10",
       duration: 123,
       site: "La Scia",
       time: "10h55",
       user_uuid: johnEntity.uuid,
+      user_id: johnEntity.getIdentity(),
       wing_uuid: koyotWingPersistence.uuid,
+      wing_id: koyotWingPersistence.id,
     };
     await knex<FlightPersistence>("flights").insert(flightPersistence);
     flightEntity = flightPersistenceMapper.toEntity(flightPersistence);
@@ -76,8 +78,7 @@ describe("Flight repository postgres tests", () => {
       site,
     } = createdFlightEntity.getProps();
 
-    const flightPersistenceToMatch: FlightPersistence = {
-      surrogate_id: createdFlightEntity.getIdentity(),
+    const flightPersistenceToMatch: Partial<FlightPersistence> = {
       uuid,
       user_uuid: userUuid,
       wing_uuid: wingUuid,
@@ -95,12 +96,12 @@ describe("Flight repository postgres tests", () => {
   });
 
   it("gets a flight from it's id", async () => {
-    const foundFlight = await pgFlightRepo.findById(flightEntity.uuid);
+    const foundFlight = await pgFlightRepo.findByUuid(flightEntity.uuid);
     expect(foundFlight).toEqual(flightEntity);
   });
 
   it("gets all the flights that belong to a user", async () => {
-    const foundFlight = await pgFlightRepo.findByUserId(johnEntity.uuid);
+    const foundFlight = await pgFlightRepo.findByUserUuid(johnEntity.uuid);
     expect(foundFlight).toEqual([flightEntity]);
   });
 });
