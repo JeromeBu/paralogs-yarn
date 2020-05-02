@@ -24,19 +24,19 @@ describe("Wing repository postgres tests", () => {
   beforeEach(async () => {
     await resetDb(knex);
     pgWingRepo = new PgWingRepo(knex);
-    johnEntity = await makeUserEntity({ email: johnEmail, surrogateId: 125 });
+    johnEntity = await makeUserEntity({ email: johnEmail, id: 125 });
 
     await knex<UserPersistence>("users").insert(
       userPersistenceMapper.toPersistence(johnEntity),
     );
 
     const koyotWingPersistence: WingPersistence = {
-      surrogate_id: 200,
+      id: 200,
       uuid: generateUuid(),
       model: "Koyot 2",
       brand: "Niviuk",
       user_uuid: johnEntity.uuid,
-      user_surrogate_id: johnEntity.getIdentity(),
+      user_id: johnEntity.getIdentity(),
       flight_time_prior_to_own: 40,
       owner_from: "2020-01-01",
       owner_until: null,
@@ -46,10 +46,10 @@ describe("Wing repository postgres tests", () => {
     koyotWingEntity = wingPersistenceMapper.toEntity(koyotWingPersistence);
   });
 
-  it("fails to create a wing when userId does not exist", async () => {
+  it("fails to create a wing when userUuid does not exist", async () => {
     const wingEntity = makeWingEntity({ userUuid: generateUuid() });
     const result = await pgWingRepo.save(wingEntity);
-    expect(result.error).toBe("No user matched this userId");
+    expect(result.error).toBe("No user matched this userUuid");
   });
 
   it("creates a wing", async () => {
@@ -66,7 +66,7 @@ describe("Wing repository postgres tests", () => {
     } = wingEntity.getProps();
 
     const wingPersistenceToMatch: WingPersistence = {
-      surrogate_id: 1,
+      id: 1,
       uuid,
       user_uuid: userUuid,
       brand,
@@ -84,17 +84,17 @@ describe("Wing repository postgres tests", () => {
   });
 
   it("gets a wing from it's id", async () => {
-    const foundWing = await pgWingRepo.findById(koyotWingEntity.uuid);
+    const foundWing = await pgWingRepo.findByUuid(koyotWingEntity.uuid);
     expect(foundWing).toEqual(koyotWingEntity);
   });
 
   it("gets all the wings that belong to a user", async () => {
-    const foundWing = await pgWingRepo.findByUserId(johnEntity.uuid);
+    const foundWing = await pgWingRepo.findByUserUuid(johnEntity.uuid);
     expect(foundWing).toEqual([koyotWingEntity]);
   });
 
   it("updates the wing", async () => {
-    const wingToUpdate = (await pgWingRepo.findById(koyotWingEntity.uuid))!;
+    const wingToUpdate = (await pgWingRepo.findByUuid(koyotWingEntity.uuid))!;
     const updateParams: UpdateWingDTO = {
       uuid: koyotWingEntity.uuid,
       model: "new model name",
@@ -104,7 +104,7 @@ describe("Wing repository postgres tests", () => {
       ownerUntil: "2030",
     };
     await pgWingRepo.save(wingToUpdate.update(updateParams));
-    const updatedWing = await pgWingRepo.findById(koyotWingEntity.uuid);
+    const updatedWing = await pgWingRepo.findByUuid(koyotWingEntity.uuid);
     expect(updatedWing!.getProps()).toEqual({
       uuid: koyotWingEntity.uuid,
       userUuid: koyotWingEntity.userUuid,

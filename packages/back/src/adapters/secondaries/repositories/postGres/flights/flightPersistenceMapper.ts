@@ -13,7 +13,7 @@ export const flightPersistenceMapper = {
       time,
     } = flightEntity.getProps();
     return {
-      surrogate_id: flightEntity.getIdentity(),
+      id: flightEntity.getIdentity(),
       uuid,
       user_uuid: userUuid,
       wing_uuid: wingUuid,
@@ -25,7 +25,7 @@ export const flightPersistenceMapper = {
   },
 
   toEntity: ({
-    surrogate_id,
+    id,
     uuid,
     wing_uuid,
     user_uuid,
@@ -43,7 +43,7 @@ export const flightPersistenceMapper = {
       duration,
       date,
     });
-    flightEntity.setIdentity(surrogate_id);
+    flightEntity.setIdentity(id);
     return flightEntity;
   },
 };

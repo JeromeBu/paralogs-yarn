@@ -3,7 +3,7 @@ import * as Knex from "knex";
 export async function up(knex: Knex): Promise<any> {
   return knex.schema.createTable("wings", table => {
     table
-      .increments("surrogate_id")
+      .increments("id")
       .primary()
       .notNullable();
     table
@@ -23,9 +23,9 @@ export async function up(knex: Knex): Promise<any> {
     //   .onDelete("CASCADE")
     //   .index();
     table
-      .integer("user_surrogate_id")
+      .integer("user_id")
       .notNullable()
-      .references("surrogate_id")
+      .references("id")
       .inTable("users")
       .onDelete("CASCADE")
       .index();
