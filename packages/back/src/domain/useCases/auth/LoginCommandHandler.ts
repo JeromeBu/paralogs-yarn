@@ -10,7 +10,7 @@ interface LoginDependencies {
   hashAndTokenManager: HashAndTokenManager;
 }
 
-export const loginUseCaseCreator = ({
+export const loginCommandHandlerCreator = ({
   userRepo,
   hashAndTokenManager,
 }: LoginDependencies) => async ({
@@ -38,4 +38,4 @@ export const loginUseCaseCreator = ({
   });
 };
 
-export type LoginUseCase = ReturnType<typeof loginUseCaseCreator>;
+export type LoginCommandHandler = ReturnType<typeof loginCommandHandlerCreator>;

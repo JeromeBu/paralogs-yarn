@@ -1,15 +1,18 @@
 import { FlightUuid, generateUuid, makeFlightDTO, FlightDTO } from "@paralogs/shared";
-import { AddFlightUseCase, addFlightUseCaseCreator } from "./AddFlightUseCase";
+import {
+  AddFlightCommandHandler,
+  addFlightCommandHandlerCreator,
+} from "./AddFlightCommandHandler";
 import { InMemoryFlightRepo } from "../../../adapters/secondaries/repositories/inMemory/InMemoryFlightRepo";
 import { flightMapper } from "../../mappers/flight.mapper";
 
 describe("add a flight", () => {
-  let addFlightUseCase: AddFlightUseCase;
+  let addFlightUseCase: AddFlightCommandHandler;
   let flightRepo: InMemoryFlightRepo;
 
   beforeEach(() => {
     flightRepo = new InMemoryFlightRepo();
-    addFlightUseCase = addFlightUseCaseCreator({ flightRepo });
+    addFlightUseCase = addFlightCommandHandlerCreator({ flightRepo });
   });
 
   describe("a flight already exists with the same identity", () => {

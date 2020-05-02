@@ -1,13 +1,16 @@
 import { makeWingDTO, generateUuid, WingDTO, Result } from "@paralogs/shared";
 import { InMemoryWingRepo } from "../../../adapters/secondaries/repositories/inMemory/InMemoryWingRepo";
-import { AddWingUseCase, addWingUseCaseCreator } from "./AddWingUseCase";
+import {
+  AddWingCommandHandler,
+  addWingCommandHandlerCreator,
+} from "./AddWingCommandHandler";
 
 describe("wing creation", () => {
-  let addWingUseCase: AddWingUseCase;
+  let addWingUseCase: AddWingCommandHandler;
   let wingRepo: InMemoryWingRepo; // cannot use WingRepo because need access .wings
   beforeEach(() => {
     wingRepo = new InMemoryWingRepo();
-    addWingUseCase = addWingUseCaseCreator({ wingRepo });
+    addWingUseCase = addWingCommandHandlerCreator({ wingRepo });
   });
   describe("a wing already exists with the same identity", () => {
     it("cannot create a wing with the same id", async () => {

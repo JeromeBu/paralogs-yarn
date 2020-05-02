@@ -1,16 +1,19 @@
 import { makeWingDTO } from "@paralogs/shared";
 import { InMemoryWingRepo } from "../../../adapters/secondaries/repositories/inMemory/InMemoryWingRepo";
-import { UpdateWingUseCase, updateWingUseCaseCreator } from "./UpdateWingUseCase";
+import {
+  UpdateWingCommandHandler,
+  updateWingCommandHandlerCreator,
+} from "./UpdateWingCommandHandler";
 import { makeWingEntity } from "../../testBuilders/makeWingEntity";
 import { wingMapper } from "../../mappers/wing.mapper";
 
 describe("update wing use case", () => {
-  let updateWingUseCase: UpdateWingUseCase;
+  let updateWingUseCase: UpdateWingCommandHandler;
   let wingRepo: InMemoryWingRepo; // cannot use WingRepo because need access .wings
 
   beforeEach(() => {
     wingRepo = new InMemoryWingRepo();
-    updateWingUseCase = updateWingUseCaseCreator({ wingRepo });
+    updateWingUseCase = updateWingCommandHandlerCreator({ wingRepo });
   });
 
   describe("when no wing matches", () => {

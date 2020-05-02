@@ -6,9 +6,9 @@ interface AddFlightDependencies {
   flightRepo: FlightRepo;
 }
 
-export const addFlightUseCaseCreator = ({ flightRepo }: AddFlightDependencies) => async (
-  flightDto: FlightDTO,
-): Promise<Result<void>> => {
+export const addFlightCommandHandlerCreator = ({
+  flightRepo,
+}: AddFlightDependencies) => async (flightDto: FlightDTO): Promise<Result<void>> => {
   const existingFlightEntity = await flightRepo.findByUuid(flightDto.uuid);
   if (existingFlightEntity) return Result.fail("A flight with this id already exists");
   return FlightEntity.create(flightDto).flatMapAsync(flightEntity => {
@@ -16,4 +16,4 @@ export const addFlightUseCaseCreator = ({ flightRepo }: AddFlightDependencies) =
   });
 };
 
-export type AddFlightUseCase = ReturnType<typeof addFlightUseCaseCreator>;
+export type AddFlightCommandHandler = ReturnType<typeof addFlightCommandHandlerCreator>;
