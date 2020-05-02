@@ -25,9 +25,9 @@ export class WingEntity extends Entity<WingEntityProps> {
   }
 
   public update(updateParams: UpdateWingDTO) {
-    const wingIdentity = new WingEntity({ ...this.getProps(), ...updateParams });
-    wingIdentity.setIdentity(this.getIdentity());
-    return wingIdentity;
+    const wingEntity = new WingEntity({ ...this.getProps(), ...updateParams });
+    wingEntity.setIdentity(this.getIdentity());
+    return wingEntity;
   }
 
   get userUuid() {

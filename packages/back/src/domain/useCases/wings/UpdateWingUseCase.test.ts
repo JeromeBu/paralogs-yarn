@@ -22,7 +22,7 @@ describe("update wing use case", () => {
 
   describe("All is good", () => {
     it("updates a wing", async () => {
-      // the userId here is just a uuid -> see in makeWingDTO.ts
+      // the userUuid here is just a random uuid -> see in makeWingDTO.ts
       const wingDTO = makeWingDTO();
       wingRepo.wings.push(makeWingEntity(wingDTO));
       const { uuid, userUuid } = wingDTO;

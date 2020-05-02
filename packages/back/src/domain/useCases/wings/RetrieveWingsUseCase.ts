@@ -6,7 +6,7 @@ import { UserEntity } from "../../entities/UserEntity";
 export const retrieveWingsUseCaseCreator = (wingRepo: WingRepo) => async (
   currentUser: UserEntity,
 ): Promise<Result<WingDTO[]>> => {
-  const wingEntities = await wingRepo.findByUserId(currentUser.uuid);
+  const wingEntities = await wingRepo.findByUserUuid(currentUser.uuid);
   return Result.ok(wingEntities.map(wingMapper.entityToDTO));
 };
 

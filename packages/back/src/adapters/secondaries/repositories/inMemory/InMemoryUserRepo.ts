@@ -18,7 +18,7 @@ export class InMemoryUserRepo implements UserRepo {
     );
   }
 
-  public async findById(userUuid: UserUuid) {
+  public async findByUuid(userUuid: UserUuid) {
     return this._users.find(userEntity => {
       return userEntity.uuid === userUuid;
     });

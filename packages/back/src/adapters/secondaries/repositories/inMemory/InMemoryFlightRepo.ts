@@ -1,25 +1,22 @@
-import { FlightUuid, UserUuid } from "@paralogs/shared";
+import { FlightUuid, Result, UserUuid } from "@paralogs/shared";
 import { FlightRepo } from "../../../../domain/gateways/FlightRepo";
 import { FlightEntity } from "../../../../domain/entities/FlightEntity";
 
 export class InMemoryFlightRepo implements FlightRepo {
   private _flights: FlightEntity[] = [];
 
-  public async findById(flightId: FlightUuid) {
-    return this._flights.find(flight => flight.uuid === flightId);
+  public async findByUuid(flightUuid: FlightUuid) {
+    return this._flights.find(flight => flight.uuid === flightUuid);
   }
 
-  public async findByUserId(userId: UserUuid) {
-    return this._flights.filter(flight => flight.getProps().userUuid === userId);
+  public async findByUserUuid(userUuid: UserUuid) {
+    return this._flights.filter(flight => flight.getProps().userUuid === userUuid);
   }
 
-  public async save(flightEntity: FlightEntity) {
-    if (flightEntity.hasIdentity()) {
-      // eslint-disable-next-line no-console
-      console.error("TODO handle update");
-      return;
-    }
+  public async save(flightEntity: FlightEntity): Promise<Result<void>> {
+    if (flightEntity.hasIdentity()) return Result.fail("TODO handle update");
     this._flights.push(flightEntity);
+    return Result.ok();
   }
 
   get flights() {

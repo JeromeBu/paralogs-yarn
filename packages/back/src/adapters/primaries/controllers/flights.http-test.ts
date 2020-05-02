@@ -25,9 +25,9 @@ describe("Flights routes", () => {
 
   const brand = "Nova";
   const model = "Ion 5";
-  const wingId: WingUuid = generateUuid();
+  const wingUuid: WingUuid = generateUuid();
   const addWingParams: AddWingDTO = {
-    uuid: wingId,
+    uuid: wingUuid,
     brand,
     model,
     ownerFrom: new Date("2020-03-03").toUTCString(),
@@ -50,7 +50,7 @@ describe("Flights routes", () => {
       duration: 35,
       site: "La scia",
       time: "15h35",
-      wingUuid: wingId,
+      wingUuid,
     };
 
     await request
