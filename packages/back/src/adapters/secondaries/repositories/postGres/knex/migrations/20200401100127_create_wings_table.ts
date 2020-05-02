@@ -7,11 +7,11 @@ export async function up(knex: Knex): Promise<any> {
       .primary()
       .notNullable();
     table
-      .string("id", 60)
+      .string("uuid", 60)
       .unique()
       .notNullable();
     table
-      .string("user_id", 60)
+      .string("user_uuid", 60)
       .notNullable()
       .index();
     // QUESTION : should it reference id in user ? like below :

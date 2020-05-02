@@ -35,7 +35,7 @@ describe("User repository postgres tests", () => {
 
     const userPersistenceToMatch: UserPersistence = {
       surrogate_id: createdUserEntity.getIdentity(),
-      id: props.id,
+      uuid: props.uuid,
       email: props.email.value,
       first_name: props.firstName.value,
       last_name: props.lastName?.value,
@@ -45,7 +45,7 @@ describe("User repository postgres tests", () => {
 
     expect(
       await knex<UserPersistence>("users")
-        .where({ id: createdUserEntity.id })
+        .where({ uuid: createdUserEntity.uuid })
         .first(),
     ).toMatchObject(userPersistenceToMatch);
   });
@@ -74,7 +74,7 @@ describe("User repository postgres tests", () => {
   });
 
   it("finds a user from its id", async () => {
-    const userEntity = await pgUserRepo.findById(johnEntity.id);
+    const userEntity = await pgUserRepo.findById(johnEntity.uuid);
     expect(userEntity).toEqual(johnEntity);
   });
 
@@ -89,7 +89,7 @@ describe("User repository postgres tests", () => {
     };
     await johnEntity.update(newParams).map(john => pgUserRepo.save(john));
 
-    const updatedJohn = (await pgUserRepo.findById(johnEntity.id))!;
+    const updatedJohn = (await pgUserRepo.findById(johnEntity.uuid))!;
     expect(updatedJohn.getProps()).toMatchObject({
       ...johnEntity.getProps(),
       firstName: PersonName.create(newParams.firstName).getOrThrow(),

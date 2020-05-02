@@ -1,7 +1,8 @@
-import { UserId, Result, fromNullable } from "@paralogs/shared";
+import { UserUuid, Result, fromNullable } from "@paralogs/shared";
 import { UserRepo } from "../../../../domain/gateways/UserRepo";
 import { UserEntity } from "../../../../domain/entities/UserEntity";
 import { Email } from "../../../../domain/valueObjects/user/Email";
+import { getNextId } from "./helpers";
 
 export class InMemoryUserRepo implements UserRepo {
   private _users: UserEntity[] = [];
@@ -17,27 +18,10 @@ export class InMemoryUserRepo implements UserRepo {
     );
   }
 
-  public async findById(userId: UserId) {
+  public async findById(userUuid: UserUuid) {
     return this._users.find(userEntity => {
-      return userEntity.id === userId;
+      return userEntity.uuid === userUuid;
     });
-  }
-
-  public async _create(userEntity: UserEntity): Promise<Result<void>> {
-    const isEmailTaken = !!this._users.find(
-      user => user.getProps().email.value === userEntity.getProps().email.value,
-    );
-    if (isEmailTaken)
-      return Result.fail<void>("Email is already taken. Consider logging in.");
-    this._users.push(userEntity);
-    return Result.ok();
-  }
-
-  private async _update(userEntity: UserEntity): Promise<Result<void>> {
-    const indexOfUser = await this._users.findIndex(({ id }) => id === userEntity.id);
-    if (indexOfUser === -1) return Result.fail("No user found with this id");
-    this._users[indexOfUser] = userEntity;
-    return Result.ok();
   }
 
   get users() {
@@ -46,5 +30,24 @@ export class InMemoryUserRepo implements UserRepo {
 
   public setUsers(users: UserEntity[]) {
     this._users.splice(0, users.length, ...users);
+  }
+
+  private async _create(userEntity: UserEntity): Promise<Result<void>> {
+    const isEmailTaken = !!this._users.find(
+      user => user.getProps().email.value === userEntity.getProps().email.value,
+    );
+    if (isEmailTaken) return Result.fail("Email is already taken. Consider logging in.");
+    userEntity.setIdentity(getNextId(this._users));
+    this._users.push(userEntity);
+    return Result.ok();
+  }
+
+  private async _update(userEntity: UserEntity): Promise<Result<void>> {
+    const indexOfUser = await this._users.findIndex(
+      ({ uuid }) => uuid === userEntity.uuid,
+    );
+    if (indexOfUser === -1) return Result.fail("No user found with this id");
+    this._users[indexOfUser] = userEntity;
+    return Result.ok();
   }
 }

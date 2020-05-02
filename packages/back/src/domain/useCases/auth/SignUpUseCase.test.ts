@@ -1,7 +1,7 @@
 import {
   SignUpParams,
   FakeUuidGenerator,
-  uuid,
+  generateUuid,
   CurrentUserWithAuthToken,
   Result,
 } from "@paralogs/shared";
@@ -13,14 +13,14 @@ import { UserEntity } from "../../entities/UserEntity";
 import { TestHashAndTokenManager } from "../../../adapters/secondaries/TestHashAndTokenManager";
 
 describe("User signUp", () => {
-  let userId = uuid();
+  let userId = generateUuid();
   const fakeUuidGenerator = new FakeUuidGenerator(userId);
   let hashAndTokenManager: TestHashAndTokenManager;
   let signUpUseCase: SignUpUseCase;
   let userRepo: InMemoryUserRepo;
 
   beforeEach(() => {
-    userId = uuid();
+    userId = generateUuid();
     fakeUuidGenerator.setUuid(userId);
     userRepo = new InMemoryUserRepo();
     hashAndTokenManager = new TestHashAndTokenManager();
@@ -80,14 +80,14 @@ describe("User signUp", () => {
       const currentUserWithToken = await signUpUseCase(signUpParams);
       expectUserResultToEqual(currentUserWithToken, {
         currentUser: {
-          id: userId,
+          uuid: userId,
           email: "john@mail.com",
         },
         pilotInformation: { firstName: "John", lastName: "Doe" },
         token: someFakeToken,
       });
       const userEntity = userRepo.users[0];
-      expect(userEntity.id).toEqual(userId);
+      expect(userEntity.uuid).toEqual(userId);
       // expectUserEmailNotToBeConfirmed(userEntity);
       // How to improve hashing process testing ?
       expectUserHashedPasswordExist(userEntity);

@@ -25,7 +25,7 @@ export const wingsController = () => {
           useCase: wingsUseCases.addWing,
           resultParams: resultAddWingBody.map(addWingBody => ({
             ...addWingBody,
-            userId: req.currentUser.id,
+            userUuid: req.currentUser.uuid,
           })),
         }),
       );
@@ -37,9 +37,9 @@ export const wingsController = () => {
         await callUseCase({
           useCase: wingsUseCases.updateWing,
           resultParams: resultUpdateWingBody.map(updateWingBody => ({
-            id: updateWingBody.id,
+            uuid: updateWingBody.uuid,
             ...updateWingBody,
-            userId: req.currentUser.id,
+            userUuid: req.currentUser.uuid,
           })),
         }),
       );

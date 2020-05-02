@@ -3,15 +3,15 @@ import {
   NumberOfMinutes,
   Result,
   UpdateWingDTO,
-  UserId,
+  UserUuid,
   WingDTO,
-  WingId,
+  WingUuid,
 } from "@paralogs/shared";
 import { Entity } from "../core/Entity";
 
 interface WingEntityProps {
-  id: WingId;
-  userId: UserId;
+  uuid: WingUuid;
+  userUuid: UserUuid;
   brand: string;
   model: string;
   ownerFrom: DateString;
@@ -30,8 +30,8 @@ export class WingEntity extends Entity<WingEntityProps> {
     return wingIdentity;
   }
 
-  get userId() {
-    return this.props.userId;
+  get userUuid() {
+    return this.props.userUuid;
   }
 
   static fromDTO(props: WingEntityProps): WingEntity {

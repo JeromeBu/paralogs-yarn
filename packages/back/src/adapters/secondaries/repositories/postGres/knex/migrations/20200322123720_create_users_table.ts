@@ -7,7 +7,7 @@ export async function up(knex: Knex): Promise<any> {
       .primary()
       .notNullable();
     table
-      .string("id", 60)
+      .string("uuid", 60)
       .unique()
       .notNullable();
     table

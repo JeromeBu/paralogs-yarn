@@ -23,7 +23,7 @@ describe("Add a wing", () => {
   it("adds a new wing", async () => {
     const wingDto = makeWingDTO();
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { userId, ...addWingDTO } = wingDto;
+    const { userUuid, ...addWingDTO } = wingDto;
 
     feedWithWing(wingDto);
     addWing(addWingDTO);

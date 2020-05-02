@@ -1,8 +1,8 @@
-import { UserId } from "@paralogs/shared";
+import { UserUuid } from "@paralogs/shared";
 
 export type UserPersistence = {
   surrogate_id: number;
-  id: UserId;
+  uuid: UserUuid;
   email: string;
   first_name: string;
   last_name?: string;

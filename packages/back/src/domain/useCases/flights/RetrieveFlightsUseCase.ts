@@ -11,7 +11,7 @@ export const retrieveFlightsUseCaseCreator = ({
   flightRepo,
 }: RetrieveFlightsDependencies) => async (currentUser: UserEntity) => {
   return Result.ok(
-    (await flightRepo.findByUserId(currentUser.id)).map(flightMapper.entityToDTO),
+    (await flightRepo.findByUserId(currentUser.uuid)).map(flightMapper.entityToDTO),
   );
 };
 

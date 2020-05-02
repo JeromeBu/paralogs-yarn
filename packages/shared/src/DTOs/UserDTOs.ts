@@ -2,10 +2,14 @@ import * as Yup from "yup";
 import { Flavor } from "../generalTypes/types";
 import { PilotDTO } from "./PilotDTOs";
 
-export type UserId = Flavor<string, "UserId">;
+export type UserUuid = Flavor<string, "UserUuid">;
 
-export interface WithUserId {
-  id: UserId;
+export interface WithUuid {
+  uuid: UserUuid;
+}
+
+export interface WithUserUuid {
+  userUuid: UserUuid;
 }
 
 export interface WithPassword {
@@ -16,7 +20,7 @@ export interface WithEmail {
   email: string;
 }
 
-export type UserDTO = WithUserId & WithEmail;
+export type UserDTO = WithUuid & WithEmail;
 
 export type CurrentUserWithAuthToken = {
   currentUser: UserDTO;

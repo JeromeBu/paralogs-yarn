@@ -1,18 +1,18 @@
 import {
   DateString,
   FlightDTO,
-  FlightId,
+  FlightUuid,
   NumberOfMinutes,
   Result,
-  UserId,
-  WingId,
+  UserUuid,
+  WingUuid,
 } from "@paralogs/shared";
 import { Entity } from "../core/Entity";
 
 interface FlightEntityProps {
-  id: FlightId;
-  wingId: WingId;
-  userId: UserId;
+  uuid: FlightUuid;
+  wingUuid: WingUuid;
+  userUuid: UserUuid;
   date: DateString;
   time?: string;
   site: string;

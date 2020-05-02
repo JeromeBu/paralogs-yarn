@@ -1,12 +1,10 @@
-import { Flavor } from "@paralogs/shared";
-
-export abstract class Entity<Props extends { id: Flavor<string, string> }> {
+export abstract class Entity<Props extends { uuid: string }> {
   private surrogateId = -1;
 
   protected constructor(protected props: Props) {}
 
-  get id(): Props["id"] {
-    return this.props.id;
+  get uuid(): Props["uuid"] {
+    return this.props.uuid;
   }
 
   public setIdentity(surrogateId: number): void {

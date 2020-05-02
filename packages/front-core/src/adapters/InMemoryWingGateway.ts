@@ -11,12 +11,14 @@ export class InMemoryWingGateway implements WingGateway {
   }
 
   public addWing(addWingDto: AddWingDTO) {
-    return this._wings$.pipe(map(wings => wings.find(({ id }) => id === addWingDto.id)!));
+    return this._wings$.pipe(
+      map(wings => wings.find(({ uuid }) => uuid === addWingDto.uuid)!),
+    );
   }
 
   public updateWing(updateWingDTO: UpdateWingDTO) {
     return this._wings$.pipe(
-      map(wings => wings.find(({ id }) => id === updateWingDTO.id)!),
+      map(wings => wings.find(({ uuid }) => uuid === updateWingDTO.uuid)!),
     );
   }
 

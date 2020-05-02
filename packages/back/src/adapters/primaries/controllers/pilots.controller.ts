@@ -5,7 +5,7 @@ import { userUseCases } from "../../../config/useCasesChoice";
 
 const usersRouter = Router();
 
-export const usersController = (): Router => {
+export const pilotsController = (): Router => {
   usersRouter.route(usersRoute).put(async (req, res) => {
     const resultBody = await validateSchema(updateUserSchema, req.body);
     return sendHttpResponse(

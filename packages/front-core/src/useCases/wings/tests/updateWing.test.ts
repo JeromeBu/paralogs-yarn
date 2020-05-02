@@ -29,7 +29,7 @@ describe("Update wing", () => {
       // need to feed before we call dispatch. Is it normal ?
       feedWithWing({ ...wingDto, model: newModel });
       store.dispatch(
-        wingActions.updateWingRequested({ id: wingDto.id, model: newModel }),
+        wingActions.updateWingRequested({ uuid: wingDto.uuid, model: newModel }),
       );
       expectStateToMatch({
         wings: {

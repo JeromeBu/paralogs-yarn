@@ -1,6 +1,6 @@
 import * as bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { UserId } from "@paralogs/shared";
+import { WithUserUuid } from "@paralogs/shared";
 import { Password } from "../../domain/valueObjects/user/Password";
 import { HashAndTokenManager } from "../../domain/gateways/HashAndTokenManager";
 import { ENV } from "../../config/env";
@@ -9,7 +9,7 @@ import { ENV } from "../../config/env";
 // The bigger it is the longest the request will be (12 => 300 to 400 ms)
 
 export class ProductionHashAndTokenManager implements HashAndTokenManager {
-  public generateToken(params: { userId: UserId }) {
+  public generateToken(params: WithUserUuid) {
     return jwt.sign(params, ENV.jwtSecret);
   }
 

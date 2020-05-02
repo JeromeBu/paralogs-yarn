@@ -7,7 +7,7 @@ import { repositories } from "../../../config/repositoryChoice";
 import { authController } from "../controllers/auth.controller";
 import { wingsController } from "../controllers/wings.controller";
 import { flightsController } from "../controllers/flights.controller";
-import { usersController } from "../controllers/users.controller";
+import { pilotsController } from "../controllers/pilots.controller";
 
 export const app = express();
 
@@ -18,6 +18,6 @@ app.use(morgan("dev"));
 app.use(authenticateMiddlewareBuilder(repositories.user));
 
 app.use(authController());
-app.use(usersController());
+app.use(pilotsController());
 app.use(wingsController());
 app.use(flightsController());

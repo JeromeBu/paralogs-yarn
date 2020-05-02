@@ -1,4 +1,4 @@
-import { makeWingDTO, uuid, WingDTO, Result } from "@paralogs/shared";
+import { makeWingDTO, generateUuid, WingDTO, Result } from "@paralogs/shared";
 import { InMemoryWingRepo } from "../../../adapters/secondaries/repositories/inMemory/InMemoryWingRepo";
 import { AddWingUseCase, addWingUseCaseCreator } from "./AddWingUseCase";
 
@@ -11,12 +11,12 @@ describe("wing creation", () => {
   });
   describe("a wing already exists with the same identity", () => {
     it("cannot create a wing with the same id", async () => {
-      const id = uuid();
-      const userId = uuid();
-      const wingDto = makeWingDTO({ id });
+      const id = generateUuid();
+      const userId = generateUuid();
+      const wingDto = makeWingDTO({ uuid: id });
       await addWingUseCase(wingDto);
 
-      const secondWingDto = makeWingDTO({ id, userId, model: "LALALA" });
+      const secondWingDto = makeWingDTO({ uuid: id, userUuid: userId, model: "LALALA" });
       expect((await addWingUseCase(secondWingDto)).error).toMatch(
         "Wing Id is already used",
       );
@@ -26,7 +26,7 @@ describe("wing creation", () => {
     it("creates a wing", async () => {
       const wingDto = makeWingDTO();
       const createdWing = await addWingUseCase(wingDto);
-      expect(wingRepo.wings[0].id).toBe(wingDto.id);
+      expect(wingRepo.wings[0].uuid).toBe(wingDto.uuid);
       expectWingDtoResultToEqual(createdWing, wingDto);
     });
   });

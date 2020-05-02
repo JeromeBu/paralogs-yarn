@@ -1,7 +1,7 @@
 import { Store } from "redux";
 import * as _ from "lodash";
 
-import { FlightDTO, uuid, makeUserDTO, makeWingDTO } from "@paralogs/shared";
+import { FlightDTO, generateUuid, makeUserDTO, makeWingDTO } from "@paralogs/shared";
 
 import { RootState, configureReduxStore } from "../../../reduxStore";
 import {
@@ -28,22 +28,22 @@ describe("Retrieve flights", () => {
     const user = makeUserDTO();
     const someFlights: FlightDTO[] = [
       {
-        id: uuid(),
+        uuid: generateUuid(),
         date: new Date("2019-10-10").toUTCString(),
         site: "Le plus récent",
         time: "14:20",
         duration: 60,
-        wingId: wing.id,
-        userId: user.id,
+        wingUuid: wing.uuid,
+        userUuid: user.uuid,
       },
       {
-        id: uuid(),
+        uuid: generateUuid(),
         date: new Date("2019-09-10").toUTCString(),
         site: "La scia",
         time: "16:10",
         duration: 35,
-        wingId: wing.id,
-        userId: user.id,
+        wingUuid: wing.uuid,
+        userUuid: user.uuid,
       },
     ];
     retrieveFlights();

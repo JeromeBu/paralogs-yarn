@@ -1,4 +1,4 @@
-import { UserId, Result, fromNullable } from "@paralogs/shared";
+import { UserUuid, Result, fromNullable } from "@paralogs/shared";
 import Knex from "knex";
 import { UserEntity } from "../../../../../domain/entities/UserEntity";
 import { Email } from "../../../../../domain/valueObjects/user/Email";
@@ -24,10 +24,10 @@ export class PgUserRepo implements UserRepo {
     );
   }
 
-  public async findById(userId: UserId) {
+  public async findById(userId: UserUuid) {
     const userPersistence = await this.knex
       .from<UserPersistence>("users")
-      .where({ id: userId })
+      .where({ uuid: userId })
       .first();
     return userPersistence && userPersistenceMapper.toEntity(userPersistence);
   }
@@ -52,7 +52,7 @@ export class PgUserRepo implements UserRepo {
 
     return this.knex("users")
       .from<UserPersistence>("users")
-      .where({ id: userEntity.id })
+      .where({ uuid: userEntity.uuid })
       .update({
         first_name: firstName.value,
         ...(lastName

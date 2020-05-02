@@ -1,7 +1,7 @@
 // eslint-disable-next-line
 import uuidV4 from "uuid/v4";
 
-export const uuid = uuidV4;
+export const generateUuid = uuidV4;
 
 export const isUuid = (str: string): boolean =>
   !!str.match(
@@ -30,6 +30,6 @@ export class FakeUuidGenerator implements UuidGenerator {
 
 export class ActualUuidGenerator implements UuidGenerator {
   public generate() {
-    return uuid();
+    return generateUuid();
   }
 }
