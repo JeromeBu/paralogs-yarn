@@ -1,8 +1,10 @@
-import { WingUuid, UserUuid, Result } from "@paralogs/shared";
+import { UserUuid, WingUuid } from "@paralogs/shared";
+import { MaybeAsync } from "purify-ts";
 import { WingEntity } from "../entities/WingEntity";
+import { ResultAsync } from "../core/Result";
 
 export interface WingRepo {
-  findByUuid: (id: WingUuid) => Promise<WingEntity | undefined>;
+  findByUuid: (id: WingUuid) => MaybeAsync<WingEntity>;
   findByUserUuid: (userUuid: UserUuid) => Promise<WingEntity[]>;
-  save: (wing: WingEntity) => Promise<Result<void>>;
+  save: (wing: WingEntity) => ResultAsync<void>;
 }

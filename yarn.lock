@@ -13963,6 +13963,11 @@ pupa@^2.0.1:
   dependencies:
     escape-goat "^2.0.0"
 
+purify-ts@^0.15.1:
+  version "0.15.1"
+  resolved "https://registry.yarnpkg.com/purify-ts/-/purify-ts-0.15.1.tgz#fb32811d745d4fce7c592d36fc64c01a57a4dbf8"
+  integrity sha512-3PjYD3wTQDE+fH2alMXGRjvk3ufKhhkAGw3d1gb2vsVRkLSc8EzEx9XJHvWYdpSZpljTTcoiHtIPVmyuHhrJ9A==
+
 q@^1.1.2:
   version "1.5.1"
   resolved "https://registry.yarnpkg.com/q/-/q-1.5.1.tgz#7e32f75b41381291d04611f1bf14109ac00651d7"

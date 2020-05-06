@@ -1,9 +1,12 @@
-import { UserUuid, Result, Option } from "@paralogs/shared";
+import { UserUuid } from "@paralogs/shared";
+import { MaybeAsync } from "purify-ts";
+
 import { UserEntity } from "../entities/UserEntity";
 import { Email } from "../valueObjects/user/Email";
+import { ResultAsync } from "../core/Result";
 
 export interface UserRepo {
-  findByEmail: (email: Email) => Promise<Option<UserEntity>>;
-  findByUuid: (id: UserUuid) => Promise<UserEntity | undefined>;
-  save: (userEntity: UserEntity) => Promise<Result<void>>;
+  findByEmail: (email: Email) => MaybeAsync<UserEntity>;
+  findByUuid: (id: UserUuid) => MaybeAsync<UserEntity>;
+  save: (userEntity: UserEntity) => ResultAsync<void>;
 }

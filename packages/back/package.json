@@ -38,6 +38,7 @@
     "lodash": "^4.17.15",
     "morgan": "^1.9.1",
     "pg": "^7.18.2",
+    "purify-ts": "^0.15.1",
     "serverless": "^1.59.3",
     "serverless-plugin-monorepo": "^0.8.0",
     "supertest": "^4.0.2",
