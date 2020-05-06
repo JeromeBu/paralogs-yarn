@@ -25,10 +25,10 @@ export class PgWingRepo implements WingRepo {
 
   public async save(wingEntity: WingEntity) {
     const resultUserId = await this._getUserId(wingEntity.userUuid);
-    return resultUserId.mapAsync(userSurrogateId =>
+    return resultUserId.mapAsync(userId =>
       wingEntity.hasIdentity()
-        ? this._update(wingEntity, userSurrogateId)
-        : this._create(wingEntity, userSurrogateId),
+        ? this._update(wingEntity, userId)
+        : this._create(wingEntity, userId),
     );
   }
 

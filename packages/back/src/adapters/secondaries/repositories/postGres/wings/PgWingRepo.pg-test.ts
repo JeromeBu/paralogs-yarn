@@ -11,7 +11,7 @@ import { userPersistenceMapper } from "../users/userPersistenceMapper";
 import { WingPersistence } from "./WingPersistence";
 import { UserPersistence } from "../users/UserPersistence";
 import { wingPersistenceMapper } from "./wingPersistenceMapper";
-import { expectResultOk } from "../../../../../utils/testHelpers";
+import { expectOldResultOk } from "../../../../../utils/testHelpers";
 
 describe("Wing repository postgres tests", () => {
   const makeUserEntity = makeUserEntityCreator(new TestHashAndTokenManager());
@@ -55,7 +55,7 @@ describe("Wing repository postgres tests", () => {
   it("creates a wing", async () => {
     const wingEntity = makeWingEntity({ userUuid: johnEntity.uuid });
     const result = await pgWingRepo.save(wingEntity);
-    expectResultOk(result);
+    expectOldResultOk(result);
     const {
       uuid,
       userUuid,

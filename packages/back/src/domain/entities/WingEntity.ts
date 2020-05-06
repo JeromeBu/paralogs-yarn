@@ -1,13 +1,14 @@
 import {
   DateString,
   NumberOfMinutes,
-  Result,
   UpdateWingDTO,
   UserUuid,
   WingDTO,
   WingUuid,
 } from "@paralogs/shared";
+import { Right } from "purify-ts";
 import { Entity } from "../core/Entity";
+import { Result } from "../core/Result";
 
 interface WingEntityProps {
   uuid: WingUuid;
@@ -21,7 +22,7 @@ interface WingEntityProps {
 
 export class WingEntity extends Entity<WingEntityProps> {
   static create(props: WingDTO): Result<WingEntity> {
-    return Result.ok(new WingEntity(props));
+    return Right(new WingEntity(props));
   }
 
   public update(updateParams: UpdateWingDTO) {

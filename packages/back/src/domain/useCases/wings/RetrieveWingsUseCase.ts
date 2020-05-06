@@ -1,13 +1,20 @@
-import { Result, WingDTO } from "@paralogs/shared";
+import { WingDTO } from "@paralogs/shared";
+
+import { Right } from "purify-ts";
+import { fromPromise } from "purify-ts/EitherAsync";
 import { WingRepo } from "../../gateways/WingRepo";
 import { wingMapper } from "../../mappers/wing.mapper";
 import { UserEntity } from "../../entities/UserEntity";
+import { ResultAsync } from "../../core/Result";
 
-export const retrieveWingsUseCaseCreator = (wingRepo: WingRepo) => async (
+export const retrieveWingsUseCaseCreator = (wingRepo: WingRepo) => (
   currentUser: UserEntity,
-): Promise<Result<WingDTO[]>> => {
-  const wingEntities = await wingRepo.findByUserUuid(currentUser.uuid);
-  return Result.ok(wingEntities.map(wingMapper.entityToDTO));
+): ResultAsync<WingDTO[]> => {
+  return fromPromise(() =>
+    wingRepo
+      .findByUserUuid(currentUser.uuid)
+      .then(wingEntities => Right(wingEntities.map(wingMapper.entityToDTO))),
+  );
 };
 
 export type RetrieveWingsUseCase = ReturnType<typeof retrieveWingsUseCaseCreator>;

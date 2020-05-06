@@ -1,4 +1,5 @@
 import { makeWingDTO } from "@paralogs/shared";
+
 import { InMemoryWingRepo } from "../../../adapters/secondaries/repositories/inMemory/InMemoryWingRepo";
 import {
   UpdateWingCommandHandler,
@@ -6,6 +7,7 @@ import {
 } from "./UpdateWingCommandHandler";
 import { makeWingEntity } from "../../testBuilders/makeWingEntity";
 import { wingMapper } from "../../mappers/wing.mapper";
+import { expectEitherToMatchError, expectResultOk } from "../../../utils/testHelpers";
 
 describe("update wing use case", () => {
   let updateWingUseCase: UpdateWingCommandHandler;
@@ -18,8 +20,8 @@ describe("update wing use case", () => {
 
   describe("when no wing matches", () => {
     it("fails with explicit message", async () => {
-      const response = await updateWingUseCase(makeWingDTO());
-      expect(response.error).toBe("No such wing identity found");
+      const response = await updateWingUseCase(makeWingDTO()).run();
+      expectEitherToMatchError(response, "No such wing identity found");
     });
   });
 
@@ -37,10 +39,8 @@ describe("update wing use case", () => {
         flightTimePriorToOwn: 60,
         ownerFrom: new Date("2020-03-01").toUTCString(),
       };
-      const response = await updateWingUseCase(newParams);
-
-      expect(response.error).toBeUndefined();
-      expect(response.isSuccess).toBe(true);
+      const response = await updateWingUseCase(newParams).run();
+      expectResultOk(response);
 
       const expectedWingDTO = makeWingDTO(newParams);
       const updatedWing = wingMapper.entityToDTO(wingRepo.wings[0]);

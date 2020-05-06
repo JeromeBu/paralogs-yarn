@@ -1,6 +1,12 @@
 import { Router } from "express";
 import { addWingSchema, Result, updateWingSchema, wingsRoute } from "@paralogs/shared";
-import { callUseCase, sendHttpResponse, validateSchema } from "../../lib/response-lib";
+import {
+  callUseCase,
+  callUseCase2,
+  sendHttpResponse,
+  validateSchema,
+  validateSchema2,
+} from "../../lib/response-lib";
 import { wingsUseCases } from "../../../config/useCasesChoice";
 
 const wingsRouter = Router();
@@ -18,12 +24,12 @@ export const wingsController = () => {
       ),
     )
     .post(async (req, res) => {
-      const resultAddWingBody = await validateSchema(addWingSchema, req.body);
+      const eitherAsyncParams = validateSchema2(addWingSchema, req.body);
       return sendHttpResponse(
         res,
-        await callUseCase({
+        await callUseCase2({
           useCase: wingsUseCases.addWing,
-          resultParams: resultAddWingBody.map(addWingBody => ({
+          eitherAsyncParams: eitherAsyncParams.map(addWingBody => ({
             ...addWingBody,
             userUuid: req.currentUser.uuid,
           })),

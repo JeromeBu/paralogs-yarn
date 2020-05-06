@@ -1,27 +1,34 @@
-import { UserUuid, Result, fromNullable } from "@paralogs/shared";
+import { UserUuid } from "@paralogs/shared";
+import { Left, List } from "purify-ts";
+import { liftEither } from "purify-ts/EitherAsync";
+import { liftMaybe } from "purify-ts/MaybeAsync";
+
 import { UserRepo } from "../../../../domain/gateways/UserRepo";
 import { UserEntity } from "../../../../domain/entities/UserEntity";
 import { Email } from "../../../../domain/valueObjects/user/Email";
 import { getNextId } from "./helpers";
+import { ResultAsync, RightVoid } from "../../../../domain/core/Result";
+import { notFoundError, validationError } from "../../../../domain/core/errors";
 
 export class InMemoryUserRepo implements UserRepo {
   private _users: UserEntity[] = [];
 
-  public async save(userEntity: UserEntity): Promise<Result<void>> {
+  public save(userEntity: UserEntity): ResultAsync<void> {
     if (userEntity.hasIdentity()) return this._update(userEntity);
     return this._create(userEntity);
   }
 
-  public async findByEmail(email: Email) {
-    return fromNullable(
-      this._users.find(userEntity => userEntity.getProps().email.value === email.value),
+  public findByEmail(email: Email) {
+    return liftMaybe(
+      List.find(
+        userEntity => userEntity.getProps().email.value === email.value,
+        this._users,
+      ),
     );
   }
 
-  public async findByUuid(userUuid: UserUuid) {
-    return this._users.find(userEntity => {
-      return userEntity.uuid === userUuid;
-    });
+  public findByUuid(userUuid: UserUuid) {
+    return liftMaybe(List.find(userEntity => userEntity.uuid === userUuid, this._users));
   }
 
   get users() {
@@ -32,22 +39,24 @@ export class InMemoryUserRepo implements UserRepo {
     this._users.splice(0, users.length, ...users);
   }
 
-  private async _create(userEntity: UserEntity): Promise<Result<void>> {
+  private _create(userEntity: UserEntity): ResultAsync<void> {
     const isEmailTaken = !!this._users.find(
       user => user.getProps().email.value === userEntity.getProps().email.value,
     );
-    if (isEmailTaken) return Result.fail("Email is already taken. Consider logging in.");
+    if (isEmailTaken)
+      return liftEither(
+        Left(validationError("Email is already taken. Consider logging in.")),
+      );
     userEntity.setIdentity(getNextId(this._users));
     this._users.push(userEntity);
-    return Result.ok();
+    return liftEither(RightVoid());
   }
 
-  private async _update(userEntity: UserEntity): Promise<Result<void>> {
-    const indexOfUser = await this._users.findIndex(
-      ({ uuid }) => uuid === userEntity.uuid,
-    );
-    if (indexOfUser === -1) return Result.fail("No user found with this id");
+  private _update(userEntity: UserEntity): ResultAsync<void> {
+    const indexOfUser = this._users.findIndex(({ uuid }) => uuid === userEntity.uuid);
+    if (indexOfUser === -1)
+      return liftEither(Left(notFoundError("No user found with this id")));
     this._users[indexOfUser] = userEntity;
-    return Result.ok();
+    return liftEither(RightVoid());
   }
 }

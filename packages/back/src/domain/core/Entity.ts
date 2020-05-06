@@ -1,5 +1,5 @@
 export abstract class Entity<Props extends { uuid: string }> {
-  private surrogateId = -1;
+  private id = -1;
 
   protected constructor(protected props: Props) {}
 
@@ -7,16 +7,16 @@ export abstract class Entity<Props extends { uuid: string }> {
     return this.props.uuid;
   }
 
-  public setIdentity(surrogateId: number): void {
-    this.surrogateId = surrogateId;
+  public setIdentity(id: number): void {
+    this.id = id;
   }
 
   public hasIdentity(): boolean {
-    return this.surrogateId > -1;
+    return this.id > -1;
   }
 
   public getIdentity(): number {
-    return this.surrogateId;
+    return this.id;
   }
 
   public getProps(): Props {

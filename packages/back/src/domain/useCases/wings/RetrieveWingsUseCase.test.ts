@@ -16,6 +16,7 @@ import {
 import { InMemoryUserRepo } from "../../../adapters/secondaries/repositories/inMemory/InMemoryUserRepo";
 import { TestHashAndTokenManager } from "../../../adapters/secondaries/TestHashAndTokenManager";
 import { HashAndTokenManager } from "../../gateways/HashAndTokenManager";
+import { Result } from "../../core/Result";
 
 describe("wings retrieval", () => {
   let retrieveWingsUseCase: RetrieveWingsUseCase;
@@ -36,8 +37,8 @@ describe("wings retrieval", () => {
 
   describe("user has no wings", () => {
     it("returns no wing", async () => {
-      const wings = await retrieveWingsUseCase(currentUser);
-      expectWingsDTOResultToEqual(wings.getOrThrow(), []);
+      const wings = await retrieveWingsUseCase(currentUser).run();
+      expectWingsDTOResultToEqual(wings, []);
     });
   });
 
@@ -46,32 +47,29 @@ describe("wings retrieval", () => {
     it("retrieves only the user's wings", async () => {
       addWingUseCase = addWingCommandHandlerCreator({ wingRepo });
 
-      const wing1 = (
-        await addWing({ model: "Wing 1", userUuid: currentUser.uuid })
-      ).getOrThrow();
-      const wing2 = (
-        await addWing({ model: "Wing 2", userUuid: currentUser.uuid })
-      ).getOrThrow();
+      const wing1 = await addWing({ model: "Wing 1", userUuid: currentUser.uuid }).run();
+      const wing2 = await addWing({ model: "Wing 2", userUuid: currentUser.uuid }).run();
       await addWing({
         model: "Wing 3",
         userUuid: generateUuid(),
       });
 
-      const retrievedWings = await retrieveWingsUseCase(currentUser);
+      const retrievedWings = await retrieveWingsUseCase(currentUser).run();
 
-      expectWingsDTOResultToEqual(retrievedWings.getOrThrow(), [wing2, wing1]);
+      expectWingsDTOResultToEqual(retrievedWings, [
+        wing2.extract(),
+        wing1.extract(),
+      ] as WingDTO[]);
     });
 
-    const addWing = async (wingParams: Partial<WingDTO>) => {
-      return addWingUseCase(makeWingDTO(wingParams));
-    };
+    const addWing = (wingParams: Partial<WingDTO>) =>
+      addWingUseCase(makeWingDTO(wingParams));
   });
 
   const expectWingsDTOResultToEqual = (
-    wingsDTO: WingDTO[],
+    wingsDTO: Result<WingDTO[]>,
     expectedWingsDTO: WingDTO[],
   ) => {
-    expect(wingsDTO).toEqual(expectedWingsDTO);
-    expect(wingsDTO[0]).toEqual(expectedWingsDTO[0]);
+    expect(wingsDTO.extract()).toEqual(expectedWingsDTO);
   };
 });
