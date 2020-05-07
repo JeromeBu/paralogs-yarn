@@ -1,5 +1,5 @@
 import { EitherAsync, Left, MaybeAsync, Right } from "purify-ts";
-import { Result } from "./Result";
+import { Result } from "./purifyAdds";
 import { AppError } from "./errors";
 
 export const combineEithers = <T extends { [key in string]: Result<unknown> }>(

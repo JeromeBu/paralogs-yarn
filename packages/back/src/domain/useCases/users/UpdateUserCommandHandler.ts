@@ -3,7 +3,7 @@ import { liftEither } from "purify-ts/EitherAsync";
 
 import { WithCurrentUser } from "../../entities/UserEntity";
 import { UserRepo } from "../../gateways/UserRepo";
-import { ResultAsync } from "../../core/Result";
+import { ResultAsync } from "../../core/purifyAdds";
 
 type UpdateUserUseCaseDependencies = {
   userRepo: UserRepo;

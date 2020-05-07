@@ -1,6 +1,3 @@
-export const notUnique = (entityName: string) =>
-  `Cannot create entity. ${entityName} Id is already used`;
-
 export class AppError extends Error {
   public code: number;
   public name: string;
@@ -12,7 +9,7 @@ export class AppError extends Error {
   }
 }
 
-const makeAppErrorCreator = (params: { code: number; name: string }) => (
+export const makeAppErrorCreator = (params: { code: number; name: string }) => (
   message: string,
 ) =>
   new AppError({
@@ -28,11 +25,6 @@ export const notUniqError = makeAppErrorCreator({
 export const validationError = makeAppErrorCreator({
   code: 400,
   name: "Validation error",
-});
-
-export const unauthenticatedError = makeAppErrorCreator({
-  code: 401,
-  name: "Unauthenticated",
 });
 
 export const forbiddenError = makeAppErrorCreator({

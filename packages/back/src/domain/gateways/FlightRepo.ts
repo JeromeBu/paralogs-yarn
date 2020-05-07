@@ -2,7 +2,7 @@ import { FlightUuid, UserUuid } from "@paralogs/shared";
 import { MaybeAsync } from "purify-ts";
 
 import { FlightEntity } from "../entities/FlightEntity";
-import { ResultAsync } from "../core/Result";
+import { ResultAsync } from "../core/purifyAdds";
 
 export interface FlightRepo {
   findByUuid: (id: FlightUuid) => MaybeAsync<FlightEntity>;

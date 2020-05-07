@@ -1,8 +1,8 @@
-import { Result } from "@paralogs/shared";
 import { UserEntity } from "../../../../../domain/entities/UserEntity";
 import { UserPersistence } from "./UserPersistence";
 import { Email } from "../../../../../domain/valueObjects/user/Email";
 import { PersonName } from "../../../../../domain/valueObjects/user/PersonName";
+import { combineEithers } from "../../../../../domain/core/EitherFunctions";
 
 export const userPersistenceMapper = {
   toPersistence: (userEntity: UserEntity): UserPersistence => {
@@ -25,7 +25,7 @@ export const userPersistenceMapper = {
     };
   },
   toEntity: (params: UserPersistence): UserEntity => {
-    return Result.combine({
+    return combineEithers({
       email: Email.create(params.email),
       firstName: PersonName.create(params.first_name),
       lastName: PersonName.create(params.last_name),
@@ -40,6 +40,9 @@ export const userPersistenceMapper = {
         userEntity.setIdentity(params.id);
         return userEntity;
       })
-      .getOrThrow();
+      .ifLeft(error => {
+        throw error;
+      })
+      .extract() as UserEntity;
   },
 };

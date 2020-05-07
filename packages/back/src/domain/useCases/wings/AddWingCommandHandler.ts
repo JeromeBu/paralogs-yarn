@@ -4,7 +4,7 @@ import { liftEither } from "purify-ts/EitherAsync";
 import { notUniqError } from "../../core/errors";
 import { WingEntity } from "../../entities/WingEntity";
 import { WingRepo } from "../../gateways/WingRepo";
-import { ResultAsync } from "../../core/Result";
+import { ResultAsync } from "../../core/purifyAdds";
 import { checkNotExists } from "../../core/EitherFunctions";
 
 interface AddWingDependencies {

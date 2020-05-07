@@ -5,7 +5,7 @@ import { fromPromise } from "purify-ts/EitherAsync";
 import { WingRepo } from "../../gateways/WingRepo";
 import { wingMapper } from "../../mappers/wing.mapper";
 import { UserEntity } from "../../entities/UserEntity";
-import { ResultAsync } from "../../core/Result";
+import { ResultAsync } from "../../core/purifyAdds";
 
 export const retrieveWingsUseCaseCreator = (wingRepo: WingRepo) => (
   currentUser: UserEntity,

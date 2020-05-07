@@ -4,7 +4,7 @@ import { InMemoryUserRepo } from "../../../adapters/secondaries/repositories/inM
 import { TestHashAndTokenManager } from "../../../adapters/secondaries/TestHashAndTokenManager";
 import { makeUserEntityCreator } from "../../testBuilders/makeUserEntityCreator";
 import { expectEitherToMatchError } from "../../../utils/testHelpers";
-import { Result } from "../../core/Result";
+import { Result } from "../../core/purifyAdds";
 
 describe("User Login", () => {
   let hashAndTokenManager: TestHashAndTokenManager;

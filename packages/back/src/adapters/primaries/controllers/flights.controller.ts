@@ -1,7 +1,8 @@
 import { Router } from "express";
-import { addFlightSchema, flightsRoute, Result } from "@paralogs/shared";
+import { addFlightSchema, flightsRoute } from "@paralogs/shared";
 import { callUseCase, sendHttpResponse, validateSchema } from "../../lib/response-lib";
 import { flightsUseCases } from "../../../config/useCasesChoice";
+import { RightAsync } from "../../../domain/core/purifyAdds";
 
 export const flightsRouter = Router();
 
@@ -14,7 +15,7 @@ export const flightsController = () => {
         res,
         await callUseCase({
           useCase: flightsUseCases.addFlight,
-          resultParams: resultAddFlightBody.map(addFlightBody => ({
+          eitherAsyncParams: resultAddFlightBody.map(addFlightBody => ({
             ...addFlightBody,
             userUuid: req.currentUser.uuid,
           })),
@@ -26,7 +27,7 @@ export const flightsController = () => {
         res,
         await callUseCase({
           useCase: flightsUseCases.retrieveFlights,
-          resultParams: Result.ok(req.currentUser),
+          eitherAsyncParams: RightAsync(req.currentUser),
         }),
       );
     });

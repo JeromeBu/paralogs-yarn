@@ -1,6 +1,6 @@
 import { UpdateWingDTO, WithUserUuid } from "@paralogs/shared";
 import { WingRepo } from "../../gateways/WingRepo";
-import { ResultAsync } from "../../core/Result";
+import { ResultAsync } from "../../core/purifyAdds";
 import { notFoundError } from "../../core/errors";
 
 export interface UpdateWingDependencies {

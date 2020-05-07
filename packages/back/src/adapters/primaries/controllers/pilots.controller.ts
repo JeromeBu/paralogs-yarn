@@ -11,7 +11,10 @@ export const pilotsController = (): Router => {
     return sendHttpResponse(
       res,
       await callUseCase({
-        resultParams: resultBody.map(body => ({ ...body, currentUser: req.currentUser })),
+        eitherAsyncParams: resultBody.map(body => ({
+          ...body,
+          currentUser: req.currentUser,
+        })),
         useCase: await userUseCases.update,
       }),
     );

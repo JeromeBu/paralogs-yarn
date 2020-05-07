@@ -1,12 +1,11 @@
 import { findByUuidAndReplace, UserUuid, WingUuid } from "@paralogs/shared";
-import { liftEither } from "purify-ts/EitherAsync";
 import { liftMaybe } from "purify-ts/MaybeAsync";
 import { List } from "purify-ts";
 
 import { WingRepo } from "../../../../domain/gateways/WingRepo";
 import { WingEntity } from "../../../../domain/entities/WingEntity";
 import { getNextId } from "./helpers";
-import { ResultAsync, RightVoid } from "../../../../domain/core/Result";
+import { ResultAsync, RightAsyncVoid } from "../../../../domain/core/purifyAdds";
 
 export class InMemoryWingRepo implements WingRepo {
   private _wings: WingEntity[] = [];
@@ -30,12 +29,12 @@ export class InMemoryWingRepo implements WingRepo {
 
   private _update(wingEntity: WingEntity): ResultAsync<void> {
     findByUuidAndReplace(this._wings, wingEntity);
-    return liftEither(RightVoid());
+    return RightAsyncVoid();
   }
 
   private _create(wingEntity: WingEntity): ResultAsync<void> {
     wingEntity.setIdentity(getNextId(this._wings));
     this._wings = [wingEntity, ...this._wings];
-    return liftEither(RightVoid());
+    return RightAsyncVoid();
   }
 }

@@ -19,15 +19,18 @@ const authRouter = Router();
 
 export const authController = (): Router => {
   authRouter.post(loginRoute, async (req, res) => {
-    const resultParams = await validateSchema(loginSchema, req.body);
-    const httpResponse = await callUseCase({ resultParams, useCase: authUseCases.login });
+    const eitherAsyncParams = await validateSchema(loginSchema, req.body);
+    const httpResponse = await callUseCase({
+      eitherAsyncParams,
+      useCase: authUseCases.login,
+    });
     return sendHttpResponse(res, httpResponse);
   });
 
   authRouter.post(signUpRoute, async (req, res) => {
-    const resultParams = await validateSchema(signUpSchema, req.body);
+    const eitherAsyncParams = await validateSchema(signUpSchema, req.body);
     const httpResponse = await callUseCase({
-      resultParams,
+      eitherAsyncParams,
       useCase: authUseCases.signUp,
     });
     return sendHttpResponse(res, httpResponse);

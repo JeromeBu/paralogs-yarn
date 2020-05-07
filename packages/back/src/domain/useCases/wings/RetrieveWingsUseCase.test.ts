@@ -16,7 +16,7 @@ import {
 import { InMemoryUserRepo } from "../../../adapters/secondaries/repositories/inMemory/InMemoryUserRepo";
 import { TestHashAndTokenManager } from "../../../adapters/secondaries/TestHashAndTokenManager";
 import { HashAndTokenManager } from "../../gateways/HashAndTokenManager";
-import { Result } from "../../core/Result";
+import { Result } from "../../core/purifyAdds";
 
 describe("wings retrieval", () => {
   let retrieveWingsUseCase: RetrieveWingsUseCase;

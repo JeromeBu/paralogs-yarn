@@ -1,67 +1,85 @@
-import { UserUuid, Result, fromNullable } from "@paralogs/shared";
+import { UserUuid } from "@paralogs/shared";
 import Knex from "knex";
+import { liftMaybe, liftPromise as liftPromiseToMaybeAsync } from "purify-ts/MaybeAsync";
+import { Maybe } from "purify-ts";
+import { liftPromise as liftPromiseToEitherAsync } from "purify-ts/EitherAsync";
+
 import { UserEntity } from "../../../../../domain/entities/UserEntity";
 import { Email } from "../../../../../domain/valueObjects/user/Email";
 import { userPersistenceMapper } from "./userPersistenceMapper";
 import { UserRepo } from "../../../../../domain/gateways/UserRepo";
 import { UserPersistence } from "./UserPersistence";
+import {
+  LeftAsync,
+  ResultAsync,
+  RightAsyncVoid,
+} from "../../../../../domain/core/purifyAdds";
+import { knexError } from "../knex/knexErrors";
 
 export class PgUserRepo implements UserRepo {
   constructor(private knex: Knex<any, unknown[]>) {}
 
-  public async save(userEntity: UserEntity): Promise<Result<void>> {
-    if (userEntity.hasIdentity()) return this._update(userEntity);
-    return this._create(userEntity);
+  public save(userEntity: UserEntity) {
+    return userEntity.hasIdentity() ? this._update(userEntity) : this._create(userEntity);
   }
 
-  public async findByEmail(email: Email) {
-    const userPgOrUndefined = await this.knex
-      .from<UserPersistence>("users")
-      .where({ email: email.value })
-      .first();
-    return fromNullable(userPgOrUndefined).map(userPersistence =>
-      userPersistenceMapper.toEntity(userPersistence),
-    );
+  public findByEmail(email: Email) {
+    return liftPromiseToMaybeAsync(() =>
+      this.knex
+        .from<UserPersistence>("users")
+        .where({ email: email.value })
+        .first(),
+    )
+      .chain(userPersistence => liftMaybe(Maybe.fromNullable(userPersistence)))
+      .map(userPersistenceMapper.toEntity);
   }
 
-  public async findByUuid(uuid: UserUuid) {
-    const userPersistence = await this.knex
-      .from<UserPersistence>("users")
-      .where({ uuid })
-      .first();
-    return userPersistence && userPersistenceMapper.toEntity(userPersistence);
+  public findByUuid(uuid: UserUuid) {
+    return liftPromiseToMaybeAsync(() =>
+      this.knex
+        .from<UserPersistence>("users")
+        .where({ uuid })
+        .first(),
+    )
+      .chain(userPersistence => liftMaybe(Maybe.fromNullable(userPersistence)))
+      .map(userPersistenceMapper.toEntity);
   }
 
-  private async _create(userEntity: UserEntity): Promise<Result<void>> {
+  private _create(userEntity: UserEntity): ResultAsync<void> {
     const userPersistence = userPersistenceMapper.toPersistence(userEntity);
-
-    try {
-      await this.knex("users").insert(userPersistence);
-      return Result.ok();
-    } catch (error) {
-      const isEmailTaken: boolean =
-        error.detail?.includes("already exists") && error.detail?.includes("email");
-      return Result.fail(
-        isEmailTaken ? "Email is already taken. Consider logging in." : error,
-      );
-    }
+    return liftPromiseToEitherAsync(() => this.knex("users").insert(userPersistence))
+      .chainLeft((error: any) => {
+        const isEmailTaken: boolean =
+          error.detail?.includes("already exists") && error.detail?.includes("email");
+        return LeftAsync(
+          knexError(
+            isEmailTaken ? "Email is already taken. Consider logging in." : error.message,
+          ),
+        );
+      })
+      .chain(RightAsyncVoid);
   }
 
-  private async _update(userEntity: UserEntity) {
+  private _update(userEntity: UserEntity): ResultAsync<void> {
     const { firstName, lastName } = userEntity.getProps();
-
-    return this.knex("users")
-      .from<UserPersistence>("users")
-      .where({ uuid: userEntity.uuid })
-      .update({
-        first_name: firstName.value,
-        ...(lastName
-          ? {
-              last_name: lastName?.value,
-            }
-          : {}),
-      })
-      .then(() => Result.ok<void>())
-      .catch(err => Result.fail<void>(err));
+    return liftPromiseToEitherAsync(() =>
+      this.knex("users")
+        .from<UserPersistence>("users")
+        .where({ uuid: userEntity.uuid })
+        .update({
+          first_name: firstName.value,
+          ...(lastName
+            ? {
+                last_name: lastName?.value,
+              }
+            : {}),
+        }),
+    )
+      .chain(RightAsyncVoid)
+      .chainLeft(error => {
+        // eslint-disable-next-line no-console
+        console.error("Fail to update user :", error);
+        return LeftAsync(knexError("Fail to update user"));
+      });
   }
 }

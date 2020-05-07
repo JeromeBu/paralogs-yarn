@@ -1,4 +1,6 @@
 import { UpdatePilotDTO } from "@paralogs/shared";
+import { liftEither } from "purify-ts/EitherAsync";
+
 import { getKnex, resetDb } from "../db";
 import { UserRepo } from "../../../../../domain/gateways/UserRepo";
 import { PgUserRepo } from "./PgUserRepo";
@@ -9,6 +11,7 @@ import { Email } from "../../../../../domain/valueObjects/user/Email";
 import { PersonName } from "../../../../../domain/valueObjects/user/PersonName";
 import { UserPersistence } from "./UserPersistence";
 import { userPersistenceMapper } from "./userPersistenceMapper";
+import { expectEitherToMatchError, expectRight } from "../../../../../utils/testHelpers";
 
 describe("User repository postgres tests", () => {
   const makeUserEntity = makeUserEntityCreator(new TestHashAndTokenManager());
@@ -27,11 +30,10 @@ describe("User repository postgres tests", () => {
 
   it("Creates a user", async () => {
     const createdUserEntity = await makeUserEntity({ email: "createduser@mail.com" });
-    const resultSavedUserEntity = await pgUserRepo.save(createdUserEntity);
+    const resultSavedUserEntity = await pgUserRepo.save(createdUserEntity).run();
 
     const props = createdUserEntity.getProps();
-    expect(resultSavedUserEntity.error).toBeUndefined();
-    expect(resultSavedUserEntity.isSuccess).toBe(true);
+    expectRight(resultSavedUserEntity);
 
     const userPersistenceToMatch: UserPersistence = {
       id: createdUserEntity.getIdentity(),
@@ -52,34 +54,36 @@ describe("User repository postgres tests", () => {
 
   it("Cannot create a user with the same email", async () => {
     const userEntity = await makeUserEntity({ email: johnEmail });
-    const resultSavedUserEntity = await pgUserRepo.save(userEntity);
+    const resultSavedUserEntity = await pgUserRepo.save(userEntity).run();
     await knex.from<UserPersistence>("users");
-    expect(resultSavedUserEntity.error).toBe(
+    expectEitherToMatchError(
+      resultSavedUserEntity,
       "Email is already taken. Consider logging in.",
     );
   });
 
   it("finds a user from its email", async () => {
-    (await pgUserRepo.findByEmail(Email.create(johnEmail).getOrThrow())).map(userEntity =>
-      expect(userEntity).toEqual(johnEntity),
-    );
-  });
-
-  it("does not find user if it doesn't exist", async () => {
-    expect(
-      (
-        await pgUserRepo.findByEmail(Email.create("notfound@mail.com").getOrThrow())
-      ).isNone(),
-    ).toBe(true);
-  });
-
-  it("finds a user from its id", async () => {
-    const userEntity = await pgUserRepo.findByUuid(johnEntity.uuid);
+    const email = Email.create(johnEmail)
+      .ifLeft(() => expect("Email not created").toBeNull())
+      .extract() as Email;
+    const userEntity = (await pgUserRepo.findByEmail(email).run()).extract();
     expect(userEntity).toEqual(johnEntity);
   });
 
   it("does not find user if it doesn't exist", async () => {
-    expect(await pgUserRepo.findByUuid("not found")).toBeUndefined();
+    const email = Email.create("notfound@mail.com")
+      .ifLeft(() => expect("Email not created").toBeNull())
+      .extract() as Email;
+    expect((await pgUserRepo.findByEmail(email).run()).isNothing()).toBe(true);
+  });
+
+  it("finds a user from its id", async () => {
+    const userEntity = await pgUserRepo.findByUuid(johnEntity.uuid).run();
+    expect(userEntity.extract()).toEqual(johnEntity);
+  });
+
+  it("does not find user if it doesn't exist", async () => {
+    expect((await pgUserRepo.findByUuid("not found").run()).isNothing()).toBeTruthy();
   });
 
   it("saves modifications on a user", async () => {
@@ -87,13 +91,16 @@ describe("User repository postgres tests", () => {
       firstName: "New-FirstName",
       lastName: "New-LastName",
     };
-    await johnEntity.update(newParams).map(john => pgUserRepo.save(john));
 
-    const updatedJohn = (await pgUserRepo.findByUuid(johnEntity.uuid))!;
+    await liftEither(johnEntity.update(newParams))
+      .chain(john => pgUserRepo.save(john))
+      .run();
+
+    const updatedJohn = (await pgUserRepo.findByUuid(johnEntity.uuid).run()).extract()!;
     expect(updatedJohn.getProps()).toMatchObject({
       ...johnEntity.getProps(),
-      firstName: PersonName.create(newParams.firstName).getOrThrow(),
-      lastName: PersonName.create(newParams.lastName).getOrThrow(),
+      firstName: PersonName.create(newParams.firstName).extract(),
+      lastName: PersonName.create(newParams.lastName).extract(),
     });
   });
 });
