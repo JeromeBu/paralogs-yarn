@@ -1,14 +1,10 @@
-import {
-  SignUpParams,
-  UuidGenerator,
-  CurrentUserWithAuthToken,
-  Result,
-} from "@paralogs/shared";
+import { SignUpParams, UuidGenerator, CurrentUserWithAuthToken } from "@paralogs/shared";
+
 import { UserRepo } from "../../gateways/UserRepo";
 import { UserEntity } from "../../entities/UserEntity";
-
 import { userMapper } from "../../mappers/user.mapper";
 import { HashAndTokenManager } from "../../gateways/HashAndTokenManager";
+import { ResultAsync } from "../../core/Result";
 
 interface SignUpDependencies {
   userRepo: UserRepo;
@@ -22,7 +18,7 @@ export const signUpCommandHandlerCreator = ({
   hashAndTokenManager,
 }: SignUpDependencies) => (
   signUpParams: SignUpParams,
-): Promise<Result<CurrentUserWithAuthToken>> => {
+): ResultAsync<CurrentUserWithAuthToken> => {
   return UserEntity.create(
     {
       ...signUpParams,
@@ -30,22 +26,15 @@ export const signUpCommandHandlerCreator = ({
     },
     { hashAndTokenManager },
   )
-    .then(userResult => {
-      return userResult.flatMapAsync(async userEntity => {
-        const resultUserSaved = await userRepo.save(userEntity);
-        return resultUserSaved.map(() => userEntity);
-      });
-    })
-    .then(savedUserResult =>
-      savedUserResult.map(savedUserEntity => {
-        const { user, pilot } = userMapper.entityToDTO(savedUserEntity);
-        return {
-          token: savedUserEntity.getProps().authToken,
-          currentUser: user,
-          pilotInformation: pilot,
-        };
-      }),
-    );
+    .chain(userEntity => userRepo.save(userEntity).map(() => userEntity))
+    .map(savedUserEntity => {
+      const { user, pilot } = userMapper.entityToDTO(savedUserEntity);
+      return {
+        token: savedUserEntity.getProps().authToken,
+        currentUser: user,
+        pilotInformation: pilot,
+      };
+    });
 };
 
 export type SignUpCommandHandler = ReturnType<typeof signUpCommandHandlerCreator>;

@@ -1,15 +1,13 @@
-import {
-  Result,
-  SignUpParams,
-  UpdatePilotDTO,
-  UserUuid,
-  WithUuid,
-} from "@paralogs/shared";
+import { SignUpParams, UpdatePilotDTO, UserUuid, WithUuid } from "@paralogs/shared";
+import { liftEither, liftPromise } from "purify-ts/EitherAsync";
+
 import { Email } from "../valueObjects/user/Email";
 import { Password } from "../valueObjects/user/Password";
 import { PersonName } from "../valueObjects/user/PersonName";
 import { HashAndTokenManager } from "../gateways/HashAndTokenManager";
 import { Entity } from "../core/Entity";
+import { ResultAsync } from "../core/Result";
+import { combineEithers } from "../core/EitherFunctions";
 
 interface UserEntityProps {
   uuid: UserUuid;
@@ -30,30 +28,37 @@ export class UserEntity extends Entity<UserEntityProps> {
   static create(
     params: SignUpParams & WithUuid,
     { hashAndTokenManager }: UserDependencies,
-  ): Promise<Result<UserEntity>> {
-    return Result.combine({
-      email: Email.create(params.email),
-      password: Password.create(params.password),
-      firstName: PersonName.create(params.firstName),
-      lastName: PersonName.create(params.lastName),
-    }).mapAsync(async ({ password, ...validResults }) => {
-      const hashedPassword = await hashAndTokenManager.hash(password);
-      return new UserEntity({
-        uuid: params.uuid,
-        ...validResults,
-        // isEmailConfirmed: false,
-        authToken: hashAndTokenManager.generateToken({ userUuid: params.uuid }),
-        hashedPassword,
+  ): ResultAsync<UserEntity> {
+    const eitherValidParams = Email.create(params.email).chain(email => {
+      return Password.create(params.password).chain(password => {
+        return PersonName.create(params.firstName).chain(firstName => {
+          return PersonName.create(params.lastName).map(lastName => {
+            return { email, password, firstName, lastName };
+          });
+        });
       });
     });
+
+    return liftEither(eitherValidParams).chain(({ password, ...validParams }) =>
+      liftPromise(async () => {
+        const hashedPassword = await hashAndTokenManager.hash(password);
+        return new UserEntity({
+          uuid: params.uuid,
+          ...validParams,
+          // isEmailConfirmed: false,
+          authToken: hashAndTokenManager.generateToken({ userUuid: params.uuid }),
+          hashedPassword,
+        });
+      }),
+    );
   }
 
   update(params: UpdatePilotDTO) {
-    return Result.combine({
+    return combineEithers({
       ...(params.firstName ? { firstName: PersonName.create(params.firstName) } : {}),
       ...(params.lastName ? { lastName: PersonName.create(params.lastName) } : {}),
-    }).map(validParamsToUpdate => {
-      const userEntity = new UserEntity({ ...this.props, ...validParamsToUpdate });
+    }).map(validParams => {
+      const userEntity = new UserEntity({ ...this.props, ...validParams });
       userEntity.setIdentity(this.getIdentity());
       return userEntity;
     });

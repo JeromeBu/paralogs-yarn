@@ -1,6 +1,9 @@
-import { Result, UpdatePilotDTO } from "@paralogs/shared";
+import { UpdatePilotDTO } from "@paralogs/shared";
+import { liftEither } from "purify-ts/EitherAsync";
+
 import { WithCurrentUser } from "../../entities/UserEntity";
 import { UserRepo } from "../../gateways/UserRepo";
+import { ResultAsync } from "../../core/Result";
 
 type UpdateUserUseCaseDependencies = {
   userRepo: UserRepo;
@@ -10,11 +13,11 @@ type UpdateUserParams = UpdatePilotDTO & WithCurrentUser;
 
 export const updateUserCommandHandlerCreator = ({
   userRepo,
-}: UpdateUserUseCaseDependencies) => async ({
+}: UpdateUserUseCaseDependencies) => ({
   currentUser,
   ...paramsToUpdate
-}: UpdateUserParams): Promise<Result<void>> => {
-  return currentUser.update(paramsToUpdate).flatMapAsync(u => userRepo.save(u));
+}: UpdateUserParams): ResultAsync<void> => {
+  return liftEither(currentUser.update(paramsToUpdate)).chain(u => userRepo.save(u));
 };
 
 export type UpdateUserCommandHandler = ReturnType<typeof updateUserCommandHandlerCreator>;

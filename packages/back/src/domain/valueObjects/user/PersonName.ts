@@ -1,5 +1,7 @@
 import { trim } from "lodash/fp";
-import { Result } from "@paralogs/shared";
+import { Right } from "purify-ts";
+
+import { Result } from "../../core/Result";
 
 const firstLetterUpperCase = (str: string) => {
   const [firstLetter, ...rest] = str.split("");
@@ -7,14 +9,10 @@ const firstLetterUpperCase = (str: string) => {
 };
 
 export class PersonName {
-  public readonly value: string;
-
-  private constructor(value: string) {
-    this.value = value;
-  }
+  private constructor(public readonly value: string) {}
 
   static create(name?: string): Result<PersonName> {
-    if (!name) return Result.ok(new PersonName(""));
-    return Result.ok(new PersonName(firstLetterUpperCase(trim(name))));
+    if (!name) return Right(new PersonName(""));
+    return Right(new PersonName(firstLetterUpperCase(trim(name))));
   }
 }

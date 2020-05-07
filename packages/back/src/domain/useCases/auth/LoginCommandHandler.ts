@@ -1,9 +1,13 @@
-import { LoginParams, CurrentUserWithAuthToken, Result } from "@paralogs/shared";
-import { UserRepo } from "../../gateways/UserRepo";
+import { CurrentUserWithAuthToken, LoginParams } from "@paralogs/shared";
+import { Left, Right } from "purify-ts";
+import { liftEither, liftPromise } from "purify-ts/EitherAsync";
 
+import { UserRepo } from "../../gateways/UserRepo";
 import { Email } from "../../valueObjects/user/Email";
 import { HashAndTokenManager } from "../../gateways/HashAndTokenManager";
 import { userMapper } from "../../mappers/user.mapper";
+import { ResultAsync } from "../../core/Result";
+import { AppError, notFoundError, validationError } from "../../core/errors";
 
 interface LoginDependencies {
   userRepo: UserRepo;
@@ -13,28 +17,27 @@ interface LoginDependencies {
 export const loginCommandHandlerCreator = ({
   userRepo,
   hashAndTokenManager,
-}: LoginDependencies) => async ({
-  email,
-  password,
-}: LoginParams): Promise<Result<CurrentUserWithAuthToken>> => {
-  return Email.create(email).flatMapAsync(async correctEmail => {
-    const optionUserEntity = await userRepo.findByEmail(correctEmail);
-
-    const optionResultUserEntity = await optionUserEntity.mapAsync(async userEntity => {
-      const isPasswordCorrect = await userEntity.checkPassword(password, {
-        hashAndTokenManager,
-      });
-      if (!isPasswordCorrect)
-        return Result.fail<CurrentUserWithAuthToken>("Wrong password");
-      const { user, pilot } = userMapper.entityToDTO(userEntity);
-      return Result.ok<CurrentUserWithAuthToken>({
-        token: userEntity.getProps().authToken,
-        currentUser: user,
-        pilotInformation: pilot,
-      });
-    });
-
-    return optionResultUserEntity.getOrElse(() => Result.fail("No user found"));
+}: LoginDependencies) => (params: LoginParams): ResultAsync<CurrentUserWithAuthToken> => {
+  return liftEither(Email.create(params.email)).chain(email => {
+    return userRepo
+      .findByEmail(email)
+      .toEitherAsync(notFoundError("No user found with this email"))
+      .chain(userEntity =>
+        liftPromise<boolean, AppError>(() =>
+          userEntity.checkPassword(params.password, { hashAndTokenManager }),
+        ).chain(isPasswordCorrect => {
+          if (!isPasswordCorrect)
+            return liftEither(Left(validationError("Wrong password")));
+          const { user, pilot } = userMapper.entityToDTO(userEntity);
+          return liftEither(
+            Right({
+              token: userEntity.getProps().authToken,
+              currentUser: user,
+              pilotInformation: pilot,
+            }),
+          );
+        }),
+      );
   });
 };
 

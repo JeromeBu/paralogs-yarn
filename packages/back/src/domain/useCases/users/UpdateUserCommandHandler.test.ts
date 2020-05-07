@@ -8,6 +8,7 @@ import { setupCurrentUserCreator } from "../../testBuilders/makeUserEntityCreato
 import { HashAndTokenManager } from "../../gateways/HashAndTokenManager";
 import { UserEntity } from "../../entities/UserEntity";
 import { userMapper } from "../../mappers/user.mapper";
+import { expectRight } from "../../../utils/testHelpers";
 
 describe("Update user", () => {
   describe("all is good", () => {
@@ -28,14 +29,18 @@ describe("Update user", () => {
       const result = await updateUserUseCase({
         currentUser,
         firstName: newFirstName,
-      });
-      expect(result.error).toBeUndefined();
-      expect(result.isSuccess).toBe(true);
+      }).run();
+      expectRight(result);
 
       const { email, uuid, lastName } = currentUser.getProps();
 
-      const updatedCurrentUser = await userRepo.findByUuid(currentUser.uuid);
-      expect(userMapper.entityToDTO(updatedCurrentUser!)).toMatchObject({
+      const updatedCurrentUser = await userRepo.findByUuid(currentUser.uuid).run();
+      updatedCurrentUser.ifNothing(() => {
+        expect("no user was found").toBe(false);
+      });
+      expect(
+        userMapper.entityToDTO(updatedCurrentUser.extract() as UserEntity),
+      ).toMatchObject({
         user: {
           uuid,
           email: email.value,
