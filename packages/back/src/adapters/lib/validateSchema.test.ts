@@ -1,5 +1,5 @@
 import * as Yup from "yup";
-import { validateSchema2 as validateSchema } from "./response-lib";
+import { validateSchema } from "./response-lib";
 import { validationError } from "../../domain/core/errors";
 
 describe("Validate schema", () => {

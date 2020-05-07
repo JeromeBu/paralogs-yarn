@@ -1,10 +1,16 @@
 import Knex from "knex";
-import { Result, UserUuid, WingUuid } from "@paralogs/shared";
+import { UserUuid, WingUuid } from "@paralogs/shared";
+import { Maybe } from "purify-ts/Maybe";
+import { liftMaybe, liftPromise } from "purify-ts/MaybeAsync";
+
 import { WingRepo } from "../../../../../domain/gateways/WingRepo";
 import { WingEntity } from "../../../../../domain/entities/WingEntity";
 import { wingPersistenceMapper } from "./wingPersistenceMapper";
 import { WingPersistence } from "./WingPersistence";
 import { UserPersistence } from "../users/UserPersistence";
+import { ResultAsync, RightAsyncVoid } from "../../../../../domain/core/purifyAdds";
+import { notFoundError } from "../../../../../domain/core/errors";
+import { knexError } from "../knex/knexErrors";
 
 export class PgWingRepo implements WingRepo {
   constructor(private knex: Knex<any, unknown[]>) {}
@@ -15,33 +21,39 @@ export class PgWingRepo implements WingRepo {
     );
   }
 
-  public async findByUuid(uuid: WingUuid) {
-    const wingPersistence = await this.knex
-      .from<WingPersistence>("wings")
-      .where({ uuid })
-      .first();
-    return wingPersistence && wingPersistenceMapper.toEntity(wingPersistence);
+  public findByUuid(uuid: WingUuid) {
+    return liftPromise(() =>
+      this.knex
+        .from<WingPersistence>("wings")
+        .where({ uuid })
+        .first(),
+    )
+      .chain(w => liftMaybe(Maybe.fromNullable(w)))
+      .map(wingPersistenceMapper.toEntity);
   }
 
-  public async save(wingEntity: WingEntity) {
-    const resultUserId = await this._getUserId(wingEntity.userUuid);
-    return resultUserId.mapAsync(userId =>
+  public save(wingEntity: WingEntity) {
+    return this._getUserId(wingEntity.userUuid).chain(userId =>
       wingEntity.hasIdentity()
         ? this._update(wingEntity, userId)
         : this._create(wingEntity, userId),
     );
   }
 
-  private async _create(wingEntity: WingEntity, user_id: number) {
+  private _create(wingEntity: WingEntity, user_id: number) {
     const wingPersistence = wingPersistenceMapper.toPersistence(wingEntity);
-    await this.knex<WingPersistence>("wings").insert({
-      ...wingPersistence,
-      user_id,
-      id: undefined,
-    });
+    return liftPromise(() =>
+      this.knex<WingPersistence>("wings").insert({
+        ...wingPersistence,
+        user_id,
+        id: undefined,
+      }),
+    )
+      .toEitherAsync(knexError("Fail to create wing"))
+      .chain(() => RightAsyncVoid());
   }
 
-  private async _update(wingEntity: WingEntity, user_id: number) {
+  private _update(wingEntity: WingEntity, user_id: number) {
     const {
       brand,
       model,
@@ -51,24 +63,33 @@ export class PgWingRepo implements WingRepo {
       ownerUntil,
     } = wingEntity.getProps();
 
-    await this.knex.from<WingPersistence>("wings").update({
-      brand,
-      model,
-      user_uuid: userUuid,
-      user_id,
-      flight_time_prior_to_own: flightTimePriorToOwn,
-      owner_from: ownerFrom,
-      owner_until: ownerUntil,
-    });
+    return liftPromise(() =>
+      this.knex.from<WingPersistence>("wings").update({
+        brand,
+        model,
+        user_uuid: userUuid,
+        user_id,
+        flight_time_prior_to_own: flightTimePriorToOwn,
+        owner_from: ownerFrom,
+        owner_until: ownerUntil,
+      }),
+    )
+      .toEitherAsync(knexError(`Fail to update wing with id ${wingEntity.uuid}`))
+      .chain(() => {
+        return RightAsyncVoid();
+      });
   }
 
-  private async _getUserId(uuid: UserUuid): Promise<Result<number>> {
-    const user = await this.knex
-      .from<UserPersistence>("users")
-      .select("id")
-      .where({ uuid })
-      .first();
-    if (!user) return Result.fail("No user matched this userUuid");
-    return Result.ok(user.id);
+  private _getUserId(uuid: UserUuid): ResultAsync<number> {
+    return liftPromise(() =>
+      this.knex
+        .from<UserPersistence>("users")
+        .select("id")
+        .where({ uuid })
+        .first(),
+    )
+      .chain(w => liftMaybe(Maybe.fromNullable(w)))
+      .toEitherAsync(notFoundError("No user matched this userUuid"))
+      .map(({ id }) => id);
   }
 }

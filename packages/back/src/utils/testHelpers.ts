@@ -1,10 +1,4 @@
-import { Result as OldResult } from "@paralogs/shared";
-import { Result } from "../domain/core/Result";
-
-export const expectOldResultOk = (result: OldResult<unknown>) => {
-  expect(result.error).toBeUndefined();
-  expect(result.isSuccess).toBe(true);
-};
+import { Result } from "../domain/core/purifyAdds";
 
 export const expectRight = (result: Result<unknown>) => {
   result.ifLeft(error => {

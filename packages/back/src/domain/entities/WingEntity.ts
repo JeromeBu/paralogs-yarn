@@ -8,7 +8,7 @@ import {
 } from "@paralogs/shared";
 import { Right } from "purify-ts";
 import { Entity } from "../core/Entity";
-import { Result } from "../core/Result";
+import { Result } from "../core/purifyAdds";
 
 interface WingEntityProps {
   uuid: WingUuid;

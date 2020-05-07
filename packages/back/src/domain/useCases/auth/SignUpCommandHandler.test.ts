@@ -14,7 +14,7 @@ import { UserEntity } from "../../entities/UserEntity";
 
 import { TestHashAndTokenManager } from "../../../adapters/secondaries/TestHashAndTokenManager";
 import { expectEitherToMatchError } from "../../../utils/testHelpers";
-import { Result } from "../../core/Result";
+import { Result } from "../../core/purifyAdds";
 
 describe("User signUp", () => {
   let userUuid = generateUuid();

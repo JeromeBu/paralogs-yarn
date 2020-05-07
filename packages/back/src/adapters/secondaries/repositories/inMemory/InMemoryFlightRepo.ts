@@ -1,11 +1,14 @@
-import { Left, List } from "purify-ts";
+import { List } from "purify-ts";
 import { liftMaybe } from "purify-ts/MaybeAsync";
 import { FlightUuid, UserUuid } from "@paralogs/shared";
-import { liftEither } from "purify-ts/EitherAsync";
 
 import { FlightRepo } from "../../../../domain/gateways/FlightRepo";
 import { FlightEntity } from "../../../../domain/entities/FlightEntity";
-import { ResultAsync, RightVoid } from "../../../../domain/core/Result";
+import {
+  LeftAsync,
+  ResultAsync,
+  RightAsyncVoid,
+} from "../../../../domain/core/purifyAdds";
 import { validationError } from "../../../../domain/core/errors";
 
 export class InMemoryFlightRepo implements FlightRepo {
@@ -21,9 +24,9 @@ export class InMemoryFlightRepo implements FlightRepo {
 
   public save(flightEntity: FlightEntity): ResultAsync<void> {
     if (flightEntity.hasIdentity())
-      return liftEither(Left(validationError("TODO handle update")));
+      return LeftAsync(validationError("TODO handle update"));
     this._flights.push(flightEntity);
-    return liftEither(RightVoid());
+    return RightAsyncVoid();
   }
 
   get flights() {

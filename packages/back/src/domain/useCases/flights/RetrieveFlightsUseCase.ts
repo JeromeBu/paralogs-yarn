@@ -4,7 +4,7 @@ import { liftPromise } from "purify-ts/EitherAsync";
 import { FlightRepo } from "../../gateways/FlightRepo";
 import { UserEntity } from "../../entities/UserEntity";
 import { flightMapper } from "../../mappers/flight.mapper";
-import { ResultAsync } from "../../core/Result";
+import { ResultAsync } from "../../core/purifyAdds";
 import { FlightEntity } from "../../entities/FlightEntity";
 import { AppError } from "../../core/errors";
 

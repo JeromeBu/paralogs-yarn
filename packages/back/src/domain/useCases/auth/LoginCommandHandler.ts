@@ -1,12 +1,11 @@
 import { CurrentUserWithAuthToken, LoginParams } from "@paralogs/shared";
-import { Left, Right } from "purify-ts";
 import { liftEither, liftPromise } from "purify-ts/EitherAsync";
 
 import { UserRepo } from "../../gateways/UserRepo";
 import { Email } from "../../valueObjects/user/Email";
 import { HashAndTokenManager } from "../../gateways/HashAndTokenManager";
 import { userMapper } from "../../mappers/user.mapper";
-import { ResultAsync } from "../../core/Result";
+import { LeftAsync, ResultAsync, RightAsync } from "../../core/purifyAdds";
 import { AppError, notFoundError, validationError } from "../../core/errors";
 
 interface LoginDependencies {
@@ -26,16 +25,13 @@ export const loginCommandHandlerCreator = ({
         liftPromise<boolean, AppError>(() =>
           userEntity.checkPassword(params.password, { hashAndTokenManager }),
         ).chain(isPasswordCorrect => {
-          if (!isPasswordCorrect)
-            return liftEither(Left(validationError("Wrong password")));
+          if (!isPasswordCorrect) return LeftAsync(validationError("Wrong password"));
           const { user, pilot } = userMapper.entityToDTO(userEntity);
-          return liftEither(
-            Right({
-              token: userEntity.getProps().authToken,
-              currentUser: user,
-              pilotInformation: pilot,
-            }),
-          );
+          return RightAsync({
+            token: userEntity.getProps().authToken,
+            currentUser: user,
+            pilotInformation: pilot,
+          });
         }),
       );
   });

@@ -4,7 +4,7 @@ import {
   AddWingCommandHandler,
   addWingCommandHandlerCreator,
 } from "./AddWingCommandHandler";
-import { Result } from "../../core/Result";
+import { Result } from "../../core/purifyAdds";
 import { AppError } from "../../core/errors";
 
 describe("wing creation", () => {

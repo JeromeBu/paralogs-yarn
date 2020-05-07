@@ -1,9 +1,10 @@
 import { Response } from "express";
 import { ObjectSchema, Shape } from "yup";
-import { Result } from "@paralogs/shared";
 import _ from "lodash";
-import { EitherAsync, Left, Right } from "purify-ts";
+import { EitherAsync } from "purify-ts";
+import { liftPromise } from "purify-ts/EitherAsync";
 import { AppError, validationError } from "../../domain/core/errors";
+import { LeftAsync, ResultAsync } from "../../domain/core/purifyAdds";
 
 export const success = (body: unknown, statusCode = 200) =>
   buildResponse(statusCode, body);
@@ -28,62 +29,23 @@ function buildResponse(statusCode: number, body: unknown): HttpResponse {
   };
 }
 
-export const validateSchema = async <T extends object>(
+export const validateSchema = <T extends object>(
   validationSchema: ObjectSchema<Shape<object, T>>,
   body: any,
-  // ): EitherAsync<ValidationError, Shape<object, T>> => {
-): Promise<Result<Shape<object, T>>> => {
-  if (_.isEmpty(body)) return Result.fail("No body was provided");
-  return validationSchema
-    .validate(body, { abortEarly: false })
-    .then(Result.ok)
-    .catch(error => {
-      return Result.fail(error);
-    });
+): ResultAsync<Shape<object, T>> => {
+  if (_.isEmpty(body)) return LeftAsync(validationError("No body was provided"));
+  return liftPromise(() => validationSchema.validate(body, { abortEarly: false }));
 };
-
-export const validateSchema2 = <T extends object>(
-  validationSchema: ObjectSchema<Shape<object, T>>,
-  body: any,
-): EitherAsync<AppError, Shape<object, T>> =>
-  EitherAsync(async ({ liftEither, fromPromise }) => {
-    if (_.isEmpty(body)) return liftEither(Left(validationError("No body was provided")));
-    return fromPromise(
-      validationSchema
-        .validate(body, { abortEarly: false })
-        .then(Right)
-        .catch(error => Left(error)),
-    );
-  });
 
 type CallUseCaseParams<P> = {
-  useCase: (params: P) => Promise<Result<unknown>>;
-  resultParams: Result<P>;
-};
-
-export const callUseCase = <P>({
-  useCase,
-  resultParams,
-}: CallUseCaseParams<P>): Promise<HttpResponse> => {
-  return resultParams
-    .flatMapAsync(async params => {
-      const resultDataReturned = await useCase(params);
-      return resultDataReturned.map(success);
-    })
-    .then(resultHttpResponse =>
-      resultHttpResponse.getOrElse(error => failure(error, 400)),
-    );
-};
-
-type CallUseCaseParams2<P> = {
   useCase: (params: P) => EitherAsync<AppError, unknown>;
   eitherAsyncParams: EitherAsync<AppError, P>;
 };
 
-export const callUseCase2 = <P>({
+export const callUseCase = <P>({
   useCase,
   eitherAsyncParams,
-}: CallUseCaseParams2<P>): Promise<HttpResponse> => {
+}: CallUseCaseParams<P>): Promise<HttpResponse> => {
   return eitherAsyncParams
     .chain(useCase)
     .run()

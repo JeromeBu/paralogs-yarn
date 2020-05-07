@@ -6,7 +6,7 @@ import { Password } from "../valueObjects/user/Password";
 import { PersonName } from "../valueObjects/user/PersonName";
 import { HashAndTokenManager } from "../gateways/HashAndTokenManager";
 import { Entity } from "../core/Entity";
-import { ResultAsync } from "../core/Result";
+import { ResultAsync } from "../core/purifyAdds";
 import { combineEithers } from "../core/EitherFunctions";
 
 interface UserEntityProps {

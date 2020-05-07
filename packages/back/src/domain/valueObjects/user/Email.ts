@@ -1,5 +1,5 @@
 import { Left, Right } from "purify-ts";
-import { Result } from "../../core/Result";
+import { Result } from "../../core/purifyAdds";
 import { validationError } from "../../core/errors";
 
 const isEmail = (str: string): boolean =>

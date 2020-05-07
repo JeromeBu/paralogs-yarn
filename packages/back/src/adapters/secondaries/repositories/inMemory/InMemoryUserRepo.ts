@@ -7,7 +7,11 @@ import { UserRepo } from "../../../../domain/gateways/UserRepo";
 import { UserEntity } from "../../../../domain/entities/UserEntity";
 import { Email } from "../../../../domain/valueObjects/user/Email";
 import { getNextId } from "./helpers";
-import { ResultAsync, RightVoid } from "../../../../domain/core/Result";
+import {
+  LeftAsync,
+  ResultAsync,
+  RightAsyncVoid,
+} from "../../../../domain/core/purifyAdds";
 import { notFoundError, validationError } from "../../../../domain/core/errors";
 
 export class InMemoryUserRepo implements UserRepo {
@@ -49,14 +53,13 @@ export class InMemoryUserRepo implements UserRepo {
       );
     userEntity.setIdentity(getNextId(this._users));
     this._users.push(userEntity);
-    return liftEither(RightVoid());
+    return RightAsyncVoid();
   }
 
   private _update(userEntity: UserEntity): ResultAsync<void> {
     const indexOfUser = this._users.findIndex(({ uuid }) => uuid === userEntity.uuid);
-    if (indexOfUser === -1)
-      return liftEither(Left(notFoundError("No user found with this id")));
+    if (indexOfUser === -1) return LeftAsync(notFoundError("No user found with this id"));
     this._users[indexOfUser] = userEntity;
-    return liftEither(RightVoid());
+    return RightAsyncVoid();
   }
 }

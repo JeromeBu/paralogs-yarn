@@ -1,4 +1,5 @@
 import { generateUuid } from "@paralogs/shared";
+
 import { getKnex, resetDb } from "../db";
 import { makeUserEntityCreator } from "../../../../../domain/testBuilders/makeUserEntityCreator";
 import { TestHashAndTokenManager } from "../../../../secondaries/TestHashAndTokenManager";
@@ -62,12 +63,12 @@ describe("Flight repository postgres tests", () => {
 
   it("creates a flight", async () => {
     const wingEntity = makeWingEntity({ userUuid: johnEntity.uuid });
-    await pgWingRepo.save(wingEntity);
+    await pgWingRepo.save(wingEntity).run();
     const createdFlightEntity = makeFlightEntity({
       userUuid: johnEntity.uuid,
       wingUuid: wingEntity.uuid,
     });
-    await pgFlightRepo.save(createdFlightEntity);
+    await pgFlightRepo.save(createdFlightEntity).run();
     const {
       uuid,
       userUuid,
@@ -96,8 +97,8 @@ describe("Flight repository postgres tests", () => {
   });
 
   it("gets a flight from it's id", async () => {
-    const foundFlight = await pgFlightRepo.findByUuid(flightEntity.uuid);
-    expect(foundFlight).toEqual(flightEntity);
+    const foundFlight = await pgFlightRepo.findByUuid(flightEntity.uuid).run();
+    expect(foundFlight.extract()).toEqual(flightEntity);
   });
 
   it("gets all the flights that belong to a user", async () => {
