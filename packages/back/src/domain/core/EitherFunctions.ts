@@ -1,5 +1,6 @@
-import { Left, Right } from "purify-ts";
+import { EitherAsync, Left, MaybeAsync, Right } from "purify-ts";
 import { Result } from "./Result";
+import { AppError } from "./errors";
 
 export const combineEithers = <T extends { [key in string]: Result<unknown> }>(
   resultsObject: T,
@@ -19,3 +20,13 @@ export const combineEithers = <T extends { [key in string]: Result<unknown> }>(
     ),
   );
 };
+
+export const checkNotExists = (
+  maybeAsyncValue: MaybeAsync<unknown>,
+  error: AppError,
+): EitherAsync<AppError, unknown> =>
+  EitherAsync(async ({ liftEither: lift }) => {
+    const maybe = await maybeAsyncValue.run();
+    if (maybe.extract()) return lift(Left(error));
+    return lift(Right(null));
+  });

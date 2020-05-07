@@ -1,22 +1,29 @@
-import { FlightUuid, Result, UserUuid } from "@paralogs/shared";
+import { Left, List } from "purify-ts";
+import { liftMaybe } from "purify-ts/MaybeAsync";
+import { FlightUuid, UserUuid } from "@paralogs/shared";
+import { liftEither } from "purify-ts/EitherAsync";
+
 import { FlightRepo } from "../../../../domain/gateways/FlightRepo";
 import { FlightEntity } from "../../../../domain/entities/FlightEntity";
+import { ResultAsync, RightVoid } from "../../../../domain/core/Result";
+import { validationError } from "../../../../domain/core/errors";
 
 export class InMemoryFlightRepo implements FlightRepo {
   private _flights: FlightEntity[] = [];
 
-  public async findByUuid(flightUuid: FlightUuid) {
-    return this._flights.find(flight => flight.uuid === flightUuid);
+  public findByUuid(flightUuid: FlightUuid) {
+    return liftMaybe(List.find(flight => flight.uuid === flightUuid, this._flights));
   }
 
   public async findByUserUuid(userUuid: UserUuid) {
     return this._flights.filter(flight => flight.getProps().userUuid === userUuid);
   }
 
-  public async save(flightEntity: FlightEntity): Promise<Result<void>> {
-    if (flightEntity.hasIdentity()) return Result.fail("TODO handle update");
+  public save(flightEntity: FlightEntity): ResultAsync<void> {
+    if (flightEntity.hasIdentity())
+      return liftEither(Left(validationError("TODO handle update")));
     this._flights.push(flightEntity);
-    return Result.ok();
+    return liftEither(RightVoid());
   }
 
   get flights() {
