@@ -3,11 +3,12 @@ import {
   FlightDTO,
   FlightUuid,
   NumberOfMinutes,
-  Result,
   UserUuid,
   WingUuid,
 } from "@paralogs/shared";
+import { Right } from "purify-ts";
 import { Entity } from "../core/Entity";
+import { Result } from "../core/Result";
 
 interface FlightEntityProps {
   uuid: FlightUuid;
@@ -21,7 +22,7 @@ interface FlightEntityProps {
 
 export class FlightEntity extends Entity<FlightEntityProps> {
   static create(props: FlightDTO): Result<FlightEntity> {
-    return Result.ok(new FlightEntity(props));
+    return Right(new FlightEntity(props));
   }
 
   static fromDTO(props: FlightEntityProps) {

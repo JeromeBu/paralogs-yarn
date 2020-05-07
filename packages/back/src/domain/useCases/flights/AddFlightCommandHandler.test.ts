@@ -5,6 +5,7 @@ import {
 } from "./AddFlightCommandHandler";
 import { InMemoryFlightRepo } from "../../../adapters/secondaries/repositories/inMemory/InMemoryFlightRepo";
 import { flightMapper } from "../../mappers/flight.mapper";
+import { expectEitherToMatchError } from "../../../utils/testHelpers";
 
 describe("add a flight", () => {
   let addFlightUseCase: AddFlightCommandHandler;
@@ -19,12 +20,11 @@ describe("add a flight", () => {
     it("cannot create a flight", async () => {
       const id: FlightUuid = generateUuid();
       const flightDto = makeFlightDTO({ uuid: id });
-      await addFlightUseCase(flightDto);
+      await addFlightUseCase(flightDto).run();
 
       const flightDtoWithSameId = makeFlightDTO({ uuid: id, site: "The new one" });
-      const result = await addFlightUseCase(flightDtoWithSameId);
-
-      expect(result.error).toBe("A flight with this id already exists");
+      const result = await addFlightUseCase(flightDtoWithSameId).run();
+      expectEitherToMatchError(result, "A flight with this id already exists");
     });
   });
 
@@ -32,13 +32,14 @@ describe("add a flight", () => {
     it("creates a flight", async () => {
       const uuid: FlightUuid = generateUuid();
       const flightDto = makeFlightDTO({ uuid });
-      await addFlightUseCase(flightDto);
+      await addFlightUseCase(flightDto).run();
       expectFlightDtoToBeSaved(flightDto);
     });
   });
 
   const expectFlightDtoToBeSaved = (flightDTO: FlightDTO) => {
     const flightFound = flightRepo.flights.find(({ uuid }) => uuid === flightDTO.uuid)!;
+    expect(flightFound).toBeTruthy();
     expect(flightMapper.entityToDTO(flightFound)).toEqual(flightDTO);
   };
 });

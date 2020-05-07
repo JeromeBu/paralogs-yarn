@@ -31,8 +31,8 @@ describe("flights retrieval", () => {
 
   describe("user has no flights", () => {
     it("returns no flights", async () => {
-      const flightDTOs = await retrieveFlightUseCase(currentUser);
-      expect(flightDTOs.getOrThrow()).toEqual([]);
+      const flightDTOs = await retrieveFlightUseCase(currentUser).run();
+      expect(flightDTOs.extract()).toEqual([]);
     });
   });
 
@@ -43,11 +43,11 @@ describe("flights retrieval", () => {
       const flightDTO = makeFlightDTO({ userUuid: currentUser.uuid });
       const someoneElseFlightDTO = makeFlightDTO({ userUuid: generateUuid() });
       await Promise.all([
-        addFlightUseCase(flightDTO),
-        addFlightUseCase(someoneElseFlightDTO),
+        addFlightUseCase(flightDTO).run(),
+        addFlightUseCase(someoneElseFlightDTO).run(),
       ]);
-      const retrievedFlightDTOs = await retrieveFlightUseCase(currentUser);
-      expect(retrievedFlightDTOs.getOrThrow()).toEqual([flightDTO]);
+      const retrievedFlightDTOs = await retrieveFlightUseCase(currentUser).run();
+      expect(retrievedFlightDTOs.extract()).toEqual([flightDTO]);
     });
   });
 });
