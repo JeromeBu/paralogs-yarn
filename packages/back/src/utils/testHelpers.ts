@@ -6,7 +6,7 @@ export const expectOldResultOk = (result: OldResult<unknown>) => {
   expect(result.isSuccess).toBe(true);
 };
 
-export const expectResultOk = (result: Result<unknown>) => {
+export const expectRight = (result: Result<unknown>) => {
   result.ifLeft(error => {
     expect(error.message).toBeUndefined();
   });

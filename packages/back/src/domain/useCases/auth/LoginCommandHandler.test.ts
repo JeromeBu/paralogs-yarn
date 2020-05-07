@@ -1,8 +1,10 @@
-import { CurrentUserWithAuthToken, Result } from "@paralogs/shared";
+import { CurrentUserWithAuthToken } from "@paralogs/shared";
 import { loginCommandHandlerCreator, LoginCommandHandler } from "./LoginCommandHandler";
 import { InMemoryUserRepo } from "../../../adapters/secondaries/repositories/inMemory/InMemoryUserRepo";
 import { TestHashAndTokenManager } from "../../../adapters/secondaries/TestHashAndTokenManager";
 import { makeUserEntityCreator } from "../../testBuilders/makeUserEntityCreator";
+import { expectEitherToMatchError } from "../../../utils/testHelpers";
+import { Result } from "../../core/Result";
 
 describe("User Login", () => {
   let hashAndTokenManager: TestHashAndTokenManager;
@@ -22,8 +24,8 @@ describe("User Login", () => {
       const response = await loginUseCase({
         email: "not an email",
         password: "whatever",
-      });
-      expectErrorToBe(response, "Not a valid Email");
+      }).run();
+      expectEitherToMatchError(response, "Not a valid Email");
     });
   });
 
@@ -32,8 +34,8 @@ describe("User Login", () => {
       const response = await loginUseCase({
         email: "notFound@mail.com",
         password: "whatever",
-      });
-      expectErrorToBe(response, "No user found");
+      }).run();
+      expectEitherToMatchError(response, "No user found");
     });
   });
 
@@ -44,8 +46,8 @@ describe("User Login", () => {
       const response = await loginUseCase({
         email,
         password: "wrongPassword",
-      });
-      expectErrorToBe(response, "Wrong password");
+      }).run();
+      expectEitherToMatchError(response, "Wrong password");
     });
   });
 
@@ -62,7 +64,7 @@ describe("User Login", () => {
       const response = await loginUseCase({
         email,
         password,
-      });
+      }).run();
 
       expectUserResultToEqual(response, {
         token: jwtToken,
@@ -79,8 +81,4 @@ describe("User Login", () => {
     result: Result<CurrentUserWithAuthToken>,
     expectedUserDTOWithToken: CurrentUserWithAuthToken,
   ) => result.map(userDTO => expect(userDTO).toEqual(expectedUserDTOWithToken));
-
-  const expectErrorToBe = (result: Result<unknown>, expectedError: string) => {
-    expect(result.error).toBe(expectedError);
-  };
 });

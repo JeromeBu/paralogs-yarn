@@ -3,7 +3,6 @@ import {
   FakeUuidGenerator,
   generateUuid,
   CurrentUserWithAuthToken,
-  Result,
 } from "@paralogs/shared";
 import _ from "lodash";
 import { InMemoryUserRepo } from "../../../adapters/secondaries/repositories/inMemory/InMemoryUserRepo";
@@ -14,6 +13,8 @@ import {
 import { UserEntity } from "../../entities/UserEntity";
 
 import { TestHashAndTokenManager } from "../../../adapters/secondaries/TestHashAndTokenManager";
+import { expectEitherToMatchError } from "../../../utils/testHelpers";
+import { Result } from "../../core/Result";
 
 describe("User signUp", () => {
   let userUuid = generateUuid();
@@ -37,8 +38,8 @@ describe("User signUp", () => {
   describe("email is not the write format", () => {
     it("fails to signUp with an explicit message", async () => {
       const signUpParams = buildSignUpParams({ email: "mail.com" });
-      const userDtoOrError = await signUpUseCase(signUpParams);
-      expectResultToBeError(userDtoOrError, "Not a valid Email");
+      const userDtoOrError = await signUpUseCase(signUpParams).run();
+      expectEitherToMatchError(userDtoOrError, "Not a valid Email");
     });
   });
 
@@ -48,13 +49,13 @@ describe("User signUp", () => {
         email: "some@mail.com",
         firstName: "Lulu",
       });
-      await signUpUseCase(signUpParams);
+      await signUpUseCase(signUpParams).run();
       const sameEmailSignUpParams = buildSignUpParams({
         email: "some@mail.com",
         firstName: "lala",
       });
-      const emailTakenResult = await signUpUseCase(sameEmailSignUpParams);
-      expectResultToBeError(
+      const emailTakenResult = await signUpUseCase(sameEmailSignUpParams).run();
+      expectEitherToMatchError(
         emailTakenResult,
         "Email is already taken. Consider logging in.",
       );
@@ -67,11 +68,14 @@ describe("User signUp", () => {
         buildSignUpParams({ password }),
       );
       const [toShortResult, noUpperResult, noLowerResult] = await Promise.all(
-        signUpParamsCases.map(signUpUseCase),
+        signUpParamsCases.map(params => signUpUseCase(params).run()),
       );
-      expectResultToBeError(toShortResult, "Password must be at least 8 characters long");
-      expectResultToBeError(noUpperResult, "Password must have upper case characters");
-      expectResultToBeError(noLowerResult, "Password must have lower case characters");
+      expectEitherToMatchError(
+        toShortResult,
+        "Password must be at least 8 characters long",
+      );
+      expectEitherToMatchError(noUpperResult, "Password must have upper case characters");
+      expectEitherToMatchError(noLowerResult, "Password must have lower case characters");
     });
   });
 
@@ -80,7 +84,7 @@ describe("User signUp", () => {
       const signUpParams = buildSignUpParams();
       const someFakeToken = "someFakeToken";
       hashAndTokenManager.setGeneratedToken(someFakeToken);
-      const currentUserWithToken = await signUpUseCase(signUpParams);
+      const currentUserWithToken = await signUpUseCase(signUpParams).run();
       expectUserResultToEqual(currentUserWithToken, {
         currentUser: {
           uuid: userUuid,
@@ -108,18 +112,13 @@ describe("User signUp", () => {
     return _.merge({}, randomSignUpParams, params);
   };
 
-  const expectResultToBeError = (
-    result: Result<CurrentUserWithAuthToken>,
-    expectedError: string,
-  ) => expect(result.error).toBe(expectedError);
-
   const expectUserResultToEqual = (
     result: Result<CurrentUserWithAuthToken>,
     expectedUserDTO: CurrentUserWithAuthToken,
-  ) =>
-    result.map(currentUserWithToken =>
-      expect(currentUserWithToken).toEqual(expectedUserDTO),
-    );
+  ) => {
+    expect(result.isRight()).toBe(true);
+    expect(result.extract()).toEqual(expectedUserDTO);
+  };
 
   // const expectUserEmailNotToBeConfirmed = (userEntity: UserEntity) =>
   //   expect(userEntity.getProps().isEmailConfirmed).toBe(false);

@@ -14,12 +14,16 @@ export const makeUserEntityCreator = (hashAndTokenManager: HashAndTokenManager) 
       { ...userDTO, ...pilotDTO, password },
       { hashAndTokenManager },
     )
+      .map(userEntity => {
+        if (userParams.id) userEntity.setIdentity(userParams.id);
+        return userEntity;
+      })
+      .run()
   )
-    .map(userEntity => {
-      if (userParams.id) userEntity.setIdentity(userParams.id);
-      return userEntity;
+    .ifLeft(error => {
+      throw error;
     })
-    .getOrThrow();
+    .extract() as UserEntity;
 };
 
 interface SetupCurrentUserDependencies {

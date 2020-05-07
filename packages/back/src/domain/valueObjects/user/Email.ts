@@ -1,4 +1,6 @@
-import { Result } from "@paralogs/shared";
+import { Left, Right } from "purify-ts";
+import { Result } from "../../core/Result";
+import { validationError } from "../../core/errors";
 
 const isEmail = (str: string): boolean =>
   !!str.match(
@@ -13,9 +15,9 @@ export class Email {
 
   static create(email: string): Result<Email> {
     if (!isEmail(email)) {
-      return Result.fail("Not a valid Email");
+      return Left(validationError("Not a valid Email"));
     }
 
-    return Result.ok(new Email(email.toLowerCase()));
+    return Right(new Email(email.toLowerCase()));
   }
 }

@@ -7,7 +7,7 @@ import {
 } from "./UpdateWingCommandHandler";
 import { makeWingEntity } from "../../testBuilders/makeWingEntity";
 import { wingMapper } from "../../mappers/wing.mapper";
-import { expectEitherToMatchError, expectResultOk } from "../../../utils/testHelpers";
+import { expectEitherToMatchError, expectRight } from "../../../utils/testHelpers";
 
 describe("update wing use case", () => {
   let updateWingUseCase: UpdateWingCommandHandler;
@@ -40,7 +40,7 @@ describe("update wing use case", () => {
         ownerFrom: new Date("2020-03-01").toUTCString(),
       };
       const response = await updateWingUseCase(newParams).run();
-      expectResultOk(response);
+      expectRight(response);
 
       const expectedWingDTO = makeWingDTO(newParams);
       const updatedWing = wingMapper.entityToDTO(wingRepo.wings[0]);
