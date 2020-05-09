@@ -29,13 +29,15 @@ describe("update wing use case", () => {
     it("updates a wing", async () => {
       // the userUuid here is just a random uuid -> see in makeWingDTO.ts
       const wingDTO = makeWingDTO();
-      wingRepo.wings.push(makeWingEntity(wingDTO));
+      const wingEntity = makeWingEntity(wingDTO);
+      wingEntity.setIdentity(3);
+      wingRepo.wings.push(wingEntity);
       const { uuid, userUuid } = wingDTO;
       const newParams = {
         uuid,
         userUuid,
-        brand: "Nova",
-        model: "Ion 5",
+        brand: "New Nova",
+        model: "Ion 6",
         flightTimePriorToOwn: 60,
         ownerFrom: new Date("2020-03-01").toUTCString(),
       };

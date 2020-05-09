@@ -1,4 +1,4 @@
-import { UserUuid } from "@paralogs/shared";
+import { findByUuidAndReplace, UserUuid } from "@paralogs/shared";
 import { Left, List } from "purify-ts";
 import { liftEither } from "purify-ts/EitherAsync";
 import { liftMaybe } from "purify-ts/MaybeAsync";
@@ -58,9 +58,10 @@ export class InMemoryUserRepo implements UserRepo {
   }
 
   private _update(userEntity: UserEntity): ResultAsync<void> {
-    const indexOfUser = this._users.findIndex(({ uuid }) => uuid === userEntity.uuid);
-    if (indexOfUser === -1) return LeftAsync(notFoundError("No user found with this id"));
-    this._users[indexOfUser] = userEntity;
+    const newUsers = findByUuidAndReplace(this._users, userEntity);
+    if (this._users === newUsers)
+      return LeftAsync(notFoundError("No user found with this id"));
+    this._users = newUsers;
     return RightAsyncVoid();
   }
 }

@@ -7,7 +7,7 @@ import {
   getInMemoryDependencies,
   InMemoryDependencies,
 } from "../../../testUtils";
-import { pilotActions } from "../pilote.slice";
+import { pilotActions } from "../pilot.slice";
 import { authActions } from "../../auth/auth.slice";
 
 describe("update pilot ", () => {
