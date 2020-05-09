@@ -1,6 +1,6 @@
 import * as Yup from "yup";
+import { validationError } from "@paralogs/back-shared";
 import { validateSchema } from "./response-lib";
-import { validationError } from "../../domain/core/errors";
 
 describe("Validate schema", () => {
   describe("when schema is not provided", () => {

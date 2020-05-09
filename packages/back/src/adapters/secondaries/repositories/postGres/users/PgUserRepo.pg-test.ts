@@ -1,5 +1,6 @@
 import { UpdatePilotDTO } from "@paralogs/shared";
 import { liftEither } from "purify-ts/EitherAsync";
+import { expectEitherToMatchError, expectRight } from "@paralogs/back-shared";
 
 import { getKnex, resetDb } from "../db";
 import { UserRepo } from "../../../../../domain/gateways/UserRepo";
@@ -11,7 +12,6 @@ import { Email } from "../../../../../domain/valueObjects/user/Email";
 import { PersonName } from "../../../../../domain/valueObjects/user/PersonName";
 import { UserPersistence } from "./UserPersistence";
 import { userPersistenceMapper } from "./userPersistenceMapper";
-import { expectEitherToMatchError, expectRight } from "../../../../../utils/testHelpers";
 
 describe("User repository postgres tests", () => {
   const makeUserEntity = makeUserEntityCreator(new TestHashAndTokenManager());

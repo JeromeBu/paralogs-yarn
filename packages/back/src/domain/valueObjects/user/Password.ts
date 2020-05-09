@@ -1,7 +1,5 @@
 import { Left, Right } from "purify-ts";
-
-import { validationError } from "../../core/errors";
-import { Result } from "../../core/purifyAdds";
+import { Result, validationError } from "@paralogs/back-shared";
 
 export class Password {
   private constructor(public readonly value: string) {

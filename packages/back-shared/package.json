@@ -1,0 +1,29 @@
+{
+  "name": "@paralogs/back-shared",
+  "version": "0.0.1",
+  "private": true,
+  "main": "dist/src/index.js",
+  "types": "dist/src/index.d.ts",
+  "scripts": {
+    "build": "rm -rf dist && tsc",
+    "build:watch": "tsc --watch",
+    "precommit": "lint-staged"
+  },
+  "dependencies": {
+    "purify-ts": "^0.15.1"
+  },
+  "devDependencies": {
+    "lint-staged": "^9.4.2"
+  },
+  "lint-staged": {
+    "src/**/*.{ts,tsx,js}": [
+      "eslint --config ../../.eslintrc.commit.js --fix",
+      "git add"
+    ]
+  },
+  "workspaces": {
+    "nohoist": [
+      "lint-staged"
+    ]
+  }
+}

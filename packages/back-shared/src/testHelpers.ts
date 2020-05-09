@@ -1,4 +1,4 @@
-import { Result } from "../domain/core/purifyAdds";
+import { Result } from "./purifyAdds";
 
 export const expectRight = (result: Result<unknown>) => {
   result.ifLeft(error => {

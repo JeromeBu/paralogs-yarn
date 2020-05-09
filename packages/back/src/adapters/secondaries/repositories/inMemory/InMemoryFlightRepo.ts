@@ -1,15 +1,15 @@
 import { List } from "purify-ts";
 import { liftMaybe } from "purify-ts/MaybeAsync";
 import { FlightUuid, UserUuid } from "@paralogs/shared";
-
-import { FlightRepo } from "../../../../domain/gateways/FlightRepo";
-import { FlightEntity } from "../../../../domain/entities/FlightEntity";
 import {
   LeftAsync,
   ResultAsync,
   RightAsyncVoid,
-} from "../../../../domain/core/purifyAdds";
-import { validationError } from "../../../../domain/core/errors";
+  validationError,
+} from "@paralogs/back-shared";
+
+import { FlightRepo } from "../../../../domain/gateways/FlightRepo";
+import { FlightEntity } from "../../../../domain/entities/FlightEntity";
 
 export class InMemoryFlightRepo implements FlightRepo {
   private _flights: FlightEntity[] = [];

@@ -1,11 +1,9 @@
 import { FlightDTO } from "@paralogs/shared";
 import { liftEither } from "purify-ts/EitherAsync";
+import { checkNotExists, notUniqError, ResultAsync } from "@paralogs/back-shared";
 
 import { FlightRepo } from "../../gateways/FlightRepo";
 import { FlightEntity } from "../../entities/FlightEntity";
-import { ResultAsync } from "../../core/purifyAdds";
-import { checkNotExists } from "../../core/EitherFunctions";
-import { notUniqError } from "../../core/errors";
 
 interface AddFlightDependencies {
   flightRepo: FlightRepo;

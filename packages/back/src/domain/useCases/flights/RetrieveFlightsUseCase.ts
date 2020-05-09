@@ -1,12 +1,11 @@
 import { FlightDTO } from "@paralogs/shared";
 import { liftPromise } from "purify-ts/EitherAsync";
+import { ResultAsync, AppError } from "@paralogs/back-shared";
 
 import { FlightRepo } from "../../gateways/FlightRepo";
 import { UserEntity } from "../../entities/UserEntity";
 import { flightMapper } from "../../mappers/flight.mapper";
-import { ResultAsync } from "../../core/purifyAdds";
 import { FlightEntity } from "../../entities/FlightEntity";
-import { AppError } from "../../core/errors";
 
 interface RetrieveFlightsDependencies {
   flightRepo: FlightRepo;

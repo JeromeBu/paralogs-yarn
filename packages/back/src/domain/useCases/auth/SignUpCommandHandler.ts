@@ -1,10 +1,10 @@
 import { SignUpParams, UuidGenerator, CurrentUserWithAuthToken } from "@paralogs/shared";
+import { ResultAsync } from "@paralogs/back-shared";
 
 import { UserRepo } from "../../gateways/UserRepo";
 import { UserEntity } from "../../entities/UserEntity";
 import { userMapper } from "../../mappers/user.mapper";
 import { HashAndTokenManager } from "../../gateways/HashAndTokenManager";
-import { ResultAsync } from "../../core/purifyAdds";
 
 interface SignUpDependencies {
   userRepo: UserRepo;

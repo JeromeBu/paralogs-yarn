@@ -1,11 +1,11 @@
 import { FlightUuid, generateUuid, makeFlightDTO, FlightDTO } from "@paralogs/shared";
+import { expectEitherToMatchError } from "@paralogs/back-shared";
 import {
   AddFlightCommandHandler,
   addFlightCommandHandlerCreator,
 } from "./AddFlightCommandHandler";
 import { InMemoryFlightRepo } from "../../../adapters/secondaries/repositories/inMemory/InMemoryFlightRepo";
 import { flightMapper } from "../../mappers/flight.mapper";
-import { expectEitherToMatchError } from "../../../utils/testHelpers";
 
 describe("add a flight", () => {
   let addFlightUseCase: AddFlightCommandHandler;

@@ -1,12 +1,18 @@
 import { CurrentUserWithAuthToken, LoginParams } from "@paralogs/shared";
 import { liftEither, liftPromise } from "purify-ts/EitherAsync";
+import {
+  LeftAsync,
+  ResultAsync,
+  RightAsync,
+  AppError,
+  notFoundError,
+  validationError,
+} from "@paralogs/back-shared";
 
 import { UserRepo } from "../../gateways/UserRepo";
 import { Email } from "../../valueObjects/user/Email";
 import { HashAndTokenManager } from "../../gateways/HashAndTokenManager";
 import { userMapper } from "../../mappers/user.mapper";
-import { LeftAsync, ResultAsync, RightAsync } from "../../core/purifyAdds";
-import { AppError, notFoundError, validationError } from "../../core/errors";
 
 interface LoginDependencies {
   userRepo: UserRepo;

@@ -1,9 +1,9 @@
 import { UserUuid } from "@paralogs/shared";
 import { MaybeAsync } from "purify-ts";
+import { ResultAsync } from "@paralogs/back-shared";
 
 import { UserEntity } from "../entities/UserEntity";
 import { Email } from "../valueObjects/user/Email";
-import { ResultAsync } from "../core/purifyAdds";
 
 export interface UserRepo {
   findByEmail: (email: Email) => MaybeAsync<UserEntity>;

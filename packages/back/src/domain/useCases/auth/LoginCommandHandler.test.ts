@@ -1,10 +1,10 @@
 import { CurrentUserWithAuthToken } from "@paralogs/shared";
+import { Result, expectEitherToMatchError } from "@paralogs/back-shared";
+
 import { loginCommandHandlerCreator, LoginCommandHandler } from "./LoginCommandHandler";
 import { InMemoryUserRepo } from "../../../adapters/secondaries/repositories/inMemory/InMemoryUserRepo";
 import { TestHashAndTokenManager } from "../../../adapters/secondaries/TestHashAndTokenManager";
 import { makeUserEntityCreator } from "../../testBuilders/makeUserEntityCreator";
-import { expectEitherToMatchError } from "../../../utils/testHelpers";
-import { Result } from "../../core/purifyAdds";
 
 describe("User Login", () => {
   let hashAndTokenManager: TestHashAndTokenManager;

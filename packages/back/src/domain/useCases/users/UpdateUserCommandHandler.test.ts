@@ -1,3 +1,5 @@
+import { expectRight } from "@paralogs/back-shared";
+
 import {
   updateUserCommandHandlerCreator,
   UpdateUserCommandHandler,
@@ -8,7 +10,6 @@ import { setupCurrentUserCreator } from "../../testBuilders/makeUserEntityCreato
 import { HashAndTokenManager } from "../../gateways/HashAndTokenManager";
 import { UserEntity } from "../../entities/UserEntity";
 import { userMapper } from "../../mappers/user.mapper";
-import { expectRight } from "../../../utils/testHelpers";
 
 describe("Update user", () => {
   describe("all is good", () => {

@@ -1,9 +1,9 @@
 import { UpdatePilotDTO } from "@paralogs/shared";
 import { liftEither } from "purify-ts/EitherAsync";
+import { ResultAsync } from "@paralogs/back-shared";
 
 import { WithCurrentUser } from "../../entities/UserEntity";
 import { UserRepo } from "../../gateways/UserRepo";
-import { ResultAsync } from "../../core/purifyAdds";
 
 type UpdateUserUseCaseDependencies = {
   userRepo: UserRepo;

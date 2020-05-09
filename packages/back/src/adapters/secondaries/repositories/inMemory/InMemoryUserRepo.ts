@@ -2,17 +2,18 @@ import { UserUuid } from "@paralogs/shared";
 import { Left, List } from "purify-ts";
 import { liftEither } from "purify-ts/EitherAsync";
 import { liftMaybe } from "purify-ts/MaybeAsync";
+import {
+  LeftAsync,
+  ResultAsync,
+  RightAsyncVoid,
+  notFoundError,
+  validationError,
+} from "@paralogs/back-shared";
 
 import { UserRepo } from "../../../../domain/gateways/UserRepo";
 import { UserEntity } from "../../../../domain/entities/UserEntity";
 import { Email } from "../../../../domain/valueObjects/user/Email";
 import { getNextId } from "./helpers";
-import {
-  LeftAsync,
-  ResultAsync,
-  RightAsyncVoid,
-} from "../../../../domain/core/purifyAdds";
-import { notFoundError, validationError } from "../../../../domain/core/errors";
 
 export class InMemoryUserRepo implements UserRepo {
   private _users: UserEntity[] = [];
