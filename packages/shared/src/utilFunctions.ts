@@ -11,7 +11,7 @@ export const findByUuidAndReplace = <T extends { uuid: string }>(
   arrayToSearch: T[],
   newValue: T,
 ): T[] => {
-  const indexToReplace = arrayToSearch.findIndex(({ uuid }) => uuid === newValue.uuid);
+  const indexToReplace = arrayToSearch.findIndex(item => item.uuid === newValue.uuid);
   if (indexToReplace === -1) return arrayToSearch;
   return Object.assign([], arrayToSearch, { [indexToReplace]: newValue });
 };

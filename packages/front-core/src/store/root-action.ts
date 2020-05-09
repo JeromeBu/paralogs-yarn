@@ -2,7 +2,7 @@ import { ValueOf } from "@paralogs/shared";
 import { authActions, AuthAction } from "../useCases/auth/auth.slice";
 import { WingAction, wingActions } from "../useCases/wings/wings.slice";
 import { FlightAction, flightActions } from "../useCases/flights/flights.slice";
-import { PilotAction, pilotActions } from "../useCases/pilot/pilote.slice";
+import { PilotAction, pilotActions } from "../useCases/pilot/pilot.slice";
 
 const actionCreators = {
   currentUser: authActions,

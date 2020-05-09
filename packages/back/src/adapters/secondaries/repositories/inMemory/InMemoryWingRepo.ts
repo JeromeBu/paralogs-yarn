@@ -28,7 +28,7 @@ export class InMemoryWingRepo implements WingRepo {
   }
 
   private _update(wingEntity: WingEntity): ResultAsync<void> {
-    findByUuidAndReplace(this._wings, wingEntity);
+    this._wings = findByUuidAndReplace(this._wings, wingEntity);
     return RightAsyncVoid();
   }
 

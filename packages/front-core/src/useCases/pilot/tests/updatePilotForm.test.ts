@@ -6,7 +6,7 @@ import {
   getInMemoryDependencies,
   InMemoryDependencies,
 } from "../../../testUtils";
-import { pilotActions } from "../pilote.slice";
+import { pilotActions } from "../pilot.slice";
 
 describe("update Pilot form", () => {
   let store: Store<RootState>;

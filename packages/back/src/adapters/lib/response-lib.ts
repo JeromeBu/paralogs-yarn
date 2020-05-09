@@ -50,7 +50,7 @@ export const callUseCase = <P>({
     .run()
     .then(eitherReturned =>
       eitherReturned
-        .map(e => success(e))
+        .map(success)
         .mapLeft(error => failure(error.message, error.code))
         .extract(),
     );
