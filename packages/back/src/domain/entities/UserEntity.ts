@@ -1,13 +1,11 @@
 import { SignUpParams, UpdatePilotDTO, UserUuid, WithUuid } from "@paralogs/shared";
 import { liftEither, liftPromise } from "purify-ts/EitherAsync";
+import { Entity, ResultAsync, combineEithers } from "@paralogs/back-shared";
 
 import { Email } from "../valueObjects/user/Email";
 import { Password } from "../valueObjects/user/Password";
 import { PersonName } from "../valueObjects/user/PersonName";
 import { HashAndTokenManager } from "../gateways/HashAndTokenManager";
-import { Entity } from "../core/Entity";
-import { ResultAsync } from "../core/purifyAdds";
-import { combineEithers } from "../core/EitherFunctions";
 
 interface UserEntityProps {
   uuid: UserUuid;

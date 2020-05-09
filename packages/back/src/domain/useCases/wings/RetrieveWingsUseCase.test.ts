@@ -1,4 +1,6 @@
 import { WingDTO, makeWingDTO, generateUuid } from "@paralogs/shared";
+import { Result } from "@paralogs/back-shared";
+
 import { InMemoryWingRepo } from "../../../adapters/secondaries/repositories/inMemory/InMemoryWingRepo";
 import {
   addWingCommandHandlerCreator,
@@ -16,7 +18,6 @@ import {
 import { InMemoryUserRepo } from "../../../adapters/secondaries/repositories/inMemory/InMemoryUserRepo";
 import { TestHashAndTokenManager } from "../../../adapters/secondaries/TestHashAndTokenManager";
 import { HashAndTokenManager } from "../../gateways/HashAndTokenManager";
-import { Result } from "../../core/purifyAdds";
 
 describe("wings retrieval", () => {
   let retrieveWingsUseCase: RetrieveWingsUseCase;

@@ -1,7 +1,6 @@
 import { trim } from "lodash/fp";
 import { Right } from "purify-ts";
-
-import { Result } from "../../core/purifyAdds";
+import { Result } from "@paralogs/back-shared";
 
 const firstLetterUpperCase = (str: string) => {
   const [firstLetter, ...rest] = str.split("");

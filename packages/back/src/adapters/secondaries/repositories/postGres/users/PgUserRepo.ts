@@ -3,17 +3,13 @@ import Knex from "knex";
 import { liftMaybe, liftPromise as liftPromiseToMaybeAsync } from "purify-ts/MaybeAsync";
 import { Maybe } from "purify-ts";
 import { liftPromise as liftPromiseToEitherAsync } from "purify-ts/EitherAsync";
+import { LeftAsync, ResultAsync, RightAsyncVoid } from "@paralogs/back-shared";
 
 import { UserEntity } from "../../../../../domain/entities/UserEntity";
 import { Email } from "../../../../../domain/valueObjects/user/Email";
 import { userPersistenceMapper } from "./userPersistenceMapper";
 import { UserRepo } from "../../../../../domain/gateways/UserRepo";
 import { UserPersistence } from "./UserPersistence";
-import {
-  LeftAsync,
-  ResultAsync,
-  RightAsyncVoid,
-} from "../../../../../domain/core/purifyAdds";
 import { knexError } from "../knex/knexErrors";
 
 export class PgUserRepo implements UserRepo {

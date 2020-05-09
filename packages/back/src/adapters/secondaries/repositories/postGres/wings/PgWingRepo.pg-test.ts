@@ -1,4 +1,6 @@
 import { UpdateWingDTO, generateUuid } from "@paralogs/shared";
+import { expectEitherToMatchError, expectRight } from "@paralogs/back-shared";
+
 import { getKnex, resetDb } from "../db";
 import { makeUserEntityCreator } from "../../../../../domain/testBuilders/makeUserEntityCreator";
 import { TestHashAndTokenManager } from "../../../../secondaries/TestHashAndTokenManager";
@@ -11,7 +13,6 @@ import { userPersistenceMapper } from "../users/userPersistenceMapper";
 import { WingPersistence } from "./WingPersistence";
 import { UserPersistence } from "../users/UserPersistence";
 import { wingPersistenceMapper } from "./wingPersistenceMapper";
-import { expectEitherToMatchError, expectRight } from "../../../../../utils/testHelpers";
 
 describe("Wing repository postgres tests", () => {
   const makeUserEntity = makeUserEntityCreator(new TestHashAndTokenManager());

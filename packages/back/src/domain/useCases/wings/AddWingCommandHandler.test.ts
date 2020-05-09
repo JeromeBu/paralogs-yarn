@@ -1,11 +1,10 @@
 import { makeWingDTO, generateUuid, WingDTO } from "@paralogs/shared";
+import { AppError, Result } from "@paralogs/back-shared";
 import { InMemoryWingRepo } from "../../../adapters/secondaries/repositories/inMemory/InMemoryWingRepo";
 import {
   AddWingCommandHandler,
   addWingCommandHandlerCreator,
 } from "./AddWingCommandHandler";
-import { Result } from "../../core/purifyAdds";
-import { AppError } from "../../core/errors";
 
 describe("wing creation", () => {
   let addWingUseCase: AddWingCommandHandler;

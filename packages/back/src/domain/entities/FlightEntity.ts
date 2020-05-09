@@ -7,8 +7,7 @@ import {
   WingUuid,
 } from "@paralogs/shared";
 import { Right } from "purify-ts";
-import { Entity } from "../core/Entity";
-import { Result } from "../core/purifyAdds";
+import { Entity, Result } from "@paralogs/back-shared";
 
 interface FlightEntityProps {
   uuid: FlightUuid;

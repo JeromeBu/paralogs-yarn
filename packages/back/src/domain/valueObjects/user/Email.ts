@@ -1,6 +1,5 @@
 import { Left, Right } from "purify-ts";
-import { Result } from "../../core/purifyAdds";
-import { validationError } from "../../core/errors";
+import { Result, validationError } from "@paralogs/back-shared";
 
 const isEmail = (str: string): boolean =>
   !!str.match(

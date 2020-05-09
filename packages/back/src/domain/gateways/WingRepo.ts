@@ -1,7 +1,7 @@
 import { UserUuid, WingUuid } from "@paralogs/shared";
+import { ResultAsync } from "@paralogs/back-shared";
 import { MaybeAsync } from "purify-ts";
 import { WingEntity } from "../entities/WingEntity";
-import { ResultAsync } from "../core/purifyAdds";
 
 export interface WingRepo {
   findByUuid: (id: WingUuid) => MaybeAsync<WingEntity>;

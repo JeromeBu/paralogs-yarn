@@ -1,4 +1,5 @@
 import { makeWingDTO } from "@paralogs/shared";
+import { expectEitherToMatchError, expectRight } from "@paralogs/back-shared";
 
 import { InMemoryWingRepo } from "../../../adapters/secondaries/repositories/inMemory/InMemoryWingRepo";
 import {
@@ -7,7 +8,6 @@ import {
 } from "./UpdateWingCommandHandler";
 import { makeWingEntity } from "../../testBuilders/makeWingEntity";
 import { wingMapper } from "../../mappers/wing.mapper";
-import { expectEitherToMatchError, expectRight } from "../../../utils/testHelpers";
 
 describe("update wing use case", () => {
   let updateWingUseCase: UpdateWingCommandHandler;

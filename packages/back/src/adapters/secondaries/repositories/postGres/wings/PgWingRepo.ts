@@ -2,14 +2,13 @@ import Knex from "knex";
 import { UserUuid, WingUuid } from "@paralogs/shared";
 import { Maybe } from "purify-ts/Maybe";
 import { liftMaybe, liftPromise } from "purify-ts/MaybeAsync";
+import { ResultAsync, RightAsyncVoid, notFoundError } from "@paralogs/back-shared";
 
 import { WingRepo } from "../../../../../domain/gateways/WingRepo";
 import { WingEntity } from "../../../../../domain/entities/WingEntity";
 import { wingPersistenceMapper } from "./wingPersistenceMapper";
 import { WingPersistence } from "./WingPersistence";
 import { UserPersistence } from "../users/UserPersistence";
-import { ResultAsync, RightAsyncVoid } from "../../../../../domain/core/purifyAdds";
-import { notFoundError } from "../../../../../domain/core/errors";
 import { knexError } from "../knex/knexErrors";
 
 export class PgWingRepo implements WingRepo {

@@ -1,8 +1,9 @@
 import { Router } from "express";
 import { addWingSchema, updateWingSchema, wingsRoute } from "@paralogs/shared";
+import { RightAsync } from "@paralogs/back-shared";
+
 import { callUseCase, sendHttpResponse, validateSchema } from "../../lib/response-lib";
 import { wingsUseCases } from "../../../config/useCasesChoice";
-import { RightAsync } from "../../../domain/core/purifyAdds";
 
 const wingsRouter = Router();
 

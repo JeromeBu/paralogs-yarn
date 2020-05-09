@@ -1,11 +1,11 @@
 import { findByUuidAndReplace, UserUuid, WingUuid } from "@paralogs/shared";
 import { liftMaybe } from "purify-ts/MaybeAsync";
 import { List } from "purify-ts";
+import { ResultAsync, RightAsyncVoid } from "@paralogs/back-shared";
 
 import { WingRepo } from "../../../../domain/gateways/WingRepo";
 import { WingEntity } from "../../../../domain/entities/WingEntity";
 import { getNextId } from "./helpers";
-import { ResultAsync, RightAsyncVoid } from "../../../../domain/core/purifyAdds";
 
 export class InMemoryWingRepo implements WingRepo {
   private _wings: WingEntity[] = [];

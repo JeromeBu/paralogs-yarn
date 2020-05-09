@@ -4,7 +4,9 @@ import {
   generateUuid,
   CurrentUserWithAuthToken,
 } from "@paralogs/shared";
+import { Result, expectEitherToMatchError } from "@paralogs/back-shared";
 import _ from "lodash";
+
 import { InMemoryUserRepo } from "../../../adapters/secondaries/repositories/inMemory/InMemoryUserRepo";
 import {
   signUpCommandHandlerCreator,
@@ -13,8 +15,6 @@ import {
 import { UserEntity } from "../../entities/UserEntity";
 
 import { TestHashAndTokenManager } from "../../../adapters/secondaries/TestHashAndTokenManager";
-import { expectEitherToMatchError } from "../../../utils/testHelpers";
-import { Result } from "../../core/purifyAdds";
 
 describe("User signUp", () => {
   let userUuid = generateUuid();

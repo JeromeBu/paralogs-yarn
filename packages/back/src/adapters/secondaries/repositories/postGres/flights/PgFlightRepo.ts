@@ -3,6 +3,13 @@ import { FlightUuid, UserUuid, WingUuid } from "@paralogs/shared";
 import { Maybe } from "purify-ts";
 import { liftPromise as liftPromiseToEitherAsync } from "purify-ts/EitherAsync";
 import { liftMaybe, liftPromise as liftPromiseToMaybeAsync } from "purify-ts/MaybeAsync";
+import {
+  LeftAsync,
+  ResultAsync,
+  RightAsyncVoid,
+  notFoundError,
+  validationError,
+} from "@paralogs/back-shared";
 
 import { flightPersistenceMapper } from "./flightPersistenceMapper";
 import { FlightRepo } from "../../../../../domain/gateways/FlightRepo";
@@ -10,12 +17,6 @@ import { FlightEntity } from "../../../../../domain/entities/FlightEntity";
 import { FlightPersistence } from "./FlightPersistence";
 import { UserPersistence } from "../users/UserPersistence";
 import { WingPersistence } from "../wings/WingPersistence";
-import {
-  LeftAsync,
-  ResultAsync,
-  RightAsyncVoid,
-} from "../../../../../domain/core/purifyAdds";
-import { notFoundError, validationError } from "../../../../../domain/core/errors";
 
 export class PgFlightRepo implements FlightRepo {
   constructor(private knex: Knex<any, unknown[]>) {}

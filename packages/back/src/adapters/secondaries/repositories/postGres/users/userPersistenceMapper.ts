@@ -1,8 +1,9 @@
+import { combineEithers } from "@paralogs/back-shared";
+
 import { UserEntity } from "../../../../../domain/entities/UserEntity";
 import { UserPersistence } from "./UserPersistence";
 import { Email } from "../../../../../domain/valueObjects/user/Email";
 import { PersonName } from "../../../../../domain/valueObjects/user/PersonName";
-import { combineEithers } from "../../../../../domain/core/EitherFunctions";
 
 export const userPersistenceMapper = {
   toPersistence: (userEntity: UserEntity): UserPersistence => {

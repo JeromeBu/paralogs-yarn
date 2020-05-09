@@ -1,8 +1,9 @@
 import { Router } from "express";
 import { addFlightSchema, flightsRoute } from "@paralogs/shared";
+import { RightAsync } from "@paralogs/back-shared";
+
 import { callUseCase, sendHttpResponse, validateSchema } from "../../lib/response-lib";
 import { flightsUseCases } from "../../../config/useCasesChoice";
-import { RightAsync } from "../../../domain/core/purifyAdds";
 
 export const flightsRouter = Router();
 
