@@ -5,7 +5,7 @@ import { generateUuid } from "../generalTypes/uuid";
 export const makeWingDTO = (wingParams?: Partial<WingDTO>): WingDTO => {
   const randomWing: WingDTO = {
     uuid: generateUuid(),
-    userUuid: generateUuid(),
+    pilotUuid: generateUuid(),
     brand: "Nova",
     model: "Ion 5",
     flightTimePriorToOwn: 0,

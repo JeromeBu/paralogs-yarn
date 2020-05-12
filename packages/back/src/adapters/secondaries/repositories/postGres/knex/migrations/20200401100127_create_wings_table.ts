@@ -11,22 +11,14 @@ export async function up(knex: Knex): Promise<any> {
       .unique()
       .notNullable();
     table
-      .string("user_uuid", 60)
+      .string("pilot_uuid", 60)
       .notNullable()
       .index();
-    // QUESTION : should it reference id in user ? like below :
-    // table
-    //   .string("user_id", 60)
-    //   .notNullable()
-    //   .references("id")
-    //   .inTable("users")
-    //   .onDelete("CASCADE")
-    //   .index();
     table
-      .integer("user_id")
+      .integer("pilot_id")
       .notNullable()
       .references("id")
-      .inTable("users")
+      .inTable("pilots")
       .onDelete("CASCADE")
       .index();
     table.string("brand", 100).notNullable();

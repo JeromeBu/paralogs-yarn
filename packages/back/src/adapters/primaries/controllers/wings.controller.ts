@@ -15,7 +15,7 @@ export const wingsController = () => {
         res,
         await callUseCase({
           useCase: wingsUseCases.retrieveWings,
-          eitherAsyncParams: RightAsync(req.currentUser),
+          eitherAsyncParams: RightAsync(req.currentUserUuid),
         }),
       ),
     )
@@ -27,7 +27,7 @@ export const wingsController = () => {
           useCase: wingsUseCases.addWing,
           eitherAsyncParams: eitherAsyncParams.map(addWingBody => ({
             ...addWingBody,
-            userUuid: req.currentUser.uuid,
+            pilotUuid: req.currentUserUuid,
           })),
         }),
       );
@@ -41,7 +41,7 @@ export const wingsController = () => {
           eitherAsyncParams: resultUpdateWingBody.map(updateWingBody => ({
             uuid: updateWingBody.uuid,
             ...updateWingBody,
-            userUuid: req.currentUser.uuid,
+            pilotUuid: req.currentUserUuid,
           })),
         }),
       );

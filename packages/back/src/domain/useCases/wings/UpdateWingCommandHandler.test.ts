@@ -32,10 +32,10 @@ describe("update wing use case", () => {
       const wingEntity = makeWingEntity(wingDTO);
       wingEntity.setIdentity(3);
       wingRepo.wings.push(wingEntity);
-      const { uuid, userUuid } = wingDTO;
+      const { uuid, pilotUuid } = wingDTO;
       const newParams = {
         uuid,
-        userUuid,
+        pilotUuid,
         brand: "New Nova",
         model: "Ion 6",
         flightTimePriorToOwn: 60,

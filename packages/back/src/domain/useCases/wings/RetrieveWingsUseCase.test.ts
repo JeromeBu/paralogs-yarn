@@ -10,35 +10,33 @@ import {
   retrieveWingsUseCaseCreator,
   RetrieveWingsUseCase,
 } from "./RetrieveWingsUseCase";
-import { UserEntity } from "../../entities/UserEntity";
+import { PilotEntity } from "../../entities/PilotEntity";
 import {
-  setupCurrentUserCreator,
+  setupCurrentPilotCreator,
   SetupCurrentUser,
-} from "../../testBuilders/makeUserEntityCreator";
-import { InMemoryUserRepo } from "../../../adapters/secondaries/repositories/inMemory/InMemoryUserRepo";
-import { TestHashAndTokenManager } from "../../../adapters/secondaries/TestHashAndTokenManager";
-import { HashAndTokenManager } from "../../gateways/HashAndTokenManager";
+} from "../../testBuilders/makePilotEntity";
+import { InMemoryPilotRepo } from "../../../adapters/secondaries/repositories/inMemory/InMemoryPilotRepo";
 
 describe("wings retrieval", () => {
   let retrieveWingsUseCase: RetrieveWingsUseCase;
   let wingRepo: InMemoryWingRepo; // cannot use WingRepo because need access .wings
-  let userRepo: InMemoryUserRepo; // cannot use UserRepo because need access .users
+  let userRepo: InMemoryPilotRepo; // cannot use UserRepo because need access .pilots
   let setupCurrentUser: SetupCurrentUser;
-  let currentUser: UserEntity;
-  let hashAndTokenManager: HashAndTokenManager;
+  let currentUser: PilotEntity;
 
   beforeEach(async () => {
     wingRepo = new InMemoryWingRepo();
-    userRepo = new InMemoryUserRepo();
-    hashAndTokenManager = new TestHashAndTokenManager();
-    setupCurrentUser = setupCurrentUserCreator({ hashAndTokenManager, userRepo });
+    userRepo = new InMemoryPilotRepo();
+    setupCurrentUser = setupCurrentPilotCreator({
+      pilotRepo: userRepo,
+    });
     currentUser = await setupCurrentUser();
     retrieveWingsUseCase = retrieveWingsUseCaseCreator(wingRepo);
   });
 
   describe("user has no wings", () => {
     it("returns no wing", async () => {
-      const wings = await retrieveWingsUseCase(currentUser).run();
+      const wings = await retrieveWingsUseCase(currentUser.uuid).run();
       expectWingsDTOResultToEqual(wings, []);
     });
   });
@@ -48,14 +46,14 @@ describe("wings retrieval", () => {
     it("retrieves only the user's wings", async () => {
       addWingUseCase = addWingCommandHandlerCreator({ wingRepo });
 
-      const wing1 = await addWing({ model: "Wing 1", userUuid: currentUser.uuid }).run();
-      const wing2 = await addWing({ model: "Wing 2", userUuid: currentUser.uuid }).run();
+      const wing1 = await addWing({ model: "Wing 1", pilotUuid: currentUser.uuid }).run();
+      const wing2 = await addWing({ model: "Wing 2", pilotUuid: currentUser.uuid }).run();
       await addWing({
         model: "Wing 3",
-        userUuid: generateUuid(),
+        pilotUuid: generateUuid(),
       });
 
-      const retrievedWings = await retrieveWingsUseCase(currentUser).run();
+      const retrievedWings = await retrieveWingsUseCase(currentUser.uuid).run();
 
       expectWingsDTOResultToEqual(retrievedWings, [
         wing2.extract(),

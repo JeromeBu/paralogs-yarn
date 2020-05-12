@@ -6,7 +6,7 @@ import { makeWingDTO } from "./makeWingDTO";
 export const makeFlightDTO = (flightParams?: Partial<FlightDTO>): FlightDTO => {
   const randomFlight: FlightDTO = {
     uuid: generateUuid(),
-    userUuid: generateUuid(),
+    pilotUuid: generateUuid(),
     wingUuid: makeWingDTO().uuid,
     date: new Date().toUTCString(),
     site: "La scia",

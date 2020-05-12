@@ -4,12 +4,12 @@ import { PilotDTO } from "./PilotDTOs";
 
 export type UserUuid = Flavor<string, "UserUuid">;
 
-export interface WithUuid {
-  uuid: UserUuid;
-}
-
 export interface WithUserUuid {
   userUuid: UserUuid;
+}
+
+export interface WithUuid {
+  uuid: UserUuid;
 }
 
 export interface WithPassword {
@@ -28,6 +28,11 @@ export type CurrentUserWithAuthToken = {
   token: string;
 };
 
+export type CurrentUserWithPilotAndToken = {
+  currentUser: UserDTO;
+  token: string;
+};
+
 export type LoginParams = WithEmail & WithPassword;
 
 export const loginSchema = Yup.object().shape<LoginParams>({
@@ -37,7 +42,7 @@ export const loginSchema = Yup.object().shape<LoginParams>({
   password: Yup.string().required(),
 });
 
-export type SignUpParams = WithEmail & WithPassword & PilotDTO;
+export type SignUpParams = WithEmail & WithPassword;
 
 export const signUpSchema = Yup.object().shape<SignUpParams>({
   email: Yup.string()
@@ -46,6 +51,4 @@ export const signUpSchema = Yup.object().shape<SignUpParams>({
   password: Yup.string()
     .required()
     .min(8),
-  firstName: Yup.string().required(),
-  lastName: Yup.string(),
 });

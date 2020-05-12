@@ -2,7 +2,7 @@ export const loginRoute = "/auth/login";
 export const signUpRoute = "/auth/signup";
 export const getMeRoute = "/auth/getme";
 
-export const usersRoute = "/users";
+export const usersRoute = "/pilots";
 
 export const wingsRoute = "/wings";
 

@@ -1,10 +1,10 @@
-import { DateString, NumberOfMinutes, UserUuid, WingUuid } from "@paralogs/shared";
+import { DateString, NumberOfMinutes, PilotUuid, WingUuid } from "@paralogs/shared";
 
 export interface WingPersistence {
   id: number;
   uuid: WingUuid;
-  user_uuid: UserUuid;
-  user_id?: number;
+  pilot_uuid: PilotUuid;
+  pilot_id?: number;
   brand: string;
   model: string;
   owner_from: DateString;

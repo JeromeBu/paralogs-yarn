@@ -18,7 +18,7 @@ export const flightsController = () => {
           useCase: flightsUseCases.addFlight,
           eitherAsyncParams: resultAddFlightBody.map(addFlightBody => ({
             ...addFlightBody,
-            userUuid: req.currentUser.uuid,
+            pilotUuid: req.currentUserUuid,
           })),
         }),
       );
@@ -28,7 +28,7 @@ export const flightsController = () => {
         res,
         await callUseCase({
           useCase: flightsUseCases.retrieveFlights,
-          eitherAsyncParams: RightAsync(req.currentUser),
+          eitherAsyncParams: RightAsync(req.currentUserUuid),
         }),
       );
     });

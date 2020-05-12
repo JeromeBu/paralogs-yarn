@@ -11,14 +11,14 @@ export async function up(knex: Knex): Promise<any> {
       .unique()
       .notNullable();
     table
-      .string("user_uuid", 100)
+      .string("pilot_uuid", 100)
       .notNullable()
       .index();
     table
-      .integer("user_id")
+      .integer("pilot_id")
       .notNullable()
       .references("id")
-      .inTable("users")
+      .inTable("pilots")
       .onDelete("CASCADE")
       .index();
     table

@@ -1,0 +1,17 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "target": "es2017",
+    "lib": ["esnext"],
+    "forceConsistentCasingInFileNames": true,
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "outDir": "dist",
+    "rootDir": "./src",
+    "resolveJsonModule": true,
+    "typeRoots": ["./customTypings", "./node_modules/@types"]
+  },
+  "include": ["src", "customTypings"],
+  "exclude": ["dist/**/*"]
+}

@@ -1,9 +1,8 @@
-import { FlightDTO } from "@paralogs/shared";
+import { FlightDTO, PilotUuid } from "@paralogs/shared";
 import { liftPromise } from "purify-ts/EitherAsync";
 import { ResultAsync, AppError } from "@paralogs/back-shared";
 
 import { FlightRepo } from "../../gateways/FlightRepo";
-import { UserEntity } from "../../entities/UserEntity";
 import { flightMapper } from "../../mappers/flight.mapper";
 import { FlightEntity } from "../../entities/FlightEntity";
 
@@ -14,10 +13,10 @@ interface RetrieveFlightsDependencies {
 export const retrieveFlightsUseCaseCreator = ({
   flightRepo,
 }: RetrieveFlightsDependencies) => (
-  currentUser: UserEntity,
+  currentUserUuid: PilotUuid,
 ): ResultAsync<FlightDTO[]> => {
   return liftPromise<FlightEntity[], AppError>(() =>
-    flightRepo.findByUserUuid(currentUser.uuid),
+    flightRepo.findByPilotUuid(currentUserUuid),
   ).map(flightEntities => flightEntities.map(flightMapper.entityToDTO));
 };
 

@@ -1,23 +1,23 @@
 import { InMemoryWingRepo } from "../adapters/secondaries/repositories/inMemory/InMemoryWingRepo";
-import { InMemoryUserRepo } from "../adapters/secondaries/repositories/inMemory/InMemoryUserRepo";
-import { UserRepo } from "../domain/gateways/UserRepo";
+import { InMemoryPilotRepo } from "../adapters/secondaries/repositories/inMemory/InMemoryPilotRepo";
+import { PilotRepo } from "../domain/gateways/PilotRepo";
 import { WingRepo } from "../domain/gateways/WingRepo";
 import { FlightRepo } from "../domain/gateways/FlightRepo";
 import { InMemoryFlightRepo } from "../adapters/secondaries/repositories/inMemory/InMemoryFlightRepo";
-import { PgUserRepo } from "../adapters/secondaries/repositories/postGres/users/PgUserRepo";
+import { PgPilotRepo } from "../adapters/secondaries/repositories/postGres/pilots/PgPilotRepo";
 import { getKnex } from "../adapters/secondaries/repositories/postGres/db";
 import { PgWingRepo } from "../adapters/secondaries/repositories/postGres/wings/PgWingRepo";
 import { PgFlightRepo } from "../adapters/secondaries/repositories/postGres/flights/PgFlightRepo";
 import { ENV } from "./env";
 
 interface Repositories {
-  user: UserRepo;
+  pilot: PilotRepo;
   wing: WingRepo;
   flight: FlightRepo;
 }
 
 const getInMemoryRepos = (): Repositories => ({
-  user: new InMemoryUserRepo(),
+  pilot: new InMemoryPilotRepo(),
   wing: new InMemoryWingRepo(),
   flight: new InMemoryFlightRepo(),
 });
@@ -27,7 +27,7 @@ const getPgRepos = (): Repositories => {
   // eslint-disable-next-line @typescript-eslint/no-floating-promises
   knex.migrate.latest();
   return {
-    user: new PgUserRepo(knex),
+    pilot: new PgPilotRepo(knex),
     wing: new PgWingRepo(knex),
     flight: new PgFlightRepo(knex),
   };

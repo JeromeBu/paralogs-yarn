@@ -16,12 +16,7 @@ const request = supertest(app);
 describe("Flights routes", () => {
   const email = "john.doe@mail.com";
   const password = "Bépo1234";
-  const signUpParams: SignUpParams = {
-    email,
-    firstName: "John",
-    lastName: "Doe",
-    password,
-  };
+  const signUpParams: SignUpParams = { email, password };
 
   const brand = "Nova";
   const model = "Ion 5";
