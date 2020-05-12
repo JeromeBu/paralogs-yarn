@@ -1,4 +1,4 @@
-import { UpdateWingDTO, WithUserUuid } from "@paralogs/shared";
+import { UpdateWingDTO, WithPilotUuid } from "@paralogs/shared";
 import { ResultAsync, notFoundError } from "@paralogs/back-shared";
 import { WingRepo } from "../../gateways/WingRepo";
 
@@ -7,7 +7,7 @@ export interface UpdateWingDependencies {
 }
 
 export const updateWingCommandHandlerCreator = ({ wingRepo }: UpdateWingDependencies) => (
-  wingDTO: UpdateWingDTO & WithUserUuid,
+  wingDTO: UpdateWingDTO & WithPilotUuid,
 ): ResultAsync<void> =>
   wingRepo
     .findByUuid(wingDTO.uuid)

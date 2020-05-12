@@ -1,7 +1,7 @@
 import {
+  generateUuid,
   getMeRoute,
-  SignUpParams,
-  signUpRoute,
+  PilotDTO,
   UpdatePilotDTO,
   usersRoute,
 } from "@paralogs/shared";
@@ -11,19 +11,13 @@ import { app } from "../express/server";
 const request = supertest(app);
 
 describe("Pilots routes", () => {
-  const email = "john.doe@mail.com";
-  const password = "Bépo1234";
-  const signUpParams: SignUpParams = {
-    email,
-    firstName: "John",
-    lastName: "Doe",
-    password,
-  };
+  const pilotDto: PilotDTO = { uuid: generateUuid(), firstName: "John", lastName: "Doe" };
 
-  it("updates some user's info", async () => {
+  it("updates some pilot's info", async () => {
     const {
       body: { token },
-    } = await request.post(signUpRoute).send(signUpParams);
+    } = await request.post(usersRoute).send(pilotDto);
+    expect(token).toBeTruthy();
 
     const updateUserParams: UpdatePilotDTO = {
       firstName: "New-FirsTname",

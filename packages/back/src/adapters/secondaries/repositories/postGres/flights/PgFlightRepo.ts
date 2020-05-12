@@ -1,5 +1,5 @@
 import Knex from "knex";
-import { FlightUuid, UserUuid, WingUuid } from "@paralogs/shared";
+import { FlightUuid, PilotUuid, WingUuid } from "@paralogs/shared";
 import { Maybe } from "purify-ts";
 import { liftPromise as liftPromiseToEitherAsync } from "purify-ts/EitherAsync";
 import { liftMaybe, liftPromise as liftPromiseToMaybeAsync } from "purify-ts/MaybeAsync";
@@ -15,7 +15,7 @@ import { flightPersistenceMapper } from "./flightPersistenceMapper";
 import { FlightRepo } from "../../../../../domain/gateways/FlightRepo";
 import { FlightEntity } from "../../../../../domain/entities/FlightEntity";
 import { FlightPersistence } from "./FlightPersistence";
-import { UserPersistence } from "../users/UserPersistence";
+import { PilotPersistence } from "../pilots/PilotPersistence";
 import { WingPersistence } from "../wings/WingPersistence";
 
 export class PgFlightRepo implements FlightRepo {
@@ -25,18 +25,18 @@ export class PgFlightRepo implements FlightRepo {
     if (flightEntity.hasIdentity())
       return LeftAsync(validationError("TODO handle update"));
 
-    this._getUserId(flightEntity.userUuid);
+    this._getPilotId(flightEntity.pilotUuid);
 
-    const eitherParams = this._getUserId(flightEntity.userUuid).chain(user_id =>
-      this._getWingId(flightEntity.wingUuid).map(wing_id => ({ wing_id, user_id })),
+    const eitherParams = this._getPilotId(flightEntity.pilotUuid).chain(pilot_id =>
+      this._getWingId(flightEntity.wingUuid).map(wing_id => ({ wing_id, pilot_id })),
     );
 
     return eitherParams
-      .chain(({ user_id, wing_id }) =>
+      .chain(({ pilot_id, wing_id }) =>
         liftPromiseToEitherAsync(() =>
           this.knex<FlightPersistence>("flights").insert({
             ...flightPersistenceMapper.toPersistence(flightEntity),
-            user_id,
+            pilot_id,
             wing_id,
             id: undefined,
           }),
@@ -45,8 +45,8 @@ export class PgFlightRepo implements FlightRepo {
       .chain(RightAsyncVoid);
   }
 
-  public async findByUserUuid(user_uuid: UserUuid) {
-    return (await this.knex.from<FlightPersistence>("flights").where({ user_uuid })).map(
+  public async findByPilotUuid(pilot_uuid: PilotUuid) {
+    return (await this.knex.from<FlightPersistence>("flights").where({ pilot_uuid })).map(
       flightPersistenceMapper.toEntity,
     );
   }
@@ -62,17 +62,17 @@ export class PgFlightRepo implements FlightRepo {
       .map(flightPersistenceMapper.toEntity);
   }
 
-  private _getUserId(uuid: UserUuid): ResultAsync<number> {
+  private _getPilotId(uuid: PilotUuid): ResultAsync<number> {
     return liftPromiseToMaybeAsync(() =>
       this.knex
-        .from<UserPersistence>("users")
+        .from<PilotPersistence>("pilots")
         .select("id")
         .where({ uuid })
         .first(),
     )
-      .chain(userPersistence => liftMaybe(Maybe.fromNullable(userPersistence)))
+      .chain(pilotPersistence => liftMaybe(Maybe.fromNullable(pilotPersistence)))
       .map(({ id }) => id)
-      .toEitherAsync(notFoundError("No user matched this userUuid"));
+      .toEitherAsync(notFoundError("No pilot matched this pilotUuid"));
   }
 
   private _getWingId(uuid: WingUuid): ResultAsync<number> {

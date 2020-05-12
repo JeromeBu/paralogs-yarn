@@ -15,7 +15,7 @@ custom:
   # commands. Or fallsback to what we have set in the provider section.
   stage: ${opt:stage, self:provider.stage}
   wingsTable: ${self:custom.stage}-wings-table
-  usersTable: ${self:custom.stage}-users-table
+  usersTable: ${self:custom.stage}-pilots-table
 
 provider:
   name: aws
@@ -73,7 +73,7 @@ functions:
     handler: .build/adapters/primaries/signUp.handler.main
     events:
       - http:
-          path: users/signup
+          path: pilots/signup
           method: post
           cors: true
 
@@ -81,13 +81,13 @@ functions:
     handler: .build/adapters/primaries/login.handler.main
     events:
       - http:
-          path: users/login
+          path: pilots/login
           method: post
           cors: true
 
 
 resources:
   - ${file(resources/dynamodb-wings.yml)}
-  - ${file(resources/dynamodb-users.yml)}
+  - ${file(resources/dynamodb-pilots.yml)}
   # - ${file(resources/cognito-user-pool.yml)}
   # - ${file(resources/cognito-identity-pool.yml)}

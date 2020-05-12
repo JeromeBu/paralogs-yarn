@@ -1,6 +1,6 @@
 import { List } from "purify-ts";
 import { liftMaybe } from "purify-ts/MaybeAsync";
-import { FlightUuid, UserUuid } from "@paralogs/shared";
+import { FlightUuid, PilotUuid } from "@paralogs/shared";
 import {
   LeftAsync,
   ResultAsync,
@@ -18,8 +18,8 @@ export class InMemoryFlightRepo implements FlightRepo {
     return liftMaybe(List.find(flight => flight.uuid === flightUuid, this._flights));
   }
 
-  public async findByUserUuid(userUuid: UserUuid) {
-    return this._flights.filter(flight => flight.getProps().userUuid === userUuid);
+  public async findByPilotUuid(pilotUuid: PilotUuid) {
+    return this._flights.filter(flight => flight.getProps().pilotUuid === pilotUuid);
   }
 
   public save(flightEntity: FlightEntity): ResultAsync<void> {

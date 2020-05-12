@@ -22,7 +22,7 @@ describe("wing creation", () => {
       const wingDto = makeWingDTO({ uuid });
       await addWingUseCase(wingDto).run();
 
-      const secondWingDto = makeWingDTO({ uuid, userUuid, model: "LALALA" });
+      const secondWingDto = makeWingDTO({ uuid, pilotUuid: userUuid, model: "LALALA" });
       expect(
         ((await addWingUseCase(secondWingDto).run()).extract() as AppError).message,
       ).toMatch("Cannot create wing. A wing with this uuid already exists");

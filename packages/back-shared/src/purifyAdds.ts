@@ -1,4 +1,4 @@
-import { Either, EitherAsync, Left, Right } from "purify-ts";
+import { Either, EitherAsync, Left, MaybeAsync, Right } from "purify-ts";
 import { liftEither } from "purify-ts/EitherAsync";
 import { AppError } from "./errors";
 

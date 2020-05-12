@@ -5,7 +5,7 @@ export const flightPersistenceMapper = {
   toPersistence: (flightEntity: FlightEntity): FlightPersistence => {
     const {
       uuid,
-      userUuid,
+      pilotUuid,
       wingUuid,
       date,
       duration,
@@ -15,7 +15,7 @@ export const flightPersistenceMapper = {
     return {
       id: flightEntity.getIdentity(),
       uuid,
-      user_uuid: userUuid,
+      pilot_uuid: pilotUuid,
       wing_uuid: wingUuid,
       date,
       duration,
@@ -28,7 +28,7 @@ export const flightPersistenceMapper = {
     id,
     uuid,
     wing_uuid,
-    user_uuid,
+    pilot_uuid,
     time,
     site,
     duration,
@@ -36,7 +36,7 @@ export const flightPersistenceMapper = {
   }: FlightPersistence) => {
     const flightEntity = FlightEntity.fromDTO({
       uuid,
-      userUuid: user_uuid,
+      pilotUuid: pilot_uuid,
       wingUuid: wing_uuid,
       time: time ?? undefined,
       site,

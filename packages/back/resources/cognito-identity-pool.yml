@@ -5,7 +5,7 @@ Resources:
     Properties:
       # Generate a name based on the stage
       IdentityPoolName: ${self:custom.stage}-identity-pool
-      # Don't allow unathenticated users
+      # Don't allow unathenticated pilots
       AllowUnauthenticatedIdentities: false
       # Link to our User Pool
       CognitoIdentityProviders:
@@ -26,7 +26,7 @@ Resources:
         unauthenticated:
           Fn::GetAtt: [CognitoUnauthRole, Arn]
 
-  # IAM role used for authenticated users
+  # IAM role used for authenticated pilots
   CognitoAuthRole:
     Type: AWS::IAM::Role
     Properties:
@@ -57,7 +57,7 @@ Resources:
                   - 'cognito-identity:*'
                 Resource: '*'
 
-              # Allow users to invoke our API
+              # Allow pilots to invoke our API
               - Effect: 'Allow'
                 Action:
                   - 'execute-api:Invoke'
@@ -73,7 +73,7 @@ Resources:
                   #     - Ref: ApiGatewayRestApi
                   #     - '/*'
 
-              # Allow users to upload attachments to their
+              # Allow pilots to upload attachments to their
               # folder inside our S3 bucket
               # - Effect: 'Allow'
               #   Action:

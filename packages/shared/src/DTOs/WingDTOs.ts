@@ -1,6 +1,6 @@
 import * as Yup from "yup";
 import { DateString, Flavor, NumberOfMinutes } from "../generalTypes/types";
-import { UserUuid } from "./UserDTOs";
+import { WithPilotUuid } from "./PilotDTOs";
 
 export type WingUuid = Flavor<string, "WingUuid">;
 
@@ -22,9 +22,7 @@ export const addWingSchema = Yup.object().shape<AddWingDTO>({
   flightTimePriorToOwn: Yup.number(),
 });
 
-export interface WingDTO extends AddWingDTO {
-  userUuid: UserUuid;
-}
+export type WingDTO = AddWingDTO & WithPilotUuid;
 
 export interface UpdateWingDTO extends Partial<AddWingDTO> {
   uuid: WingUuid;

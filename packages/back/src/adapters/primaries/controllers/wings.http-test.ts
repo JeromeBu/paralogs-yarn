@@ -14,17 +14,15 @@ const request = supertest(app);
 describe("Wings routes", () => {
   const email = "john.doe@mail.com";
   const password = "Bépo1234";
-  const signUpParams: SignUpParams = {
-    email,
-    firstName: "John",
-    lastName: "Doe",
-    password,
-  };
+  const signUpParams: SignUpParams = { email, password };
 
   it("adds a wing then retrieves it, then updates", async () => {
     const {
       body: { token },
+      status,
     } = await request.post(signUpRoute).send(signUpParams);
+    expect(status).toBe(200);
+    expect(token).toBeTruthy();
 
     const brand = "Nova";
     const model = "Ion 5";

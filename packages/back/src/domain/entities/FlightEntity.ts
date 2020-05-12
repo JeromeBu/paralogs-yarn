@@ -3,7 +3,7 @@ import {
   FlightDTO,
   FlightUuid,
   NumberOfMinutes,
-  UserUuid,
+  PilotUuid,
   WingUuid,
 } from "@paralogs/shared";
 import { Right } from "purify-ts";
@@ -12,7 +12,7 @@ import { Entity, Result } from "@paralogs/back-shared";
 interface FlightEntityProps {
   uuid: FlightUuid;
   wingUuid: WingUuid;
-  userUuid: UserUuid;
+  pilotUuid: PilotUuid;
   date: DateString;
   time?: string;
   site: string;
@@ -28,8 +28,8 @@ export class FlightEntity extends Entity<FlightEntityProps> {
     return new FlightEntity(props);
   }
 
-  public get userUuid() {
-    return this.getProps().userUuid;
+  public get pilotUuid() {
+    return this.getProps().pilotUuid;
   }
 
   public get wingUuid() {

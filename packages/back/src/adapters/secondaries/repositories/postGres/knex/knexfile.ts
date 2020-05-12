@@ -9,7 +9,7 @@ const knexconfig: { [key in Environment]: any } = {
       port: 5432,
       database: "paralogs-dev",
       user: "postgres",
-      password: "paralogs-dev-secret",
+      password: "pg-password",
     },
     pool: {
       min: 2,
@@ -27,7 +27,7 @@ const knexconfig: { [key in Environment]: any } = {
       port: 5433,
       database: "paralogs-test",
       user: "postgres",
-      password: "paralogs-test-secret",
+      password: "pg-password",
     },
     pool: {
       min: 2,

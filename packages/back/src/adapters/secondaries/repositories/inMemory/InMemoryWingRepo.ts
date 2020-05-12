@@ -1,11 +1,10 @@
-import { findByUuidAndReplace, UserUuid, WingUuid } from "@paralogs/shared";
+import { findByUuidAndReplace, PilotUuid, WingUuid } from "@paralogs/shared";
 import { liftMaybe } from "purify-ts/MaybeAsync";
 import { List } from "purify-ts";
-import { ResultAsync, RightAsyncVoid } from "@paralogs/back-shared";
+import { ResultAsync, RightAsyncVoid, getNextId } from "@paralogs/back-shared";
 
 import { WingRepo } from "../../../../domain/gateways/WingRepo";
 import { WingEntity } from "../../../../domain/entities/WingEntity";
-import { getNextId } from "./helpers";
 
 export class InMemoryWingRepo implements WingRepo {
   private _wings: WingEntity[] = [];
@@ -15,8 +14,8 @@ export class InMemoryWingRepo implements WingRepo {
     return liftMaybe(maybeWingEntity);
   }
 
-  public async findByUserUuid(userUuid: UserUuid) {
-    return this._wings.filter(wing => userUuid === wing.userUuid);
+  public async findByPilotUuid(pilotUuid: PilotUuid) {
+    return this._wings.filter(wing => pilotUuid === wing.pilotUuid);
   }
 
   public save(wingEntity: WingEntity): ResultAsync<void> {
