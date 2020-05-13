@@ -7,6 +7,7 @@ export const makeUserDTO = (userParams?: Partial<UserDTO>): UserDTO => {
   const randomUser: UserDTO = {
     uuid: generateUuid(),
     email: faker.internet.email(),
+    firstName: faker.name.firstName(),
   };
   const user = _.merge({}, randomUser, userParams);
   return user;

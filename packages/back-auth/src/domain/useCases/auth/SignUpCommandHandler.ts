@@ -3,7 +3,7 @@ import {
   UuidGenerator,
   CurrentUserWithPilotAndToken,
 } from "@paralogs/shared";
-import { ResultAsync } from "@paralogs/back-shared";
+import { ResultAsync, EventBus } from "@paralogs/back-shared";
 
 import { UserRepo } from "../../gateways/UserRepo";
 import { UserEntity } from "../../entities/UserEntity";
@@ -14,12 +14,14 @@ interface SignUpDependencies {
   userRepo: UserRepo;
   uuidGenerator: UuidGenerator;
   hashAndTokenManager: HashAndTokenManager;
+  eventBus: EventBus;
 }
 
 export const signUpCommandHandlerCreator = ({
   userRepo,
   uuidGenerator,
   hashAndTokenManager,
+  eventBus,
 }: SignUpDependencies) => (
   signUpParams: SignUpParams,
 ): ResultAsync<CurrentUserWithPilotAndToken> => {
@@ -32,9 +34,11 @@ export const signUpCommandHandlerCreator = ({
   )
     .chain(userEntity => userRepo.save(userEntity).map(() => userEntity))
     .map(savedUserEntity => {
+      const userDTO = userMapper.entityToDTO(savedUserEntity);
+      eventBus.publish("UserSignedUp", userDTO);
       return {
         token: savedUserEntity.getProps().authToken,
-        currentUser: userMapper.entityToDTO(savedUserEntity),
+        currentUser: userDTO,
       };
     });
 };

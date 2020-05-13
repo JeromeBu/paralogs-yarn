@@ -1,6 +1,5 @@
 import { PilotDTO, PilotUuid, UpdatePilotDTO } from "@paralogs/shared";
-import { combineEithers, Entity, Result } from "@paralogs/back-shared";
-import { PersonName } from "../valueObjects/PersonName";
+import { combineEithers, Entity, PersonName, Result } from "@paralogs/back-shared";
 
 interface PilotEntityProps {
   uuid: PilotUuid;

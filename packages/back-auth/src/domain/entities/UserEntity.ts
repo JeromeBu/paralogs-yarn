@@ -1,14 +1,16 @@
-import { SignUpParams, PilotUuid, WithUuid } from "@paralogs/shared";
+import { SignUpParams, UserUuid, WithUuid } from "@paralogs/shared";
 import { liftEither, liftPromise } from "purify-ts/EitherAsync";
-import { Entity, ResultAsync } from "@paralogs/back-shared";
+import { Entity, PersonName, ResultAsync } from "@paralogs/back-shared";
 
 import { Email } from "../valueObjects/user/Email";
 import { Password } from "../valueObjects/user/Password";
 import { HashAndTokenManager } from "../gateways/HashAndTokenManager";
 
 interface UserEntityProps {
-  uuid: PilotUuid;
+  uuid: UserUuid;
   email: Email;
+  firstName: PersonName;
+  lastName?: PersonName;
   // isEmailConfirmed: boolean;
   hashedPassword: string;
   authToken: string;
@@ -29,17 +31,21 @@ export class UserEntity extends Entity<UserEntityProps> {
     { hashAndTokenManager }: UserDependencies,
   ): ResultAsync<UserEntity> {
     const eitherValidParams = Email.create(params.email).chain(email => {
-      return Password.create(params.password).map(password => {
-        return { email, password };
+      return Password.create(params.password).chain(password => {
+        return PersonName.create(params.firstName).chain(firstName => {
+          return PersonName.create(params.lastName).map(lastName => {
+            return { email, password, firstName, lastName };
+          });
+        });
       });
     });
 
-    return liftEither(eitherValidParams).chain(({ password, email }) =>
+    return liftEither(eitherValidParams).chain(({ password, ...validParams }) =>
       liftPromise(async () => {
         const hashedPassword = await hashAndTokenManager.hash(password);
         return new UserEntity({
           uuid: params.uuid,
-          email,
+          ...validParams,
           // isEmailConfirmed: false,
           authToken: hashAndTokenManager.generateToken({ userUuid: params.uuid }),
           hashedPassword,

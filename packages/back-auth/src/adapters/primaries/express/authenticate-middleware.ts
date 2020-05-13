@@ -2,11 +2,10 @@ import { Response, NextFunction, Request } from "express";
 import jwt from "jsonwebtoken";
 import { loginRoute, signUpRoute, WithUserUuid } from "@paralogs/shared";
 import { ENV } from "../../../config/env";
-import { UserRepo } from "../../../domain/gateways/UserRepo";
 
 const whiteListedRoutes = [loginRoute, signUpRoute];
 
-export const authenticateMiddlewareBuilder = (userRepo: UserRepo) => async (
+export const authenticateMiddleware = async (
   req: Request,
   res: Response,
   next: NextFunction,
@@ -15,11 +14,9 @@ export const authenticateMiddlewareBuilder = (userRepo: UserRepo) => async (
   const token = getTokenFromHeaders(req);
   if (!token) return res.status(401).json({ message: "You need to authenticate first" });
   try {
-    const { pilotUuid } = jwt.verify(token, ENV.jwtSecret) as WithUserUuid;
-    const userEntity = (await userRepo.findByUuid(pilotUuid).run()).extract();
-    if (!userEntity || userEntity.getProps().authToken !== token)
-      return sendForbiddenError(res);
-    req.currentUser = userEntity;
+    const { userUuid } = jwt.verify(token, ENV.jwtSecret) as WithUserUuid;
+    if (!userUuid) return sendForbiddenError(res);
+    req.currentUserUuid = userUuid;
     return next();
   } catch (error) {
     // eslint-disable-next-line no-console

@@ -20,7 +20,12 @@ export interface WithEmail {
   email: string;
 }
 
-export type UserDTO = WithUuid & WithEmail;
+interface WithOtherInformation {
+  firstName: string;
+  lastName?: string;
+}
+
+export type UserDTO = WithUuid & WithEmail & WithOtherInformation;
 
 export type CurrentUserWithAuthToken = {
   currentUser: UserDTO;
@@ -42,7 +47,7 @@ export const loginSchema = Yup.object().shape<LoginParams>({
   password: Yup.string().required(),
 });
 
-export type SignUpParams = WithEmail & WithPassword;
+export type SignUpParams = WithEmail & WithPassword & WithOtherInformation;
 
 export const signUpSchema = Yup.object().shape<SignUpParams>({
   email: Yup.string()
@@ -51,4 +56,6 @@ export const signUpSchema = Yup.object().shape<SignUpParams>({
   password: Yup.string()
     .required()
     .min(8),
+  firstName: Yup.string().required(),
+  lastName: Yup.string(),
 });
