@@ -1,8 +1,7 @@
-import { combineEithers } from "@paralogs/back-shared";
+import { combineEithers, PersonName } from "@paralogs/back-shared";
 
 import { PilotEntity } from "../../../../../domain/entities/PilotEntity";
 import { PilotPersistence } from "./PilotPersistence";
-import { PersonName } from "../../../../../domain/valueObjects/PersonName";
 
 export const pilotPersistenceMapper = {
   toPersistence: (pilotEntity: PilotEntity): PilotPersistence => {

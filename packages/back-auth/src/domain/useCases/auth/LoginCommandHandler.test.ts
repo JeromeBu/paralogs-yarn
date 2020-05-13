@@ -71,6 +71,8 @@ describe("User Login", () => {
         currentUser: {
           uuid: userEntity.uuid,
           email,
+          firstName,
+          lastName,
         },
       });
     });

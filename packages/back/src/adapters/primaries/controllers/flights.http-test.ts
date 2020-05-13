@@ -2,21 +2,30 @@ import {
   AddFlightDTO,
   AddWingDTO,
   flightsRoute,
-  SignUpParams,
-  signUpRoute,
   generateUuid,
-  WingUuid,
   wingsRoute,
+  WingUuid,
 } from "@paralogs/shared";
 import supertest from "supertest";
+import { RightAsync } from "@paralogs/back-shared";
+import jwt from "jsonwebtoken";
+
 import { app } from "../express/server";
+import { callUseCase } from "../../lib/response-lib";
+import { pilotsUseCases } from "../../../config/useCasesChoice";
 
 const request = supertest(app);
 
 describe("Flights routes", () => {
-  const email = "john.doe@mail.com";
-  const password = "Bépo1234";
-  const signUpParams: SignUpParams = { email, password };
+  const pilot = { uuid: generateUuid(), firstName: "John Wing", lastName: "Doe Wing" };
+  const token = jwt.sign({ userUuid: pilot.uuid }, "jwtSecretFromEnv");
+
+  beforeAll(async () => {
+    await callUseCase({
+      useCase: await pilotsUseCases.create,
+      eitherAsyncParams: RightAsync(pilot),
+    });
+  });
 
   const brand = "Nova";
   const model = "Ion 5";
@@ -30,10 +39,6 @@ describe("Flights routes", () => {
   };
 
   it("adds a flight then retrieves it", async () => {
-    const {
-      body: { token },
-    } = await request.post(signUpRoute).send(signUpParams);
-
     await request
       .post(wingsRoute)
       .send(addWingParams)

@@ -4,7 +4,13 @@ import {
   generateUuid,
   CurrentUserWithPilotAndToken,
 } from "@paralogs/shared";
-import { Result, expectEitherToMatchError } from "@paralogs/back-shared";
+import {
+  Result,
+  expectEitherToMatchError,
+  InMemoryEventBus,
+  createInMemoryEventBus,
+  AppEvent,
+} from "@paralogs/back-shared";
 import _ from "lodash";
 
 import { InMemoryUserRepo } from "../../../adapters/secondaries/repositories/inMemory/InMemoryUserRepo";
@@ -22,13 +28,17 @@ describe("User signUp", () => {
   let hashAndTokenManager: TestHashAndTokenManager;
   let signUpUseCase: SignUpCommandHandler;
   let userRepo: InMemoryUserRepo;
+  let eventBus: InMemoryEventBus;
+  const getNow = () => new Date("2020-01-01");
 
   beforeEach(() => {
     userUuid = generateUuid();
     fakeUuidGenerator.setUuid(userUuid);
     userRepo = new InMemoryUserRepo();
     hashAndTokenManager = new TestHashAndTokenManager();
+    eventBus = createInMemoryEventBus({ getNow });
     signUpUseCase = signUpCommandHandlerCreator({
+      eventBus,
       userRepo,
       uuidGenerator: fakeUuidGenerator,
       hashAndTokenManager,
@@ -45,13 +55,9 @@ describe("User signUp", () => {
 
   describe("email is already taken", () => {
     it("fails to signUp with an explicit message", async () => {
-      const signUpParams = buildSignUpParams({
-        email: "some@mail.com",
-      });
+      const signUpParams = buildSignUpParams({ email: "some@mail.com" });
       await signUpUseCase(signUpParams).run();
-      const sameEmailSignUpParams = buildSignUpParams({
-        email: "some@mail.com",
-      });
+      const sameEmailSignUpParams = buildSignUpParams({ email: "some@mail.com" });
       const emailTakenResult = await signUpUseCase(sameEmailSignUpParams).run();
       expectEitherToMatchError(
         emailTakenResult,
@@ -83,21 +89,35 @@ describe("User signUp", () => {
       const someFakeToken = "someFakeToken";
       hashAndTokenManager.setGeneratedToken(someFakeToken);
       const currentUserWithToken = await signUpUseCase(signUpParams).run();
+      const expectedUser = {
+        uuid: userUuid,
+        email: "john@mail.com",
+        firstName: "John",
+        lastName: "Doe",
+      };
       expectUserResultToEqual(currentUserWithToken, {
-        currentUser: {
-          uuid: userUuid,
-          email: "john@mail.com",
-        },
+        currentUser: expectedUser,
         token: someFakeToken,
       });
       const userEntity = userRepo.users[0];
       expect(userEntity.uuid).toEqual(userUuid);
+
+      expectEventToHaveBeDispatched({
+        dateTimeOccurred: getNow(),
+        type: "UserSignedUp",
+        payload: expectedUser,
+      });
+
       // expectUserEmailNotToBeConfirmed(userEntity);
       // How to improve hashing process testing ?
       expectUserHashedPasswordExist(userEntity);
       expectUserToHaveAnAuthToken(userEntity);
     });
   });
+
+  const expectEventToHaveBeDispatched = (event: AppEvent) => {
+    expect(eventBus.events).toContainEqual(event);
+  };
 
   const buildSignUpParams = (params?: Partial<SignUpParams>): SignUpParams => {
     const randomSignUpParams = {

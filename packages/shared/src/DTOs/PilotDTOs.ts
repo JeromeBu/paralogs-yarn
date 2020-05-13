@@ -13,7 +13,7 @@ export interface PilotDTO {
   lastName?: string;
 }
 
-export type UpdatePilotDTO = Partial<PilotDTO>;
+export type UpdatePilotDTO = Partial<PilotDTO> & { uuid: PilotUuid };
 
 export const pilotSchema = Yup.object().shape<UpdatePilotDTO>({
   uuid: Yup.string().required(),

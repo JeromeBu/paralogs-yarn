@@ -1,29 +1,26 @@
-import {
-  AddWingDTO,
-  SignUpParams,
-  signUpRoute,
-  UpdateWingDTO,
-  generateUuid,
-  wingsRoute,
-} from "@paralogs/shared";
+import { AddWingDTO, generateUuid, UpdateWingDTO, wingsRoute } from "@paralogs/shared";
 import supertest from "supertest";
+import jwt from "jsonwebtoken";
+import { RightAsync } from "@paralogs/back-shared";
+
 import { app } from "../express/server";
+import { callUseCase } from "../../lib/response-lib";
+import { pilotsUseCases } from "../../../config/useCasesChoice";
 
 const request = supertest(app);
 
 describe("Wings routes", () => {
-  const email = "john.doe@mail.com";
-  const password = "Bépo1234";
-  const signUpParams: SignUpParams = { email, password };
+  const pilot = { uuid: generateUuid(), firstName: "John Wing", lastName: "Doe Wing" };
+  const token = jwt.sign({ userUuid: pilot.uuid }, "jwtSecretFromEnv");
+
+  beforeAll(async () => {
+    await callUseCase({
+      useCase: await pilotsUseCases.create,
+      eitherAsyncParams: RightAsync(pilot),
+    });
+  });
 
   it("adds a wing then retrieves it, then updates", async () => {
-    const {
-      body: { token },
-      status,
-    } = await request.post(signUpRoute).send(signUpParams);
-    expect(status).toBe(200);
-    expect(token).toBeTruthy();
-
     const brand = "Nova";
     const model = "Ion 5";
     const addWingParams: AddWingDTO = {
