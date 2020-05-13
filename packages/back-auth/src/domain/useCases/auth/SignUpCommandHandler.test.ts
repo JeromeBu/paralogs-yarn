@@ -47,12 +47,10 @@ describe("User signUp", () => {
     it("fails to signUp with an explicit message", async () => {
       const signUpParams = buildSignUpParams({
         email: "some@mail.com",
-        firstName: "Lulu",
       });
       await signUpUseCase(signUpParams).run();
       const sameEmailSignUpParams = buildSignUpParams({
         email: "some@mail.com",
-        firstName: "lala",
       });
       const emailTakenResult = await signUpUseCase(sameEmailSignUpParams).run();
       expectEitherToMatchError(
@@ -62,7 +60,7 @@ describe("User signUp", () => {
     });
   });
 
-  describe("password doesn't match critierias", () => {
+  describe("password doesn't match criteria", () => {
     it("fails to signUp with an explicit message", async () => {
       const signUpParamsCases = ["toShort", "nouppercar", "NOLOWERCHAR"].map(password =>
         buildSignUpParams({ password }),
