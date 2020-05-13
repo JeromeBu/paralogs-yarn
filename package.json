@@ -10,11 +10,9 @@
     "build": "yarn workspaces run build",
     "build:watch-shared": "cd packages/shared; yarn build:watch;",
     "build:watch-front-core": "cd packages/front-core; yarn build:watch;",
-
     "start:dev": "concurrently 'yarn:build:watch-*' 'yarn:start:dev-*'",
     "start:dev-back": "cd packages/back; yarn start:dev;",
     "start:dev-front-web": "cd packages/front-web; yarn start;",
-
     "test:watch": "concurrently 'yarn:test:watch-*'",
     "test:watch-front-core": "cd packages/front-core; yarn test:watch;",
     "test:watch-back": "cd packages/back; yarn test:watch;"
@@ -39,5 +37,8 @@
     "hooks": {
       "pre-commit": "echo runningTheHook && yarn workspaces run precommit"
     }
+  },
+  "dependencies": {
+    "eslint-plugin-simple-import-sort": "^5.0.3"
   }
 }

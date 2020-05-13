@@ -16,7 +16,13 @@ module.exports = {
     // Already done by Airbnb
     //'plugin:react/recommended'
   ],
-  plugins: ["prettier", "@typescript-eslint", "react", "react-hooks"],
+  plugins: [
+    "prettier",
+    "@typescript-eslint",
+    "react",
+    "react-hooks",
+    "simple-import-sort",
+  ],
   settings: {
     react: {
       version: "detect",
@@ -54,6 +60,10 @@ module.exports = {
     "max-classes-per-file": "off",
     "import/no-extraneous-dependencies": "off",
     "@typescript-eslint/camelcase": "off",
-    "import/extensions": "off"
+    "import/extensions": "off",
+
+    "sort-imports": "off",
+    "import/order": "off",
+    "simple-import-sort/sort": "error",
   },
 };

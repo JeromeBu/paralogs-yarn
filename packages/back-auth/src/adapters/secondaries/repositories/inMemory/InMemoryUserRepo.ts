@@ -1,18 +1,18 @@
-import { findByUuidAndReplace, PilotUuid } from "@paralogs/shared";
+import {
+  getNextId,
+  LeftAsync,
+  notFoundError,
+  ResultAsync,
+  RightAsyncVoid,
+  validationError,
+} from "@paralogs/back-shared";
+import { findByUuidAndReplace, UserUuid } from "@paralogs/shared";
 import { Left, List } from "purify-ts";
 import { liftEither } from "purify-ts/EitherAsync";
 import { liftMaybe } from "purify-ts/MaybeAsync";
-import {
-  LeftAsync,
-  ResultAsync,
-  RightAsyncVoid,
-  notFoundError,
-  validationError,
-  getNextId,
-} from "@paralogs/back-shared";
 
-import { UserRepo } from "../../../../domain/gateways/UserRepo";
 import { UserEntity } from "../../../../domain/entities/UserEntity";
+import { UserRepo } from "../../../../domain/gateways/UserRepo";
 import { Email } from "../../../../domain/valueObjects/user/Email";
 
 export class InMemoryUserRepo implements UserRepo {
@@ -32,7 +32,7 @@ export class InMemoryUserRepo implements UserRepo {
     );
   }
 
-  public findByUuid(userUuid: PilotUuid) {
+  public findByUuid(userUuid: UserUuid) {
     return liftMaybe(List.find(userEntity => userEntity.uuid === userUuid, this._users));
   }
 

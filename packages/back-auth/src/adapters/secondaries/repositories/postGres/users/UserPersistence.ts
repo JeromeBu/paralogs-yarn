@@ -1,9 +1,11 @@
-import { PilotUuid } from "@paralogs/shared";
+import { UserUuid } from "@paralogs/shared";
 
 export type UserPersistence = {
   id: number;
-  uuid: PilotUuid;
+  uuid: UserUuid;
   email: string;
+  first_name: string;
+  last_name?: string;
   hashed_password: string;
   auth_token: string;
 };

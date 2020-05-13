@@ -1,21 +1,21 @@
-import { PilotUuid } from "@paralogs/shared";
-import Knex from "knex";
-import { liftMaybe, liftPromise as liftPromiseToMaybeAsync } from "purify-ts/MaybeAsync";
-import { Maybe } from "purify-ts";
-import { liftPromise as liftPromiseToEitherAsync } from "purify-ts/EitherAsync";
 import {
   LeftAsync,
   notUniqError,
   ResultAsync,
   RightAsyncVoid,
 } from "@paralogs/back-shared";
-import { knexError } from "../knex/knexErrors";
+import { UserUuid } from "@paralogs/shared";
+import Knex from "knex";
+import { Maybe } from "purify-ts";
+import { liftPromise as liftPromiseToEitherAsync } from "purify-ts/EitherAsync";
+import { liftMaybe, liftPromise as liftPromiseToMaybeAsync } from "purify-ts/MaybeAsync";
 
 import { UserEntity } from "../../../../../domain/entities/UserEntity";
-import { Email } from "../../../../../domain/valueObjects/user/Email";
-import { userPersistenceMapper } from "./userPersistenceMapper";
 import { UserRepo } from "../../../../../domain/gateways/UserRepo";
+import { Email } from "../../../../../domain/valueObjects/user/Email";
+import { knexError } from "../knex/knexErrors";
 import { UserPersistence } from "./UserPersistence";
+import { userPersistenceMapper } from "./userPersistenceMapper";
 
 export class PgUserRepo implements UserRepo {
   constructor(private knex: Knex<any, unknown[]>) {}
@@ -37,7 +37,7 @@ export class PgUserRepo implements UserRepo {
       .map(userPersistenceMapper.toEntity);
   }
 
-  public findByUuid(uuid: PilotUuid) {
+  public findByUuid(uuid: UserUuid) {
     return liftPromiseToMaybeAsync(() =>
       this.knex
         .from<UserPersistence>("users")

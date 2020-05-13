@@ -1,25 +1,22 @@
-import { UpdatePilotDTO, WithPilotUuid } from "@paralogs/shared";
-import { liftEither } from "purify-ts/EitherAsync";
 import { notFoundError, ResultAsync } from "@paralogs/back-shared";
+import { UpdatePilotDTO } from "@paralogs/shared";
+import { liftEither } from "purify-ts/EitherAsync";
 
 import { PilotRepo } from "../../gateways/PilotRepo";
 
-type UpdateUserUseCaseDependencies = {
+type UpdatePilotDependencies = {
   pilotRepo: PilotRepo;
 };
 
-type UpdateUserParams = UpdatePilotDTO & WithPilotUuid;
+type UpdatePilotParams = UpdatePilotDTO;
 
 export const updatePilotCommandHandlerCreator = ({
   pilotRepo,
-}: UpdateUserUseCaseDependencies) => ({
-  pilotUuid,
-  ...paramsToUpdate
-}: UpdateUserParams): ResultAsync<void> => {
+}: UpdatePilotDependencies) => (params: UpdatePilotParams): ResultAsync<void> => {
   return pilotRepo
-    .findByUuid(pilotUuid)
-    .toEitherAsync(notFoundError(`No pilot found with this id: ${pilotUuid}`))
-    .chain(currentPilot => liftEither(currentPilot.update(paramsToUpdate)))
+    .findByUuid(params.uuid)
+    .toEitherAsync(notFoundError(`No pilot found with this id: ${params.uuid}`))
+    .chain(currentPilot => liftEither(currentPilot.update(params)))
     .chain(pilotToSave => pilotRepo.save(pilotToSave));
 };
 
