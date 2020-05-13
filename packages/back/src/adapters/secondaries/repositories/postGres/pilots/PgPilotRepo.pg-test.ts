@@ -59,6 +59,7 @@ describe("Pilot repository postgres tests", () => {
 
   it("saves modifications on a pilot", async () => {
     const newParams: UpdatePilotDTO = {
+      uuid: johnEntity.uuid,
       firstName: "New-FirstName",
       lastName: "New-LastName",
     };

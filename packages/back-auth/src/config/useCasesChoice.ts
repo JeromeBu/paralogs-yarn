@@ -1,9 +1,11 @@
-import { ActualUuidGenerator } from "@paralogs/shared";
 import { createInMemoryEventBus } from "@paralogs/back-shared";
-import { loginCommandHandlerCreator } from "../domain/useCases/auth/LoginCommandHandler";
-import { repositories } from "./repositoryChoice";
+import { ActualUuidGenerator } from "@paralogs/shared";
+
 import { ProductionHashAndTokenManager } from "../adapters/secondaries/ProductionHashAndTokenManager";
+import { getMeUseCaseCreator } from "../domain/useCases/auth/GetMeUseCase";
+import { loginCommandHandlerCreator } from "../domain/useCases/auth/LoginCommandHandler";
 import { signUpCommandHandlerCreator } from "../domain/useCases/auth/SignUpCommandHandler";
+import { repositories } from "./repositoryChoice";
 
 const userRepo = repositories.user;
 const hashAndTokenManager = new ProductionHashAndTokenManager();
@@ -21,5 +23,8 @@ export const authUseCases = {
     userRepo,
     hashAndTokenManager,
     uuidGenerator,
+  }),
+  getMe: getMeUseCaseCreator({
+    userRepo,
   }),
 };

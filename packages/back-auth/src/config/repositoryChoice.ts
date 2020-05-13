@@ -1,7 +1,7 @@
-import { getKnex } from "../adapters/secondaries/repositories/postGres/knex/db";
 import { InMemoryUserRepo } from "../adapters/secondaries/repositories/inMemory/InMemoryUserRepo";
-import { UserRepo } from "../domain/gateways/UserRepo";
+import { getKnex } from "../adapters/secondaries/repositories/postGres/knex/db";
 import { PgUserRepo } from "../adapters/secondaries/repositories/postGres/users/PgUserRepo";
+import { UserRepo } from "../domain/gateways/UserRepo";
 import { ENV } from "./env";
 
 interface Repositories {

@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { RightAsync } from "@paralogs/back-shared";
 import {
   getMeRoute,
   loginRoute,
@@ -6,14 +6,10 @@ import {
   signUpRoute,
   signUpSchema,
 } from "@paralogs/shared";
-import {
-  callUseCase,
-  sendHttpResponse,
-  success,
-  validateSchema,
-} from "../../lib/response-lib";
+import { Router } from "express";
+
 import { authUseCases } from "../../../config/useCasesChoice";
-import { userMapper } from "../../../domain/mappers/user.mapper";
+import { callUseCase, sendHttpResponse, validateSchema } from "../../lib/response-lib";
 
 const authRouter = Router();
 
@@ -37,15 +33,13 @@ export const authController = (): Router => {
   });
 
   authRouter.get(getMeRoute, async (req, res) => {
-    const { currentUser } = req;
+    const { currentUserUuid } = req;
 
-    return sendHttpResponse(
-      res,
-      success({
-        currentUser: userMapper.entityToDTO(currentUser),
-        token: currentUser.getProps().authToken,
-      }),
-    );
+    const httpResponse = await callUseCase({
+      eitherAsyncParams: RightAsync({ userUuid: currentUserUuid }),
+      useCase: authUseCases.getMe,
+    });
+    return sendHttpResponse(res, httpResponse);
   });
 
   return authRouter;
