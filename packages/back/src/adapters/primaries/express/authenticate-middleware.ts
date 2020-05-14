@@ -1,6 +1,7 @@
-import { Response, NextFunction, Request } from "express";
-import jwt from "jsonwebtoken";
 import { loginRoute, PilotUuid, signUpRoute, WithUserUuid } from "@paralogs/shared";
+import { NextFunction, Request, Response } from "express";
+import jwt from "jsonwebtoken";
+
 import { ENV } from "../../../config/env";
 
 const whiteListedRoutes = [loginRoute, signUpRoute];
@@ -12,7 +13,8 @@ export const authenticateMiddleware = async (
 ) => {
   if (whiteListedRoutes.includes(req.path)) return next();
   const token = getTokenFromHeaders(req);
-  if (!token) return res.status(401).json({ message: "You need to authenticate first" });
+  if (!token || token === "undefined")
+    return res.status(401).json({ message: "You need to authenticate first" });
   try {
     const { userUuid } = jwt.verify(token, ENV.jwtSecret) as WithUserUuid;
     if (!userUuid) return sendForbiddenError(res);

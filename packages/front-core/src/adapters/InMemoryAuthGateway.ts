@@ -1,11 +1,16 @@
-import { CurrentUserWithAuthToken, LoginParams, SignUpParams } from "@paralogs/shared";
+import {
+  CurrentUserWithPilotWithAuthToken,
+  LoginParams,
+  SignUpParams,
+} from "@paralogs/shared";
 import { BehaviorSubject } from "rxjs";
 import { filter } from "rxjs/operators";
+
 import { AuthGateway } from "../useCases/auth/gateways/AuthGateway";
 
 export class InMemoryAuthGateway implements AuthGateway {
-  private _currentUserWithToken$ = new BehaviorSubject<CurrentUserWithAuthToken>(
-    (undefined as unknown) as CurrentUserWithAuthToken,
+  private _currentUserWithToken$ = new BehaviorSubject<CurrentUserWithPilotWithAuthToken>(
+    (undefined as unknown) as CurrentUserWithPilotWithAuthToken,
   );
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

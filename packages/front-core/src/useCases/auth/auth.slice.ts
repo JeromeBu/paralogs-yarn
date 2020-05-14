@@ -1,12 +1,12 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
-  CurrentUserWithAuthToken,
+  CurrentUserWithPilotWithAuthToken,
   LoginParams,
   SignUpParams,
   StringError,
   UserDTO,
   ValueOf,
 } from "@paralogs/shared";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 type AuthState = Readonly<{
   error?: StringError;
@@ -57,7 +57,7 @@ const authSlice = createSlice({
 
     authenticationSucceeded: (
       state,
-      action: PayloadAction<CurrentUserWithAuthToken>,
+      action: PayloadAction<CurrentUserWithPilotWithAuthToken>,
     ) => ({
       ...state,
       isLoading: false,

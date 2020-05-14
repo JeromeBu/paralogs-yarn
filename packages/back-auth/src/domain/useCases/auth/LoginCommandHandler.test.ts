@@ -1,10 +1,10 @@
-import { CurrentUserWithPilotAndToken } from "@paralogs/shared";
-import { Result, expectEitherToMatchError } from "@paralogs/back-shared";
+import { expectEitherToMatchError, Result } from "@paralogs/back-shared";
+import { CurrentUserWithAuthToken } from "@paralogs/shared";
 
-import { loginCommandHandlerCreator, LoginCommandHandler } from "./LoginCommandHandler";
 import { InMemoryUserRepo } from "../../../adapters/secondaries/repositories/inMemory/InMemoryUserRepo";
 import { TestHashAndTokenManager } from "../../../adapters/secondaries/TestHashAndTokenManager";
 import { makeUserEntityCreator } from "../../testBuilders/makeUserEntityCreator";
+import { LoginCommandHandler, loginCommandHandlerCreator } from "./LoginCommandHandler";
 
 describe("User Login", () => {
   let hashAndTokenManager: TestHashAndTokenManager;
@@ -79,7 +79,7 @@ describe("User Login", () => {
   });
 
   const expectUserResultToEqual = (
-    result: Result<CurrentUserWithPilotAndToken>,
-    expectedUserDTOWithToken: CurrentUserWithPilotAndToken,
+    result: Result<CurrentUserWithAuthToken>,
+    expectedUserDTOWithToken: CurrentUserWithAuthToken,
   ) => result.map(userDTO => expect(userDTO).toEqual(expectedUserDTOWithToken));
 });
