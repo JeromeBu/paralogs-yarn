@@ -1,5 +1,6 @@
+import { makePilotDTO, makeUserDTO, PilotUuid } from "@paralogs/shared";
 import { Store } from "redux";
-import { makePilotDTO, makeUserDTO } from "@paralogs/shared";
+
 import { configureReduxStore, RootState } from "../../../reduxStore";
 import {
   ExpectStateToMatch,
@@ -7,8 +8,8 @@ import {
   getInMemoryDependencies,
   InMemoryDependencies,
 } from "../../../testUtils";
-import { pilotActions } from "../pilot.slice";
 import { authActions } from "../../auth/auth.slice";
+import { pilotActions } from "../pilot.slice";
 
 describe("update pilot ", () => {
   let store: Store<RootState>;
@@ -33,6 +34,7 @@ describe("update pilot ", () => {
       const loggedState = store.getState();
 
       const updateParams = {
+        uuid: currentUser.uuid as PilotUuid,
         firstName: "NewFirstName",
         lastName: "NewLastName",
       };

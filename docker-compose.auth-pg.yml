@@ -5,9 +5,9 @@ services:
     restart: unless-stopped
     ports:
       - "5442:5432"
-    env_file: ./packages/back/.env
+    env_file: .env
     environment:
-      POSTGRES_DB: paralogs-dev
+      POSTGRES_DB: paralogs-auth-dev
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: pg-password
     volumes:
