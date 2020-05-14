@@ -1,14 +1,10 @@
-import {
-  SignUpParams,
-  UuidGenerator,
-  CurrentUserWithPilotAndToken,
-} from "@paralogs/shared";
-import { ResultAsync, EventBus } from "@paralogs/back-shared";
+import { EventBus, ResultAsync } from "@paralogs/back-shared";
+import { CurrentUserWithAuthToken, SignUpParams, UuidGenerator } from "@paralogs/shared";
 
-import { UserRepo } from "../../gateways/UserRepo";
 import { UserEntity } from "../../entities/UserEntity";
-import { userMapper } from "../../mappers/user.mapper";
 import { HashAndTokenManager } from "../../gateways/HashAndTokenManager";
+import { UserRepo } from "../../gateways/UserRepo";
+import { userMapper } from "../../mappers/user.mapper";
 
 interface SignUpDependencies {
   userRepo: UserRepo;
@@ -24,7 +20,7 @@ export const signUpCommandHandlerCreator = ({
   eventBus,
 }: SignUpDependencies) => (
   signUpParams: SignUpParams,
-): ResultAsync<CurrentUserWithPilotAndToken> => {
+): ResultAsync<CurrentUserWithAuthToken> => {
   return UserEntity.create(
     {
       ...signUpParams,

@@ -1,24 +1,25 @@
-import { Store } from "redux";
 import {
-  CurrentUserWithAuthToken,
-  SignUpParams,
-  makeUserDTO,
+  CurrentUserWithPilotWithAuthToken,
   makePilotDTO,
+  makeUserDTO,
+  SignUpParams,
 } from "@paralogs/shared";
-import { RootState, configureReduxStore } from "../../../reduxStore";
+import { Store } from "redux";
+
+import { configureReduxStore, RootState } from "../../../reduxStore";
 import {
-  expectStateToMatchCreator,
-  InMemoryDependencies,
-  getInMemoryDependencies,
   ExpectStateToMatch,
+  expectStateToMatchCreator,
+  getInMemoryDependencies,
+  InMemoryDependencies,
 } from "../../../testUtils";
-import { feedWithCurrentUserCreator, feedWithAuthErrorCreator } from "./auth.testUtils";
 import { authActions } from "../auth.slice";
+import { feedWithAuthErrorCreator, feedWithCurrentUserCreator } from "./auth.testUtils";
 
 describe("Sign up", () => {
   let store: Store<RootState>;
   let dependencies: InMemoryDependencies; /* cannot be typed Dependencies because we need to access .currentUser$ */
-  let feedWithCurrentUser: (params: CurrentUserWithAuthToken) => void;
+  let feedWithCurrentUser: (params: CurrentUserWithPilotWithAuthToken) => void;
   let feedWithError: (errorMessage: string) => void;
   let expectStateToMatch: ExpectStateToMatch;
 

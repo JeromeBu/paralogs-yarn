@@ -1,8 +1,12 @@
+import {
+  CurrentUserWithPilotWithAuthToken,
+  LoginParams,
+  SignUpParams,
+} from "@paralogs/shared";
 import { Observable } from "rxjs";
-import { LoginParams, SignUpParams, CurrentUserWithAuthToken } from "@paralogs/shared";
 
 export interface AuthGateway {
-  login(params: LoginParams): Observable<CurrentUserWithAuthToken>;
-  signUp(params: SignUpParams): Observable<CurrentUserWithAuthToken>;
-  getMe(): Observable<CurrentUserWithAuthToken>;
+  login(params: LoginParams): Observable<CurrentUserWithPilotWithAuthToken>;
+  signUp(params: SignUpParams): Observable<CurrentUserWithPilotWithAuthToken>;
+  getMe(): Observable<CurrentUserWithPilotWithAuthToken>;
 }

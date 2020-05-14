@@ -1,8 +1,9 @@
-import { CurrentUserWithAuthToken } from "@paralogs/shared";
+import { CurrentUserWithPilotWithAuthToken } from "@paralogs/shared";
+
 import { InMemoryDependencies } from "../../../testUtils";
 
 export const feedWithCurrentUserCreator = (dependencies: InMemoryDependencies) => (
-  userDTOWithAuthToken: CurrentUserWithAuthToken,
+  userDTOWithAuthToken: CurrentUserWithPilotWithAuthToken,
 ) => {
   dependencies.authGateway.currentUserWithToken$.next(userDTOWithAuthToken);
 };

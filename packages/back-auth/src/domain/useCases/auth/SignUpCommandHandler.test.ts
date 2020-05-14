@@ -1,26 +1,25 @@
 import {
-  SignUpParams,
-  FakeUuidGenerator,
-  generateUuid,
-  CurrentUserWithPilotAndToken,
-} from "@paralogs/shared";
-import {
-  Result,
+  AppEvent,
+  createInMemoryEventBus,
   expectEitherToMatchError,
   InMemoryEventBus,
-  createInMemoryEventBus,
-  AppEvent,
+  Result,
 } from "@paralogs/back-shared";
+import {
+  CurrentUserWithAuthToken,
+  FakeUuidGenerator,
+  generateUuid,
+  SignUpParams,
+} from "@paralogs/shared";
 import _ from "lodash";
 
 import { InMemoryUserRepo } from "../../../adapters/secondaries/repositories/inMemory/InMemoryUserRepo";
-import {
-  signUpCommandHandlerCreator,
-  SignUpCommandHandler,
-} from "./SignUpCommandHandler";
-import { UserEntity } from "../../entities/UserEntity";
-
 import { TestHashAndTokenManager } from "../../../adapters/secondaries/TestHashAndTokenManager";
+import { UserEntity } from "../../entities/UserEntity";
+import {
+  SignUpCommandHandler,
+  signUpCommandHandlerCreator,
+} from "./SignUpCommandHandler";
 
 describe("User signUp", () => {
   let userUuid = generateUuid();
@@ -130,8 +129,8 @@ describe("User signUp", () => {
   };
 
   const expectUserResultToEqual = (
-    result: Result<CurrentUserWithPilotAndToken>,
-    expectedUserDTO: CurrentUserWithPilotAndToken,
+    result: Result<CurrentUserWithAuthToken>,
+    expectedUserDTO: CurrentUserWithAuthToken,
   ) => {
     expect(result.isRight()).toBe(true);
     expect(result.extract()).toEqual(expectedUserDTO);

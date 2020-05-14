@@ -1,5 +1,5 @@
+import { PilotDTO, UpdatePilotDTO, ValueOf } from "@paralogs/shared";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { UpdatePilotDTO, ValueOf, PilotDTO } from "@paralogs/shared";
 
 type PilotState = {
   isUpdateFormVisible: boolean;

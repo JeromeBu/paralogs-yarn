@@ -1,25 +1,26 @@
-import axios, { AxiosResponse, AxiosRequestConfig } from "axios";
 import {
-  LoginParams,
-  SignUpParams,
-  WingDTO,
-  CurrentUserWithAuthToken,
-  UserDTO,
-  AddWingDTO,
   AddFlightDTO,
+  AddWingDTO,
+  CurrentUserWithPilotWithAuthToken,
   FlightDTO,
-  getMeRoute,
-  signUpRoute,
-  loginRoute,
-  usersRoute,
-  wingsRoute,
   flightsRoute,
-  UpdateWingDTO,
+  getMeRoute,
+  LoginParams,
+  loginRoute,
+  SignUpParams,
+  signUpRoute,
   UpdatePilotDTO,
+  UpdateWingDTO,
+  UserDTO,
+  usersRoute,
+  WingDTO,
+  wingsRoute,
 } from "@paralogs/shared";
+import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
+import { Observable } from "rxjs/internal/Observable";
 import { from } from "rxjs/internal/observable/from";
 import { map } from "rxjs/internal/operators/map";
-import { Observable } from "rxjs/internal/Observable";
+
 import { config } from "../../config";
 import { LocalClientStorage } from "../LocalClientStorage";
 
@@ -30,18 +31,16 @@ const responseToObservable = <Output>(
 const POST = <Input, Output>(route: string, axiosConfig?: AxiosRequestConfig) => (
   input: Input,
 ): Observable<Output> =>
-  responseToObservable(
-    axios.post<Output>(`${config.apiUrl}${route}`, input, axiosConfig),
-  );
+  responseToObservable(axios.post<Output>(route, input, axiosConfig));
 
 const PUT = <Input, Output>(route: string, axiosConfig?: AxiosRequestConfig) => (
   input: Input,
 ): Observable<Output> =>
-  responseToObservable(axios.put<Output>(`${config.apiUrl}${route}`, input, axiosConfig));
+  responseToObservable(axios.put<Output>(route, input, axiosConfig));
 
 const GET = <Output>(route: string, axiosConfig?: AxiosRequestConfig) => (): Observable<
   Output
-> => responseToObservable(axios.get(`${config.apiUrl}${route}`, axiosConfig));
+> => responseToObservable(axios.get(route, axiosConfig));
 
 const localClientStorage = new LocalClientStorage();
 
@@ -72,17 +71,20 @@ const PUTwithToken = <Input, Output>(route: string) => () => {
   });
 };
 
+const paragliding = (route: string) => `${config.paraglidingUrl}${route}`;
+const auth = (route: string) => `${config.authUrl}${route}`;
+
 export const httpClient = {
-  getMeRequested: GETwithToken<CurrentUserWithAuthToken>(getMeRoute),
-  signUp: POST<SignUpParams, CurrentUserWithAuthToken>(signUpRoute),
-  login: POST<LoginParams, CurrentUserWithAuthToken>(loginRoute),
-  updateUser: PUTwithToken<UpdatePilotDTO, void>(usersRoute),
-  retrieveUsers: GETwithToken<UserDTO[]>(usersRoute),
+  getMe: GETwithToken<CurrentUserWithPilotWithAuthToken>(auth(getMeRoute)),
+  signUp: POST<SignUpParams, CurrentUserWithPilotWithAuthToken>(auth(signUpRoute)),
+  login: POST<LoginParams, CurrentUserWithPilotWithAuthToken>(auth(loginRoute)),
+  updateUser: PUTwithToken<UpdatePilotDTO, void>(auth(usersRoute)),
+  retrieveUsers: GETwithToken<UserDTO[]>(auth(usersRoute)),
 
-  retrieveWings: GETwithToken<WingDTO[]>(wingsRoute),
-  addWing: POSTwithToken<AddWingDTO, WingDTO>(wingsRoute),
-  updateWing: PUTwithToken<UpdateWingDTO, WingDTO>(wingsRoute),
+  retrieveWings: GETwithToken<WingDTO[]>(paragliding(wingsRoute)),
+  addWing: POSTwithToken<AddWingDTO, WingDTO>(paragliding(wingsRoute)),
+  updateWing: PUTwithToken<UpdateWingDTO, WingDTO>(paragliding(wingsRoute)),
 
-  addFlight: POSTwithToken<AddFlightDTO, FlightDTO>(flightsRoute),
-  retrieveFlights: GETwithToken<FlightDTO[]>(flightsRoute),
+  addFlight: POSTwithToken<AddFlightDTO, FlightDTO>(paragliding(flightsRoute)),
+  retrieveFlights: GETwithToken<FlightDTO[]>(paragliding(flightsRoute)),
 };

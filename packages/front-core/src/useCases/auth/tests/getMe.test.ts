@@ -1,19 +1,24 @@
-import { makeUserDTO, CurrentUserWithAuthToken, makePilotDTO } from "@paralogs/shared";
-import { Store } from "redux";
 import {
-  getInMemoryDependencies,
-  expectStateToMatchCreator,
-  InMemoryDependencies,
-  ExpectStateToMatch,
-} from "../../../testUtils";
+  CurrentUserWithPilotWithAuthToken,
+  makePilotDTO,
+  makeUserDTO,
+} from "@paralogs/shared";
+import { Store } from "redux";
+
 import { configureReduxStore, RootState } from "../../../reduxStore";
-import { feedWithAuthErrorCreator, feedWithCurrentUserCreator } from "./auth.testUtils";
+import {
+  ExpectStateToMatch,
+  expectStateToMatchCreator,
+  getInMemoryDependencies,
+  InMemoryDependencies,
+} from "../../../testUtils";
 import { authActions } from "../auth.slice";
+import { feedWithAuthErrorCreator, feedWithCurrentUserCreator } from "./auth.testUtils";
 
 describe("GetMe :  recover current user information", () => {
   let store: Store<RootState>;
   let dependencies: InMemoryDependencies;
-  let feedWithCurrentUser: (params: CurrentUserWithAuthToken) => void;
+  let feedWithCurrentUser: (params: CurrentUserWithPilotWithAuthToken) => void;
   let feedWithError: (errorMessage: string) => void;
   let expectStateToMatch: ExpectStateToMatch;
 

@@ -1,4 +1,5 @@
 import { LoginParams, SignUpParams } from "@paralogs/shared";
+
 import { AuthGateway } from "../useCases/auth/gateways/AuthGateway";
 import { httpClient } from "./libs/httpClient";
 
@@ -12,6 +13,6 @@ export class HttpAuthGateway implements AuthGateway {
   }
 
   public getMe() {
-    return httpClient.getMeRequested()();
+    return httpClient.getMe()();
   }
 }
