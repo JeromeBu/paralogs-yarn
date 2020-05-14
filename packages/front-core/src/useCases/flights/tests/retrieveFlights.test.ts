@@ -1,14 +1,13 @@
-import { Store } from "redux";
+import { FlightDTO, generateUuid, makePilotDTO, makeWingDTO } from "@paralogs/shared";
 import * as _ from "lodash";
+import { Store } from "redux";
 
-import { FlightDTO, generateUuid, makeUserDTO, makeWingDTO } from "@paralogs/shared";
-
-import { RootState, configureReduxStore } from "../../../reduxStore";
+import { configureReduxStore, RootState } from "../../../reduxStore";
 import {
-  InMemoryDependencies,
-  getInMemoryDependencies,
-  expectStateToMatchCreator,
   ExpectStateToMatch,
+  expectStateToMatchCreator,
+  getInMemoryDependencies,
+  InMemoryDependencies,
 } from "../../../testUtils";
 import { flightActions } from "../flights.slice";
 
@@ -25,7 +24,7 @@ describe("Retrieve flights", () => {
 
   it("gets all the Flights", () => {
     const wing = makeWingDTO();
-    const user = makeUserDTO();
+    const pilot = makePilotDTO();
     const someFlights: FlightDTO[] = [
       {
         uuid: generateUuid(),
@@ -34,7 +33,7 @@ describe("Retrieve flights", () => {
         time: "14:20",
         duration: 60,
         wingUuid: wing.uuid,
-        userUuid: user.uuid,
+        pilotUuid: pilot.uuid,
       },
       {
         uuid: generateUuid(),
@@ -43,7 +42,7 @@ describe("Retrieve flights", () => {
         time: "16:10",
         duration: 35,
         wingUuid: wing.uuid,
-        userUuid: user.uuid,
+        pilotUuid: pilot.uuid,
       },
     ];
     retrieveFlights();

@@ -5,7 +5,7 @@ services:
     restart: unless-stopped
     ports:
       - "5432:5432"
-    env_file: ./packages/back/.env
+    env_file: .env
     volumes:
       - ./pgdata/dev:/var/lib/postgresql/data
   back:
@@ -13,7 +13,7 @@ services:
     build:
       dockerfile: Dockerfile.back.dev
       context: .
-    env_file: ./packages/back/.env
+    env_file: .env
     ports:
       - "4000:4000"
     volumes:
