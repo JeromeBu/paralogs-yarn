@@ -1,6 +1,6 @@
 version: '3'
 services:
-  postgres:
+  pg-paragliding:
     image: postgres
     restart: unless-stopped
     ports:
@@ -11,4 +11,16 @@ services:
       POSTGRES_PASSWORD: pg-password
     volumes:
       - ./pgdata/paragliding/dev:/var/lib/postgresql/data
+  pg-auth:
+    image: postgres
+    restart: unless-stopped
+    ports:
+      - "5442:5432"
+    env_file: .env
+    environment:
+      POSTGRES_DB: paralogs-auth-dev
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: pg-password
+    volumes:
+      - ./pgdata/auth/dev:/var/lib/postgresql/data
 
