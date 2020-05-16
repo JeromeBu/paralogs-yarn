@@ -1,4 +1,5 @@
 import * as Yup from "yup";
+
 import { DateString, Flavor, NumberOfMinutes } from "../generalTypes/types";
 import { WithPilotUuid } from "./PilotDTOs";
 

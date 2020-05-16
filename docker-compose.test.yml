@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 services:
   pg-paragliding-test:
     image: postgres
@@ -22,4 +22,3 @@ services:
       POSTGRES_PASSWORD: pg-password
     volumes:
       - ./pgdata/auth/test:/var/lib/postgresql/data
-

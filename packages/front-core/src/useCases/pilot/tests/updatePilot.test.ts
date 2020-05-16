@@ -29,7 +29,11 @@ describe("update pilot ", () => {
       const token = "someFakeToken";
 
       store.dispatch(
-        authActions.authenticationSucceeded({ currentUser, pilotInformation, token }),
+        authActions.authenticationSucceeded({
+          currentUser,
+          pilotInformation,
+          token,
+        }),
       );
       const loggedState = store.getState();
 

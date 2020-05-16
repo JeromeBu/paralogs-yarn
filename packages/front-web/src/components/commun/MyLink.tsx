@@ -1,12 +1,15 @@
-import React from "react";
 import { Link as MuiLink } from "@material-ui/core";
-import { Link as RouterLink, LinkProps as RouterLinkProps } from "react-router-dom";
-import { Variant } from "@material-ui/core/styles/createTypography";
 import { makeStyles } from "@material-ui/core/styles";
+import { Variant } from "@material-ui/core/styles/createTypography";
+import React from "react";
+import {
+  Link as RouterLink,
+  LinkProps as RouterLinkProps,
+} from "react-router-dom";
 
-const Link1 = React.forwardRef<HTMLAnchorElement, RouterLinkProps>((props, ref) => (
-  <RouterLink innerRef={ref} {...props} />
-));
+const Link1 = React.forwardRef<HTMLAnchorElement, RouterLinkProps>(
+  (props, ref) => <RouterLink innerRef={ref} {...props} />,
+);
 
 const useStyle = makeStyles({
   link: {

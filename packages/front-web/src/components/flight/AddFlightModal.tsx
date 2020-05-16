@@ -17,7 +17,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { CenteredModal } from "../commun/CenteredModal";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   title: {
     textAlign: "center",
   },
@@ -36,7 +36,10 @@ interface AddFlightModalProps {
   close: () => void;
 }
 
-export const AddFlightModal: React.FC<AddFlightModalProps> = ({ close, isOpen }) => {
+export const AddFlightModal: React.FC<AddFlightModalProps> = ({
+  close,
+  isOpen,
+}) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const wings = useSelector((state: RootState) => state.wings.data);
@@ -59,8 +62,13 @@ export const AddFlightModal: React.FC<AddFlightModalProps> = ({ close, isOpen })
       <Formik
         enableReinitialize
         initialValues={initialValues}
-        onSubmit={async values => {
-          dispatch(flightActions.addFlightRequested({ ...values, uuid: generateUuid() }));
+        onSubmit={async (values) => {
+          dispatch(
+            flightActions.addFlightRequested({
+              ...values,
+              uuid: generateUuid(),
+            }),
+          );
           close();
         }}
       >
@@ -83,7 +91,7 @@ export const AddFlightModal: React.FC<AddFlightModalProps> = ({ close, isOpen })
                 className={classes.field}
                 value={values.wingUuid}
                 name="wingId"
-                onChange={e => {
+                onChange={(e) => {
                   if (e.target.value === "addNewWing") {
                     setCachedValues(values);
                     dispatch(wingActions.showAddWingForm());
@@ -95,7 +103,7 @@ export const AddFlightModal: React.FC<AddFlightModalProps> = ({ close, isOpen })
                 <MenuItem value="addNewWing" key="addNewWing">
                   <AddIcon /> Add new wing
                 </MenuItem>
-                {wings.map(wing => (
+                {wings.map((wing) => (
                   <MenuItem value={wing.uuid} key={wing.uuid}>
                     {wing.brand} {wing.model}
                   </MenuItem>

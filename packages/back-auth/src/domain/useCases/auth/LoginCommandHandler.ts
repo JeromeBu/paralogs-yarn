@@ -22,16 +22,19 @@ interface LoginDependencies {
 export const loginCommandHandlerCreator = ({
   userRepo,
   hashAndTokenManager,
-}: LoginDependencies) => (params: LoginParams): ResultAsync<CurrentUserWithAuthToken> => {
-  return liftEither(Email.create(params.email)).chain(email => {
+}: LoginDependencies) => (
+  params: LoginParams,
+): ResultAsync<CurrentUserWithAuthToken> => {
+  return liftEither(Email.create(params.email)).chain((email) => {
     return userRepo
       .findByEmail(email)
       .toEitherAsync(notFoundError("No user found with this email"))
-      .chain(userEntity =>
+      .chain((userEntity) =>
         liftPromise<boolean, AppError>(() =>
           userEntity.checkPassword(params.password, { hashAndTokenManager }),
-        ).chain(isPasswordCorrect => {
-          if (!isPasswordCorrect) return LeftAsync(validationError("Wrong password"));
+        ).chain((isPasswordCorrect) => {
+          if (!isPasswordCorrect)
+            return LeftAsync(validationError("Wrong password"));
           return RightAsync({
             token: userEntity.getProps().authToken,
             currentUser: userMapper.entityToDTO(userEntity),

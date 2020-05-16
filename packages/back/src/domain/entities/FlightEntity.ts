@@ -1,3 +1,4 @@
+import { Entity, Result } from "@paralogs/back-shared";
 import {
   DateString,
   FlightDTO,
@@ -7,7 +8,6 @@ import {
   WingUuid,
 } from "@paralogs/shared";
 import { Right } from "purify-ts";
-import { Entity, Result } from "@paralogs/back-shared";
 
 interface FlightEntityProps {
   uuid: FlightUuid;

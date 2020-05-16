@@ -1,4 +1,5 @@
 import { of } from "rxjs";
+
 import { ClientStorage } from "../useCases/auth/gateways/ClientStorage";
 
 export class LocalClientStorage implements ClientStorage {

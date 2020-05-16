@@ -1,7 +1,8 @@
 import * as Yup from "yup";
-import { DateString, NumberOfMinutes, Flavor } from "../generalTypes/types";
-import { WingUuid } from "./WingDTOs";
+
+import { DateString, Flavor, NumberOfMinutes } from "../generalTypes/types";
 import { WithPilotUuid } from "./PilotDTOs";
+import { WingUuid } from "./WingDTOs";
 
 export type FlightUuid = Flavor<string, "FlightUuid">;
 

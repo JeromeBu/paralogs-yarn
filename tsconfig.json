@@ -6,7 +6,7 @@
     "module": "commonjs",
     "moduleResolution": "node",
     "resolveJsonModule": true,
-    "forceConsistentCasingInFileNames": true,
+    "forceConsistentCasingInFileNames": true
   },
   "parserOptions": {
     "project": ["packages/*/tsconfig.json"]

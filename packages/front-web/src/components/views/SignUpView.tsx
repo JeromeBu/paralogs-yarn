@@ -1,27 +1,27 @@
 import {
   Avatar,
+  Box,
   Container,
   Grid,
   makeStyles,
   Typography,
-  Box,
   useTheme,
 } from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import { authActions } from "@paralogs/front-core";
+import { SignUpParams, signUpSchema } from "@paralogs/shared";
+import { Form, Formik } from "formik";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Formik, Form } from "formik";
-import { SignUpParams, signUpSchema } from "@paralogs/shared";
-import { authActions } from "@paralogs/front-core";
 
-import { MyLink } from "../commun/MyLink";
-import { DisplayError } from "../commun/DisplayError";
-import { authSelectors } from "../../selectors/authSelectors";
-import { InputTextField } from "../commun/form/InputTextField";
-import { UIButton } from "../commun/UIButton";
 import { useRedirectOnAuthentication } from "../../hooks/useRedirectOnAuthentication";
+import { authSelectors } from "../../selectors/authSelectors";
+import { DisplayError } from "../commun/DisplayError";
+import { InputTextField } from "../commun/form/InputTextField";
+import { MyLink } from "../commun/MyLink";
+import { UIButton } from "../commun/UIButton";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   avatar: {
     margin: theme.spacing(1),
     backgroundColor: theme.palette.secondary.main,

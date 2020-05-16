@@ -19,6 +19,10 @@ export const wingsUseCases = {
 };
 
 export const flightsUseCases = {
-  addFlight: addFlightCommandHandlerCreator({ flightRepo: repositories.flight }),
-  retrieveFlights: retrieveFlightsUseCaseCreator({ flightRepo: repositories.flight }),
+  addFlight: addFlightCommandHandlerCreator({
+    flightRepo: repositories.flight,
+  }),
+  retrieveFlights: retrieveFlightsUseCaseCreator({
+    flightRepo: repositories.flight,
+  }),
 };

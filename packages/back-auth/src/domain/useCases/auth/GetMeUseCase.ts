@@ -17,7 +17,7 @@ export const getMeUseCaseCreator = ({ userRepo }: GetMeDependencies) => ({
 }: WithUserUuid): ResultAsync<CurrentUserWithPilotWithAuthToken> => {
   return userRepo
     .findByUuid(userUuid)
-    .map(userEntity => {
+    .map((userEntity) => {
       const userDTO = userMapper.entityToDTO(userEntity);
       return {
         currentUser: userDTO,

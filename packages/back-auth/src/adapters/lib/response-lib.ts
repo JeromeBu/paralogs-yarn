@@ -1,4 +1,9 @@
-import { AppError, LeftAsync, ResultAsync, validationError } from "@paralogs/back-shared";
+import {
+  AppError,
+  LeftAsync,
+  ResultAsync,
+  validationError,
+} from "@paralogs/back-shared";
 import { Response } from "express";
 import _ from "lodash";
 import { EitherAsync } from "purify-ts";
@@ -32,8 +37,11 @@ export const validateSchema = <T extends object>(
   validationSchema: ObjectSchema<Shape<object, T>>,
   body: any,
 ): ResultAsync<Shape<object, T>> => {
-  if (_.isEmpty(body)) return LeftAsync(validationError("No body was provided"));
-  return liftPromise(() => validationSchema.validate(body, { abortEarly: false }));
+  if (_.isEmpty(body))
+    return LeftAsync(validationError("No body was provided"));
+  return liftPromise(() =>
+    validationSchema.validate(body, { abortEarly: false }),
+  );
 };
 
 type CallUseCaseParams<P> = {
@@ -48,10 +56,10 @@ export const callUseCase = <P>({
   return eitherAsyncParams
     .chain(useCase)
     .run()
-    .then(eitherReturned =>
+    .then((eitherReturned) =>
       eitherReturned
         .map(success)
-        .mapLeft(error => failure(error.message, error.code))
+        .mapLeft((error) => failure(error.message, error.code))
         .extract(),
     );
 };

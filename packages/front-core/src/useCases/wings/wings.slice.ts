@@ -23,7 +23,10 @@ const initialState: WingsState = {
   isLoading: false,
 };
 
-const setError = (state: WingsState, action: PayloadAction<StringError>): WingsState => ({
+const setError = (
+  state: WingsState,
+  action: PayloadAction<StringError>,
+): WingsState => ({
   ...state,
   isLoading: false,
   isSaving: false,
@@ -34,8 +37,8 @@ const wingsSlice = createSlice({
   name: "wings",
   initialState,
   reducers: {
-    showAddWingForm: state => ({ ...state, isAddWingFormVisible: true }),
-    hideAddWingForm: state => ({ ...state, isAddWingFormVisible: false }),
+    showAddWingForm: (state) => ({ ...state, isAddWingFormVisible: true }),
+    hideAddWingForm: (state) => ({ ...state, isAddWingFormVisible: false }),
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     addWingRequested: (state, action: PayloadAction<AddWingDTO>) => ({
@@ -61,7 +64,7 @@ const wingsSlice = createSlice({
     }),
     updateWingFailed: setError,
 
-    retrieveWingsRequested: state => ({ ...state, isLoading: true }),
+    retrieveWingsRequested: (state) => ({ ...state, isLoading: true }),
     retrieveWingsSucceeded: (state, action: PayloadAction<WingDTO[]>) => ({
       ...state,
       data: action.payload,

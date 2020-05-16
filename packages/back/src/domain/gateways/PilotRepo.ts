@@ -1,6 +1,6 @@
+import { ResultAsync } from "@paralogs/back-shared";
 import { PilotUuid } from "@paralogs/shared";
 import { MaybeAsync } from "purify-ts";
-import { ResultAsync } from "@paralogs/back-shared";
 
 import { PilotEntity } from "../entities/PilotEntity";
 

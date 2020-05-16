@@ -4,7 +4,10 @@ import { CurrentUserWithAuthToken } from "@paralogs/shared";
 import { InMemoryUserRepo } from "../../../adapters/secondaries/repositories/inMemory/InMemoryUserRepo";
 import { TestHashAndTokenManager } from "../../../adapters/secondaries/TestHashAndTokenManager";
 import { makeUserEntityCreator } from "../../testBuilders/makeUserEntityCreator";
-import { LoginCommandHandler, loginCommandHandlerCreator } from "./LoginCommandHandler";
+import {
+  LoginCommandHandler,
+  loginCommandHandlerCreator,
+} from "./LoginCommandHandler";
 
 describe("User Login", () => {
   let hashAndTokenManager: TestHashAndTokenManager;
@@ -15,7 +18,10 @@ describe("User Login", () => {
   beforeEach(() => {
     hashAndTokenManager = new TestHashAndTokenManager();
     userRepo = new InMemoryUserRepo();
-    loginUseCase = loginCommandHandlerCreator({ userRepo, hashAndTokenManager });
+    loginUseCase = loginCommandHandlerCreator({
+      userRepo,
+      hashAndTokenManager,
+    });
     makeUserEntity = makeUserEntityCreator(hashAndTokenManager);
   });
 
@@ -59,7 +65,12 @@ describe("User Login", () => {
       const password = "Secret123";
       const jwtToken = "someFakeToken";
       hashAndTokenManager.setGeneratedToken(jwtToken);
-      const userEntity = await makeUserEntity({ email, password, firstName, lastName });
+      const userEntity = await makeUserEntity({
+        email,
+        password,
+        firstName,
+        lastName,
+      });
       userRepo.setUsers([userEntity]);
       const response = await loginUseCase({
         email,
@@ -81,5 +92,6 @@ describe("User Login", () => {
   const expectUserResultToEqual = (
     result: Result<CurrentUserWithAuthToken>,
     expectedUserDTOWithToken: CurrentUserWithAuthToken,
-  ) => result.map(userDTO => expect(userDTO).toEqual(expectedUserDTOWithToken));
+  ) =>
+    result.map((userDTO) => expect(userDTO).toEqual(expectedUserDTOWithToken));
 });

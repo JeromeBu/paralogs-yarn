@@ -1,4 +1,8 @@
-import { createInMemoryEventBus, EventBus, RedisEventBus } from "@paralogs/back-shared";
+import {
+  createInMemoryEventBus,
+  EventBus,
+  RedisEventBus,
+} from "@paralogs/back-shared";
 
 import { InMemoryUserRepo } from "../adapters/secondaries/repositories/inMemory/InMemoryUserRepo";
 import { getKnex } from "../adapters/secondaries/repositories/postGres/knex/db";

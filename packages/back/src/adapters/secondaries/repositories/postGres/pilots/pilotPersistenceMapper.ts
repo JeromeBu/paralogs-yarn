@@ -18,7 +18,7 @@ export const pilotPersistenceMapper = {
       firstName: PersonName.create(params.first_name),
       lastName: PersonName.create(params.last_name),
     })
-      .map(validResults => {
+      .map((validResults) => {
         const pilotEntity = PilotEntity.fromDTO({
           uuid: params.uuid,
           ...validResults,
@@ -26,7 +26,7 @@ export const pilotPersistenceMapper = {
         pilotEntity.setIdentity(params.id);
         return pilotEntity;
       })
-      .ifLeft(error => {
+      .ifLeft((error) => {
         throw error;
       })
       .extract() as PilotEntity;

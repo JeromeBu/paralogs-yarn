@@ -1,5 +1,9 @@
 import { EventBus, ResultAsync } from "@paralogs/back-shared";
-import { CurrentUserWithAuthToken, SignUpParams, UuidGenerator } from "@paralogs/shared";
+import {
+  CurrentUserWithAuthToken,
+  SignUpParams,
+  UuidGenerator,
+} from "@paralogs/shared";
 
 import { UserEntity } from "../../entities/UserEntity";
 import { HashAndTokenManager } from "../../gateways/HashAndTokenManager";
@@ -28,8 +32,8 @@ export const signUpCommandHandlerCreator = ({
     },
     { hashAndTokenManager },
   )
-    .chain(userEntity => userRepo.save(userEntity).map(() => userEntity))
-    .map(savedUserEntity => {
+    .chain((userEntity) => userRepo.save(userEntity).map(() => userEntity))
+    .map((savedUserEntity) => {
       const userDTO = userMapper.entityToDTO(savedUserEntity);
       eventBus.publish("UserSignedUp", userDTO);
       return {
@@ -39,4 +43,6 @@ export const signUpCommandHandlerCreator = ({
     });
 };
 
-export type SignUpCommandHandler = ReturnType<typeof signUpCommandHandlerCreator>;
+export type SignUpCommandHandler = ReturnType<
+  typeof signUpCommandHandlerCreator
+>;

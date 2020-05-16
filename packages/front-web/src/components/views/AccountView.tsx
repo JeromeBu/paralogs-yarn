@@ -1,9 +1,9 @@
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { Box } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
-
 import { pilotActions } from "@paralogs/front-core";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+
 import { pilotSelector } from "../../selectors/pilotSelector";
 
 export const AccountView: React.FC = () => {

@@ -1,10 +1,11 @@
 import { Store } from "redux";
+
 import { HttpAuthGateway } from "./adapters/HttpAuthGateway";
 import { HttpFlightGateway } from "./adapters/HttpFlightGateway";
+import { HttpPilotGateway } from "./adapters/HttpPilotGateway";
 import { HttpWingGateway } from "./adapters/HttpWingGateway";
 import { LocalClientStorage } from "./adapters/LocalClientStorage";
 import { configureReduxStore, RootState as _RootState } from "./reduxStore";
-import { HttpPilotGateway } from "./adapters/HttpPilotGateway";
 
 export type ReduxStore = Store<_RootState>;
 

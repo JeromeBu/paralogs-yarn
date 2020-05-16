@@ -26,8 +26,12 @@ describe("User repository postgres tests", () => {
   });
 
   it("Creates a user, than an other", async () => {
-    const createdUserEntity = await makeUserEntity({ email: "createduser@mail.com" });
-    const resultSavedUserEntity = await pgUserRepo.save(createdUserEntity).run();
+    const createdUserEntity = await makeUserEntity({
+      email: "createduser@mail.com",
+    });
+    const resultSavedUserEntity = await pgUserRepo
+      .save(createdUserEntity)
+      .run();
 
     const props = createdUserEntity.getProps();
     expectRight(resultSavedUserEntity);
@@ -48,8 +52,12 @@ describe("User repository postgres tests", () => {
     ).toMatchObject(userPersistenceToMatch);
 
     // This second created user is build to check that there is no identity conflict
-    const created2ndUserEntity = await makeUserEntity({ email: "seconduser@mail.com" });
-    const resultSecondUserEntity = await pgUserRepo.save(created2ndUserEntity).run();
+    const created2ndUserEntity = await makeUserEntity({
+      email: "seconduser@mail.com",
+    });
+    const resultSecondUserEntity = await pgUserRepo
+      .save(created2ndUserEntity)
+      .run();
     expectRight(resultSecondUserEntity);
   });
 
@@ -84,6 +92,8 @@ describe("User repository postgres tests", () => {
   });
 
   it("does not find user if it doesn't exist", async () => {
-    expect((await pgUserRepo.findByUuid("not found").run()).isNothing()).toBeTruthy();
+    expect(
+      (await pgUserRepo.findByUuid("not found").run()).isNothing(),
+    ).toBeTruthy();
   });
 });

@@ -9,7 +9,11 @@ import {
 import { Router } from "express";
 
 import { authUseCases } from "../../../config/useCasesChoice";
-import { callUseCase, sendHttpResponse, validateSchema } from "../../lib/response-lib";
+import {
+  callUseCase,
+  sendHttpResponse,
+  validateSchema,
+} from "../../lib/response-lib";
 
 const authRouter = Router();
 

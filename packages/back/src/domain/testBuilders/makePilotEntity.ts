@@ -1,6 +1,7 @@
 import { makePilotDTO, PilotDTO } from "@paralogs/shared";
-import { PilotEntity } from "../entities/PilotEntity";
+
 import { InMemoryPilotRepo } from "../../adapters/secondaries/repositories/inMemory/InMemoryPilotRepo";
+import { PilotEntity } from "../entities/PilotEntity";
 
 export const makePilotEntity = async (
   pilotParams: Partial<PilotDTO> & { pilotId?: number } = {},
@@ -8,12 +9,12 @@ export const makePilotEntity = async (
   const { pilotId } = pilotParams;
   const pilotDTO = makePilotDTO(pilotParams);
   return (
-    await PilotEntity.create(pilotDTO).map(pilotEntity => {
+    await PilotEntity.create(pilotDTO).map((pilotEntity) => {
       if (pilotId) pilotEntity.setIdentity(pilotId);
       return pilotEntity;
     })
   )
-    .ifLeft(error => {
+    .ifLeft((error) => {
       throw error;
     })
     .extract() as PilotEntity;

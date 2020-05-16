@@ -12,12 +12,14 @@ type UpdatePilotParams = UpdatePilotDTO;
 
 export const updatePilotCommandHandlerCreator = ({
   pilotRepo,
-}: UpdatePilotDependencies) => (params: UpdatePilotParams): ResultAsync<void> => {
+}: UpdatePilotDependencies) => (
+  params: UpdatePilotParams,
+): ResultAsync<void> => {
   return pilotRepo
     .findByUuid(params.uuid)
     .toEitherAsync(notFoundError(`No pilot found with this id: ${params.uuid}`))
-    .chain(currentPilot => liftEither(currentPilot.update(params)))
-    .chain(pilotToSave => pilotRepo.save(pilotToSave));
+    .chain((currentPilot) => liftEither(currentPilot.update(params)))
+    .chain((pilotToSave) => pilotRepo.save(pilotToSave));
 };
 
 export type UpdatePilotCommandHandler = ReturnType<

@@ -1,4 +1,8 @@
-import { notFoundError, ResultAsync, RightAsyncVoid } from "@paralogs/back-shared";
+import {
+  notFoundError,
+  ResultAsync,
+  RightAsyncVoid,
+} from "@paralogs/back-shared";
 import { PilotUuid, WingUuid } from "@paralogs/shared";
 import Knex from "knex";
 import { Maybe } from "purify-ts/Maybe";
@@ -15,24 +19,21 @@ export class PgWingRepo implements WingRepo {
   constructor(private knex: Knex<any, unknown[]>) {}
 
   public async findByPilotUuid(pilot_uuid: PilotUuid) {
-    return (await this.knex.from<WingPersisted>("wings").where({ pilot_uuid })).map(
-      wingPersistenceMapper.toEntity,
-    );
+    return (
+      await this.knex.from<WingPersisted>("wings").where({ pilot_uuid })
+    ).map(wingPersistenceMapper.toEntity);
   }
 
   public findByUuid(uuid: WingUuid) {
     return liftPromise(() =>
-      this.knex
-        .from<WingPersisted>("wings")
-        .where({ uuid })
-        .first(),
+      this.knex.from<WingPersisted>("wings").where({ uuid }).first(),
     )
-      .chain(w => liftMaybe(Maybe.fromNullable(w)))
+      .chain((w) => liftMaybe(Maybe.fromNullable(w)))
       .map(wingPersistenceMapper.toEntity);
   }
 
   public save(wingEntity: WingEntity) {
-    return this._getPilotId(wingEntity.pilotUuid).chain(pilotId =>
+    return this._getPilotId(wingEntity.pilotUuid).chain((pilotId) =>
       wingEntity.hasIdentity()
         ? this._update(wingEntity, pilotId)
         : this._create(wingEntity, pilotId),
@@ -73,7 +74,9 @@ export class PgWingRepo implements WingRepo {
         owner_until: ownerUntil,
       }),
     )
-      .toEitherAsync(knexError(`Fail to update wing with id ${wingEntity.uuid}`))
+      .toEitherAsync(
+        knexError(`Fail to update wing with id ${wingEntity.uuid}`),
+      )
       .chain(() => {
         return RightAsyncVoid();
       });
@@ -87,7 +90,7 @@ export class PgWingRepo implements WingRepo {
         .where({ uuid })
         .first(),
     )
-      .chain(w => liftMaybe(Maybe.fromNullable(w)))
+      .chain((w) => liftMaybe(Maybe.fromNullable(w)))
       .toEitherAsync(notFoundError(`No pilot matched this pilotUuid: ${uuid}`))
       .map(({ id }) => id);
   }

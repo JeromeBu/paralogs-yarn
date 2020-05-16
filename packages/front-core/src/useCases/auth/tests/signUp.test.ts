@@ -14,7 +14,10 @@ import {
   InMemoryDependencies,
 } from "../../../testUtils";
 import { authActions } from "../auth.slice";
-import { feedWithAuthErrorCreator, feedWithCurrentUserCreator } from "./auth.testUtils";
+import {
+  feedWithAuthErrorCreator,
+  feedWithCurrentUserCreator,
+} from "./auth.testUtils";
 
 describe("Sign up", () => {
   let store: Store<RootState>;
@@ -65,7 +68,8 @@ describe("Sign up", () => {
       const firstName = "John";
       const lastName = "Doe";
 
-      const errorMessage = "This email is already used, consider logging in instead";
+      const errorMessage =
+        "This email is already used, consider logging in instead";
 
       signUpUser({ email, password, firstName, lastName });
       feedWithError(errorMessage);

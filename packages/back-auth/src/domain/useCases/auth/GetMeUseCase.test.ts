@@ -25,7 +25,9 @@ describe("Get Me, recovers logged user information", () => {
     ).extract() as UserEntity;
     userRepo.setUsers([userEntity]);
     const getMeUseCase = getMeUseCaseCreator({ userRepo });
-    const userDto = (await getMeUseCase({ userUuid: userEntity.uuid }).run()).extract();
+    const userDto = (
+      await getMeUseCase({ userUuid: userEntity.uuid }).run()
+    ).extract();
     expect(userDto).toMatchObject(userProps);
   });
 });

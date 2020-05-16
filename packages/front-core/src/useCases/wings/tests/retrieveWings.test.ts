@@ -1,11 +1,12 @@
+import { makeWingDTO, WingDTO } from "@paralogs/shared";
 import { Store } from "redux";
-import { WingDTO, makeWingDTO } from "@paralogs/shared";
-import { RootState, configureReduxStore } from "../../../reduxStore";
+
+import { configureReduxStore, RootState } from "../../../reduxStore";
 import {
-  InMemoryDependencies,
-  getInMemoryDependencies,
-  expectStateToMatchCreator,
   ExpectStateToMatch,
+  expectStateToMatchCreator,
+  getInMemoryDependencies,
+  InMemoryDependencies,
 } from "../../../testUtils";
 import { wingActions } from "../wings.slice";
 
@@ -49,9 +50,11 @@ describe("Retrieve wings", () => {
     });
   });
 
-  const retrieveWings = () => store.dispatch(wingActions.retrieveWingsRequested());
+  const retrieveWings = () =>
+    store.dispatch(wingActions.retrieveWingsRequested());
 
-  const feedWithWings = (wings: WingDTO[]) => dependencies.wingGateway.wings$.next(wings);
+  const feedWithWings = (wings: WingDTO[]) =>
+    dependencies.wingGateway.wings$.next(wings);
   const feedWithError = (errorMessage: string) => {
     dependencies.wingGateway.wings$.error(errorMessage);
   };

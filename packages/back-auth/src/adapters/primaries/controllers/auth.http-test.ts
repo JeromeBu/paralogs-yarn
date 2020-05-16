@@ -1,11 +1,12 @@
-import supertest from "supertest";
 import {
-  SignUpParams,
-  LoginParams,
-  signUpRoute,
-  loginRoute,
   getMeRoute,
+  LoginParams,
+  loginRoute,
+  SignUpParams,
+  signUpRoute,
 } from "@paralogs/shared";
+import supertest from "supertest";
+
 import { app } from "../express/server";
 
 const request = supertest(app);

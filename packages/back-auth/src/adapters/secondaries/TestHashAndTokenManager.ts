@@ -1,8 +1,9 @@
+import { WithUserUuid } from "@paralogs/shared";
 import * as bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { WithUserUuid } from "@paralogs/shared";
-import { Password } from "../../domain/valueObjects/user/Password";
+
 import { HashAndTokenManager } from "../../domain/gateways/HashAndTokenManager";
+import { Password } from "../../domain/valueObjects/user/Password";
 
 // the number passed in bcrypt.hash is the number of salt loops.
 // The bigger it is the longest the request will be (12 => 300 to 400 ms)

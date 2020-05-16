@@ -1,6 +1,7 @@
-import _ from "lodash";
 import * as faker from "faker";
+import _ from "lodash";
 import uuid from "uuid";
+
 import { PilotDTO } from "../DTOs";
 
 export const makePilotDTO = (pilotParams?: Partial<PilotDTO>): PilotDTO => {

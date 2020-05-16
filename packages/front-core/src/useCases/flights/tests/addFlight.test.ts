@@ -1,6 +1,7 @@
-import { Store } from "redux";
 import { FlightDTO, makeFlightDTO, makeWingDTO } from "@paralogs/shared";
-import { RootState, configureReduxStore } from "../../../reduxStore";
+import { Store } from "redux";
+
+import { configureReduxStore, RootState } from "../../../reduxStore";
 import {
   ExpectStateToMatch,
   expectStateToMatchCreator,

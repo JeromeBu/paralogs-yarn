@@ -1,10 +1,11 @@
 import { Epic } from "redux-observable";
 import { catchError, filter, map, switchMap } from "rxjs/operators";
-import { RootState, Dependencies } from "../../../reduxStore";
-import { flightActions } from "../flights.slice";
+
 import { handleActionError, matchActions } from "../../../actionsUtils";
-import { authActions } from "../../auth/auth.slice";
+import { Dependencies, RootState } from "../../../reduxStore";
 import { RootAction } from "../../../store/root-action";
+import { authActions } from "../../auth/auth.slice";
+import { flightActions } from "../flights.slice";
 
 export const retrieveFlightsEpic: Epic<
   RootAction,

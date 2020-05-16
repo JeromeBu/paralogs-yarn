@@ -1,25 +1,30 @@
+import { getNextId, ResultAsync, RightAsyncVoid } from "@paralogs/back-shared";
 import { findByUuidAndReplace, PilotUuid, WingUuid } from "@paralogs/shared";
-import { liftMaybe } from "purify-ts/MaybeAsync";
 import { List } from "purify-ts";
-import { ResultAsync, RightAsyncVoid, getNextId } from "@paralogs/back-shared";
+import { liftMaybe } from "purify-ts/MaybeAsync";
 
-import { WingRepo } from "../../../../domain/gateways/WingRepo";
 import { WingEntity } from "../../../../domain/entities/WingEntity";
+import { WingRepo } from "../../../../domain/gateways/WingRepo";
 
 export class InMemoryWingRepo implements WingRepo {
   private _wings: WingEntity[] = [];
 
   public findByUuid(wingUuid: WingUuid) {
-    const maybeWingEntity = List.find(wing => wing.uuid === wingUuid, this.wings);
+    const maybeWingEntity = List.find(
+      (wing) => wing.uuid === wingUuid,
+      this.wings,
+    );
     return liftMaybe(maybeWingEntity);
   }
 
   public async findByPilotUuid(pilotUuid: PilotUuid) {
-    return this._wings.filter(wing => pilotUuid === wing.pilotUuid);
+    return this._wings.filter((wing) => pilotUuid === wing.pilotUuid);
   }
 
   public save(wingEntity: WingEntity): ResultAsync<void> {
-    return wingEntity.hasIdentity() ? this._update(wingEntity) : this._create(wingEntity);
+    return wingEntity.hasIdentity()
+      ? this._update(wingEntity)
+      : this._create(wingEntity);
   }
 
   get wings() {

@@ -1,6 +1,10 @@
+import {
+  checkNotExists,
+  notUniqError,
+  ResultAsync,
+} from "@paralogs/back-shared";
 import { WingDTO } from "@paralogs/shared";
 import { liftEither } from "purify-ts/EitherAsync";
-import { checkNotExists, notUniqError, ResultAsync } from "@paralogs/back-shared";
 
 import { WingEntity } from "../../entities/WingEntity";
 import { WingRepo } from "../../gateways/WingRepo";
@@ -9,9 +13,9 @@ interface AddWingDependencies {
   wingRepo: WingRepo;
 }
 
-export const addWingCommandHandlerCreator = ({ wingRepo }: AddWingDependencies) => (
-  wingDTO: WingDTO,
-): ResultAsync<WingDTO> => {
+export const addWingCommandHandlerCreator = ({
+  wingRepo,
+}: AddWingDependencies) => (wingDTO: WingDTO): ResultAsync<WingDTO> => {
   const maybeAsyncWingDto = wingRepo.findByUuid(wingDTO.uuid);
 
   const eitherAsyncNotExists = checkNotExists(
@@ -21,7 +25,9 @@ export const addWingCommandHandlerCreator = ({ wingRepo }: AddWingDependencies) 
 
   return eitherAsyncNotExists
     .chain(() => liftEither(WingEntity.create(wingDTO)))
-    .chain(wingEntity => wingRepo.save(wingEntity).map(() => wingDTO));
+    .chain((wingEntity) => wingRepo.save(wingEntity).map(() => wingDTO));
 };
 
-export type AddWingCommandHandler = ReturnType<typeof addWingCommandHandlerCreator>;
+export type AddWingCommandHandler = ReturnType<
+  typeof addWingCommandHandlerCreator
+>;

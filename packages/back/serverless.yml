@@ -43,7 +43,6 @@ plugins:
   - serverless-plugin-monorepo
   - serverless-offline
 
-
 functions:
   create-wing:
     handler: .build/adapters/primaries/addWing.handler.main
@@ -54,12 +53,12 @@ functions:
           cors: true
 
   list-wings:
-      handler: .build/adapters/primaries/listWings.handler.main
-      events:
-        - http:
-            path: wings
-            method: get
-            cors: true
+    handler: .build/adapters/primaries/listWings.handler.main
+    events:
+      - http:
+          path: wings
+          method: get
+          cors: true
 
   delete-wing:
     handler: .build/adapters/primaries/deleteWing.handler.main
@@ -84,7 +83,6 @@ functions:
           path: pilots/login
           method: post
           cors: true
-
 
 resources:
   - ${file(resources/dynamodb-wings.yml)}

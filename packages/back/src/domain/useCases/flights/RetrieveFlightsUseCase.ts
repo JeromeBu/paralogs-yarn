@@ -1,10 +1,10 @@
+import { AppError, ResultAsync } from "@paralogs/back-shared";
 import { FlightDTO, PilotUuid } from "@paralogs/shared";
 import { liftPromise } from "purify-ts/EitherAsync";
-import { ResultAsync, AppError } from "@paralogs/back-shared";
 
+import { FlightEntity } from "../../entities/FlightEntity";
 import { FlightRepo } from "../../gateways/FlightRepo";
 import { flightMapper } from "../../mappers/flight.mapper";
-import { FlightEntity } from "../../entities/FlightEntity";
 
 interface RetrieveFlightsDependencies {
   flightRepo: FlightRepo;
@@ -17,7 +17,9 @@ export const retrieveFlightsUseCaseCreator = ({
 ): ResultAsync<FlightDTO[]> => {
   return liftPromise<FlightEntity[], AppError>(() =>
     flightRepo.findByPilotUuid(currentUserUuid),
-  ).map(flightEntities => flightEntities.map(flightMapper.entityToDTO));
+  ).map((flightEntities) => flightEntities.map(flightMapper.entityToDTO));
 };
 
-export type RetrieveFlightsUseCase = ReturnType<typeof retrieveFlightsUseCaseCreator>;
+export type RetrieveFlightsUseCase = ReturnType<
+  typeof retrieveFlightsUseCaseCreator
+>;

@@ -19,7 +19,10 @@ describe("Pilot repository postgres tests", () => {
   beforeEach(async () => {
     await resetDb(knex);
     pgPilotRepo = new PgPilotRepo(knex);
-    johnEntity = await makePilotEntity({ pilotId: 125, firstName: johnFirstName });
+    johnEntity = await makePilotEntity({
+      pilotId: 125,
+      firstName: johnFirstName,
+    });
     const johnPersistence = pilotPersistenceMapper.toPersistence(johnEntity);
     await knex<PilotPersistence>("pilots").insert(johnPersistence);
   });
@@ -29,7 +32,9 @@ describe("Pilot repository postgres tests", () => {
       firstName: "My pilot first name",
       lastName: "Pilot last name",
     });
-    const resultSavedPilotEntity = await pgPilotRepo.save(createdPilotEntity).run();
+    const resultSavedPilotEntity = await pgPilotRepo
+      .save(createdPilotEntity)
+      .run();
 
     const props = createdPilotEntity.getProps();
     expectRight(resultSavedPilotEntity);
@@ -53,7 +58,9 @@ describe("Pilot repository postgres tests", () => {
   });
 
   it("does not find pilot if it doesn't exist", async () => {
-    expect((await pgPilotRepo.findByUuid("not found").run()).isNothing()).toBeTruthy();
+    expect(
+      (await pgPilotRepo.findByUuid("not found").run()).isNothing(),
+    ).toBeTruthy();
   });
 
   it("saves modifications on a pilot", async () => {
@@ -64,10 +71,12 @@ describe("Pilot repository postgres tests", () => {
     };
 
     await liftEither(johnEntity.update(newParams))
-      .chain(john => pgPilotRepo.save(john))
+      .chain((john) => pgPilotRepo.save(john))
       .run();
 
-    const updatedJohn = (await pgPilotRepo.findByUuid(johnEntity.uuid).run()).extract()!;
+    const updatedJohn = (
+      await pgPilotRepo.findByUuid(johnEntity.uuid).run()
+    ).extract()!;
     expect(updatedJohn.getProps()).toMatchObject({
       ...johnEntity.getProps(),
       firstName: PersonName.create(newParams.firstName).extract(),

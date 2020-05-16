@@ -1,6 +1,7 @@
 import { AddWingDTO, UpdateWingDTO, WingDTO } from "@paralogs/shared";
 import { BehaviorSubject } from "rxjs";
 import { map } from "rxjs/operators";
+
 import { WingGateway } from "../useCases/wings/gateways/WingGateway";
 
 export class InMemoryWingGateway implements WingGateway {
@@ -12,13 +13,13 @@ export class InMemoryWingGateway implements WingGateway {
 
   public addWing(addWingDto: AddWingDTO) {
     return this._wings$.pipe(
-      map(wings => wings.find(({ uuid }) => uuid === addWingDto.uuid)!),
+      map((wings) => wings.find(({ uuid }) => uuid === addWingDto.uuid)!),
     );
   }
 
   public updateWing(updateWingDTO: UpdateWingDTO) {
     return this._wings$.pipe(
-      map(wings => wings.find(({ uuid }) => uuid === updateWingDTO.uuid)!),
+      map((wings) => wings.find(({ uuid }) => uuid === updateWingDTO.uuid)!),
     );
   }
 

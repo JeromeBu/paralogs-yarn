@@ -1,7 +1,8 @@
-import _ from "lodash";
 import * as faker from "faker";
-import { generateUuid } from "../generalTypes/uuid";
+import _ from "lodash";
+
 import { UserDTO } from "../DTOs";
+import { generateUuid } from "../generalTypes/uuid";
 
 export const makeUserDTO = (userParams?: Partial<UserDTO>): UserDTO => {
   const randomUser: UserDTO = {

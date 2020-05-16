@@ -1,14 +1,17 @@
-import { generateUuid } from "@paralogs/shared";
 import { expectRight } from "@paralogs/back-shared";
+import { generateUuid } from "@paralogs/shared";
+
 import { InMemoryPilotRepo } from "../../../adapters/secondaries/repositories/inMemory/InMemoryPilotRepo";
-import { createPilotCommandHandlerCreator } from "./CreatePilotCommandHandler";
 import { pilotMapper } from "../../mappers/pilotMapper";
+import { createPilotCommandHandlerCreator } from "./CreatePilotCommandHandler";
 
 describe("Create pilot command", () => {
   describe("when all is good", () => {
     it("creates a user", async () => {
       const pilotRepo = new InMemoryPilotRepo();
-      const createPilotCommandHandler = createPilotCommandHandlerCreator({ pilotRepo });
+      const createPilotCommandHandler = createPilotCommandHandlerCreator({
+        pilotRepo,
+      });
       const pilotDto = {
         uuid: generateUuid(),
         firstName: "John",

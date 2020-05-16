@@ -1,5 +1,6 @@
-import * as Yup from "yup";
 import { validationError } from "@paralogs/back-shared";
+import * as Yup from "yup";
+
 import { validateSchema } from "./response-lib";
 
 describe("Validate schema", () => {
@@ -8,7 +9,11 @@ describe("Validate schema", () => {
       const yupSchema = Yup.object().shape({
         myKey: Yup.string().required(),
       });
-      await expectValidationToBe(yupSchema, "", validationError("No body was provided"));
+      await expectValidationToBe(
+        yupSchema,
+        "",
+        validationError("No body was provided"),
+      );
     });
   });
 
@@ -40,6 +45,8 @@ describe("Validate schema", () => {
     body: any,
     expected: any,
   ) => {
-    expect((await validateSchema(schema, body).run()).extract()).toMatchObject(expected);
+    expect((await validateSchema(schema, body).run()).extract()).toMatchObject(
+      expected,
+    );
   };
 });

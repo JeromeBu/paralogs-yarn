@@ -1,4 +1,5 @@
 import { UserDTO } from "@paralogs/shared";
+
 import { UserEntity } from "../entities/UserEntity";
 
 export const userMapper = {

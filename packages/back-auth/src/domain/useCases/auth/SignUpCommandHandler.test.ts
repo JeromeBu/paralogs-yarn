@@ -56,7 +56,9 @@ describe("User signUp", () => {
     it("fails to signUp with an explicit message", async () => {
       const signUpParams = buildSignUpParams({ email: "some@mail.com" });
       await signUpUseCase(signUpParams).run();
-      const sameEmailSignUpParams = buildSignUpParams({ email: "some@mail.com" });
+      const sameEmailSignUpParams = buildSignUpParams({
+        email: "some@mail.com",
+      });
       const emailTakenResult = await signUpUseCase(sameEmailSignUpParams).run();
       expectEitherToMatchError(
         emailTakenResult,
@@ -67,18 +69,26 @@ describe("User signUp", () => {
 
   describe("password doesn't match criteria", () => {
     it("fails to signUp with an explicit message", async () => {
-      const signUpParamsCases = ["toShort", "nouppercar", "NOLOWERCHAR"].map(password =>
-        buildSignUpParams({ password }),
-      );
+      const signUpParamsCases = [
+        "toShort",
+        "nouppercar",
+        "NOLOWERCHAR",
+      ].map((password) => buildSignUpParams({ password }));
       const [toShortResult, noUpperResult, noLowerResult] = await Promise.all(
-        signUpParamsCases.map(params => signUpUseCase(params).run()),
+        signUpParamsCases.map((params) => signUpUseCase(params).run()),
       );
       expectEitherToMatchError(
         toShortResult,
         "Password must be at least 8 characters long",
       );
-      expectEitherToMatchError(noUpperResult, "Password must have upper case characters");
-      expectEitherToMatchError(noLowerResult, "Password must have lower case characters");
+      expectEitherToMatchError(
+        noUpperResult,
+        "Password must have upper case characters",
+      );
+      expectEitherToMatchError(
+        noLowerResult,
+        "Password must have lower case characters",
+      );
     });
   });
 

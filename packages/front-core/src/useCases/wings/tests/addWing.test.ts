@@ -1,11 +1,12 @@
+import { AddWingDTO, makeWingDTO, WingDTO } from "@paralogs/shared";
 import { Store } from "redux";
-import { WingDTO, makeWingDTO, AddWingDTO } from "@paralogs/shared";
-import { RootState, configureReduxStore } from "../../../reduxStore";
+
+import { configureReduxStore, RootState } from "../../../reduxStore";
 import {
-  expectStateToMatchCreator,
-  InMemoryDependencies,
-  getInMemoryDependencies,
   ExpectStateToMatch,
+  expectStateToMatchCreator,
+  getInMemoryDependencies,
+  InMemoryDependencies,
 } from "../../../testUtils";
 import { wingActions } from "../wings.slice";
 

@@ -2,11 +2,7 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": false,
     "skipLibCheck": true,
     "allowSyntheticDefaultImports": true,
@@ -16,10 +12,6 @@
     "module": "esnext",
     "noEmit": true
   },
-  "include": [
-    "src"
-  ],
-  "exclude": [
-    "dist/**/*"
-  ]
+  "include": ["src"],
+  "exclude": ["dist/**/*"]
 }

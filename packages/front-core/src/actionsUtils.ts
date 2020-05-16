@@ -1,6 +1,10 @@
-import { ActionCreatorWithOptionalPayload, PayloadAction } from "@reduxjs/toolkit";
 import { StringError } from "@paralogs/shared";
+import {
+  ActionCreatorWithOptionalPayload,
+  PayloadAction,
+} from "@reduxjs/toolkit";
 import { of } from "rxjs";
+
 import { RootAction } from "./store/root-action";
 
 export const handleActionError = (

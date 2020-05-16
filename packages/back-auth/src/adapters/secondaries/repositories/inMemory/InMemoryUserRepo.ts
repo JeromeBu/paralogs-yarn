@@ -26,14 +26,16 @@ export class InMemoryUserRepo implements UserRepo {
   public findByEmail(email: Email) {
     return liftMaybe(
       List.find(
-        userEntity => userEntity.getProps().email.value === email.value,
+        (userEntity) => userEntity.getProps().email.value === email.value,
         this._users,
       ),
     );
   }
 
   public findByUuid(userUuid: UserUuid) {
-    return liftMaybe(List.find(userEntity => userEntity.uuid === userUuid, this._users));
+    return liftMaybe(
+      List.find((userEntity) => userEntity.uuid === userUuid, this._users),
+    );
   }
 
   get users() {
@@ -46,7 +48,8 @@ export class InMemoryUserRepo implements UserRepo {
 
   private _create(userEntity: UserEntity): ResultAsync<void> {
     const isEmailTaken = !!this._users.find(
-      user => user.getProps().email.value === userEntity.getProps().email.value,
+      (user) =>
+        user.getProps().email.value === userEntity.getProps().email.value,
     );
     if (isEmailTaken)
       return liftEither(

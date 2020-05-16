@@ -1,11 +1,17 @@
-import { FlightUuid, generateUuid, makeFlightDTO, FlightDTO } from "@paralogs/shared";
 import { expectEitherToMatchError } from "@paralogs/back-shared";
+import {
+  FlightDTO,
+  FlightUuid,
+  generateUuid,
+  makeFlightDTO,
+} from "@paralogs/shared";
+
+import { InMemoryFlightRepo } from "../../../adapters/secondaries/repositories/inMemory/InMemoryFlightRepo";
+import { flightMapper } from "../../mappers/flight.mapper";
 import {
   AddFlightCommandHandler,
   addFlightCommandHandlerCreator,
 } from "./AddFlightCommandHandler";
-import { InMemoryFlightRepo } from "../../../adapters/secondaries/repositories/inMemory/InMemoryFlightRepo";
-import { flightMapper } from "../../mappers/flight.mapper";
 
 describe("add a flight", () => {
   let addFlightUseCase: AddFlightCommandHandler;
@@ -22,7 +28,10 @@ describe("add a flight", () => {
       const flightDto = makeFlightDTO({ uuid: id });
       await addFlightUseCase(flightDto).run();
 
-      const flightDtoWithSameId = makeFlightDTO({ uuid: id, site: "The new one" });
+      const flightDtoWithSameId = makeFlightDTO({
+        uuid: id,
+        site: "The new one",
+      });
       const result = await addFlightUseCase(flightDtoWithSameId).run();
       expectEitherToMatchError(result, "A flight with this id already exists");
     });
@@ -38,7 +47,9 @@ describe("add a flight", () => {
   });
 
   const expectFlightDtoToBeSaved = (flightDTO: FlightDTO) => {
-    const flightFound = flightRepo.flights.find(({ uuid }) => uuid === flightDTO.uuid)!;
+    const flightFound = flightRepo.flights.find(
+      ({ uuid }) => uuid === flightDTO.uuid,
+    )!;
     expect(flightFound).toBeTruthy();
     expect(flightMapper.entityToDTO(flightFound)).toEqual(flightDTO);
   };

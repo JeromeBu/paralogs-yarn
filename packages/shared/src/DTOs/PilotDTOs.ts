@@ -1,4 +1,5 @@
 import * as Yup from "yup";
+
 import { Flavor } from "..";
 
 export type PilotUuid = Flavor<string, "PilotUuid">;

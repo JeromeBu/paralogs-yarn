@@ -1,4 +1,10 @@
-import { Container, Fab, List, makeStyles, Typography } from "@material-ui/core";
+import {
+  Container,
+  Fab,
+  List,
+  makeStyles,
+  Typography,
+} from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import { flightActions, RootState } from "@paralogs/front-core";
 import React from "react";
@@ -9,7 +15,7 @@ import { AddFlightModal } from "../flight/AddFlightModal";
 import { FlightListItem } from "../flight/FlightListItem";
 import { AddWingModal } from "../wing/AddWingModal";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
     display: "flex",
@@ -62,7 +68,7 @@ export const FlightsListView: React.FC = () => {
       />
       <AddWingModal />
       <List className={classes.listWrapper}>
-        {flights.map(flight => (
+        {flights.map((flight) => (
           <FlightListItem key={flight.uuid} {...flight} />
         ))}
       </List>

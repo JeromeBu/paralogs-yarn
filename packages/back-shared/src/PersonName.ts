@@ -1,5 +1,6 @@
 import { trim } from "lodash/fp";
 import { Right } from "purify-ts";
+
 import { Result } from "./purifyAdds";
 
 const firstLetterUpperCase = (str: string) => {

@@ -26,8 +26,14 @@ const pilotSlice = createSlice({
   name: "pilot",
   initialState,
   reducers: {
-    showUpdateForm: (state): PilotState => ({ ...state, isUpdateFormVisible: true }),
-    hideUpdateForm: (state): PilotState => ({ ...state, isUpdateFormVisible: false }),
+    showUpdateForm: (state): PilotState => ({
+      ...state,
+      isUpdateFormVisible: true,
+    }),
+    hideUpdateForm: (state): PilotState => ({
+      ...state,
+      isUpdateFormVisible: false,
+    }),
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     updatePilotRequested: (state, action: PayloadAction<UpdatePilotDTO>) => ({
@@ -40,7 +46,10 @@ const pilotSlice = createSlice({
     ): PilotState =>
       setPilotInformation(
         state,
-        state.pilotInformation && { ...state.pilotInformation, ...action.payload },
+        state.pilotInformation && {
+          ...state.pilotInformation,
+          ...action.payload,
+        },
       ),
     pilotInformationSet: (
       state: PilotState,

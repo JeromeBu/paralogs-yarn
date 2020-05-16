@@ -1,16 +1,17 @@
-import { makeFlightDTO, generateUuid } from "@paralogs/shared";
+import { generateUuid, makeFlightDTO } from "@paralogs/shared";
+
+import { InMemoryFlightRepo } from "../../../adapters/secondaries/repositories/inMemory/InMemoryFlightRepo";
+import { InMemoryPilotRepo } from "../../../adapters/secondaries/repositories/inMemory/InMemoryPilotRepo";
 import { PilotEntity } from "../../entities/PilotEntity";
 import { setupCurrentPilotCreator } from "../../testBuilders/makePilotEntity";
-import { InMemoryPilotRepo } from "../../../adapters/secondaries/repositories/inMemory/InMemoryPilotRepo";
-import {
-  RetrieveFlightsUseCase,
-  retrieveFlightsUseCaseCreator,
-} from "./RetrieveFlightsUseCase";
-import { InMemoryFlightRepo } from "../../../adapters/secondaries/repositories/inMemory/InMemoryFlightRepo";
 import {
   AddFlightCommandHandler,
   addFlightCommandHandlerCreator,
 } from "./AddFlightCommandHandler";
+import {
+  RetrieveFlightsUseCase,
+  retrieveFlightsUseCaseCreator,
+} from "./RetrieveFlightsUseCase";
 
 describe("flights retrieval", () => {
   let retrieveFlightUseCase: RetrieveFlightsUseCase;
@@ -42,7 +43,9 @@ describe("flights retrieval", () => {
         addFlightUseCase(flightDTO).run(),
         addFlightUseCase(someoneElseFlightDTO).run(),
       ]);
-      const retrievedFlightDTOs = await retrieveFlightUseCase(currentUser.uuid).run();
+      const retrievedFlightDTOs = await retrieveFlightUseCase(
+        currentUser.uuid,
+      ).run();
       expect(retrievedFlightDTOs.extract()).toEqual([flightDTO]);
     });
   });

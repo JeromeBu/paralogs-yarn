@@ -1,12 +1,13 @@
-import { Store } from "redux";
 import { makePilotDTO, makeUserDTO } from "@paralogs/shared";
+import { Store } from "redux";
+
+import { configureReduxStore, RootState } from "../../../reduxStore";
 import {
   ExpectStateToMatch,
   expectStateToMatchCreator,
   getInMemoryDependencies,
   InMemoryDependencies,
 } from "../../../testUtils";
-import { configureReduxStore, RootState } from "../../../reduxStore";
 import { authActions } from "../../auth/auth.slice";
 
 describe("set pilot information", () => {
@@ -27,7 +28,11 @@ describe("set pilot information", () => {
       const token = "someFakeToken";
 
       store.dispatch(
-        authActions.authenticationSucceeded({ currentUser, pilotInformation, token }),
+        authActions.authenticationSucceeded({
+          currentUser,
+          pilotInformation,
+          token,
+        }),
       );
 
       expectStateToMatch({

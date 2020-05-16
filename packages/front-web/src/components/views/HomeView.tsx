@@ -1,10 +1,10 @@
-import React from "react";
 import { Box } from "@material-ui/core";
-
 import { makeStyles } from "@material-ui/core/styles";
+import React from "react";
+
 import { MyLink } from "../commun/MyLink";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   link: {
     color: theme.palette.primary.main,
   },

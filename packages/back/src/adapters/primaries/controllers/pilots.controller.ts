@@ -1,7 +1,12 @@
-import { Router } from "express";
 import { pilotSchema, usersRoute } from "@paralogs/shared";
-import { callUseCase, sendHttpResponse, validateSchema } from "../../lib/response-lib";
+import { Router } from "express";
+
 import { pilotsUseCases } from "../../../config/useCasesChoice";
+import {
+  callUseCase,
+  sendHttpResponse,
+  validateSchema,
+} from "../../lib/response-lib";
 
 const pilotsRouter = Router();
 
@@ -25,7 +30,7 @@ export const pilotsController = (): Router => {
       res,
       await callUseCase({
         useCase: await pilotsUseCases.update,
-        eitherAsyncParams: resultBody.map(body => ({
+        eitherAsyncParams: resultBody.map((body) => ({
           ...body,
           pilotUuid: req.currentUserUuid,
         })),
