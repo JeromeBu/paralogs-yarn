@@ -5,6 +5,6 @@ export * from "./testHelpers";
 export * from "./PersonName";
 export * from "./Persisted";
 
-export * from "./Event";
-export * from "./EventBus";
-export * from "./RedisEventBus";
+export * from "./EventBus/Event";
+export * from "./EventBus/EventBus";
+export * from "./EventBus/RedisEventBus";
