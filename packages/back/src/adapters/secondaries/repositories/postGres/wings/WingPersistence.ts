@@ -1,7 +1,7 @@
 import { DateString, NumberOfMinutes, PilotUuid, WingUuid } from "@paralogs/shared";
 
 export interface WingPersistence {
-  id: number;
+  id?: number;
   uuid: WingUuid;
   pilot_uuid: PilotUuid;
   pilot_id?: number;

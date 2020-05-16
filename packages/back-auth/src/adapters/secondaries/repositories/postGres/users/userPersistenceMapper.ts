@@ -38,7 +38,7 @@ export const userPersistenceMapper = {
           authToken: params.auth_token,
           hashedPassword: params.hashed_password,
         });
-        userEntity.setIdentity(params.id!);
+        userEntity.setIdentity(params.id);
         return userEntity;
       })
       .ifLeft(error => {
