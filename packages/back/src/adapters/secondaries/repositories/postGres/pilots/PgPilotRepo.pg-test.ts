@@ -1,12 +1,12 @@
+import { expectRight, PersonName } from "@paralogs/back-shared";
 import { UpdatePilotDTO } from "@paralogs/shared";
 import { liftEither } from "purify-ts/EitherAsync";
-import { expectRight, PersonName } from "@paralogs/back-shared";
 
-import { getKnex, resetDb } from "../db";
-import { PilotRepo } from "../../../../../domain/gateways/PilotRepo";
-import { PgPilotRepo } from "./PgPilotRepo";
-import { makePilotEntity } from "../../../../../domain/testBuilders/makePilotEntity";
 import { PilotEntity } from "../../../../../domain/entities/PilotEntity";
+import { PilotRepo } from "../../../../../domain/gateways/PilotRepo";
+import { makePilotEntity } from "../../../../../domain/testBuilders/makePilotEntity";
+import { getKnex, resetDb } from "../db";
+import { PgPilotRepo } from "./PgPilotRepo";
 import { PilotPersistence } from "./PilotPersistence";
 import { pilotPersistenceMapper } from "./pilotPersistenceMapper";
 
@@ -34,8 +34,7 @@ describe("Pilot repository postgres tests", () => {
     const props = createdPilotEntity.getProps();
     expectRight(resultSavedPilotEntity);
 
-    const pilotPersistenceToMatch: PilotPersistence = {
-      id: createdPilotEntity.getIdentity(),
+    const pilotPersistenceToMatch: Partial<PilotPersistence> = {
       uuid: props.uuid,
       first_name: props.firstName.value,
       last_name: props.lastName?.value,

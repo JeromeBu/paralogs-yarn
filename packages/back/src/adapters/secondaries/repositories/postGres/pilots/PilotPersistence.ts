@@ -1,7 +1,7 @@
 import { PilotUuid } from "@paralogs/shared";
 
 export type PilotPersistence = {
-  id: number;
+  id?: number;
   uuid: PilotUuid;
   first_name: string;
   last_name?: string;

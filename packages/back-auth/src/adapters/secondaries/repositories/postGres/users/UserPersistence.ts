@@ -1,7 +1,7 @@
 import { UserUuid } from "@paralogs/shared";
 
 export type UserPersistence = {
-  id: number;
+  id?: number;
   uuid: UserUuid;
   email: string;
   first_name: string;

@@ -1,10 +1,10 @@
+import { Entity, PersonName, ResultAsync } from "@paralogs/back-shared";
 import { SignUpParams, UserUuid, WithUuid } from "@paralogs/shared";
 import { liftEither, liftPromise } from "purify-ts/EitherAsync";
-import { Entity, PersonName, ResultAsync } from "@paralogs/back-shared";
 
+import { HashAndTokenManager } from "../gateways/HashAndTokenManager";
 import { Email } from "../valueObjects/user/Email";
 import { Password } from "../valueObjects/user/Password";
-import { HashAndTokenManager } from "../gateways/HashAndTokenManager";
 
 interface UserEntityProps {
   uuid: UserUuid;

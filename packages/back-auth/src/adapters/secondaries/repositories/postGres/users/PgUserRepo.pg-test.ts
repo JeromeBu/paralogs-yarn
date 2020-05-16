@@ -1,12 +1,12 @@
 import { expectEitherToMatchError, expectRight } from "@paralogs/back-shared";
-import { getKnex, resetDb } from "../knex/db";
 
-import { UserRepo } from "../../../../../domain/gateways/UserRepo";
-import { PgUserRepo } from "./PgUserRepo";
-import { makeUserEntityCreator } from "../../../../../domain/testBuilders/makeUserEntityCreator";
-import { TestHashAndTokenManager } from "../../../../secondaries/TestHashAndTokenManager";
 import { UserEntity } from "../../../../../domain/entities/UserEntity";
+import { UserRepo } from "../../../../../domain/gateways/UserRepo";
+import { makeUserEntityCreator } from "../../../../../domain/testBuilders/makeUserEntityCreator";
 import { Email } from "../../../../../domain/valueObjects/user/Email";
+import { TestHashAndTokenManager } from "../../../../secondaries/TestHashAndTokenManager";
+import { getKnex, resetDb } from "../knex/db";
+import { PgUserRepo } from "./PgUserRepo";
 import { UserPersistence } from "./UserPersistence";
 import { userPersistenceMapper } from "./userPersistenceMapper";
 
@@ -25,7 +25,7 @@ describe("User repository postgres tests", () => {
     await knex<UserPersistence>("users").insert(johnPersistence);
   });
 
-  it("Creates a user", async () => {
+  it("Creates a user, than an other", async () => {
     const createdUserEntity = await makeUserEntity({ email: "createduser@mail.com" });
     const resultSavedUserEntity = await pgUserRepo.save(createdUserEntity).run();
 
@@ -33,7 +33,6 @@ describe("User repository postgres tests", () => {
     expectRight(resultSavedUserEntity);
 
     const userPersistenceToMatch: UserPersistence = {
-      id: createdUserEntity.getIdentity(),
       uuid: props.uuid,
       email: props.email.value,
       hashed_password: props.hashedPassword,
@@ -47,6 +46,11 @@ describe("User repository postgres tests", () => {
         .where({ uuid: createdUserEntity.uuid })
         .first(),
     ).toMatchObject(userPersistenceToMatch);
+
+    // This second created user is build to check that there is no identity conflict
+    const created2ndUserEntity = await makeUserEntity({ email: "seconduser@mail.com" });
+    const resultSecondUserEntity = await pgUserRepo.save(created2ndUserEntity).run();
+    expectRight(resultSecondUserEntity);
   });
 
   it("Cannot create a user with the same email", async () => {

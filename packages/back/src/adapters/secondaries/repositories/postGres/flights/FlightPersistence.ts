@@ -1,7 +1,7 @@
 import { FlightUuid, PilotUuid, WingUuid } from "@paralogs/shared";
 
 export interface FlightPersistence {
-  id: number;
+  id?: number;
   uuid: FlightUuid;
   pilot_uuid: PilotUuid;
   pilot_id?: number;
