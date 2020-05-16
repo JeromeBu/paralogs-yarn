@@ -10,7 +10,9 @@
     "precommit": "lint-staged"
   },
   "dependencies": {
-    "purify-ts": "^0.15.1"
+    "@types/redis": "^2.8.21",
+    "purify-ts": "^0.15.1",
+    "redis": "^3.0.2"
   },
   "devDependencies": {
     "lint-staged": "^9.4.2"

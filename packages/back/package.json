@@ -36,12 +36,11 @@
     "morgan": "^1.9.1",
     "pg": "^7.18.2",
     "purify-ts": "^0.15.1",
+    "redis": "^3.0.2",
     "supertest": "^4.0.2",
     "yup": "^0.28.3"
   },
   "devDependencies": {
-    "faker": "^4.1.0",
-    "@types/yup": "^0.26.32",
     "@types/bcryptjs": "^2.4.2",
     "@types/cors": "^2.8.6",
     "@types/express": "^4.17.2",
@@ -54,6 +53,7 @@
     "@types/supertest": "^2.0.8",
     "@types/yup": "^0.26.32",
     "aws-sdk": "^2.570.0",
+    "faker": "^4.1.0",
     "jest": "24.9.0",
     "lint-staged": "^9.4.2",
     "nodemon": "^2.0.3",

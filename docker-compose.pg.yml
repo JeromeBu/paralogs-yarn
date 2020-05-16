@@ -23,4 +23,6 @@ services:
       POSTGRES_PASSWORD: pg-password
     volumes:
       - ./pgdata/auth/dev:/var/lib/postgresql/data
+  redis:
+    image: "redis:alpine"
 

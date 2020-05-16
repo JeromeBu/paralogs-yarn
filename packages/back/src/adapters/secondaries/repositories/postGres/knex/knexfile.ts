@@ -1,6 +1,6 @@
-import { Environment } from "../../../../../config/env";
+import { EnvironmentOption } from "../../../../../config/env";
 
-const knexconfig: { [key in Environment]: any } = {
+const knexconfig: { [key in EnvironmentOption]: any } = {
   development: {
     client: "pg",
     // connection: "postgres://username:pgpassword@db:5432/db-name",

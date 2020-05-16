@@ -38,6 +38,8 @@ describe("User repository postgres tests", () => {
       email: props.email.value,
       hashed_password: props.hashedPassword,
       auth_token: props.authToken,
+      first_name: props.firstName.value,
+      last_name: props.lastName?.value,
     };
 
     expect(

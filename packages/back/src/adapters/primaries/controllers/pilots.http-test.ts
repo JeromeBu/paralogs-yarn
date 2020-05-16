@@ -1,11 +1,11 @@
-import { generateUuid, PilotDTO, UpdatePilotDTO, usersRoute } from "@paralogs/shared";
-import supertest from "supertest";
-import jwt from "jsonwebtoken";
 import { createInMemoryEventBus } from "@paralogs/back-shared";
+import { generateUuid, PilotDTO, UpdatePilotDTO, usersRoute } from "@paralogs/shared";
+import jwt from "jsonwebtoken";
+import supertest from "supertest";
 
-import { app } from "../express/server";
-import { repositories } from "../../../config/repositoryChoice";
+import { repositories } from "../../../config/secondaryAdaptersChoice";
 import { pilotMapper } from "../../../domain/mappers/pilotMapper";
+import { app } from "../express/server";
 import { subscribeToUserSignedUp } from "./pilots.subscribers";
 
 const request = supertest(app);

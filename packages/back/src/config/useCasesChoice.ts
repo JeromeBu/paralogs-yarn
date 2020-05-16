@@ -1,11 +1,11 @@
-import { repositories } from "./repositoryChoice";
-import { addWingCommandHandlerCreator } from "../domain/useCases/wings/AddWingCommandHandler";
-import { retrieveWingsUseCaseCreator } from "../domain/useCases/wings/RetrieveWingsUseCase";
 import { addFlightCommandHandlerCreator } from "../domain/useCases/flights/AddFlightCommandHandler";
 import { retrieveFlightsUseCaseCreator } from "../domain/useCases/flights/RetrieveFlightsUseCase";
-import { updatePilotCommandHandlerCreator } from "../domain/useCases/pilots/UpdatePilotCommandHandler";
-import { updateWingCommandHandlerCreator } from "../domain/useCases/wings/UpdateWingCommandHandler";
 import { createPilotCommandHandlerCreator } from "../domain/useCases/pilots/CreatePilotCommandHandler";
+import { updatePilotCommandHandlerCreator } from "../domain/useCases/pilots/UpdatePilotCommandHandler";
+import { addWingCommandHandlerCreator } from "../domain/useCases/wings/AddWingCommandHandler";
+import { retrieveWingsUseCaseCreator } from "../domain/useCases/wings/RetrieveWingsUseCase";
+import { updateWingCommandHandlerCreator } from "../domain/useCases/wings/UpdateWingCommandHandler";
+import { repositories } from "./secondaryAdaptersChoice";
 
 export const pilotsUseCases = {
   create: createPilotCommandHandlerCreator({ pilotRepo: repositories.pilot }),

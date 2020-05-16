@@ -5,3 +5,4 @@ export * from "./DTOs";
 export * from "./builders";
 export * from "./routes/backend.routes";
 export * from "./utilFunctions";
+export * from "./envHelpers";
