@@ -1,4 +1,9 @@
-import { AddFlightDTO, FlightDTO, StringError, ValueOf } from "@paralogs/shared";
+import {
+  AddFlightDTO,
+  FlightDTO,
+  StringError,
+  ValueOf,
+} from "@paralogs/shared";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 type FlightsState = Readonly<{
@@ -27,10 +32,10 @@ const flightsSlice = createSlice({
   name: "flights",
   initialState,
   reducers: {
-    showAddFlightForm: state => ({ ...state, isAddFlightFormVisible: true }),
-    hideAddFlightForm: state => ({ ...state, isAddFlightFormVisible: false }),
+    showAddFlightForm: (state) => ({ ...state, isAddFlightFormVisible: true }),
+    hideAddFlightForm: (state) => ({ ...state, isAddFlightFormVisible: false }),
 
-    retrieveFlightsRequested: state => ({ ...state, isLoading: true }),
+    retrieveFlightsRequested: (state) => ({ ...state, isLoading: true }),
     retrieveFlightsSucceeded: (state, action: PayloadAction<FlightDTO[]>) => ({
       ...state,
       data: action.payload,

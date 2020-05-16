@@ -7,7 +7,10 @@ const publisher = createClient();
 const subscriber = createClient();
 
 export const RedisEventBus: EventBus = {
-  publish: <E extends AppEvent>(eventType: E["type"], payload: E["payload"]) => {
+  publish: <E extends AppEvent>(
+    eventType: E["type"],
+    payload: E["payload"],
+  ) => {
     console.log("EVENT : ", { eventType, payload });
     publisher.publish(eventType, JSON.stringify(payload));
   },

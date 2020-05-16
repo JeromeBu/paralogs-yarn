@@ -9,22 +9,22 @@ import { filter } from "rxjs/operators";
 import { AuthGateway } from "../useCases/auth/gateways/AuthGateway";
 
 export class InMemoryAuthGateway implements AuthGateway {
-  private _currentUserWithToken$ = new BehaviorSubject<CurrentUserWithPilotWithAuthToken>(
-    (undefined as unknown) as CurrentUserWithPilotWithAuthToken,
-  );
+  private _currentUserWithToken$ = new BehaviorSubject<
+    CurrentUserWithPilotWithAuthToken
+  >((undefined as unknown) as CurrentUserWithPilotWithAuthToken);
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public login(params: LoginParams) {
-    return this._currentUserWithToken$.pipe(filter(val => val !== undefined));
+    return this._currentUserWithToken$.pipe(filter((val) => val !== undefined));
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public signUp(params: SignUpParams) {
-    return this._currentUserWithToken$.pipe(filter(val => val !== undefined));
+    return this._currentUserWithToken$.pipe(filter((val) => val !== undefined));
   }
 
   public getMe() {
-    return this._currentUserWithToken$.pipe(filter(val => val !== undefined));
+    return this._currentUserWithToken$.pipe(filter((val) => val !== undefined));
   }
 
   get currentUserWithToken$() {

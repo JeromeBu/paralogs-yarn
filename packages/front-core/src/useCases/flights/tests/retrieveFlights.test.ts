@@ -1,4 +1,9 @@
-import { FlightDTO, generateUuid, makePilotDTO, makeWingDTO } from "@paralogs/shared";
+import {
+  FlightDTO,
+  generateUuid,
+  makePilotDTO,
+  makeWingDTO,
+} from "@paralogs/shared";
 import * as _ from "lodash";
 import { Store } from "redux";
 
@@ -74,7 +79,8 @@ describe("Retrieve flights", () => {
     });
   });
 
-  const retrieveFlights = () => store.dispatch(flightActions.retrieveFlightsRequested());
+  const retrieveFlights = () =>
+    store.dispatch(flightActions.retrieveFlightsRequested());
 
   const feedWithFlights = (flights: FlightDTO[]) =>
     dependencies.flightGateway.flights$.next(flights);

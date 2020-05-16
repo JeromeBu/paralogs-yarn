@@ -1,4 +1,5 @@
 import { AddFlightDTO } from "@paralogs/shared";
+
 import { FlightGateway } from "../useCases/flights/gateways/FlightGateway";
 import { httpClient } from "./libs/httpClient";
 

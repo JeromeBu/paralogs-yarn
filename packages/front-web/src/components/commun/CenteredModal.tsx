@@ -1,8 +1,8 @@
-import React from "react";
-import { Modal, makeStyles } from "@material-ui/core";
+import { makeStyles, Modal } from "@material-ui/core";
 import { ModalProps } from "@material-ui/core/Modal";
+import React from "react";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   wrapper: {
     backgroundColor: theme.palette.background.paper,
     marginTop: theme.spacing(1),

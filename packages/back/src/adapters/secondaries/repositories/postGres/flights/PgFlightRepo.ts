@@ -9,7 +9,10 @@ import { FlightUuid, PilotUuid, WingUuid } from "@paralogs/shared";
 import Knex from "knex";
 import { Maybe } from "purify-ts";
 import { liftPromise as liftPromiseToEitherAsync } from "purify-ts/EitherAsync";
-import { liftMaybe, liftPromise as liftPromiseToMaybeAsync } from "purify-ts/MaybeAsync";
+import {
+  liftMaybe,
+  liftPromise as liftPromiseToMaybeAsync,
+} from "purify-ts/MaybeAsync";
 
 import { FlightEntity } from "../../../../../domain/entities/FlightEntity";
 import { FlightRepo } from "../../../../../domain/gateways/FlightRepo";
@@ -27,8 +30,12 @@ export class PgFlightRepo implements FlightRepo {
 
     this._getPilotId(flightEntity.pilotUuid);
 
-    const eitherParams = this._getPilotId(flightEntity.pilotUuid).chain(pilot_id =>
-      this._getWingId(flightEntity.wingUuid).map(wing_id => ({ wing_id, pilot_id })),
+    const eitherParams = this._getPilotId(flightEntity.pilotUuid).chain(
+      (pilot_id) =>
+        this._getWingId(flightEntity.wingUuid).map((wing_id) => ({
+          wing_id,
+          pilot_id,
+        })),
     );
 
     return eitherParams
@@ -46,19 +53,18 @@ export class PgFlightRepo implements FlightRepo {
   }
 
   public async findByPilotUuid(pilot_uuid: PilotUuid) {
-    return (await this.knex.from<FlightPersisted>("flights").where({ pilot_uuid })).map(
-      flightPersistenceMapper.toEntity,
-    );
+    return (
+      await this.knex.from<FlightPersisted>("flights").where({ pilot_uuid })
+    ).map(flightPersistenceMapper.toEntity);
   }
 
   public findByUuid(uuid: FlightUuid) {
     return liftPromiseToMaybeAsync(() =>
-      this.knex
-        .from<FlightPersisted>("flights")
-        .where({ uuid })
-        .first(),
+      this.knex.from<FlightPersisted>("flights").where({ uuid }).first(),
     )
-      .chain(flightPersistence => liftMaybe(Maybe.fromNullable(flightPersistence)))
+      .chain((flightPersistence) =>
+        liftMaybe(Maybe.fromNullable(flightPersistence)),
+      )
       .map(flightPersistenceMapper.toEntity);
   }
 
@@ -70,7 +76,9 @@ export class PgFlightRepo implements FlightRepo {
         .where({ uuid })
         .first(),
     )
-      .chain(pilotPersistence => liftMaybe(Maybe.fromNullable(pilotPersistence)))
+      .chain((pilotPersistence) =>
+        liftMaybe(Maybe.fromNullable(pilotPersistence)),
+      )
       .map(({ id }) => id)
       .toEitherAsync(notFoundError("No pilot matched this pilotUuid"));
   }
@@ -83,7 +91,7 @@ export class PgFlightRepo implements FlightRepo {
         .where({ uuid })
         .first(),
     )
-      .chain(wingPersisted => liftMaybe(Maybe.fromNullable(wingPersisted)))
+      .chain((wingPersisted) => liftMaybe(Maybe.fromNullable(wingPersisted)))
       .map(({ id }) => id)
       .toEitherAsync(notFoundError("No wing matched this wingUuid"));
   }

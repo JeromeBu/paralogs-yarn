@@ -7,18 +7,19 @@ import {
   Typography,
 } from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import { authActions } from "@paralogs/front-core";
+import { LoginParams, loginSchema } from "@paralogs/shared";
+import { Form, Formik } from "formik";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Formik, Form } from "formik";
-import { LoginParams, loginSchema } from "@paralogs/shared";
-import { authActions } from "@paralogs/front-core";
-import { MyLink } from "../commun/MyLink";
-import { DisplayError } from "../commun/DisplayError";
-import { authSelectors } from "../../selectors/authSelectors";
-import { InputTextField } from "../commun/form/InputTextField";
-import { useRedirectOnAuthentication } from "../../hooks/useRedirectOnAuthentication";
 
-const useStyles = makeStyles(theme => ({
+import { useRedirectOnAuthentication } from "../../hooks/useRedirectOnAuthentication";
+import { authSelectors } from "../../selectors/authSelectors";
+import { DisplayError } from "../commun/DisplayError";
+import { InputTextField } from "../commun/form/InputTextField";
+import { MyLink } from "../commun/MyLink";
+
+const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
     display: "flex",
@@ -59,7 +60,7 @@ export const LoginView: React.FC = () => {
       <Formik
         validationSchema={loginSchema}
         initialValues={initialValues}
-        onSubmit={async values => {
+        onSubmit={async (values) => {
           dispatch(authActions.loginRequested(values));
         }}
       >

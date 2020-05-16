@@ -28,19 +28,23 @@ const responseToObservable = <Output>(
   axiosResponsePromise: Promise<AxiosResponse<Output>>,
 ) => from(axiosResponsePromise).pipe(map(({ data }) => data));
 
-const POST = <Input, Output>(route: string, axiosConfig?: AxiosRequestConfig) => (
-  input: Input,
-): Observable<Output> =>
+const POST = <Input, Output>(
+  route: string,
+  axiosConfig?: AxiosRequestConfig,
+) => (input: Input): Observable<Output> =>
   responseToObservable(axios.post<Output>(route, input, axiosConfig));
 
-const PUT = <Input, Output>(route: string, axiosConfig?: AxiosRequestConfig) => (
-  input: Input,
-): Observable<Output> =>
+const PUT = <Input, Output>(
+  route: string,
+  axiosConfig?: AxiosRequestConfig,
+) => (input: Input): Observable<Output> =>
   responseToObservable(axios.put<Output>(route, input, axiosConfig));
 
-const GET = <Output>(route: string, axiosConfig?: AxiosRequestConfig) => (): Observable<
-  Output
-> => responseToObservable(axios.get(route, axiosConfig));
+const GET = <Output>(
+  route: string,
+  axiosConfig?: AxiosRequestConfig,
+) => (): Observable<Output> =>
+  responseToObservable(axios.get(route, axiosConfig));
 
 const localClientStorage = new LocalClientStorage();
 
@@ -76,7 +80,9 @@ const auth = (route: string) => `${config.authUrl}${route}`;
 
 export const httpClient = {
   getMe: GETwithToken<CurrentUserWithPilotWithAuthToken>(auth(getMeRoute)),
-  signUp: POST<SignUpParams, CurrentUserWithPilotWithAuthToken>(auth(signUpRoute)),
+  signUp: POST<SignUpParams, CurrentUserWithPilotWithAuthToken>(
+    auth(signUpRoute),
+  ),
   login: POST<LoginParams, CurrentUserWithPilotWithAuthToken>(auth(loginRoute)),
   updateUser: PUTwithToken<UpdatePilotDTO, void>(auth(usersRoute)),
   retrieveUsers: GETwithToken<UserDTO[]>(auth(usersRoute)),

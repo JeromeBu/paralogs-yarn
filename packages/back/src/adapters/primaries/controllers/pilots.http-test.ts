@@ -1,5 +1,10 @@
 import { createInMemoryEventBus } from "@paralogs/back-shared";
-import { generateUuid, PilotDTO, UpdatePilotDTO, usersRoute } from "@paralogs/shared";
+import {
+  generateUuid,
+  PilotDTO,
+  UpdatePilotDTO,
+  usersRoute,
+} from "@paralogs/shared";
 import jwt from "jsonwebtoken";
 import supertest from "supertest";
 

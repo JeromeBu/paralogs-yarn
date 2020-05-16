@@ -42,21 +42,15 @@ export type CurrentUserWithAuthToken = {
 export type LoginParams = WithEmail & WithPassword;
 
 export const loginSchema = Yup.object().shape<LoginParams>({
-  email: Yup.string()
-    .email()
-    .required(),
+  email: Yup.string().email().required(),
   password: Yup.string().required(),
 });
 
 export type SignUpParams = WithEmail & WithPassword & WithOtherInformation;
 
 export const signUpSchema = Yup.object().shape<SignUpParams>({
-  email: Yup.string()
-    .email()
-    .required(),
-  password: Yup.string()
-    .required()
-    .min(8),
+  email: Yup.string().email().required(),
+  password: Yup.string().required().min(8),
   firstName: Yup.string().required(),
   lastName: Yup.string(),
 });

@@ -14,7 +14,8 @@ const buildConfig = () => {
       };
     case "staging":
       return {
-        paraglidingUrl: "https://r3su0zwym6.execute-api.eu-west-1.amazonaws.com/staging",
+        paraglidingUrl:
+          "https://r3su0zwym6.execute-api.eu-west-1.amazonaws.com/staging",
         authUrl: "AUTH_STAGING_URL_TO_DEPLOY",
       };
     default:

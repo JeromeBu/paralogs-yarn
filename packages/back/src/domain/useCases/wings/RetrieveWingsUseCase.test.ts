@@ -1,21 +1,21 @@
-import { WingDTO, makeWingDTO, generateUuid } from "@paralogs/shared";
 import { Result } from "@paralogs/back-shared";
+import { generateUuid, makeWingDTO, WingDTO } from "@paralogs/shared";
 
+import { InMemoryPilotRepo } from "../../../adapters/secondaries/repositories/inMemory/InMemoryPilotRepo";
 import { InMemoryWingRepo } from "../../../adapters/secondaries/repositories/inMemory/InMemoryWingRepo";
-import {
-  addWingCommandHandlerCreator,
-  AddWingCommandHandler,
-} from "./AddWingCommandHandler";
-import {
-  retrieveWingsUseCaseCreator,
-  RetrieveWingsUseCase,
-} from "./RetrieveWingsUseCase";
 import { PilotEntity } from "../../entities/PilotEntity";
 import {
   setupCurrentPilotCreator,
   SetupCurrentUser,
 } from "../../testBuilders/makePilotEntity";
-import { InMemoryPilotRepo } from "../../../adapters/secondaries/repositories/inMemory/InMemoryPilotRepo";
+import {
+  AddWingCommandHandler,
+  addWingCommandHandlerCreator,
+} from "./AddWingCommandHandler";
+import {
+  RetrieveWingsUseCase,
+  retrieveWingsUseCaseCreator,
+} from "./RetrieveWingsUseCase";
 
 describe("wings retrieval", () => {
   let retrieveWingsUseCase: RetrieveWingsUseCase;
@@ -46,8 +46,14 @@ describe("wings retrieval", () => {
     it("retrieves only the user's wings", async () => {
       addWingUseCase = addWingCommandHandlerCreator({ wingRepo });
 
-      const wing1 = await addWing({ model: "Wing 1", pilotUuid: currentUser.uuid }).run();
-      const wing2 = await addWing({ model: "Wing 2", pilotUuid: currentUser.uuid }).run();
+      const wing1 = await addWing({
+        model: "Wing 1",
+        pilotUuid: currentUser.uuid,
+      }).run();
+      const wing2 = await addWing({
+        model: "Wing 2",
+        pilotUuid: currentUser.uuid,
+      }).run();
       await addWing({
         model: "Wing 3",
         pilotUuid: generateUuid(),

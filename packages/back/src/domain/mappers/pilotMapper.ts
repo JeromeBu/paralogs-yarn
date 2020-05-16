@@ -1,4 +1,5 @@
 import { PilotDTO } from "@paralogs/shared";
+
 import { PilotEntity } from "../entities/PilotEntity";
 
 export const pilotMapper = {

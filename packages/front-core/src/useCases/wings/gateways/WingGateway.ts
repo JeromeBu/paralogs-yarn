@@ -1,5 +1,5 @@
+import { AddWingDTO, UpdateWingDTO, WingDTO } from "@paralogs/shared";
 import { Observable } from "rxjs";
-import { WingDTO, AddWingDTO, UpdateWingDTO } from "@paralogs/shared";
 
 export interface WingGateway {
   retrieveWings(): Observable<WingDTO[]>;

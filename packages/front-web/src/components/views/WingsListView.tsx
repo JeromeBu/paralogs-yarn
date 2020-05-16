@@ -1,16 +1,21 @@
-import React from "react";
-import { Container, Fab, List, makeStyles, Typography } from "@material-ui/core";
+import {
+  Container,
+  Fab,
+  List,
+  makeStyles,
+  Typography,
+} from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
+import { RootState, wingActions } from "@paralogs/front-core";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { RootState, wingActions } from "@paralogs/front-core";
-
+import { DisplayError } from "../commun/DisplayError";
 import { roundButtonStyle } from "../commun/styles";
 import { AddWingModal } from "../wing/AddWingModal";
 import { WingsListItem } from "../wing/WingsListItem";
-import { DisplayError } from "../commun/DisplayError";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
     display: "flex",
@@ -59,7 +64,7 @@ export const WingsListView: React.FC = () => {
       <DisplayError errorMessage={error} />
       <AddWingModal />
       <List className={classes.listWrapper}>
-        {wings.map(wing => (
+        {wings.map((wing) => (
           <WingsListItem key={wing.uuid} {...wing} />
         ))}
       </List>

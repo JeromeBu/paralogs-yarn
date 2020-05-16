@@ -1,10 +1,11 @@
 import { Store } from "redux";
-import { RootState } from "./reduxStore";
+
 import { InMemoryAuthGateway } from "./adapters/InMemoryAuthGateway";
-import { InMemoryWingGateway } from "./adapters/InMemoryWingGateway";
-import { InMemoryFlightGateway } from "./adapters/InMemoryFlightGateway";
 import { InMemoryClientStorage } from "./adapters/InMemoryClientStorage";
+import { InMemoryFlightGateway } from "./adapters/InMemoryFlightGateway";
 import { InMemoryPilotGateway } from "./adapters/InMemoryPilotGateway";
+import { InMemoryWingGateway } from "./adapters/InMemoryWingGateway";
+import { RootState } from "./reduxStore";
 
 type Partial2Levels<T> = {
   [P in keyof T]?: T[P] extends Array<infer U>
@@ -14,9 +15,11 @@ type Partial2Levels<T> = {
     : Partial<T[P]>;
 };
 
-export const expectStateToMatchCreator = (initialState: RootState, store: Store) => (
-  expectedState: Partial2Levels<RootState>,
-) => expect(store.getState()).toMatchObject({ ...initialState, ...expectedState });
+export const expectStateToMatchCreator = (
+  initialState: RootState,
+  store: Store,
+) => (expectedState: Partial2Levels<RootState>) =>
+  expect(store.getState()).toMatchObject({ ...initialState, ...expectedState });
 
 export type ExpectStateToMatch = ReturnType<typeof expectStateToMatchCreator>;
 

@@ -31,7 +31,7 @@ export const userPersistenceMapper = {
       firstName: PersonName.create(params.first_name),
       lastName: PersonName.create(params.last_name),
     })
-      .map(validResults => {
+      .map((validResults) => {
         const userEntity = UserEntity.fromDTO({
           ...validResults,
           uuid: params.uuid,
@@ -41,7 +41,7 @@ export const userPersistenceMapper = {
         userEntity.setIdentity(params.id);
         return userEntity;
       })
-      .ifLeft(error => {
+      .ifLeft((error) => {
         throw error;
       })
       .extract() as UserEntity;

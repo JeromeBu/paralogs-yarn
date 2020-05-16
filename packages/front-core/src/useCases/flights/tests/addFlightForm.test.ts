@@ -1,11 +1,11 @@
 import { Store } from "redux";
 
-import { RootState, configureReduxStore } from "../../../reduxStore";
+import { configureReduxStore, RootState } from "../../../reduxStore";
 import {
-  expectStateToMatchCreator,
-  InMemoryDependencies,
-  getInMemoryDependencies,
   ExpectStateToMatch,
+  expectStateToMatchCreator,
+  getInMemoryDependencies,
+  InMemoryDependencies,
 } from "../../../testUtils";
 import { flightActions } from "../flights.slice";
 

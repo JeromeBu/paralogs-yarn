@@ -12,7 +12,7 @@ Resources:
         - ClientId:
             Ref: CognitoUserPoolClient
           ProviderName:
-            Fn::GetAtt: [ CognitoUserPool, ProviderName ]
+            Fn::GetAtt: [CognitoUserPool, ProviderName]
 
   # IAM roles
   CognitoIdentityPoolRoles:
@@ -32,36 +32,37 @@ Resources:
     Properties:
       Path: /
       AssumeRolePolicyDocument:
-        Version: '2012-10-17'
+        Version: "2012-10-17"
         Statement:
-          - Effect: 'Allow'
+          - Effect: "Allow"
             Principal:
-              Federated: 'cognito-identity.amazonaws.com'
+              Federated: "cognito-identity.amazonaws.com"
             Action:
-              - 'sts:AssumeRoleWithWebIdentity'
+              - "sts:AssumeRoleWithWebIdentity"
             Condition:
               StringEquals:
-                'cognito-identity.amazonaws.com:aud':
+                "cognito-identity.amazonaws.com:aud":
                   Ref: CognitoIdentityPool
-              'ForAnyValue:StringLike':
-                'cognito-identity.amazonaws.com:amr': authenticated
+              "ForAnyValue:StringLike":
+                "cognito-identity.amazonaws.com:amr": authenticated
       Policies:
-        - PolicyName: 'CognitoAuthorizedPolicy'
+        - PolicyName: "CognitoAuthorizedPolicy"
           PolicyDocument:
-            Version: '2012-10-17'
+            Version: "2012-10-17"
             Statement:
-              - Effect: 'Allow'
+              - Effect: "Allow"
                 Action:
-                  - 'mobileanalytics:PutEvents'
-                  - 'cognito-sync:*'
-                  - 'cognito-identity:*'
-                Resource: '*'
+                  - "mobileanalytics:PutEvents"
+                  - "cognito-sync:*"
+                  - "cognito-identity:*"
+                Resource: "*"
 
               # Allow pilots to invoke our API
-              - Effect: 'Allow'
+              - Effect: "Allow"
                 Action:
-                  - 'execute-api:Invoke'
-                Resource: "*"
+                  - "execute-api:Invoke"
+                Resource:
+                  "*"
                   # Fn::Join:
                   #   - ''
                   #   -

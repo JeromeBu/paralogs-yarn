@@ -1,22 +1,25 @@
 import { makeUserDTO, SignUpParams } from "@paralogs/shared";
+
+import { InMemoryUserRepo } from "../../adapters/secondaries/repositories/inMemory/InMemoryUserRepo";
 import { UserEntity } from "../entities/UserEntity";
 import { HashAndTokenManager } from "../gateways/HashAndTokenManager";
-import { InMemoryUserRepo } from "../../adapters/secondaries/repositories/inMemory/InMemoryUserRepo";
 
-export const makeUserEntityCreator = (hashAndTokenManager: HashAndTokenManager) => async (
+export const makeUserEntityCreator = (
+  hashAndTokenManager: HashAndTokenManager,
+) => async (
   userParams: Partial<SignUpParams & { id: number }> = {},
 ): Promise<UserEntity> => {
   const { password = "Bépo1234", ...userParamsWithoutPassword } = userParams;
   const userDTO = makeUserDTO(userParamsWithoutPassword);
   return (
     await UserEntity.create({ ...userDTO, password }, { hashAndTokenManager })
-      .map(userEntity => {
+      .map((userEntity) => {
         if (userParams.id) userEntity.setIdentity(userParams.id);
         return userEntity;
       })
       .run()
   )
-    .ifLeft(error => {
+    .ifLeft((error) => {
       throw error;
     })
     .extract() as UserEntity;
@@ -30,7 +33,9 @@ interface SetupCurrentUserDependencies {
 export const setupCurrentUserCreator = ({
   hashAndTokenManager,
   userRepo,
-}: SetupCurrentUserDependencies) => async (userParams?: Partial<SignUpParams>) => {
+}: SetupCurrentUserDependencies) => async (
+  userParams?: Partial<SignUpParams>,
+) => {
   const makeUserEntity = makeUserEntityCreator(hashAndTokenManager);
   const currentUserEntity = await makeUserEntity(userParams);
   if (!currentUserEntity.hasIdentity()) currentUserEntity.setIdentity(125);

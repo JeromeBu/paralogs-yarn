@@ -30,10 +30,10 @@ export class UserEntity extends Entity<UserEntityProps> {
     params: SignUpParams & WithUuid,
     { hashAndTokenManager }: UserDependencies,
   ): ResultAsync<UserEntity> {
-    const eitherValidParams = Email.create(params.email).chain(email => {
-      return Password.create(params.password).chain(password => {
-        return PersonName.create(params.firstName).chain(firstName => {
-          return PersonName.create(params.lastName).map(lastName => {
+    const eitherValidParams = Email.create(params.email).chain((email) => {
+      return Password.create(params.password).chain((password) => {
+        return PersonName.create(params.firstName).chain((firstName) => {
+          return PersonName.create(params.lastName).map((lastName) => {
             return { email, password, firstName, lastName };
           });
         });
@@ -47,7 +47,9 @@ export class UserEntity extends Entity<UserEntityProps> {
           uuid: params.uuid,
           ...validParams,
           // isEmailConfirmed: false,
-          authToken: hashAndTokenManager.generateToken({ userUuid: params.uuid }),
+          authToken: hashAndTokenManager.generateToken({
+            userUuid: params.uuid,
+          }),
           hashedPassword,
         });
       }),

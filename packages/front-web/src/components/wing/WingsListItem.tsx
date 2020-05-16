@@ -1,14 +1,13 @@
-import React from "react";
 import {
   ListItem,
+  ListItemSecondaryAction,
   ListItemText,
   makeStyles,
-  ListItemSecondaryAction,
 } from "@material-ui/core";
-
 import { WingDTO } from "@paralogs/shared";
+import React from "react";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   wrapper: {
     marginTop: theme.spacing(1),
     borderRadius: theme.spacing(1),

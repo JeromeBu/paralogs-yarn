@@ -1,5 +1,6 @@
 import { UpdatePilotDTO } from "@paralogs/shared";
 import { Observable, of } from "rxjs";
+
 import { PilotGateway } from "../useCases/pilot/gateways/PilotGateway";
 
 export class InMemoryPilotGateway implements PilotGateway {

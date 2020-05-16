@@ -1,11 +1,12 @@
-import { AppBar, Button, Theme, makeStyles, Box } from "@material-ui/core";
+import { AppBar, Box, Button, makeStyles, Theme } from "@material-ui/core";
 import HomeIcon from "@material-ui/icons/Home";
 import PersonIcon from "@material-ui/icons/Person";
-import React from "react";
-import { useSelector, useDispatch } from "react-redux";
 import { authActions } from "@paralogs/front-core";
-import { MyLink } from "./MyLink";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+
 import { authSelectors } from "../../selectors/authSelectors";
+import { MyLink } from "./MyLink";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {

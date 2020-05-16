@@ -1,19 +1,10 @@
 import * as Knex from "knex";
 
 export async function up(knex: Knex): Promise<any> {
-  return knex.schema.createTable("wings", table => {
-    table
-      .increments("id")
-      .primary()
-      .notNullable();
-    table
-      .string("uuid", 60)
-      .unique()
-      .notNullable();
-    table
-      .string("pilot_uuid", 60)
-      .notNullable()
-      .index();
+  return knex.schema.createTable("wings", (table) => {
+    table.increments("id").primary().notNullable();
+    table.string("uuid", 60).unique().notNullable();
+    table.string("pilot_uuid", 60).notNullable().index();
     table
       .integer("pilot_id")
       .notNullable()

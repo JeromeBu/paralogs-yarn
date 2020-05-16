@@ -39,7 +39,7 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     logoutRequested: startLoading<void>(),
-    logoutSucceeded: state => ({
+    logoutSucceeded: (state) => ({
       ...state,
       isLoading: false,
       currentUser: null,

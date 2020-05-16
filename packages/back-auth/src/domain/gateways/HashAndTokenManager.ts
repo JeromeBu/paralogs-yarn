@@ -1,4 +1,5 @@
 import { WithUserUuid } from "@paralogs/shared";
+
 import { Password } from "../valueObjects/user/Password";
 
 export interface HashAndTokenManager {

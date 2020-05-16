@@ -1,3 +1,4 @@
+import { RightAsync } from "@paralogs/back-shared";
 import {
   AddFlightDTO,
   AddWingDTO,
@@ -6,18 +7,21 @@ import {
   wingsRoute,
   WingUuid,
 } from "@paralogs/shared";
-import supertest from "supertest";
-import { RightAsync } from "@paralogs/back-shared";
 import jwt from "jsonwebtoken";
+import supertest from "supertest";
 
-import { app } from "../express/server";
-import { callUseCase } from "../../lib/response-lib";
 import { pilotsUseCases } from "../../../config/useCasesChoice";
+import { callUseCase } from "../../lib/response-lib";
+import { app } from "../express/server";
 
 const request = supertest(app);
 
 describe("Flights routes", () => {
-  const pilot = { uuid: generateUuid(), firstName: "John Wing", lastName: "Doe Wing" };
+  const pilot = {
+    uuid: generateUuid(),
+    firstName: "John Wing",
+    lastName: "Doe Wing",
+  };
   const token = jwt.sign({ userUuid: pilot.uuid }, "jwtSecretFromEnv");
 
   beforeAll(async () => {

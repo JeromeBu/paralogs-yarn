@@ -13,7 +13,10 @@ import {
   InMemoryDependencies,
 } from "../../../testUtils";
 import { authActions } from "../auth.slice";
-import { feedWithAuthErrorCreator, feedWithCurrentUserCreator } from "./auth.testUtils";
+import {
+  feedWithAuthErrorCreator,
+  feedWithCurrentUserCreator,
+} from "./auth.testUtils";
 
 describe("GetMe :  recover current user information", () => {
   let store: Store<RootState>;

@@ -1,5 +1,5 @@
-import { Left, Right } from "purify-ts";
 import { Result, validationError } from "@paralogs/back-shared";
+import { Left, Right } from "purify-ts";
 
 export class Password {
   private constructor(public readonly value: string) {
@@ -8,7 +8,9 @@ export class Password {
 
   static create(password: string): Result<Password> {
     if (password.length < 8)
-      return Left(validationError("Password must be at least 8 characters long"));
+      return Left(
+        validationError("Password must be at least 8 characters long"),
+      );
     if (password.toLowerCase() === password)
       return Left(validationError("Password must have upper case characters"));
     if (password.toUpperCase() === password)

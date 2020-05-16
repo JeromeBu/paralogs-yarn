@@ -1,16 +1,16 @@
-import { UpdateWingDTO, generateUuid } from "@paralogs/shared";
 import { expectEitherToMatchError, expectRight } from "@paralogs/back-shared";
+import { generateUuid, UpdateWingDTO } from "@paralogs/shared";
 
-import { getKnex, resetDb } from "../db";
-import { makePilotEntity } from "../../../../../domain/testBuilders/makePilotEntity";
 import { PilotEntity } from "../../../../../domain/entities/PilotEntity";
-import { WingRepo } from "../../../../../domain/gateways/WingRepo";
-import { PgWingRepo } from "./PgWingRepo";
-import { makeWingEntity } from "../../../../../domain/testBuilders/makeWingEntity";
 import { WingEntity } from "../../../../../domain/entities/WingEntity";
-import { pilotPersistenceMapper } from "../pilots/pilotPersistenceMapper";
-import { WingPersistence } from "./WingPersistence";
+import { WingRepo } from "../../../../../domain/gateways/WingRepo";
+import { makePilotEntity } from "../../../../../domain/testBuilders/makePilotEntity";
+import { makeWingEntity } from "../../../../../domain/testBuilders/makeWingEntity";
+import { getKnex, resetDb } from "../db";
 import { PilotPersistence } from "../pilots/PilotPersistence";
+import { pilotPersistenceMapper } from "../pilots/pilotPersistenceMapper";
+import { PgWingRepo } from "./PgWingRepo";
+import { WingPersistence } from "./WingPersistence";
 import { wingPersistenceMapper } from "./wingPersistenceMapper";
 
 describe("Wing repository postgres tests", () => {
@@ -75,9 +75,7 @@ describe("Wing repository postgres tests", () => {
     };
 
     expect(
-      await knex<WingPersistence>("wings")
-        .where({ uuid })
-        .first(),
+      await knex<WingPersistence>("wings").where({ uuid }).first(),
     ).toMatchObject(wingPersistenceToMatch);
   });
 

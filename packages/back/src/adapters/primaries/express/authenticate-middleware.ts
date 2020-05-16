@@ -1,4 +1,9 @@
-import { loginRoute, PilotUuid, signUpRoute, WithUserUuid } from "@paralogs/shared";
+import {
+  loginRoute,
+  PilotUuid,
+  signUpRoute,
+  WithUserUuid,
+} from "@paralogs/shared";
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 
@@ -29,7 +34,9 @@ export const authenticateMiddleware = async (
 
 const sendForbiddenError = (res: Response) => {
   res.status(403);
-  return res.json({ message: "Provided token does not match a user or is expired" });
+  return res.json({
+    message: "Provided token does not match a user or is expired",
+  });
 };
 
 const sendUnknownError = (res: Response, errorMessage: string) => {
@@ -37,4 +44,5 @@ const sendUnknownError = (res: Response, errorMessage: string) => {
   return res.json({ message: errorMessage });
 };
 
-const getTokenFromHeaders = (req: Request) => req.headers.authorization?.slice(7);
+const getTokenFromHeaders = (req: Request) =>
+  req.headers.authorization?.slice(7);

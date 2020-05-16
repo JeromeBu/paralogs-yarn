@@ -38,9 +38,6 @@
     "netlify-cli": "^2.20.1",
     "typescript": "3.8.3"
   },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
   "browserslist": {
     "production": [
       ">0.2%",

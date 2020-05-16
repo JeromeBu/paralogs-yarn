@@ -1,4 +1,8 @@
-import { createInMemoryEventBus, EventBus, RedisEventBus } from "@paralogs/back-shared";
+import {
+  createInMemoryEventBus,
+  EventBus,
+  RedisEventBus,
+} from "@paralogs/back-shared";
 
 import { InMemoryFlightRepo } from "../adapters/secondaries/repositories/inMemory/InMemoryFlightRepo";
 import { InMemoryPilotRepo } from "../adapters/secondaries/repositories/inMemory/InMemoryPilotRepo";

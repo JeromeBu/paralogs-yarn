@@ -1,5 +1,6 @@
 import { Either, EitherAsync, Left, MaybeAsync, Right } from "purify-ts";
 import { liftEither } from "purify-ts/EitherAsync";
+
 import { AppError } from "./errors";
 
 export type Result<T> = Either<AppError, T>;
@@ -11,7 +12,8 @@ export const LeftAsync = <T>(t: T) => liftEither(Left(t));
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const RightVoid = (param?: any) => Right(undefined);
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const RightAsyncVoid = (param?: any): ResultAsync<void> => RightAsync(undefined);
+export const RightAsyncVoid = (param?: any): ResultAsync<void> =>
+  RightAsync(undefined);
 
 export const combineEithers = <T extends { [key in string]: Result<unknown> }>(
   resultsObject: T,

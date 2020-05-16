@@ -1,5 +1,6 @@
-import { makeWingDTO, generateUuid, WingDTO } from "@paralogs/shared";
 import { AppError, Result } from "@paralogs/back-shared";
+import { generateUuid, makeWingDTO, WingDTO } from "@paralogs/shared";
+
 import { InMemoryWingRepo } from "../../../adapters/secondaries/repositories/inMemory/InMemoryWingRepo";
 import {
   AddWingCommandHandler,
@@ -22,9 +23,14 @@ describe("wing creation", () => {
       const wingDto = makeWingDTO({ uuid });
       await addWingUseCase(wingDto).run();
 
-      const secondWingDto = makeWingDTO({ uuid, pilotUuid: userUuid, model: "LALALA" });
+      const secondWingDto = makeWingDTO({
+        uuid,
+        pilotUuid: userUuid,
+        model: "LALALA",
+      });
       expect(
-        ((await addWingUseCase(secondWingDto).run()).extract() as AppError).message,
+        ((await addWingUseCase(secondWingDto).run()).extract() as AppError)
+          .message,
       ).toMatch("Cannot create wing. A wing with this uuid already exists");
     });
   });
@@ -38,7 +44,10 @@ describe("wing creation", () => {
     });
   });
 
-  const expectWingDtoResultToEqual = (result: Result<WingDTO>, expected: WingDTO) => {
+  const expectWingDtoResultToEqual = (
+    result: Result<WingDTO>,
+    expected: WingDTO,
+  ) => {
     const createdWingDTO = result.extract();
     expect(createdWingDTO).toEqual(expected);
   };

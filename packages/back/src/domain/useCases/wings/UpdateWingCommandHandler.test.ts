@@ -1,13 +1,13 @@
-import { makeWingDTO } from "@paralogs/shared";
 import { expectEitherToMatchError, expectRight } from "@paralogs/back-shared";
+import { makeWingDTO } from "@paralogs/shared";
 
 import { InMemoryWingRepo } from "../../../adapters/secondaries/repositories/inMemory/InMemoryWingRepo";
+import { wingMapper } from "../../mappers/wing.mapper";
+import { makeWingEntity } from "../../testBuilders/makeWingEntity";
 import {
   UpdateWingCommandHandler,
   updateWingCommandHandlerCreator,
 } from "./UpdateWingCommandHandler";
-import { makeWingEntity } from "../../testBuilders/makeWingEntity";
-import { wingMapper } from "../../mappers/wing.mapper";
 
 describe("update wing use case", () => {
   let updateWingUseCase: UpdateWingCommandHandler;

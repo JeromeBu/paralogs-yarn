@@ -6,56 +6,56 @@ jobs:
   build-test-deploy:
     runs-on: ubuntu-latest
 
-# Build
+    # Build
     steps:
-    - uses: actions/checkout@v1
-      with:
-        fetch-depth: 1
-    - name: Setup Node.js
-      uses: actions/setup-node@v1
-      with:
-        node-version: 10.13.0
-    - name: Current branch
-      run: echo ${{ github.ref }}
-    - name: Cache node modules
-      uses: actions/cache@v1
-      with:
-        path: ~/.cache/yarn/v6
-        key: ${{ runner.os }}-node-${{ hashFiles('**/yarn.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-node-
-    - name: Install dependencies
-      run: yarn --frozen-lockfile
-    - name: Building packages
-      run: REACT_APP_ENVIRONEMENT=${GITHUB_REF##*/} yarn build
+      - uses: actions/checkout@v1
+        with:
+          fetch-depth: 1
+      - name: Setup Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 10.13.0
+      - name: Current branch
+        run: echo ${{ github.ref }}
+      - name: Cache node modules
+        uses: actions/cache@v1
+        with:
+          path: ~/.cache/yarn/v6
+          key: ${{ runner.os }}-node-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+      - name: Install dependencies
+        run: yarn --frozen-lockfile
+      - name: Building packages
+        run: REACT_APP_ENVIRONEMENT=${GITHUB_REF##*/} yarn build
 
-# Tests
-    - name: Backend tests
-      run: cd packages/back; yarn ci:test;
-    - name: Frontend tests
-      env:
-        REACT_APP_BACKEND_URL: http://localhost:4000/
-      run: cd packages/front-core; yarn ci:test;
+      # Tests
+      - name: Backend tests
+        run: cd packages/back; yarn ci:test;
+      - name: Frontend tests
+        env:
+          REACT_APP_BACKEND_URL: http://localhost:4000/
+        run: cd packages/front-core; yarn ci:test;
 
-# Deploy
-    - name: Deploy backend to staging when staging branch
-      if: github.ref == 'refs/heads/staging'
-      run: |
-        cd packages/back;
-        AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} AWS_SECRET_KEY=${{ secrets.AWS_SECRET_KEY }} yarn deploy --stage staging;
-    - name: Deploy frontend to staging when staging branch
-      if: github.ref == 'refs/heads/staging'
-      run: |
-        cd packages/front;
-        NETLIFY_AUTH_TOKEN=${{ secrets.NETLIFY_AUTH_TOKEN }} yarn deploy:preview;
+      # Deploy
+      - name: Deploy backend to staging when staging branch
+        if: github.ref == 'refs/heads/staging'
+        run: |
+          cd packages/back;
+          AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} AWS_SECRET_KEY=${{ secrets.AWS_SECRET_KEY }} yarn deploy --stage staging;
+      - name: Deploy frontend to staging when staging branch
+        if: github.ref == 'refs/heads/staging'
+        run: |
+          cd packages/front;
+          NETLIFY_AUTH_TOKEN=${{ secrets.NETLIFY_AUTH_TOKEN }} yarn deploy:preview;
 
-    - name: Deploy backend to production when master branch
-      if: github.ref == 'refs/heads/master'
-      run: |
-        cd packages/back;
-        AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} AWS_SECRET_KEY=${{ secrets.AWS_SECRET_KEY }} yarn deploy --stage production;
-    - name: Deploy frontend to production when master branch
-      if: github.ref == 'refs/heads/master'
-      run: |
-        cd packages/front;
-        NETLIFY_AUTH_TOKEN=${{ secrets.NETLIFY_AUTH_TOKEN }} yarn deploy:production;
+      - name: Deploy backend to production when master branch
+        if: github.ref == 'refs/heads/master'
+        run: |
+          cd packages/back;
+          AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} AWS_SECRET_KEY=${{ secrets.AWS_SECRET_KEY }} yarn deploy --stage production;
+      - name: Deploy frontend to production when master branch
+        if: github.ref == 'refs/heads/master'
+        run: |
+          cd packages/front;
+          NETLIFY_AUTH_TOKEN=${{ secrets.NETLIFY_AUTH_TOKEN }} yarn deploy:production;

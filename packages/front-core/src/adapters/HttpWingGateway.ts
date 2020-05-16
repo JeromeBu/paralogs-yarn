@@ -1,4 +1,5 @@
 import { AddWingDTO, UpdateWingDTO } from "@paralogs/shared";
+
 import { WingGateway } from "../useCases/wings/gateways/WingGateway";
 import { httpClient } from "./libs/httpClient";
 

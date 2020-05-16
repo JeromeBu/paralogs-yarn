@@ -9,7 +9,10 @@ export interface EventBus {
   ) => {
     unsubscribe: () => void;
   };
-  publish: <E extends AppEvent>(eventType: E["type"], payload: E["payload"]) => void;
+  publish: <E extends AppEvent>(
+    eventType: E["type"],
+    payload: E["payload"],
+  ) => void;
 }
 
 export type InMemoryEventBus = EventBus & { events: AppEvent[] };
@@ -42,13 +45,16 @@ export const createInMemoryEventBus = ({
         },
       };
     },
-    publish: <E extends AppEvent>(eventType: E["type"], payload: E["payload"]) => {
+    publish: <E extends AppEvent>(
+      eventType: E["type"],
+      payload: E["payload"],
+    ) => {
       events.push({
         dateTimeOccurred: getNow(),
         type: eventType,
         payload,
       });
-      Object.keys(subscriptions[eventType]).forEach(id => {
+      Object.keys(subscriptions[eventType]).forEach((id) => {
         subscriptions[eventType][id](payload);
       });
     },

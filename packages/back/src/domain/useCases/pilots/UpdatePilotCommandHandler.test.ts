@@ -36,7 +36,7 @@ describe("Update user", () => {
       const { uuid } = currentPilot;
 
       const updatedCurrentUser = List.find(
-        pilot => pilot.uuid === uuid,
+        (pilot) => pilot.uuid === uuid,
         pilotRepo.pilots,
       );
       updatedCurrentUser.ifNothing(() => {

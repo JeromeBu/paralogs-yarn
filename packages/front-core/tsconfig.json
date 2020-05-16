@@ -2,11 +2,7 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "target": "es2019",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "declaration": true,
     "composite": true,
     "outDir": "./dist",
@@ -14,10 +10,6 @@
     "skipLibCheck": true,
     "module": "esnext"
   },
-  "include": [
-    "src"
-  ],
-  "exclude": [
-    "dist/**/*"
-  ]
+  "include": ["src"],
+  "exclude": ["dist/**/*"]
 }

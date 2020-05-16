@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 services:
   db:
     image: postgres
@@ -34,10 +34,7 @@ services:
       - /paralogs/packages/shared/node_modules
       - /paralogs/packages/front-core/node_modules
       - /paralogs/packages/front-web/node_modules
-#      - ./packages/shared:/paralogs/packages/shared
-#      - ./packages/front-core:/paralogs/packages/front-core
-#      - ./packages/front-web:/paralogs/packages/front-web
+    #      - ./packages/shared:/paralogs/packages/shared
+    #      - ./packages/front-core:/paralogs/packages/front-core
+    #      - ./packages/front-web:/paralogs/packages/front-web
     tty: true
-
-
-

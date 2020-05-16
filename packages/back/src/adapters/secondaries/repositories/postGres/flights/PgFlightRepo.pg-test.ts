@@ -1,19 +1,19 @@
 import { generateUuid } from "@paralogs/shared";
 
-import { getKnex, resetDb } from "../db";
-import { makePilotEntity } from "../../../../../domain/testBuilders/makePilotEntity";
-import { PilotEntity } from "../../../../../domain/entities/PilotEntity";
-import { WingRepo } from "../../../../../domain/gateways/WingRepo";
-import { PgFlightRepo } from "./PgFlightRepo";
-import { makeWingEntity } from "../../../../../domain/testBuilders/makeWingEntity";
-import { pilotPersistenceMapper } from "../pilots/pilotPersistenceMapper";
-import { FlightRepo } from "../../../../../domain/gateways/FlightRepo";
-import { PgWingRepo } from "../wings/PgWingRepo";
-import { makeFlightEntity } from "../../../../../domain/testBuilders/makeFlightEntity";
 import { FlightEntity } from "../../../../../domain/entities/FlightEntity";
-import { FlightPersistence } from "./FlightPersistence";
+import { PilotEntity } from "../../../../../domain/entities/PilotEntity";
+import { FlightRepo } from "../../../../../domain/gateways/FlightRepo";
+import { WingRepo } from "../../../../../domain/gateways/WingRepo";
+import { makeFlightEntity } from "../../../../../domain/testBuilders/makeFlightEntity";
+import { makePilotEntity } from "../../../../../domain/testBuilders/makePilotEntity";
+import { makeWingEntity } from "../../../../../domain/testBuilders/makeWingEntity";
+import { getKnex, resetDb } from "../db";
+import { pilotPersistenceMapper } from "../pilots/pilotPersistenceMapper";
+import { PgWingRepo } from "../wings/PgWingRepo";
 import { WingPersistence } from "../wings/WingPersistence";
+import { FlightPersistence } from "./FlightPersistence";
 import { flightPersistenceMapper } from "./flightPersistenceMapper";
+import { PgFlightRepo } from "./PgFlightRepo";
 
 describe("Flight repository postgres tests", () => {
   let pgFlightRepo: FlightRepo;
@@ -27,7 +27,9 @@ describe("Flight repository postgres tests", () => {
     pgFlightRepo = new PgFlightRepo(knex);
     pgWingRepo = new PgWingRepo(knex);
     johnEntity = await makePilotEntity({ pilotId: 125, firstName: "John" });
-    await knex("pilots").insert(pilotPersistenceMapper.toPersistence(johnEntity));
+    await knex("pilots").insert(
+      pilotPersistenceMapper.toPersistence(johnEntity),
+    );
 
     const koyotWingPersistence: WingPersistence = {
       id: 200,
@@ -87,9 +89,7 @@ describe("Flight repository postgres tests", () => {
     };
 
     expect(
-      await knex<FlightPersistence>("flights")
-        .where({ uuid })
-        .first(),
+      await knex<FlightPersistence>("flights").where({ uuid }).first(),
     ).toMatchObject(flightPersistenceToMatch);
   });
 

@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { CenteredModal } from "../commun/CenteredModal";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   title: {
     textAlign: "center",
   },
@@ -27,7 +27,9 @@ export const AddWingModal: React.FC = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const close = () => dispatch(wingActions.hideAddWingForm());
-  const isOpen = useSelector(({ wings }: RootState) => wings.isAddWingFormVisible);
+  const isOpen = useSelector(
+    ({ wings }: RootState) => wings.isAddWingFormVisible,
+  );
 
   const initialValues = {
     brand: "",
@@ -40,8 +42,13 @@ export const AddWingModal: React.FC = () => {
     <CenteredModal open={isOpen} onClose={close}>
       <Formik
         initialValues={initialValues}
-        onSubmit={async wingValues => {
-          dispatch(wingActions.addWingRequested({ ...wingValues, uuid: generateUuid() }));
+        onSubmit={async (wingValues) => {
+          dispatch(
+            wingActions.addWingRequested({
+              ...wingValues,
+              uuid: generateUuid(),
+            }),
+          );
           close();
         }}
         validationSchema={addWingSchema}

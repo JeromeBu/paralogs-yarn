@@ -13,7 +13,10 @@ import {
   InMemoryDependencies,
 } from "../../../testUtils";
 import { authActions } from "../auth.slice";
-import { feedWithAuthErrorCreator, feedWithCurrentUserCreator } from "./auth.testUtils";
+import {
+  feedWithAuthErrorCreator,
+  feedWithCurrentUserCreator,
+} from "./auth.testUtils";
 
 describe("Login", () => {
   let store: Store<RootState>;
@@ -69,8 +72,13 @@ describe("Login", () => {
     });
   });
 
-  const loginUser = ({ email, password }: { email: string; password: string }) =>
-    store.dispatch(authActions.loginRequested({ email, password }));
+  const loginUser = ({
+    email,
+    password,
+  }: {
+    email: string;
+    password: string;
+  }) => store.dispatch(authActions.loginRequested({ email, password }));
 
   const expectTokenToBeStoredInClientStorage = (token: string) => {
     expect(dependencies.clientStorage.get("token")).toBe(token);

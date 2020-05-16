@@ -1,5 +1,6 @@
-import { Store } from "redux";
 import { makeWingDTO, WingDTO } from "@paralogs/shared";
+import { Store } from "redux";
+
 import { configureReduxStore, RootState } from "../../../reduxStore";
 import {
   ExpectStateToMatch,
@@ -29,7 +30,10 @@ describe("Update wing", () => {
       // need to feed before we call dispatch. Is it normal ?
       feedWithWing({ ...wingDto, model: newModel });
       store.dispatch(
-        wingActions.updateWingRequested({ uuid: wingDto.uuid, model: newModel }),
+        wingActions.updateWingRequested({
+          uuid: wingDto.uuid,
+          model: newModel,
+        }),
       );
       expectStateToMatch({
         wings: {

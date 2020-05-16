@@ -1,9 +1,13 @@
-import { Router } from "express";
-import { addWingSchema, updateWingSchema, wingsRoute } from "@paralogs/shared";
 import { RightAsync } from "@paralogs/back-shared";
+import { addWingSchema, updateWingSchema, wingsRoute } from "@paralogs/shared";
+import { Router } from "express";
 
-import { callUseCase, sendHttpResponse, validateSchema } from "../../lib/response-lib";
 import { wingsUseCases } from "../../../config/useCasesChoice";
+import {
+  callUseCase,
+  sendHttpResponse,
+  validateSchema,
+} from "../../lib/response-lib";
 
 const wingsRouter = Router();
 
@@ -25,7 +29,7 @@ export const wingsController = () => {
         res,
         await callUseCase({
           useCase: wingsUseCases.addWing,
-          eitherAsyncParams: eitherAsyncParams.map(addWingBody => ({
+          eitherAsyncParams: eitherAsyncParams.map((addWingBody) => ({
             ...addWingBody,
             pilotUuid: req.currentUserUuid,
           })),
@@ -33,12 +37,15 @@ export const wingsController = () => {
       );
     })
     .put(async (req, res) => {
-      const resultUpdateWingBody = await validateSchema(updateWingSchema, req.body);
+      const resultUpdateWingBody = await validateSchema(
+        updateWingSchema,
+        req.body,
+      );
       return sendHttpResponse(
         res,
         await callUseCase({
           useCase: wingsUseCases.updateWing,
-          eitherAsyncParams: resultUpdateWingBody.map(updateWingBody => ({
+          eitherAsyncParams: resultUpdateWingBody.map((updateWingBody) => ({
             uuid: updateWingBody.uuid,
             ...updateWingBody,
             pilotUuid: req.currentUserUuid,
