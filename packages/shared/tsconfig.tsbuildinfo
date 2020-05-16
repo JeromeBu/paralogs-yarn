@@ -353,11 +353,11 @@
         "version": "d837b3dd6e448f4a8fd140f24abb372fc0cf424f0d60faa4fa287b1139fc71fb",
         "signature": "4aa9c3160bc3f67b408adfcc4d4c20f334d5a3bcc72e4beae3e102221c629bcf"
       },
-      "./src/domain/entities/repositoryChoice.ts": {
+      "./src/domain/entities/secondaryAdaptersChoice.ts": {
         "version": "7c9dcb0d01659a7d2df317f64b6644a7ff95afeed837259846516839cdeae880",
         "signature": "7c9dcb0d01659a7d2df317f64b6644a7ff95afeed837259846516839cdeae880"
       },
-      "./src/repositoryChoice.ts": {
+      "./src/secondaryAdaptersChoice.ts": {
         "version": "c518e280ac22c6ebd081fed39b44530e06b01f14ec876ab73aa0347ef9e12da8",
         "signature": "6a337a037e801d5e79b590f5af67f4852768940bbd6cfd7033baccb21d36b277"
       },
@@ -1269,7 +1269,7 @@
         "../../node_modules/@types/node/ts3.2/util.d.ts"
       ],
       "./src/domain/entities/wing.ts": [
-        "./src/repositoryChoice.ts",
+        "./src/secondaryAdaptersChoice.ts",
         "../../node_modules/@types/node/fs.d.ts",
         "../../node_modules/@types/node/ts3.2/fs.d.ts",
         "../../node_modules/@types/node/util.d.ts",
@@ -1277,13 +1277,13 @@
       ],
       "./src/domain/entities/flight.ts": [
         "./src/domain/entities/wing.ts",
-        "./src/repositoryChoice.ts",
+        "./src/secondaryAdaptersChoice.ts",
         "../../node_modules/@types/node/fs.d.ts",
         "../../node_modules/@types/node/ts3.2/fs.d.ts",
         "../../node_modules/@types/node/util.d.ts",
         "../../node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "./src/domain/entities/repositoryChoice.ts": [
+      "./src/domain/entities/secondaryAdaptersChoice.ts": [
         "./src/domain/entities/flight.ts",
         "./src/domain/entities/wing.ts",
         "../../node_modules/@types/node/fs.d.ts",
@@ -1291,10 +1291,10 @@
         "../../node_modules/@types/node/util.d.ts",
         "../../node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "./src/repositoryChoice.ts": [
+      "./src/secondaryAdaptersChoice.ts": [
         "./src/generaltypes/uuid.ts",
         "./src/generaltypes/types.ts",
-        "./src/domain/entities/repositoryChoice.ts",
+        "./src/domain/entities/secondaryAdaptersChoice.ts",
         "../../node_modules/@types/node/fs.d.ts",
         "../../node_modules/@types/node/ts3.2/fs.d.ts",
         "../../node_modules/@types/node/util.d.ts",
@@ -2547,20 +2547,20 @@
         "../../node_modules/@types/uuid/interfaces.d.ts"
       ],
       "./src/domain/entities/wing.ts": [
-        "./src/repositoryChoice.ts"
+        "./src/secondaryAdaptersChoice.ts"
       ],
       "./src/domain/entities/flight.ts": [
-        "./src/repositoryChoice.ts",
+        "./src/secondaryAdaptersChoice.ts",
         "./src/domain/entities/wing.ts"
       ],
-      "./src/domain/entities/repositoryChoice.ts": [
+      "./src/domain/entities/secondaryAdaptersChoice.ts": [
         "./src/domain/entities/flight.ts",
         "./src/domain/entities/wing.ts"
       ],
-      "./src/repositoryChoice.ts": [
+      "./src/secondaryAdaptersChoice.ts": [
         "./src/generaltypes/uuid.ts",
         "./src/generaltypes/types.ts",
-        "./src/domain/entities/repositoryChoice.ts"
+        "./src/domain/entities/secondaryAdaptersChoice.ts"
       ],
       "../../node_modules/@types/aws-lambda/index.d.ts": [
         "../../node_modules/@types/node/fs.d.ts",
@@ -3368,10 +3368,10 @@
       "../../node_modules/@types/yargs/index.d.ts",
       "../../node_modules/@types/yup/index.d.ts",
       "../../node_modules/@types/zen-observable/index.d.ts",
-      "./src/repositoryChoice.ts",
+      "./src/secondaryAdaptersChoice.ts",
       "./src/domain/entities/flight.ts",
       "./src/domain/entities/wing.ts",
-      "./src/domain/entities/repositoryChoice.ts"
+      "./src/domain/entities/secondaryAdaptersChoice.ts"
     ]
   },
   "version": "3.7.2"

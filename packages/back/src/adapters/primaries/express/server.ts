@@ -1,11 +1,14 @@
-import express from "express";
+import { RedisEventBus } from "@paralogs/back-shared";
 import bodyParser from "body-parser";
 import cors from "cors";
+import express from "express";
 import morgan from "morgan";
-import { authenticateMiddleware } from "./authenticate-middleware";
-import { wingsController } from "../controllers/wings.controller";
+
 import { flightsController } from "../controllers/flights.controller";
 import { pilotsController } from "../controllers/pilots.controller";
+import { subscribeToUserSignedUp } from "../controllers/pilots.subscribers";
+import { wingsController } from "../controllers/wings.controller";
+import { authenticateMiddleware } from "./authenticate-middleware";
 
 export const app = express();
 
@@ -17,4 +20,7 @@ app.use(authenticateMiddleware);
 
 app.use(pilotsController());
 app.use(wingsController());
+
 app.use(flightsController());
+
+subscribeToUserSignedUp(RedisEventBus);

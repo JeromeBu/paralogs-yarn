@@ -1,4 +1,5 @@
 import { generateUuid } from "@paralogs/shared";
+
 import { AppEvent, EventType } from "./Event";
 
 export interface EventBus {
@@ -54,27 +55,3 @@ export const createInMemoryEventBus = ({
     events,
   };
 };
-
-// const yoBus = createInMemoryEventBus({
-//   getNow: () => new Date(),
-//   getId: generateUuid,
-// });
-//
-// let truc = 0;
-//
-// yoBus.subscribe("UserSignedUp", payload => {
-//   console.log({ payload });
-// });
-//
-// const interval = setInterval(() => {
-//   yoBus.publish("UserSignedUp", {
-//     // eslint-disable-next-line no-plusplus
-//     email: `lala${truc++}@mail.com`,
-//     uuid: generateUuid(),
-//   });
-// }, 1000);
-//
-// setTimeout(() => {
-//   console.log("EVENTS : ", yoBus.events);
-//   clearInterval(interval);
-// }, 4000);

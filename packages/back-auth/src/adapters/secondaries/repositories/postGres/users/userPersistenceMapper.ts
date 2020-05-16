@@ -1,11 +1,12 @@
 import { combineEithers, PersonName } from "@paralogs/back-shared";
 
 import { UserEntity } from "../../../../../domain/entities/UserEntity";
-import { UserPersistence } from "./UserPersistence";
 import { Email } from "../../../../../domain/valueObjects/user/Email";
+import { UserPersistence } from "./UserPersistence";
 
 export const userPersistenceMapper = {
   toPersistence: (userEntity: UserEntity): UserPersistence => {
+    const identity = userEntity.getIdentity();
     const {
       email,
       authToken,
@@ -15,7 +16,7 @@ export const userPersistenceMapper = {
       lastName,
     } = userEntity.getProps();
     return {
-      id: userEntity.getIdentity(),
+      id: identity,
       uuid,
       email: email.value,
       first_name: firstName.value,
@@ -37,7 +38,7 @@ export const userPersistenceMapper = {
           authToken: params.auth_token,
           hashedPassword: params.hashed_password,
         });
-        userEntity.setIdentity(params.id);
+        userEntity.setIdentity(params.id!);
         return userEntity;
       })
       .ifLeft(error => {
