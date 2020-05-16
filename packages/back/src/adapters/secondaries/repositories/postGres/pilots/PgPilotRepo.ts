@@ -1,15 +1,15 @@
+import { LeftAsync, ResultAsync, RightAsyncVoid } from "@paralogs/back-shared";
 import { PilotUuid } from "@paralogs/shared";
 import Knex from "knex";
-import { liftMaybe, liftPromise as liftPromiseToMaybeAsync } from "purify-ts/MaybeAsync";
 import { Maybe } from "purify-ts";
 import { liftPromise as liftPromiseToEitherAsync } from "purify-ts/EitherAsync";
-import { LeftAsync, ResultAsync, RightAsyncVoid } from "@paralogs/back-shared";
+import { liftMaybe, liftPromise as liftPromiseToMaybeAsync } from "purify-ts/MaybeAsync";
 
 import { PilotEntity } from "../../../../../domain/entities/PilotEntity";
-import { pilotPersistenceMapper } from "./pilotPersistenceMapper";
 import { PilotRepo } from "../../../../../domain/gateways/PilotRepo";
-import { PilotPersistence } from "./PilotPersistence";
 import { knexError } from "../knex/knexErrors";
+import { PilotPersisted } from "./PilotPersistence";
+import { pilotPersistenceMapper } from "./pilotPersistenceMapper";
 
 export class PgPilotRepo implements PilotRepo {
   constructor(private knex: Knex<any, unknown[]>) {}
@@ -23,7 +23,7 @@ export class PgPilotRepo implements PilotRepo {
   public findByUuid(uuid: PilotUuid) {
     return liftPromiseToMaybeAsync(() =>
       this.knex
-        .from<PilotPersistence>("pilots")
+        .from<PilotPersisted>("pilots")
         .where({ uuid })
         .first(),
     )
@@ -50,7 +50,7 @@ export class PgPilotRepo implements PilotRepo {
     const { firstName, lastName } = pilotEntity.getProps();
     return liftPromiseToEitherAsync(() =>
       this.knex
-        .from<PilotPersistence>("pilots")
+        .from<PilotPersisted>("pilots")
         .where({ uuid: pilotEntity.uuid })
         .update({
           first_name: firstName.value,

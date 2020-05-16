@@ -1,14 +1,13 @@
-import React from "react";
 import { Container, Fab, List, makeStyles, Typography } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
+import { flightActions, RootState } from "@paralogs/front-core";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { AddFlightDTO } from "@paralogs/shared";
-import { RootState, flightActions } from "@paralogs/front-core";
 
 import { roundButtonStyle } from "../commun/styles";
 import { AddFlightModal } from "../flight/AddFlightModal";
-import { AddWingModal } from "../wing/AddWingModal";
 import { FlightListItem } from "../flight/FlightListItem";
+import { AddWingModal } from "../wing/AddWingModal";
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -60,9 +59,6 @@ export const FlightsListView: React.FC = () => {
       <AddFlightModal
         close={() => dispatch(flightActions.hideAddFlightForm())}
         isOpen={isAddFlightFormVisible}
-        handleSubmit={async (addFlightDto: AddFlightDTO) => {
-          await dispatch(flightActions.addFlightRequested(addFlightDto));
-        }}
       />
       <AddWingModal />
       <List className={classes.listWrapper}>

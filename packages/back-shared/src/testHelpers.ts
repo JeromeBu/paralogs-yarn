@@ -1,5 +1,5 @@
-import { Result } from "./purifyAdds";
 import { Entity } from "./Entity";
+import { Result } from "./purifyAdds";
 
 export const expectRight = (result: Result<unknown>) => {
   result.ifLeft(error => {
@@ -16,4 +16,4 @@ export const expectEitherToMatchError = (
 };
 
 export const getNextId = <T extends Entity<any>>(entities: T[]) =>
-  1 + Math.max(0, ...entities.map(wing => wing.getIdentity()));
+  1 + Math.max(0, ...entities.map(wing => wing.getIdentity() || 0));

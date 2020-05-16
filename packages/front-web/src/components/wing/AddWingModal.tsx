@@ -1,11 +1,11 @@
 import { Button, makeStyles, TextField, Typography } from "@material-ui/core";
 import SaveIcon from "@material-ui/icons/Save";
+import { RootState, wingActions } from "@paralogs/front-core";
+import { addWingSchema, generateUuid } from "@paralogs/shared";
+import { format } from "date-fns";
 import { Form, Formik } from "formik";
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { format } from "date-fns";
-import { generateUuid, AddWingDTO, addWingSchema } from "@paralogs/shared";
-import { wingActions, RootState } from "@paralogs/front-core";
+import { useDispatch, useSelector } from "react-redux";
 
 import { CenteredModal } from "../commun/CenteredModal";
 
@@ -29,24 +29,24 @@ export const AddWingModal: React.FC = () => {
   const close = () => dispatch(wingActions.hideAddWingForm());
   const isOpen = useSelector(({ wings }: RootState) => wings.isAddWingFormVisible);
 
-  const initialValues: AddWingDTO = {
-    uuid: generateUuid(),
+  const initialValues = {
     brand: "",
     model: "",
     flightTimePriorToOwn: 0,
     ownerFrom: new Date().toUTCString(),
   };
+
   return (
     <CenteredModal open={isOpen} onClose={close}>
       <Formik
         initialValues={initialValues}
         onSubmit={async wingValues => {
-          await dispatch(wingActions.addWingRequested(wingValues));
+          dispatch(wingActions.addWingRequested({ ...wingValues, uuid: generateUuid() }));
           close();
         }}
         validationSchema={addWingSchema}
       >
-        {({ values, handleChange, submitForm }) => (
+        {({ values, handleChange, submitForm, errors }) => (
           <Form>
             <Typography variant="h6" className={classes.title} color="primary">
               Adding a wing

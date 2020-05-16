@@ -1,3 +1,4 @@
+import { Persisted } from "@paralogs/back-shared";
 import { FlightUuid, PilotUuid, WingUuid } from "@paralogs/shared";
 
 export interface FlightPersistence {
@@ -12,3 +13,5 @@ export interface FlightPersistence {
   site: string;
   duration: number;
 }
+
+export type FlightPersisted = Persisted<FlightPersistence>;

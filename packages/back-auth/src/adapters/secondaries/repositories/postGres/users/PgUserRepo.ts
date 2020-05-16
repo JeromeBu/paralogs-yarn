@@ -14,7 +14,7 @@ import { UserEntity } from "../../../../../domain/entities/UserEntity";
 import { UserRepo } from "../../../../../domain/gateways/UserRepo";
 import { Email } from "../../../../../domain/valueObjects/user/Email";
 import { knexError } from "../knex/knexErrors";
-import { UserPersistence } from "./UserPersistence";
+import { UserPersisted } from "./UserPersistence";
 import { userPersistenceMapper } from "./userPersistenceMapper";
 
 export class PgUserRepo implements UserRepo {
@@ -29,7 +29,7 @@ export class PgUserRepo implements UserRepo {
   public findByEmail(email: Email) {
     return liftPromiseToMaybeAsync(() =>
       this.knex
-        .from<UserPersistence>("users")
+        .from<UserPersisted>("users")
         .where({ email: email.value })
         .first(),
     )
@@ -40,7 +40,7 @@ export class PgUserRepo implements UserRepo {
   public findByUuid(uuid: UserUuid) {
     return liftPromiseToMaybeAsync(() =>
       this.knex
-        .from<UserPersistence>("users")
+        .from<UserPersisted>("users")
         .where({ uuid })
         .first(),
     )
