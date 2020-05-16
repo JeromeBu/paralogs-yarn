@@ -8,12 +8,13 @@ import {
 } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import SaveIcon from "@material-ui/icons/Save";
-import { AddFlightDTO, generateUuid } from "@paralogs/shared";
+import { flightActions, RootState, wingActions } from "@paralogs/front-core";
+import { generateUuid } from "@paralogs/shared";
 import { format } from "date-fns";
 import { Form, Formik } from "formik";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState, wingActions } from "@paralogs/front-core";
+
 import { CenteredModal } from "../commun/CenteredModal";
 
 const useStyles = makeStyles(theme => ({
@@ -33,22 +34,16 @@ const useStyles = makeStyles(theme => ({
 interface AddFlightModalProps {
   isOpen: boolean;
   close: () => void;
-  handleSubmit: (flight: AddFlightDTO) => Promise<void>;
 }
 
-export const AddFlightModal: React.FC<AddFlightModalProps> = ({
-  handleSubmit,
-  close,
-  isOpen,
-}) => {
+export const AddFlightModal: React.FC<AddFlightModalProps> = ({ close, isOpen }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const wings = useSelector((state: RootState) => state.wings.data);
 
   const initialWingId = wings[0]?.uuid ?? "";
 
-  const initialValues: AddFlightDTO = {
-    uuid: generateUuid(),
+  const defaultValues = {
     site: "",
     date: format(new Date(), "yyyy-MM-dd"),
     time: "14:30",
@@ -56,19 +51,20 @@ export const AddFlightModal: React.FC<AddFlightModalProps> = ({
     wingUuid: initialWingId,
   };
 
-  const [cachedValues, setCachedValues] = useState(initialValues);
+  const [cachedValues, setCachedValues] = useState(defaultValues);
+  const initialValues = { ...cachedValues, wingUuid: initialWingId };
 
   return (
     <CenteredModal open={isOpen} onClose={close}>
       <Formik
         enableReinitialize
-        initialValues={{ ...cachedValues, wingId: initialWingId }}
+        initialValues={initialValues}
         onSubmit={async values => {
-          await handleSubmit(values);
+          dispatch(flightActions.addFlightRequested({ ...values, uuid: generateUuid() }));
           close();
         }}
       >
-        {({ values, handleChange, submitForm }) => (
+        {({ values, handleChange, submitForm, errors }) => (
           <Form>
             <Typography variant="h6" className={classes.title} color="primary">
               Adding a flight
@@ -85,7 +81,7 @@ export const AddFlightModal: React.FC<AddFlightModalProps> = ({
             <div>
               <Select
                 className={classes.field}
-                value={values.wingId}
+                value={values.wingUuid}
                 name="wingId"
                 onChange={e => {
                   if (e.target.value === "addNewWing") {

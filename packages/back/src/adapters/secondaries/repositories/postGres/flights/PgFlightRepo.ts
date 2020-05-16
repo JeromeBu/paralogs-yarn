@@ -1,22 +1,22 @@
-import Knex from "knex";
+import {
+  LeftAsync,
+  notFoundError,
+  ResultAsync,
+  RightAsyncVoid,
+  validationError,
+} from "@paralogs/back-shared";
 import { FlightUuid, PilotUuid, WingUuid } from "@paralogs/shared";
+import Knex from "knex";
 import { Maybe } from "purify-ts";
 import { liftPromise as liftPromiseToEitherAsync } from "purify-ts/EitherAsync";
 import { liftMaybe, liftPromise as liftPromiseToMaybeAsync } from "purify-ts/MaybeAsync";
-import {
-  LeftAsync,
-  ResultAsync,
-  RightAsyncVoid,
-  notFoundError,
-  validationError,
-} from "@paralogs/back-shared";
 
-import { flightPersistenceMapper } from "./flightPersistenceMapper";
-import { FlightRepo } from "../../../../../domain/gateways/FlightRepo";
 import { FlightEntity } from "../../../../../domain/entities/FlightEntity";
-import { FlightPersistence } from "./FlightPersistence";
-import { PilotPersistence } from "../pilots/PilotPersistence";
-import { WingPersistence } from "../wings/WingPersistence";
+import { FlightRepo } from "../../../../../domain/gateways/FlightRepo";
+import { PilotPersisted } from "../pilots/PilotPersistence";
+import { WingPersisted } from "../wings/WingPersistence";
+import { FlightPersisted, FlightPersistence } from "./FlightPersistence";
+import { flightPersistenceMapper } from "./flightPersistenceMapper";
 
 export class PgFlightRepo implements FlightRepo {
   constructor(private knex: Knex<any, unknown[]>) {}
@@ -46,7 +46,7 @@ export class PgFlightRepo implements FlightRepo {
   }
 
   public async findByPilotUuid(pilot_uuid: PilotUuid) {
-    return (await this.knex.from<FlightPersistence>("flights").where({ pilot_uuid })).map(
+    return (await this.knex.from<FlightPersisted>("flights").where({ pilot_uuid })).map(
       flightPersistenceMapper.toEntity,
     );
   }
@@ -54,7 +54,7 @@ export class PgFlightRepo implements FlightRepo {
   public findByUuid(uuid: FlightUuid) {
     return liftPromiseToMaybeAsync(() =>
       this.knex
-        .from<FlightPersistence>("flights")
+        .from<FlightPersisted>("flights")
         .where({ uuid })
         .first(),
     )
@@ -65,7 +65,7 @@ export class PgFlightRepo implements FlightRepo {
   private _getPilotId(uuid: PilotUuid): ResultAsync<number> {
     return liftPromiseToMaybeAsync(() =>
       this.knex
-        .from<PilotPersistence>("pilots")
+        .from<PilotPersisted>("pilots")
         .select("id")
         .where({ uuid })
         .first(),
@@ -78,12 +78,12 @@ export class PgFlightRepo implements FlightRepo {
   private _getWingId(uuid: WingUuid): ResultAsync<number> {
     return liftPromiseToMaybeAsync(() =>
       this.knex
-        .from<WingPersistence>("wings")
+        .from<WingPersisted>("wings")
         .select("id")
         .where({ uuid })
         .first(),
     )
-      .chain(wingPersistence => liftMaybe(Maybe.fromNullable(wingPersistence)))
+      .chain(wingPersisted => liftMaybe(Maybe.fromNullable(wingPersisted)))
       .map(({ id }) => id)
       .toEitherAsync(notFoundError("No wing matched this wingUuid"));
   }

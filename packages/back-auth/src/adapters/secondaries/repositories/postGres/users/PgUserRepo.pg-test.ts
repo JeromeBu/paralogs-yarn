@@ -7,7 +7,7 @@ import { Email } from "../../../../../domain/valueObjects/user/Email";
 import { TestHashAndTokenManager } from "../../../../secondaries/TestHashAndTokenManager";
 import { getKnex, resetDb } from "../knex/db";
 import { PgUserRepo } from "./PgUserRepo";
-import { UserPersistence } from "./UserPersistence";
+import { UserPersisted, UserPersistence } from "./UserPersistence";
 import { userPersistenceMapper } from "./userPersistenceMapper";
 
 describe("User repository postgres tests", () => {
@@ -42,7 +42,7 @@ describe("User repository postgres tests", () => {
     };
 
     expect(
-      await knex<UserPersistence>("users")
+      await knex<UserPersisted>("users")
         .where({ uuid: createdUserEntity.uuid })
         .first(),
     ).toMatchObject(userPersistenceToMatch);
@@ -56,7 +56,7 @@ describe("User repository postgres tests", () => {
   it("Cannot create a user with the same email", async () => {
     const userEntity = await makeUserEntity({ email: johnEmail });
     const resultSavedUserEntity = await pgUserRepo.save(userEntity).run();
-    await knex.from<UserPersistence>("users");
+    await knex.from<UserPersisted>("users");
     expectEitherToMatchError(
       resultSavedUserEntity,
       "Email is already taken. Consider logging in.",

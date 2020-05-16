@@ -1,21 +1,21 @@
-import Knex from "knex";
+import { notFoundError, ResultAsync, RightAsyncVoid } from "@paralogs/back-shared";
 import { PilotUuid, WingUuid } from "@paralogs/shared";
+import Knex from "knex";
 import { Maybe } from "purify-ts/Maybe";
 import { liftMaybe, liftPromise } from "purify-ts/MaybeAsync";
-import { notFoundError, ResultAsync, RightAsyncVoid } from "@paralogs/back-shared";
 
-import { WingRepo } from "../../../../../domain/gateways/WingRepo";
 import { WingEntity } from "../../../../../domain/entities/WingEntity";
-import { wingPersistenceMapper } from "./wingPersistenceMapper";
-import { WingPersistence } from "./WingPersistence";
-import { PilotPersistence } from "../pilots/PilotPersistence";
+import { WingRepo } from "../../../../../domain/gateways/WingRepo";
 import { knexError } from "../knex/knexErrors";
+import { PilotPersisted } from "../pilots/PilotPersistence";
+import { WingPersisted } from "./WingPersistence";
+import { wingPersistenceMapper } from "./wingPersistenceMapper";
 
 export class PgWingRepo implements WingRepo {
   constructor(private knex: Knex<any, unknown[]>) {}
 
   public async findByPilotUuid(pilot_uuid: PilotUuid) {
-    return (await this.knex.from<WingPersistence>("wings").where({ pilot_uuid })).map(
+    return (await this.knex.from<WingPersisted>("wings").where({ pilot_uuid })).map(
       wingPersistenceMapper.toEntity,
     );
   }
@@ -23,7 +23,7 @@ export class PgWingRepo implements WingRepo {
   public findByUuid(uuid: WingUuid) {
     return liftPromise(() =>
       this.knex
-        .from<WingPersistence>("wings")
+        .from<WingPersisted>("wings")
         .where({ uuid })
         .first(),
     )
@@ -42,7 +42,7 @@ export class PgWingRepo implements WingRepo {
   private _create(wingEntity: WingEntity, pilot_id: number) {
     const wingPersistence = wingPersistenceMapper.toPersistence(wingEntity);
     return liftPromise(() =>
-      this.knex<WingPersistence>("wings").insert({
+      this.knex<WingPersisted>("wings").insert({
         ...wingPersistence,
         pilot_id,
         id: undefined,
@@ -63,7 +63,7 @@ export class PgWingRepo implements WingRepo {
     } = wingEntity.getProps();
 
     return liftPromise(() =>
-      this.knex.from<WingPersistence>("wings").update({
+      this.knex.from<WingPersisted>("wings").update({
         brand,
         model,
         pilot_uuid: pilotUuid,
@@ -82,7 +82,7 @@ export class PgWingRepo implements WingRepo {
   private _getPilotId(uuid: PilotUuid): ResultAsync<number> {
     return liftPromise(() =>
       this.knex
-        .from<PilotPersistence>("pilots")
+        .from<PilotPersisted>("pilots")
         .select("id")
         .where({ uuid })
         .first(),
