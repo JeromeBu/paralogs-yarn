@@ -76,9 +76,7 @@ export class PgFlightRepo implements FlightRepo {
         .where({ uuid })
         .first(),
     )
-      .chain((pilotPersistence) =>
-        liftMaybe(Maybe.fromNullable(pilotPersistence)),
-      )
+      .chain((p) => liftMaybe(Maybe.fromNullable(p)))
       .map(({ id }) => id)
       .toEitherAsync(notFoundError("No pilot matched this pilotUuid"));
   }

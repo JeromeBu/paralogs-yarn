@@ -90,8 +90,8 @@ export class PgWingRepo implements WingRepo {
         .where({ uuid })
         .first(),
     )
-      .chain((w) => liftMaybe(Maybe.fromNullable(w)))
-      .toEitherAsync(notFoundError(`No pilot matched this pilotUuid: ${uuid}`))
-      .map(({ id }) => id);
+      .chain((p) => liftMaybe(Maybe.fromNullable(p)))
+      .map(({ id }) => id)
+      .toEitherAsync(notFoundError(`No pilot matched this pilotUuid: ${uuid}`));
   }
 }
