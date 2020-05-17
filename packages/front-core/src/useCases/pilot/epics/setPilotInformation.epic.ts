@@ -1,8 +1,8 @@
 import { Epic } from "redux-observable";
 import { filter, map } from "rxjs/operators";
 
-import { RootState } from "../../../store/root-reducer";
 import { RootAction } from "../../../store/root-action";
+import { RootState } from "../../../store/root-reducer";
 import { Dependencies } from "../../../StoreDependencies";
 import { authActions } from "../../auth/auth.slice";
 import { pilotActions } from "../pilot.slice";
