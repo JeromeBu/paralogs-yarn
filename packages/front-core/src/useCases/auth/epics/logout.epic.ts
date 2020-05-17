@@ -1,7 +1,8 @@
 import { Epic } from "redux-observable";
 import { filter, map, switchMap } from "rxjs/operators";
 
-import { Dependencies, RootState } from "../../../reduxStore";
+import { RootState } from "../../../store/root-reducer";
+import { Dependencies } from "../../../StoreDependencies";
 import { AuthAction, authActions } from "../auth.slice";
 
 export const logoutEpic: Epic<

@@ -3,21 +3,7 @@ import { createEpicMiddleware } from "redux-observable";
 
 import { rootEpic } from "./store/root-epic";
 import { rootReducer } from "./store/root-reducer";
-import { AuthGateway } from "./useCases/auth/gateways/AuthGateway";
-import { ClientStorage } from "./useCases/auth/gateways/ClientStorage";
-import { FlightGateway } from "./useCases/flights/gateways/FlightGateway";
-import { PilotGateway } from "./useCases/pilot/gateways/PilotGateway";
-import { WingGateway } from "./useCases/wings/gateways/WingGateway";
-
-export type RootState = ReturnType<typeof rootReducer>;
-
-export interface Dependencies {
-  authGateway: AuthGateway;
-  wingGateway: WingGateway;
-  flightGateway: FlightGateway;
-  pilotGateway: PilotGateway;
-  clientStorage: ClientStorage;
-}
+import { Dependencies } from "./StoreDependencies";
 
 export const configureReduxStore = (dependencies: Dependencies): Store => {
   const epicMiddleware = createEpicMiddleware({ dependencies });

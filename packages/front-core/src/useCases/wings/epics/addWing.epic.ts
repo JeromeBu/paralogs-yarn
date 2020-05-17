@@ -2,8 +2,9 @@ import { Epic } from "redux-observable";
 import { catchError, filter, map, switchMap } from "rxjs/operators";
 
 import { handleActionError } from "../../../actionsUtils";
-import { Dependencies, RootState } from "../../../reduxStore";
+import { RootState } from "../../../store/root-reducer";
 import { RootAction } from "../../../store/root-action";
+import { Dependencies } from "../../../StoreDependencies";
 import { wingActions } from "../wings.slice";
 
 export const addWingEpic: Epic<
