@@ -1,10 +1,12 @@
-import _ from "lodash";
+import * as R from "ramda";
 
 import { FlightDTO } from "../DTOs";
 import { generateUuid } from "../generalTypes/uuid";
 import { makeWingDTO } from "./makeWingDTO";
 
-export const makeFlightDTO = (flightParams?: Partial<FlightDTO>): FlightDTO => {
+export const makeFlightDTO = (
+  flightParams: Partial<FlightDTO> = {},
+): FlightDTO => {
   const randomFlight: FlightDTO = {
     uuid: generateUuid(),
     pilotUuid: generateUuid(),
@@ -15,6 +17,6 @@ export const makeFlightDTO = (flightParams?: Partial<FlightDTO>): FlightDTO => {
     duration: 55,
   };
 
-  const flight = _.merge({}, randomFlight, flightParams);
+  const flight = R.merge(randomFlight, flightParams);
   return flight;
 };

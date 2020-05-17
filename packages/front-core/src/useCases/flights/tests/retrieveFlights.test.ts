@@ -4,7 +4,7 @@ import {
   makePilotDTO,
   makeWingDTO,
 } from "@paralogs/shared";
-import * as _ from "lodash";
+import * as R from "ramda";
 import { Store } from "redux";
 
 import { configureReduxStore, RootState } from "../../../reduxStore";
@@ -91,7 +91,7 @@ describe("Retrieve flights", () => {
 
   const expectFlightToBeOrderedByDate = (storeState: Store<RootState>) => {
     const flights = storeState.getState().flights.data;
-    const sortedFlights = _.sortBy(flights, ({ date }) => date);
+    const sortedFlights = R.sortBy(({ date }) => date, flights);
     expect(flights).toEqual(sortedFlights);
   };
 });

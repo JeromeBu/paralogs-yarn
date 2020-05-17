@@ -37,6 +37,7 @@
     "morgan": "^1.9.1",
     "pg": "^7.18.2",
     "purify-ts": "^0.15.1",
+    "ramda": "^0.27.0",
     "redis": "^3.0.2",
     "supertest": "^4.0.2",
     "yup": "^0.28.3"
@@ -51,6 +52,7 @@
     "@types/lodash": "^4.14.147",
     "@types/morgan": "^1.7.37",
     "@types/pg": "^7.14.1",
+    "@types/ramda": "^0.27.5",
     "@types/supertest": "^2.0.8",
     "@types/yup": "^0.26.32",
     "jest": "24.9.0",

@@ -11,7 +11,7 @@ import {
   generateUuid,
   SignUpParams,
 } from "@paralogs/shared";
-import _ from "lodash";
+import * as R from "ramda";
 
 import { InMemoryUserRepo } from "../../../adapters/secondaries/repositories/inMemory/InMemoryUserRepo";
 import { TestHashAndTokenManager } from "../../../adapters/secondaries/TestHashAndTokenManager";
@@ -128,14 +128,16 @@ describe("User signUp", () => {
     expect(eventBus.events).toContainEqual(event);
   };
 
-  const buildSignUpParams = (params?: Partial<SignUpParams>): SignUpParams => {
+  const buildSignUpParams = (
+    params: Partial<SignUpParams> = {},
+  ): SignUpParams => {
     const randomSignUpParams = {
       email: "joHn@mail.com",
       password: "Secret123",
       firstName: " john",
       lastName: "doe ",
     };
-    return _.merge({}, randomSignUpParams, params);
+    return R.merge(randomSignUpParams, params);
   };
 
   const expectUserResultToEqual = (

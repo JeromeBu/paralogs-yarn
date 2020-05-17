@@ -1,9 +1,9 @@
-import _ from "lodash";
+import merge from "ramda/src/merge";
 
 import { WingDTO } from "../DTOs";
 import { generateUuid } from "../generalTypes/uuid";
 
-export const makeWingDTO = (wingParams?: Partial<WingDTO>): WingDTO => {
+export const makeWingDTO = (wingParams: Partial<WingDTO> = {}): WingDTO => {
   const randomWing: WingDTO = {
     uuid: generateUuid(),
     pilotUuid: generateUuid(),
@@ -12,6 +12,6 @@ export const makeWingDTO = (wingParams?: Partial<WingDTO>): WingDTO => {
     flightTimePriorToOwn: 0,
     ownerFrom: new Date().toUTCString(),
   };
-  const wing = _.merge({}, randomWing, wingParams);
+  const wing = merge(randomWing, wingParams);
   return wing;
 };

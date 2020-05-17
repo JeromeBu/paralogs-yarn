@@ -5,7 +5,7 @@ import {
   validationError,
 } from "@paralogs/back-shared";
 import { Response } from "express";
-import _ from "lodash";
+import * as R from "ramda";
 import { EitherAsync } from "purify-ts";
 import { liftPromise } from "purify-ts/EitherAsync";
 import { ObjectSchema, Shape } from "yup";
@@ -37,7 +37,7 @@ export const validateSchema = <T extends object>(
   validationSchema: ObjectSchema<Shape<object, T>>,
   body: any,
 ): ResultAsync<Shape<object, T>> => {
-  if (_.isEmpty(body))
+  if (R.isEmpty(body))
     return LeftAsync(validationError("No body was provided"));
   return liftPromise(() =>
     validationSchema.validate(body, { abortEarly: false }),

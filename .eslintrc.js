@@ -7,9 +7,9 @@ module.exports = {
     extraFileExtensions: [".js", ".yml", ".json", ".md", ".log"],
   },
   extends: [
-    // /!\ Order seems to matter
-    "airbnb",
-    "prettier/react",
+    "airbnb-typescript",
+    "airbnb/hooks",
+    "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended",
     "prettier/@typescript-eslint",
     "plugin:prettier/recommended",

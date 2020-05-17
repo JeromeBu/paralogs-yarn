@@ -1,5 +1,5 @@
-import { trim } from "lodash/fp";
 import { Right } from "purify-ts";
+import trim from "ramda/src/trim";
 
 import { Result } from "./purifyAdds";
 
