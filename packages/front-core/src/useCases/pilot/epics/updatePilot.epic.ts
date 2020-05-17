@@ -1,8 +1,9 @@
 import { Epic } from "redux-observable";
 import { filter, map, switchMap } from "rxjs/operators";
 
-import { Dependencies, RootState } from "../../../reduxStore";
 import { RootAction } from "../../../store/root-action";
+import { RootState } from "../../../store/root-reducer";
+import { Dependencies } from "../../../StoreDependencies";
 import { pilotActions } from "../pilot.slice";
 
 export const updatePilotEpic: Epic<

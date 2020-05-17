@@ -60,7 +60,7 @@ describe("Retrieve flights", () => {
       },
     });
     // QUESTION: how to implement next test... (sorting)
-    // I belive it is mostly the backend role to sort the results
+    // I believe it is mostly the backend role to sort the results
     // (we are only testing mock values so it is quite useless)
     expectFlightToBeOrderedByDate(store);
   });

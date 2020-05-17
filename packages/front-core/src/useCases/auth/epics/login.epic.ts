@@ -3,7 +3,8 @@ import { of } from "rxjs";
 import { catchError, filter, map, switchMap } from "rxjs/operators";
 
 import { handleActionError } from "../../../actionsUtils";
-import { Dependencies, RootState } from "../../../reduxStore";
+import { RootState } from "../../../store/root-reducer";
+import { Dependencies } from "../../../StoreDependencies";
 import { AuthAction, authActions } from "../auth.slice";
 
 export const loginEpic: Epic<

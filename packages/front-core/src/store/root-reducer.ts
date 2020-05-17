@@ -11,3 +11,5 @@ export const rootReducer = combineReducers({
   wings: wingsReducer,
   pilot: pilotReducer,
 });
+
+export type RootState = ReturnType<typeof rootReducer>;

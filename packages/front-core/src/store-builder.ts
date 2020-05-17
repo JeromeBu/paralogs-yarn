@@ -5,7 +5,8 @@ import { HttpFlightGateway } from "./adapters/HttpFlightGateway";
 import { HttpPilotGateway } from "./adapters/HttpPilotGateway";
 import { HttpWingGateway } from "./adapters/HttpWingGateway";
 import { LocalClientStorage } from "./adapters/LocalClientStorage";
-import { configureReduxStore, RootState as _RootState } from "./reduxStore";
+import { configureReduxStore } from "./reduxStore";
+import { RootState as _RootState } from "./store/root-reducer";
 
 export type ReduxStore = Store<_RootState>;
 
