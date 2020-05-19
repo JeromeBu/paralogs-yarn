@@ -5,7 +5,7 @@ import { InMemoryClientStorage } from "./adapters/InMemoryClientStorage";
 import { InMemoryFlightGateway } from "./adapters/InMemoryFlightGateway";
 import { InMemoryPilotGateway } from "./adapters/InMemoryPilotGateway";
 import { InMemoryWingGateway } from "./adapters/InMemoryWingGateway";
-import { RootState } from "./reduxStore";
+import { RootState } from "./store/root-reducer";
 
 type Partial2Levels<T> = {
   [P in keyof T]?: T[P] extends Array<infer U>

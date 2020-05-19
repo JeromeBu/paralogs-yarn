@@ -1,7 +1,8 @@
-import { makePilotDTO, makeUserDTO } from "@paralogs/shared";
+import { makeUserDTO } from "@paralogs/shared";
 import { Store } from "redux";
 
-import { configureReduxStore, RootState } from "../../../reduxStore";
+import { configureReduxStore } from "../../../reduxStore";
+import { RootState } from "../../../store/root-reducer";
 import {
   ExpectStateToMatch,
   expectStateToMatchCreator,
@@ -24,13 +25,11 @@ describe("set pilot information", () => {
   describe("when user authenticates successfully", () => {
     it("sets correctly the pilot information", async () => {
       const currentUser = makeUserDTO();
-      const pilotInformation = makePilotDTO();
       const token = "someFakeToken";
 
       store.dispatch(
         authActions.authenticationSucceeded({
           currentUser,
-          pilotInformation,
           token,
         }),
       );
@@ -39,9 +38,6 @@ describe("set pilot information", () => {
         auth: {
           currentUser,
           token,
-        },
-        pilot: {
-          pilotInformation,
         },
       });
     });

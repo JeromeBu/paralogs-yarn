@@ -1,8 +1,9 @@
 import {
-  CurrentUserWithPilotWithAuthToken,
+  CurrentUserWithAuthToken,
   LoginParams,
   SignUpParams,
   StringError,
+  UpdateUserDTO,
   UserDTO,
   ValueOf,
 } from "@paralogs/shared";
@@ -11,12 +12,14 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 type AuthState = Readonly<{
   error?: StringError;
   isLoading: boolean;
+  isSaving: boolean;
   currentUser: UserDTO | null;
   token: string | null;
 }>;
 
 const initialState: AuthState = {
   isLoading: false,
+  isSaving: false,
   currentUser: null,
   token: null,
 };
@@ -57,13 +60,30 @@ const authSlice = createSlice({
 
     authenticationSucceeded: (
       state,
-      action: PayloadAction<CurrentUserWithPilotWithAuthToken>,
+      action: PayloadAction<CurrentUserWithAuthToken>,
     ) => ({
       ...state,
       isLoading: false,
       error: undefined,
       currentUser: action.payload.currentUser,
       token: action.payload.token,
+    }),
+
+    updateUserRequested: (
+      state: AuthState,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      action: PayloadAction<UpdateUserDTO>,
+    ) => ({
+      ...state,
+      isSaving: true,
+    }),
+    updateUserSucceeded: (
+      state: AuthState,
+      action: PayloadAction<UserDTO>,
+    ) => ({
+      ...state,
+      currentUser: action.payload,
+      isSaving: false,
     }),
   },
 });

@@ -1,6 +1,7 @@
 import { Store } from "redux";
 
-import { configureReduxStore, RootState } from "../../../reduxStore";
+import { configureReduxStore } from "../../../reduxStore";
+import { RootState } from "../../../store/root-reducer";
 import {
   ExpectStateToMatch,
   expectStateToMatchCreator,

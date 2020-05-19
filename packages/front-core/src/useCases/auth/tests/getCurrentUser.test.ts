@@ -1,11 +1,8 @@
-import {
-  CurrentUserWithPilotWithAuthToken,
-  makePilotDTO,
-  makeUserDTO,
-} from "@paralogs/shared";
+import { CurrentUserWithAuthToken, makeUserDTO } from "@paralogs/shared";
 import { Store } from "redux";
 
-import { configureReduxStore, RootState } from "../../../reduxStore";
+import { configureReduxStore } from "../../../reduxStore";
+import { RootState } from "../../../store/root-reducer";
 import {
   ExpectStateToMatch,
   expectStateToMatchCreator,
@@ -21,7 +18,7 @@ import {
 describe("GetMe :  recover current user information", () => {
   let store: Store<RootState>;
   let dependencies: InMemoryDependencies;
-  let feedWithCurrentUser: (params: CurrentUserWithPilotWithAuthToken) => void;
+  let feedWithCurrentUser: (params: CurrentUserWithAuthToken) => void;
   let feedWithError: (errorMessage: string) => void;
   let expectStateToMatch: ExpectStateToMatch;
 
@@ -37,7 +34,7 @@ describe("GetMe :  recover current user information", () => {
     it("warns the user with a message", () => {
       const errorMessage = "You need to authenticate first";
 
-      getMe();
+      getCurrentUser();
       feedWithError(errorMessage);
       expectStateToMatch({
         auth: {
@@ -52,12 +49,10 @@ describe("GetMe :  recover current user information", () => {
   describe("You are logged in", () => {
     it("recovers current user information", () => {
       const currentUser = makeUserDTO();
-      const pilotInformation = makePilotDTO();
       const token = "someFakeToken";
-      getMe();
+      getCurrentUser();
       feedWithCurrentUser({
         currentUser,
-        pilotInformation,
         token,
       });
       expectStateToMatch({
@@ -65,11 +60,10 @@ describe("GetMe :  recover current user information", () => {
           currentUser,
           token,
         },
-        pilot: { pilotInformation },
       });
       expect(dependencies.clientStorage.get("token")).toBe(token);
     });
   });
 
-  const getMe = () => store.dispatch(authActions.getMeRequested());
+  const getCurrentUser = () => store.dispatch(authActions.getMeRequested());
 });

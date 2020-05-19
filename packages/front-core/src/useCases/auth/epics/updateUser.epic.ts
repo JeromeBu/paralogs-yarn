@@ -4,19 +4,19 @@ import { filter, map, switchMap } from "rxjs/operators";
 import { RootAction } from "../../../store/root-action";
 import { RootState } from "../../../store/root-reducer";
 import { Dependencies } from "../../../StoreDependencies";
-import { pilotActions } from "../pilot.slice";
+import { authActions } from "../auth.slice";
 
-export const updatePilotEpic: Epic<
+export const updateUserEpic: Epic<
   RootAction,
   RootAction,
   RootState,
   Dependencies
-> = (action$, state$, { pilotGateway }) =>
+> = (action$, state$, { authGateway }) =>
   action$.pipe(
-    filter(pilotActions.updatePilotRequested.match),
+    filter(authActions.updateUserRequested.match),
     switchMap(({ payload }) =>
-      pilotGateway
+      authGateway
         .updateUser(payload)
-        .pipe(map(() => pilotActions.updatePilotSucceeded(payload))),
+        .pipe(map(authActions.updateUserSucceeded)),
     ),
   );

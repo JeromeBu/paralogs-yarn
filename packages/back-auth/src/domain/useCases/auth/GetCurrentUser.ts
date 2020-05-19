@@ -1,9 +1,5 @@
 import { notFoundError, ResultAsync } from "@paralogs/back-shared";
-import {
-  CurrentUserWithPilotWithAuthToken,
-  PilotUuid,
-  WithUserUuid,
-} from "@paralogs/shared";
+import { CurrentUserWithAuthToken, WithUserUuid } from "@paralogs/shared";
 
 import { UserRepo } from "../../gateways/UserRepo";
 import { userMapper } from "../../mappers/user.mapper";
@@ -12,20 +8,17 @@ interface GetMeDependencies {
   userRepo: UserRepo;
 }
 
-export const getMeUseCaseCreator = ({ userRepo }: GetMeDependencies) => ({
+export const getCurrentUserUseCaseCreator = ({
+  userRepo,
+}: GetMeDependencies) => ({
   userUuid,
-}: WithUserUuid): ResultAsync<CurrentUserWithPilotWithAuthToken> => {
+}: WithUserUuid): ResultAsync<CurrentUserWithAuthToken> => {
   return userRepo
     .findByUuid(userUuid)
     .map((userEntity) => {
       const userDTO = userMapper.entityToDTO(userEntity);
       return {
         currentUser: userDTO,
-        pilotInformation: {
-          uuid: userDTO.uuid as PilotUuid,
-          firstName: userDTO.firstName,
-          lastName: userDTO.lastName,
-        },
         token: userEntity.getProps().authToken,
       };
     })

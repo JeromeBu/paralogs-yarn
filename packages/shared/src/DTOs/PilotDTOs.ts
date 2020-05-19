@@ -1,6 +1,4 @@
-import * as Yup from "yup";
-
-import { Flavor } from "..";
+import { Flavor } from "../generalTypes/types";
 
 export type PilotUuid = Flavor<string, "PilotUuid">;
 
@@ -13,11 +11,3 @@ export interface PilotDTO {
   firstName: string;
   lastName?: string;
 }
-
-export type UpdatePilotDTO = Partial<PilotDTO> & { uuid: PilotUuid };
-
-export const pilotSchema = Yup.object().shape<UpdatePilotDTO>({
-  uuid: Yup.string().required(),
-  firstName: Yup.string(),
-  lastName: Yup.string(),
-});

@@ -1,11 +1,8 @@
-import {
-  CurrentUserWithPilotWithAuthToken,
-  makePilotDTO,
-  makeUserDTO,
-} from "@paralogs/shared";
+import { CurrentUserWithAuthToken, makeUserDTO } from "@paralogs/shared";
 import { Store } from "redux";
 
-import { configureReduxStore, RootState } from "../../../reduxStore";
+import { configureReduxStore } from "../../../reduxStore";
+import { RootState } from "../../../store/root-reducer";
 import {
   ExpectStateToMatch,
   expectStateToMatchCreator,
@@ -21,7 +18,7 @@ import {
 describe("Login", () => {
   let store: Store<RootState>;
   let dependencies: InMemoryDependencies; /* cannot be typed Dependencies because we need to access .currentUser$ */
-  let feedWithCurrentUser: (params: CurrentUserWithPilotWithAuthToken) => void;
+  let feedWithCurrentUser: (params: CurrentUserWithAuthToken) => void;
   let feedWithError: (errorMessage: string) => void;
   let expectStateToMatch: ExpectStateToMatch;
 
@@ -37,18 +34,16 @@ describe("Login", () => {
     it("returns logged user with authentication token", () => {
       const email = "auth@works.com";
       const currentUser = makeUserDTO({ email });
-      const pilotInformation = makePilotDTO();
       const password = "password";
       const token = "fakeLoginToken";
       loginUser({ email, password });
-      feedWithCurrentUser({ currentUser, pilotInformation, token });
+      feedWithCurrentUser({ currentUser, token });
       expectStateToMatch({
         auth: {
           isLoading: false,
           currentUser,
           token,
         },
-        pilot: { pilotInformation },
       });
       expectTokenToBeStoredInClientStorage(token);
     });

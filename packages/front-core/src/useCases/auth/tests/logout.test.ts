@@ -1,11 +1,8 @@
-import {
-  CurrentUserWithPilotWithAuthToken,
-  makePilotDTO,
-  makeUserDTO,
-} from "@paralogs/shared";
+import { CurrentUserWithAuthToken, makeUserDTO } from "@paralogs/shared";
 import { Store } from "redux";
 
-import { configureReduxStore, RootState } from "../../../reduxStore";
+import { configureReduxStore } from "../../../reduxStore";
+import { RootState } from "../../../store/root-reducer";
 import {
   ExpectStateToMatch,
   expectStateToMatchCreator,
@@ -18,7 +15,7 @@ import { feedWithCurrentUserCreator } from "./auth.testUtils";
 describe("Logout", () => {
   let store: Store<RootState>;
   let dependencies: InMemoryDependencies;
-  let feedWithCurrentUser: (params: CurrentUserWithPilotWithAuthToken) => void;
+  let feedWithCurrentUser: (params: CurrentUserWithAuthToken) => void;
   let expectStateToMatch: ExpectStateToMatch;
 
   beforeEach(() => {
@@ -31,23 +28,21 @@ describe("Logout", () => {
   it("Clears all user's information and authentications", () => {
     const email = "auth@works.com";
     const currentUser = makeUserDTO({ email });
-    const pilotInformation = makePilotDTO();
     const password = "password";
     const token = "fakeLoginToken";
     loginUser({ email, password });
-    feedWithCurrentUser({ currentUser, pilotInformation, token });
+    feedWithCurrentUser({ currentUser, token });
     expectStateToMatch({
       auth: {
         isLoading: false,
         currentUser,
         token,
       },
-      pilot: { pilotInformation },
     });
     logout();
     expectStateToMatch({
       auth: { isLoading: false, currentUser: null, token: null },
-      pilot: { pilotInformation: null },
+      pilot: { data: null },
     });
     expectTokenToNotToBeInClientStorage();
   });
