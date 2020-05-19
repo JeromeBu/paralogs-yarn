@@ -6,6 +6,8 @@ export interface WithPilotUuid {
   pilotUuid: PilotUuid;
 }
 
+export type UpdatePilotDTO = Partial<PilotDTO> & { uuid: PilotUuid };
+
 export interface PilotDTO {
   uuid: PilotUuid;
   firstName: string;

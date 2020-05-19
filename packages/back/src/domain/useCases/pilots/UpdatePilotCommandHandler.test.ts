@@ -10,7 +10,7 @@ import {
   updatePilotCommandHandlerCreator,
 } from "./UpdatePilotCommandHandler";
 
-describe("Update user", () => {
+describe("Update pilot", () => {
   describe("all is good", () => {
     let pilotRepo: InMemoryPilotRepo;
     let currentPilot: PilotEntity;
@@ -22,7 +22,7 @@ describe("Update user", () => {
       updatePilotUseCase = updatePilotCommandHandlerCreator({ pilotRepo });
     });
 
-    it("updates user's data", async () => {
+    it("updates pilot's data", async () => {
       const newFirstName = "Changedfirstname";
       const newLastName = "ChangedLastName";
       const result = await updatePilotUseCase({

@@ -11,7 +11,7 @@ import supertest from "supertest";
 import { repositories } from "../../../config/secondaryAdaptersChoice";
 import { pilotMapper } from "../../../domain/mappers/pilotMapper";
 import { app } from "../express/server";
-import { subscribeToUserSignedUp } from "./pilots.subscribers";
+import { subscribeToEvents } from "./pilots.subscribers";
 
 const request = supertest(app);
 
@@ -28,7 +28,7 @@ describe("Pilots reaction to events and routes", () => {
     it("creates a pilot with the infos", async () => {
       const getNow = () => new Date("2020-02-02");
       const eventBus = createInMemoryEventBus({ getNow });
-      subscribeToUserSignedUp(eventBus);
+      subscribeToEvents(eventBus);
       eventBus.publish("UserSignedUp", userDto);
 
       const expectedPilot = {

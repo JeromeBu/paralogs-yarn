@@ -1,6 +1,6 @@
 import { UserDTO } from "@paralogs/shared";
 
-export type EventType = "UserSignedUp";
+export type EventType = "UserSignedUp" | "UserUpdated";
 
 export interface Event<K extends EventType, P> {
   dateTimeOccurred: Date;
@@ -9,5 +9,6 @@ export interface Event<K extends EventType, P> {
 }
 
 type UserSignedUpEvent = Event<"UserSignedUp", UserDTO>;
+type UserUpdatedEvent = Event<"UserUpdated", UserDTO>;
 
-export type AppEvent = UserSignedUpEvent;
+export type AppEvent = UserSignedUpEvent | UserUpdatedEvent;
