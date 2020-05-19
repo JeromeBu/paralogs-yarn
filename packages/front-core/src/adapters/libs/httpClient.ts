@@ -1,7 +1,8 @@
 import {
   AddFlightDTO,
   AddWingDTO,
-  CurrentUserWithPilotWithAuthToken,
+  currentPilotRoute,
+  CurrentUserWithAuthToken,
   FlightDTO,
   flightsRoute,
   getMeRoute,
@@ -9,13 +10,14 @@ import {
   loginRoute,
   SignUpParams,
   signUpRoute,
-  UpdatePilotDTO,
+  UpdateUserDTO,
   UpdateWingDTO,
   UserDTO,
   usersRoute,
   WingDTO,
   wingsRoute,
 } from "@paralogs/shared";
+import { PilotDTO } from "@paralogs/shared/dist/src/DTOs/PilotDTOs";
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 import { Observable } from "rxjs/internal/Observable";
 import { from } from "rxjs/internal/observable/from";
@@ -79,13 +81,14 @@ const paragliding = (route: string) => `${config.paraglidingUrl}${route}`;
 const auth = (route: string) => `${config.authUrl}${route}`;
 
 export const httpClient = {
-  getMe: GETwithToken<CurrentUserWithPilotWithAuthToken>(auth(getMeRoute)),
-  signUp: POST<SignUpParams, CurrentUserWithPilotWithAuthToken>(
-    auth(signUpRoute),
-  ),
-  login: POST<LoginParams, CurrentUserWithPilotWithAuthToken>(auth(loginRoute)),
-  updateUser: PUTwithToken<UpdatePilotDTO, void>(auth(usersRoute)),
+  getMe: GETwithToken<CurrentUserWithAuthToken>(auth(getMeRoute)),
+  signUp: POST<SignUpParams, CurrentUserWithAuthToken>(auth(signUpRoute)),
+  login: POST<LoginParams, CurrentUserWithAuthToken>(auth(loginRoute)),
+
+  updateUser: PUTwithToken<UpdateUserDTO, UserDTO>(auth(usersRoute)),
   retrieveUsers: GETwithToken<UserDTO[]>(auth(usersRoute)),
+
+  retrieveCurrentPilot: GETwithToken<PilotDTO>(paragliding(currentPilotRoute)),
 
   retrieveWings: GETwithToken<WingDTO[]>(paragliding(wingsRoute)),
   addWing: POSTwithToken<AddWingDTO, WingDTO>(paragliding(wingsRoute)),

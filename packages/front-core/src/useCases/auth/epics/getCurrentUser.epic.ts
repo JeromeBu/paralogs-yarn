@@ -7,7 +7,7 @@ import { RootState } from "../../../store/root-reducer";
 import { Dependencies } from "../../../StoreDependencies";
 import { AuthAction, authActions } from "../auth.slice";
 
-export const getMeEpic: Epic<
+export const getCurrentUserEpic: Epic<
   AuthAction,
   AuthAction,
   RootState,
@@ -16,7 +16,7 @@ export const getMeEpic: Epic<
   action$.pipe(
     filter(authActions.getMeRequested.match),
     switchMap(() => {
-      return authGateway.getMe().pipe(
+      return authGateway.getCurrentUser().pipe(
         switchMap((currentUserWithToken) => {
           clientStorage.set("token", currentUserWithToken.token);
           return of(currentUserWithToken);

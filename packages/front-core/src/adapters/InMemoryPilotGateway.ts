@@ -1,15 +1,18 @@
-import { UpdatePilotDTO } from "@paralogs/shared";
-import { Observable, of } from "rxjs";
+import { PilotDTO } from "@paralogs/shared";
+import R from "ramda";
+import { BehaviorSubject, Observable } from "rxjs";
+import { filter } from "rxjs/operators";
 
 import { PilotGateway } from "../useCases/pilot/gateways/PilotGateway";
 
-export class InMemoryPilotGateway implements PilotGateway {
-  // private _currentUserWithToken$ = new BehaviorSubject<CurrentUserWithAuthToken>(
-  //   (undefined as unknown) as CurrentUserWithAuthToken,
-  // );
+const excludeNilValues = R.compose(R.not, R.isNil);
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public updateUser(params: UpdatePilotDTO): Observable<void> {
-    return of(undefined);
+export class InMemoryPilotGateway implements PilotGateway {
+  private _currentPilot$ = new BehaviorSubject<PilotDTO>(
+    (undefined as unknown) as PilotDTO,
+  );
+
+  public retrieveCurrentPilot(): Observable<PilotDTO> {
+    return this._currentPilot$.pipe(filter(excludeNilValues));
   }
 }

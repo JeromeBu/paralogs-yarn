@@ -1,17 +1,17 @@
-import { makePilotDTO, makeUserDTO, PilotUuid } from "@paralogs/shared";
+import { makeUserDTO, UserDTO } from "@paralogs/shared";
 import { Store } from "redux";
 
-import { configureReduxStore, RootState } from "../../../reduxStore";
+import { configureReduxStore } from "../../../reduxStore";
+import { RootState } from "../../../store/root-reducer";
 import {
   ExpectStateToMatch,
   expectStateToMatchCreator,
   getInMemoryDependencies,
   InMemoryDependencies,
 } from "../../../testUtils";
-import { authActions } from "../../auth/auth.slice";
-import { pilotActions } from "../pilot.slice";
+import { authActions } from "../auth.slice";
 
-describe("update pilot ", () => {
+describe("update user ", () => {
   let store: Store<RootState>;
   let dependencies: InMemoryDependencies;
   let expectStateToMatch: ExpectStateToMatch;
@@ -25,32 +25,37 @@ describe("update pilot ", () => {
   describe("when all is good", () => {
     it("updates the user with the provided data", async () => {
       const currentUser = makeUserDTO();
-      const pilotInformation = makePilotDTO();
       const token = "someFakeToken";
 
       store.dispatch(
         authActions.authenticationSucceeded({
           currentUser,
-          pilotInformation,
           token,
         }),
       );
       const loggedState = store.getState();
 
       const updateParams = {
-        uuid: currentUser.uuid as PilotUuid,
+        uuid: currentUser.uuid,
         firstName: "NewFirstName",
         lastName: "NewLastName",
       };
-
-      store.dispatch(pilotActions.updatePilotRequested(updateParams));
+      feedWithUserDTO({ ...currentUser, ...updateParams }, token);
+      store.dispatch(authActions.updateUserRequested(updateParams));
       expectStateToMatch({
         ...loggedState,
-        pilot: {
-          isSaving: false,
-          pilotInformation: updateParams,
+        auth: {
+          currentUser: { ...updateParams, email: currentUser.email },
+          token,
         },
       });
     });
+
+    const feedWithUserDTO = (userDTO: UserDTO, token: string) => {
+      dependencies.authGateway.currentUserWithToken$.next({
+        currentUser: userDTO,
+        token,
+      });
+    };
   });
 });

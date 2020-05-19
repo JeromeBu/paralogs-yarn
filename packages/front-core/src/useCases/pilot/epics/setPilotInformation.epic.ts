@@ -1,6 +1,7 @@
 import { Epic } from "redux-observable";
-import { filter, map } from "rxjs/operators";
+import { catchError, filter, map, switchMap } from "rxjs/operators";
 
+import { handleActionError } from "../../../actionsUtils";
 import { RootAction } from "../../../store/root-action";
 import { RootState } from "../../../store/root-reducer";
 import { Dependencies } from "../../../StoreDependencies";
@@ -12,10 +13,17 @@ export const setPilotInformationEpic: Epic<
   RootAction,
   RootState,
   Dependencies
-> = (action$) =>
+> = (action$, state, { pilotGateway }) =>
   action$.pipe(
     filter(authActions.authenticationSucceeded.match),
-    map(({ payload }) =>
-      pilotActions.pilotInformationSet(payload.pilotInformation),
+    switchMap(() =>
+      pilotGateway
+        .retrieveCurrentPilot()
+        .pipe(
+          map(pilotActions.retrievedCurrentPilotSucceeded),
+          catchError(
+            handleActionError(pilotActions.retrievedCurrentPilotFailed),
+          ),
+        ),
     ),
   );

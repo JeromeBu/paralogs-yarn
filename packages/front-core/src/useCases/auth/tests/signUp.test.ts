@@ -1,12 +1,12 @@
 import {
-  CurrentUserWithPilotWithAuthToken,
-  makePilotDTO,
+  CurrentUserWithAuthToken,
   makeUserDTO,
   SignUpParams,
 } from "@paralogs/shared";
 import { Store } from "redux";
 
-import { configureReduxStore, RootState } from "../../../reduxStore";
+import { configureReduxStore } from "../../../reduxStore";
+import { RootState } from "../../../store/root-reducer";
 import {
   ExpectStateToMatch,
   expectStateToMatchCreator,
@@ -22,7 +22,7 @@ import {
 describe("Sign up", () => {
   let store: Store<RootState>;
   let dependencies: InMemoryDependencies; /* cannot be typed Dependencies because we need to access .currentUser$ */
-  let feedWithCurrentUser: (params: CurrentUserWithPilotWithAuthToken) => void;
+  let feedWithCurrentUser: (params: CurrentUserWithAuthToken) => void;
   let feedWithError: (errorMessage: string) => void;
   let expectStateToMatch: ExpectStateToMatch;
 
@@ -41,20 +41,16 @@ describe("Sign up", () => {
       const firstName = "John";
       const lastName = "Doe";
 
-      const currentUser = makeUserDTO({ email });
-      const pilotInformation = makePilotDTO({ firstName, lastName });
+      const currentUser = makeUserDTO({ email, firstName, lastName });
       const token = "someFakeToken";
 
       signUpUser({ email, password, firstName, lastName });
-      feedWithCurrentUser({ currentUser, pilotInformation, token });
+      feedWithCurrentUser({ currentUser, token });
       expectStateToMatch({
         auth: {
           currentUser,
           isLoading: false,
           token,
-        },
-        pilot: {
-          pilotInformation,
         },
       });
       expectTokenToBeStoredInClientStorage(token);

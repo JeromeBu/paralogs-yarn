@@ -1,9 +1,9 @@
-import { generateUuid } from "@paralogs/shared";
+import { CurrentUserWithAuthToken, generateUuid } from "@paralogs/shared";
 
 import { InMemoryUserRepo } from "../../../adapters/secondaries/repositories/inMemory/InMemoryUserRepo";
 import { TestHashAndTokenManager } from "../../../adapters/secondaries/TestHashAndTokenManager";
 import { UserEntity } from "../../entities/UserEntity";
-import { getMeUseCaseCreator } from "./GetMeUseCase";
+import { getCurrentUserUseCaseCreator } from "./GetCurrentUser";
 
 describe("Get Me, recovers logged user information", () => {
   it("get's users information", async () => {
@@ -24,10 +24,13 @@ describe("Get Me, recovers logged user information", () => {
       ).run()
     ).extract() as UserEntity;
     userRepo.setUsers([userEntity]);
-    const getMeUseCase = getMeUseCaseCreator({ userRepo });
-    const userDto = (
-      await getMeUseCase({ userUuid: userEntity.uuid }).run()
-    ).extract();
-    expect(userDto).toMatchObject(userProps);
+    const getCurrentUserUseCase = getCurrentUserUseCaseCreator({ userRepo });
+    const userDtoWithToken = (
+      await getCurrentUserUseCase({ userUuid: userEntity.uuid }).run()
+    ).extract() as CurrentUserWithAuthToken;
+    expect(userDtoWithToken.currentUser).toMatchObject({
+      ...userProps,
+    });
+    expect(userDtoWithToken.token).toBeTruthy();
   });
 });

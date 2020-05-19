@@ -1,16 +1,19 @@
-import { PilotDTO, UpdatePilotDTO, ValueOf } from "@paralogs/shared";
+import { PilotDTO, StringError, ValueOf } from "@paralogs/shared";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 type PilotState = {
+  error?: string;
   isUpdateFormVisible: boolean;
   isSaving: boolean;
-  pilotInformation: PilotDTO | null;
+  isLoading: boolean;
+  data: PilotDTO | null;
 };
 
 const initialState: PilotState = {
   isUpdateFormVisible: false,
   isSaving: false,
-  pilotInformation: null,
+  isLoading: false,
+  data: null,
 };
 
 const setPilotInformation = (
@@ -19,7 +22,7 @@ const setPilotInformation = (
 ): PilotState => ({
   ...state,
   isSaving: false,
-  pilotInformation: payload,
+  data: payload,
 });
 
 const pilotSlice = createSlice({
@@ -35,26 +38,23 @@ const pilotSlice = createSlice({
       isUpdateFormVisible: false,
     }),
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    updatePilotRequested: (state, action: PayloadAction<UpdatePilotDTO>) => ({
-      ...state,
-      isSaving: true,
-    }),
-    updatePilotSucceeded: (
-      state: PilotState,
-      action: PayloadAction<UpdatePilotDTO>,
-    ): PilotState =>
-      setPilotInformation(
-        state,
-        state.pilotInformation && {
-          ...state.pilotInformation,
-          ...action.payload,
-        },
-      ),
+    retrievedCurrentPilotSucceeded: (state, action: PayloadAction<PilotDTO>) =>
+      setPilotInformation(state, action.payload),
+
     pilotInformationSet: (
       state: PilotState,
       action: PayloadAction<PilotDTO | null>,
     ): PilotState => setPilotInformation(state, action.payload),
+
+    retrievedCurrentPilotFailed: (
+      state: PilotState,
+      action: PayloadAction<StringError>,
+    ): PilotState => ({
+      ...state,
+      isLoading: false,
+      isSaving: false,
+      error: action.payload,
+    }),
   },
 });
 
