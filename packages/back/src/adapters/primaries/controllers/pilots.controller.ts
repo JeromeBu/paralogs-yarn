@@ -1,4 +1,4 @@
-import { pilotSchema, usersRoute } from "@paralogs/shared";
+import { usersRoute } from "@paralogs/shared";
 import { Router } from "express";
 
 import { pilotsUseCases } from "../../../config/useCasesChoice";

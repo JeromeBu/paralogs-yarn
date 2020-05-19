@@ -1,5 +1,15 @@
-import { Entity, PersonName, ResultAsync } from "@paralogs/back-shared";
-import { SignUpParams, UserUuid, WithUuid } from "@paralogs/shared";
+import {
+  combineEithers,
+  Entity,
+  PersonName,
+  ResultAsync,
+} from "@paralogs/back-shared";
+import {
+  SignUpParams,
+  UpdateUserDTO,
+  UserUuid,
+  WithUuid,
+} from "@paralogs/shared";
 import { liftEither, liftPromise } from "purify-ts/EitherAsync";
 
 import { HashAndTokenManager } from "../gateways/HashAndTokenManager";
@@ -58,6 +68,21 @@ export class UserEntity extends Entity<UserEntityProps> {
 
   static fromDTO(props: UserEntityProps): UserEntity {
     return new UserEntity(props);
+  }
+
+  update(params: UpdateUserDTO) {
+    return combineEithers({
+      ...(params.firstName
+        ? { firstName: PersonName.create(params.firstName) }
+        : {}),
+      ...(params.lastName
+        ? { lastName: PersonName.create(params.lastName) }
+        : {}),
+    }).map((validParams) => {
+      const userEntity = new UserEntity({ ...this.props, ...validParams });
+      userEntity.setIdentity(this.getIdentity());
+      return userEntity;
+    });
   }
 
   public checkPassword(

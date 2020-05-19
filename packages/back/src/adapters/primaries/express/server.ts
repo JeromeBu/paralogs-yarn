@@ -5,8 +5,7 @@ import express from "express";
 import morgan from "morgan";
 
 import { flightsController } from "../controllers/flights.controller";
-import { pilotsController } from "../controllers/pilots.controller";
-import { subscribeToUserSignedUp } from "../controllers/pilots.subscribers";
+import { subscribeToEvents } from "../controllers/pilots.subscribers";
 import { wingsController } from "../controllers/wings.controller";
 import { authenticateMiddleware } from "./authenticate-middleware";
 
@@ -18,9 +17,7 @@ app.use(morgan("dev"));
 
 app.use(authenticateMiddleware);
 
-app.use(pilotsController());
 app.use(wingsController());
-
 app.use(flightsController());
 
-subscribeToUserSignedUp(RedisEventBus);
+subscribeToEvents(RedisEventBus);
