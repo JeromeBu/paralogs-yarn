@@ -9,9 +9,10 @@ import {
 import AddIcon from "@material-ui/icons/Add";
 import SaveIcon from "@material-ui/icons/Save";
 import { flightActions, RootState, wingActions } from "@paralogs/front-core";
-import { generateUuid } from "@paralogs/shared";
+import { AddFlightDTO, generateUuid } from "@paralogs/shared";
 import { format } from "date-fns";
 import { Form, Formik } from "formik";
+import R from "ramda";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -46,7 +47,8 @@ export const AddFlightModal: React.FC<AddFlightModalProps> = ({
 
   const initialWingId = wings[0]?.uuid ?? "";
 
-  const defaultValues = {
+  const defaultValues: AddFlightDTO = {
+    uuid: generateUuid(),
     site: "",
     date: format(new Date(), "yyyy-MM-dd"),
     time: "14:30",
@@ -74,6 +76,8 @@ export const AddFlightModal: React.FC<AddFlightModalProps> = ({
       >
         {({ values, handleChange, submitForm, errors }) => (
           <Form>
+            {/* eslint-disable-next-line no-console */}
+            {!R.isEmpty(errors) && console.log({ validationsErrors: errors })}
             <Typography variant="h6" className={classes.title} color="primary">
               Adding a flight
             </Typography>

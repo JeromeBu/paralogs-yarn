@@ -1,5 +1,5 @@
 import {
-  AppEvent,
+  createExpectDispatchedEvent,
   createInMemoryEventBus,
   expectEitherToMatchError,
   InMemoryEventBus,
@@ -28,6 +28,7 @@ describe("User signUp", () => {
   let signUpUseCase: SignUpCommandHandler;
   let userRepo: InMemoryUserRepo;
   let eventBus: InMemoryEventBus;
+  let expectDispatchedEvent: any;
   const getNow = () => new Date("2020-01-01");
 
   beforeEach(() => {
@@ -36,6 +37,7 @@ describe("User signUp", () => {
     userRepo = new InMemoryUserRepo();
     hashAndTokenManager = new TestHashAndTokenManager();
     eventBus = createInMemoryEventBus({ getNow });
+    expectDispatchedEvent = createExpectDispatchedEvent(eventBus);
     signUpUseCase = signUpCommandHandlerCreator({
       eventBus,
       userRepo,
@@ -111,7 +113,7 @@ describe("User signUp", () => {
       const userEntity = userRepo.users[0];
       expect(userEntity.uuid).toEqual(userUuid);
 
-      expectEventToHaveBeDispatched({
+      expectDispatchedEvent({
         dateTimeOccurred: getNow(),
         type: "UserSignedUp",
         payload: expectedUser,
@@ -123,10 +125,6 @@ describe("User signUp", () => {
       expectUserToHaveAnAuthToken(userEntity);
     });
   });
-
-  const expectEventToHaveBeDispatched = (event: AppEvent) => {
-    expect(eventBus.events).toContainEqual(event);
-  };
 
   const buildSignUpParams = (
     params: Partial<SignUpParams> = {},
