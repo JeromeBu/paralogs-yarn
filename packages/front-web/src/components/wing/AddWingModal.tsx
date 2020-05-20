@@ -1,9 +1,10 @@
 import { Button, makeStyles, TextField, Typography } from "@material-ui/core";
 import SaveIcon from "@material-ui/icons/Save";
 import { RootState, wingActions } from "@paralogs/front-core";
-import { addWingSchema, generateUuid } from "@paralogs/shared";
+import { AddWingDTO, addWingSchema, generateUuid } from "@paralogs/shared";
 import { format } from "date-fns";
 import { Form, Formik } from "formik";
+import R from "ramda";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -31,7 +32,8 @@ export const AddWingModal: React.FC = () => {
     ({ wings }: RootState) => wings.isAddWingFormVisible,
   );
 
-  const initialValues = {
+  const initialValues: AddWingDTO = {
+    uuid: generateUuid(),
     brand: "",
     model: "",
     flightTimePriorToOwn: 0,
@@ -55,6 +57,8 @@ export const AddWingModal: React.FC = () => {
       >
         {({ values, handleChange, submitForm, errors }) => (
           <Form>
+            {/* eslint-disable-next-line no-console */}
+            {!R.isEmpty(errors) && console.log(errors)}
             <Typography variant="h6" className={classes.title} color="primary">
               Adding a wing
             </Typography>

@@ -29,7 +29,7 @@ describe("Pilots reaction to events and routes", () => {
       const getNow = () => new Date("2020-02-02");
       const eventBus = createInMemoryEventBus({ getNow });
       subscribeToEvents(eventBus);
-      eventBus.publish("UserSignedUp", userDto);
+      eventBus.publish({ type: "UserSignedUp", payload: userDto });
 
       const expectedPilot = {
         uuid: userDto.uuid,

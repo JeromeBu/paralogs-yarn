@@ -35,7 +35,7 @@ export const signUpCommandHandlerCreator = ({
     .chain((userEntity) => userRepo.save(userEntity).map(() => userEntity))
     .map((savedUserEntity) => {
       const userDTO = userMapper.entityToDTO(savedUserEntity);
-      eventBus.publish("UserSignedUp", userDTO);
+      eventBus.publish({ type: "UserSignedUp", payload: userDTO });
       return {
         token: savedUserEntity.getProps().authToken,
         currentUser: userDTO,
