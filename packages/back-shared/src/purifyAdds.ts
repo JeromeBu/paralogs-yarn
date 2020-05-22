@@ -1,5 +1,6 @@
-import { Either, EitherAsync, Left, MaybeAsync, Right } from "purify-ts";
+import { Either, EitherAsync, Left, Maybe, MaybeAsync, Right } from "purify-ts";
 import { liftEither } from "purify-ts/EitherAsync";
+import { liftMaybe, liftPromise } from "purify-ts/MaybeAsync";
 
 import { AppError } from "./errors";
 
@@ -43,3 +44,10 @@ export const checkNotExists = (
     if (maybe.extract()) return lift(Left(error));
     return lift(Right(null));
   });
+
+export const fromNullablePromiseCb = <T>(
+  nullablePromiseCb: () => Promise<T | null | undefined>,
+): MaybeAsync<T> =>
+  liftPromise(nullablePromiseCb).chain((yo) =>
+    liftMaybe(Maybe.fromNullable(yo)),
+  );

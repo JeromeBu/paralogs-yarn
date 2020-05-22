@@ -13,9 +13,9 @@ import {
   liftPromise as liftPromiseToMaybeAsync,
 } from "purify-ts/MaybeAsync";
 
-import { UserEntity } from "../../../../../domain/entities/UserEntity";
-import { UserRepo } from "../../../../../domain/gateways/UserRepo";
-import { Email } from "../../../../../domain/valueObjects/user/Email";
+import { UserEntity } from "../../../../../domain/writes/entities/UserEntity";
+import { UserRepo } from "../../../../../domain/writes/gateways/UserRepo";
+import { Email } from "../../../../../domain/writes/valueObjects/user/Email";
 import { knexError } from "../knex/knexErrors";
 import { UserPersisted } from "./UserPersistence";
 import { userPersistenceMapper } from "./userPersistenceMapper";

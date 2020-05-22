@@ -1,24 +1,21 @@
 import { expectEitherToMatchError, Result } from "@paralogs/back-shared";
 import { CurrentUserWithAuthToken } from "@paralogs/shared";
 
-import { InMemoryUserRepo } from "../../../adapters/secondaries/repositories/inMemory/InMemoryUserRepo";
-import { TestHashAndTokenManager } from "../../../adapters/secondaries/TestHashAndTokenManager";
-import { makeUserEntityCreator } from "../../testBuilders/makeUserEntityCreator";
-import {
-  LoginCommandHandler,
-  loginCommandHandlerCreator,
-} from "./LoginCommandHandler";
+import { InMemoryUserRepo } from "../../adapters/secondaries/repositories/inMemory/InMemoryUserRepo";
+import { TestHashAndTokenManager } from "../../adapters/secondaries/TestHashAndTokenManager";
+import { makeUserEntityCreator } from "../writes/testBuilders/makeUserEntityCreator";
+import { LoginRead, loginReadCreator } from "./LoginRead";
 
 describe("User Login", () => {
   let hashAndTokenManager: TestHashAndTokenManager;
-  let loginUseCase: LoginCommandHandler;
+  let loginUseCase: LoginRead;
   let userRepo: InMemoryUserRepo;
   let makeUserEntity: ReturnType<typeof makeUserEntityCreator>;
 
   beforeEach(() => {
     hashAndTokenManager = new TestHashAndTokenManager();
     userRepo = new InMemoryUserRepo();
-    loginUseCase = loginCommandHandlerCreator({
+    loginUseCase = loginReadCreator({
       userRepo,
       hashAndTokenManager,
     });

@@ -1,5 +1,5 @@
 import { PilotDTO } from "@paralogs/shared";
-import R from "ramda";
+import * as R from "ramda";
 import { BehaviorSubject, Observable } from "rxjs";
 import { filter } from "rxjs/operators";
 

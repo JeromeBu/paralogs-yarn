@@ -8,7 +8,6 @@ module.exports = {
   plugins: [
     "@typescript-eslint",
     "simple-import-sort",
-    "eslint-comments",
     "react",
     "react-hooks",
     "promise",
@@ -16,36 +15,15 @@ module.exports = {
   extends: [
     "airbnb-typescript",
     "plugin:@typescript-eslint/recommended",
-    "plugin:eslint-comments/recommended",
     "plugin:promise/recommended",
     "prettier",
     "prettier/react",
     "prettier/@typescript-eslint",
   ],
-  // extends: [
-  //   "airbnb-typescript",
-  //   "airbnb/hooks",
-  //   "plugin:@typescript-eslint/eslint-recommended",
-  //   "plugin:@typescript-eslint/recommended",
-  //   "prettier/@typescript-eslint",
-  //   "plugin:prettier/recommended",
-  // ],
-  // plugins: [
-  //   "prettier",
-  //   "@typescript-eslint",
-  //   "react",
-  //   "react-hooks",
-  //   "simple-import-sort",
-  // ],
-  // settings: {
-  //   react: {
-  //     version: "detect",
-  //   },
-  // },
   env: {
     es6: true,
     browser: true,
-    // node: true,
+    node: true,
     jest: true,
   },
   rules: {

@@ -9,17 +9,17 @@ import {
 import { CurrentUserWithAuthToken, LoginParams } from "@paralogs/shared";
 import { liftEither, liftPromise } from "purify-ts/EitherAsync";
 
-import { HashAndTokenManager } from "../../gateways/HashAndTokenManager";
-import { UserRepo } from "../../gateways/UserRepo";
-import { userMapper } from "../../mappers/user.mapper";
-import { Email } from "../../valueObjects/user/Email";
+import { HashAndTokenManager } from "../writes/gateways/HashAndTokenManager";
+import { UserRepo } from "../writes/gateways/UserRepo";
+import { userMapper } from "../writes/mappers/user.mapper";
+import { Email } from "../writes/valueObjects/user/Email";
 
 interface LoginDependencies {
   userRepo: UserRepo;
   hashAndTokenManager: HashAndTokenManager;
 }
 
-export const loginCommandHandlerCreator = ({
+export const loginReadCreator = ({
   userRepo,
   hashAndTokenManager,
 }: LoginDependencies) => (
@@ -44,4 +44,4 @@ export const loginCommandHandlerCreator = ({
   });
 };
 
-export type LoginCommandHandler = ReturnType<typeof loginCommandHandlerCreator>;
+export type LoginRead = ReturnType<typeof loginReadCreator>;

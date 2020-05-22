@@ -7,8 +7,8 @@ import {
 import { UpdateUserDTO } from "@paralogs/shared";
 import { liftEither } from "purify-ts/EitherAsync";
 
-import { UserRepo } from "../../gateways/UserRepo";
-import { userMapper } from "../../mappers/user.mapper";
+import { UserRepo } from "../gateways/UserRepo";
+import { userMapper } from "../mappers/user.mapper";
 
 type UpdateUserDependencies = {
   userRepo: UserRepo;
