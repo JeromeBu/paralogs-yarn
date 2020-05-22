@@ -1,8 +1,9 @@
 import { combineEithers, PersonName } from "@paralogs/back-shared";
+import { UserDTO } from "@paralogs/shared";
 
-import { UserEntity } from "../../../../../domain/entities/UserEntity";
-import { Email } from "../../../../../domain/valueObjects/user/Email";
-import { UserPersistence } from "./UserPersistence";
+import { UserEntity } from "../../../../../domain/writes/entities/UserEntity";
+import { Email } from "../../../../../domain/writes/valueObjects/user/Email";
+import { UserPersisted, UserPersistence } from "./UserPersistence";
 
 export const userPersistenceMapper = {
   toPersistence: (userEntity: UserEntity): UserPersistence => {
@@ -46,4 +47,10 @@ export const userPersistenceMapper = {
       })
       .extract() as UserEntity;
   },
+  toDTO: (userPersisted: UserPersisted): UserDTO => ({
+    uuid: userPersisted.uuid,
+    email: userPersisted.email,
+    firstName: userPersisted.first_name,
+    lastName: userPersisted.last_name,
+  }),
 };

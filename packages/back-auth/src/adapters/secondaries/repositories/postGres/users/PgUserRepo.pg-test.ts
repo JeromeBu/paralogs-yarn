@@ -1,10 +1,10 @@
 import { expectEitherToMatchError, expectRight } from "@paralogs/back-shared";
 
-import { UserEntity } from "../../../../../domain/entities/UserEntity";
-import { UserRepo } from "../../../../../domain/gateways/UserRepo";
-import { makeUserEntityCreator } from "../../../../../domain/testBuilders/makeUserEntityCreator";
-import { Email } from "../../../../../domain/valueObjects/user/Email";
-import { TestHashAndTokenManager } from "../../../../secondaries/TestHashAndTokenManager";
+import { UserEntity } from "../../../../../domain/writes/entities/UserEntity";
+import { UserRepo } from "../../../../../domain/writes/gateways/UserRepo";
+import { makeUserEntityCreator } from "../../../../../domain/writes/testBuilders/makeUserEntityCreator";
+import { Email } from "../../../../../domain/writes/valueObjects/user/Email";
+import { TestHashAndTokenManager } from "../../../TestHashAndTokenManager";
 import { getKnex, resetDb } from "../knex/db";
 import { PgUserRepo } from "./PgUserRepo";
 import { UserPersisted, UserPersistence } from "./UserPersistence";

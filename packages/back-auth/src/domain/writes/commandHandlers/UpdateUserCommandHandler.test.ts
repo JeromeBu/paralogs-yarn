@@ -7,10 +7,10 @@ import {
 
 import { InMemoryUserRepo } from "../../../adapters/secondaries/repositories/inMemory/InMemoryUserRepo";
 import { TestHashAndTokenManager } from "../../../adapters/secondaries/TestHashAndTokenManager";
-import { UserEntity } from "../../entities/UserEntity";
-import { HashAndTokenManager } from "../../gateways/HashAndTokenManager";
-import { userMapper } from "../../mappers/user.mapper";
-import { setupCurrentUserCreator } from "../../testBuilders/makeUserEntityCreator";
+import { UserEntity } from "../entities/UserEntity";
+import { HashAndTokenManager } from "../gateways/HashAndTokenManager";
+import { userMapper } from "../mappers/user.mapper";
+import { setupCurrentUserCreator } from "../testBuilders/makeUserEntityCreator";
 import {
   UpdateUserCommandHandler,
   updateUserCommandHandlerCreator,

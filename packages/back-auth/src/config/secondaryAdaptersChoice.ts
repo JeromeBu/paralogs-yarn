@@ -3,13 +3,19 @@ import {
   EventBus,
   RedisEventBus,
 } from "@paralogs/back-shared";
+import { List } from "purify-ts";
+import { liftMaybe } from "purify-ts/MaybeAsync";
 
+import { createPgUserQueries } from "../adapters/secondaries/queries/PgUserQueries";
 import { InMemoryUserRepo } from "../adapters/secondaries/repositories/inMemory/InMemoryUserRepo";
 import { getKnex } from "../adapters/secondaries/repositories/postGres/knex/db";
 import { PgUserRepo } from "../adapters/secondaries/repositories/postGres/users/PgUserRepo";
-import { UserRepo } from "../domain/gateways/UserRepo";
+import { UserQueries } from "../domain/reads/gateways/UserQueries";
+import { UserRepo } from "../domain/writes/gateways/UserRepo";
+import { userMapper } from "../domain/writes/mappers/user.mapper";
 import { ENV, EventBusOption, RepositoriesOption } from "./env";
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const shouldNeverBeCalled = (arg: never) => {
   throw new Error("Should never be called");
 };
@@ -18,27 +24,57 @@ interface Repositories {
   user: UserRepo;
 }
 
-const getInMemoryRepos = (): Repositories => ({
-  user: new InMemoryUserRepo(),
-});
+interface Queries {
+  user: UserQueries;
+}
 
-const getPgRepos = (): Repositories => {
+interface Persistence {
+  repositories: Repositories;
+  queries: Queries;
+}
+
+const getInMemoryPersistence = (): Persistence => {
+  const userRepo = new InMemoryUserRepo();
+  return {
+    repositories: {
+      user: userRepo,
+    },
+    queries: {
+      user: {
+        findByUuid: (userUuid) =>
+          liftMaybe(
+            List.find(({ uuid }) => uuid === userUuid, userRepo.users),
+          ).map((userEntity) => ({
+            currentUser: userMapper.entityToDTO(userEntity),
+            token: userEntity.getProps().authToken,
+          })),
+      },
+    },
+  };
+};
+
+const getPgPersistence = (): Persistence => {
   const knex = getKnex(ENV.environment);
 
   // eslint-disable-next-line @typescript-eslint/no-floating-promises
   knex.migrate.latest();
   // TODO: await when updating eslint and prettier
   return {
-    user: new PgUserRepo(knex),
+    repositories: {
+      user: new PgUserRepo(knex),
+    },
+    queries: { user: createPgUserQueries(knex) },
   };
 };
 
-const getRepositories = (repositories: RepositoriesOption): Repositories => {
+const getRepositoriesAndQueries = (
+  repositories: RepositoriesOption,
+): Persistence => {
   switch (repositories) {
     case "IN_MEMORY":
-      return getInMemoryRepos();
+      return getInMemoryPersistence();
     case "PG":
-      return getPgRepos();
+      return getPgPersistence();
     default:
       return shouldNeverBeCalled(repositories);
   }
@@ -55,6 +91,7 @@ const getEventBus = (repositories: EventBusOption): EventBus => {
   }
 };
 
-export const repositories = getRepositories(ENV.repositories);
-
+export const { repositories, queries } = getRepositoriesAndQueries(
+  ENV.repositories,
+);
 export const eventBus = getEventBus(ENV.eventBus);

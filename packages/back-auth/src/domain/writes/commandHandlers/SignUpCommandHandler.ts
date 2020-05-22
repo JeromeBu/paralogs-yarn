@@ -5,10 +5,10 @@ import {
   UuidGenerator,
 } from "@paralogs/shared";
 
-import { UserEntity } from "../../entities/UserEntity";
-import { HashAndTokenManager } from "../../gateways/HashAndTokenManager";
-import { UserRepo } from "../../gateways/UserRepo";
-import { userMapper } from "../../mappers/user.mapper";
+import { UserEntity } from "../entities/UserEntity";
+import { HashAndTokenManager } from "../gateways/HashAndTokenManager";
+import { UserRepo } from "../gateways/UserRepo";
+import { userMapper } from "../mappers/user.mapper";
 
 interface SignUpDependencies {
   userRepo: UserRepo;

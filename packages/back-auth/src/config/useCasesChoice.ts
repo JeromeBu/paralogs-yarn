@@ -1,17 +1,18 @@
 import { ActualUuidGenerator } from "@paralogs/shared";
 
 import { ProductionHashAndTokenManager } from "../adapters/secondaries/ProductionHashAndTokenManager";
-import { getCurrentUserUseCaseCreator } from "../domain/useCases/auth/GetCurrentUser";
-import { loginCommandHandlerCreator } from "../domain/useCases/auth/LoginCommandHandler";
-import { signUpCommandHandlerCreator } from "../domain/useCases/auth/SignUpCommandHandler";
-import { eventBus, repositories } from "./secondaryAdaptersChoice";
+import { getCurrentUserReadCreator } from "../domain/reads/GetCurrentUserRead";
+import { loginReadCreator } from "../domain/reads/LoginRead";
+import { signUpCommandHandlerCreator } from "../domain/writes/commandHandlers/SignUpCommandHandler";
+import { eventBus, queries, repositories } from "./secondaryAdaptersChoice";
 
 const userRepo = repositories.user;
+const userQueries = queries.user;
 const hashAndTokenManager = new ProductionHashAndTokenManager();
 const uuidGenerator = new ActualUuidGenerator();
 
 export const authUseCases = {
-  login: loginCommandHandlerCreator({
+  login: loginReadCreator({
     userRepo,
     hashAndTokenManager,
   }),
@@ -21,7 +22,7 @@ export const authUseCases = {
     hashAndTokenManager,
     uuidGenerator,
   }),
-  getMe: getCurrentUserUseCaseCreator({
-    userRepo,
+  getMe: getCurrentUserReadCreator({
+    userQueries,
   }),
 };

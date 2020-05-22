@@ -4,7 +4,7 @@ import { RootState, wingActions } from "@paralogs/front-core";
 import { AddWingDTO, addWingSchema, generateUuid } from "@paralogs/shared";
 import { format } from "date-fns";
 import { Form, Formik } from "formik";
-import R from "ramda";
+import * as R from "ramda";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 

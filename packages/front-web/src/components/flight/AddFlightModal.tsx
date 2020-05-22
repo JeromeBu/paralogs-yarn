@@ -12,7 +12,7 @@ import { flightActions, RootState, wingActions } from "@paralogs/front-core";
 import { AddFlightDTO, generateUuid } from "@paralogs/shared";
 import { format } from "date-fns";
 import { Form, Formik } from "formik";
-import R from "ramda";
+import * as R from "ramda";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
