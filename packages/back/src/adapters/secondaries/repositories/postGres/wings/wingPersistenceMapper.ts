@@ -1,4 +1,6 @@
-import { WingEntity } from "../../../../../domain/entities/WingEntity";
+import { WingDTO } from "@paralogs/shared";
+
+import { WingEntity } from "../../../../../domain/writes/entities/WingEntity";
 import { WingPersistence } from "./WingPersistence";
 
 export const wingPersistenceMapper = {
@@ -46,4 +48,21 @@ export const wingPersistenceMapper = {
     wingEntity.setIdentity(id);
     return wingEntity;
   },
+  toDTO: ({
+    uuid,
+    pilot_uuid,
+    brand,
+    model,
+    owner_from,
+    owner_until,
+    flight_time_prior_to_own,
+  }: WingPersistence): WingDTO => ({
+    uuid,
+    pilotUuid: pilot_uuid,
+    brand,
+    model,
+    ownerFrom: owner_from,
+    ownerUntil: owner_until ?? undefined,
+    flightTimePriorToOwn: flight_time_prior_to_own,
+  }),
 };

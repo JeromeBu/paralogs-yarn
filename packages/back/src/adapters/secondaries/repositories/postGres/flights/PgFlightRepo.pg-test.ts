@@ -1,12 +1,12 @@
 import { generateUuid } from "@paralogs/shared";
 
-import { FlightEntity } from "../../../../../domain/entities/FlightEntity";
-import { PilotEntity } from "../../../../../domain/entities/PilotEntity";
-import { FlightRepo } from "../../../../../domain/gateways/FlightRepo";
-import { WingRepo } from "../../../../../domain/gateways/WingRepo";
-import { makeFlightEntity } from "../../../../../domain/testBuilders/makeFlightEntity";
-import { makePilotEntity } from "../../../../../domain/testBuilders/makePilotEntity";
-import { makeWingEntity } from "../../../../../domain/testBuilders/makeWingEntity";
+import { FlightEntity } from "../../../../../domain/writes/entities/FlightEntity";
+import { PilotEntity } from "../../../../../domain/writes/entities/PilotEntity";
+import { FlightRepo } from "../../../../../domain/writes/gateways/FlightRepo";
+import { WingRepo } from "../../../../../domain/writes/gateways/WingRepo";
+import { makeFlightEntity } from "../../../../../domain/writes/testBuilders/makeFlightEntity";
+import { makePilotEntity } from "../../../../../domain/writes/testBuilders/makePilotEntity";
+import { makeWingEntity } from "../../../../../domain/writes/testBuilders/makeWingEntity";
 import { getKnex, resetDb } from "../db";
 import { pilotPersistenceMapper } from "../pilots/pilotPersistenceMapper";
 import { PgWingRepo } from "../wings/PgWingRepo";

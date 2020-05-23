@@ -8,8 +8,8 @@ import Knex from "knex";
 import { Maybe } from "purify-ts/Maybe";
 import { liftMaybe, liftPromise } from "purify-ts/MaybeAsync";
 
-import { WingEntity } from "../../../../../domain/entities/WingEntity";
-import { WingRepo } from "../../../../../domain/gateways/WingRepo";
+import { WingEntity } from "../../../../../domain/writes/entities/WingEntity";
+import { WingRepo } from "../../../../../domain/writes/gateways/WingRepo";
 import { knexError } from "../knex/knexErrors";
 import { PilotPersisted } from "../pilots/PilotPersistence";
 import { WingPersisted } from "./WingPersistence";

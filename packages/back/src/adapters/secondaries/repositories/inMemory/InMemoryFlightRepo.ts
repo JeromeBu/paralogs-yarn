@@ -8,8 +8,8 @@ import { FlightUuid, PilotUuid } from "@paralogs/shared";
 import { List } from "purify-ts";
 import { liftMaybe } from "purify-ts/MaybeAsync";
 
-import { FlightEntity } from "../../../../domain/entities/FlightEntity";
-import { FlightRepo } from "../../../../domain/gateways/FlightRepo";
+import { FlightEntity } from "../../../../domain/writes/entities/FlightEntity";
+import { FlightRepo } from "../../../../domain/writes/gateways/FlightRepo";
 
 export class InMemoryFlightRepo implements FlightRepo {
   private _flights: FlightEntity[] = [];

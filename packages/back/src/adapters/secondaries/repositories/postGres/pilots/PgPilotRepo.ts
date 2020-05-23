@@ -8,8 +8,8 @@ import {
   liftPromise as liftPromiseToMaybeAsync,
 } from "purify-ts/MaybeAsync";
 
-import { PilotEntity } from "../../../../../domain/entities/PilotEntity";
-import { PilotRepo } from "../../../../../domain/gateways/PilotRepo";
+import { PilotEntity } from "../../../../../domain/writes/entities/PilotEntity";
+import { PilotRepo } from "../../../../../domain/writes/gateways/PilotRepo";
 import { knexError } from "../knex/knexErrors";
 import { PilotPersisted } from "./PilotPersistence";
 import { pilotPersistenceMapper } from "./pilotPersistenceMapper";

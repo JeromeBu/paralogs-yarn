@@ -4,7 +4,7 @@ import { createAndSavePersistenceUser } from "../persistenceTestHelpers";
 import { getKnex, resetDb } from "../repositories/postGres/knex/db";
 import { createPgUserQueries } from "./PgUserQueries";
 
-describe("Pg user queries", () => {
+describe("Pg user reads", () => {
   const knex = getKnex("test");
   let pgUserQueries: ReturnType<typeof createPgUserQueries>;
   const johnEmail = "john@mail.com";

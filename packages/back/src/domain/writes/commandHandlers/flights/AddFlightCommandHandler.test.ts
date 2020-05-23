@@ -6,7 +6,7 @@ import {
   makeFlightDTO,
 } from "@paralogs/shared";
 
-import { InMemoryFlightRepo } from "../../../adapters/secondaries/repositories/inMemory/InMemoryFlightRepo";
+import { InMemoryFlightRepo } from "../../../../adapters/secondaries/repositories/inMemory/InMemoryFlightRepo";
 import { flightMapper } from "../../mappers/flight.mapper";
 import {
   AddFlightCommandHandler,

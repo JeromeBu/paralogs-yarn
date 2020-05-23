@@ -1,6 +1,7 @@
 import { combineEithers, PersonName } from "@paralogs/back-shared";
+import { PilotDTO } from "@paralogs/shared";
 
-import { PilotEntity } from "../../../../../domain/entities/PilotEntity";
+import { PilotEntity } from "../../../../../domain/writes/entities/PilotEntity";
 import { PilotPersistence } from "./PilotPersistence";
 
 export const pilotPersistenceMapper = {
@@ -31,4 +32,9 @@ export const pilotPersistenceMapper = {
       })
       .extract() as PilotEntity;
   },
+  toDTO: ({ uuid, first_name, last_name }: PilotPersistence): PilotDTO => ({
+    uuid,
+    firstName: first_name,
+    lastName: last_name,
+  }),
 };
