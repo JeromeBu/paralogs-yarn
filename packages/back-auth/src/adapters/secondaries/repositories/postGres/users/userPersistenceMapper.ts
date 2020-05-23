@@ -47,7 +47,7 @@ export const userPersistenceMapper = {
       })
       .extract() as UserEntity;
   },
-  toDTO: (userPersisted: UserPersisted): UserDTO => ({
+  toDTO: (userPersisted: UserPersistence): UserDTO => ({
     uuid: userPersisted.uuid,
     email: userPersisted.email,
     firstName: userPersisted.first_name,

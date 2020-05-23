@@ -1,11 +1,11 @@
 import { expectEitherToMatchError, expectRight } from "@paralogs/back-shared";
 import { generateUuid, UpdateWingDTO } from "@paralogs/shared";
 
-import { PilotEntity } from "../../../../../domain/entities/PilotEntity";
-import { WingEntity } from "../../../../../domain/entities/WingEntity";
-import { WingRepo } from "../../../../../domain/gateways/WingRepo";
-import { makePilotEntity } from "../../../../../domain/testBuilders/makePilotEntity";
-import { makeWingEntity } from "../../../../../domain/testBuilders/makeWingEntity";
+import { PilotEntity } from "../../../../../domain/writes/entities/PilotEntity";
+import { WingEntity } from "../../../../../domain/writes/entities/WingEntity";
+import { WingRepo } from "../../../../../domain/writes/gateways/WingRepo";
+import { makePilotEntity } from "../../../../../domain/writes/testBuilders/makePilotEntity";
+import { makeWingEntity } from "../../../../../domain/writes/testBuilders/makeWingEntity";
 import { getKnex, resetDb } from "../db";
 import { PilotPersistence } from "../pilots/PilotPersistence";
 import { pilotPersistenceMapper } from "../pilots/pilotPersistenceMapper";

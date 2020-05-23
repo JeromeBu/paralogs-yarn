@@ -2,9 +2,9 @@ import { expectRight, PersonName } from "@paralogs/back-shared";
 import { UpdatePilotDTO } from "@paralogs/shared";
 import { liftEither } from "purify-ts/EitherAsync";
 
-import { PilotEntity } from "../../../../../domain/entities/PilotEntity";
-import { PilotRepo } from "../../../../../domain/gateways/PilotRepo";
-import { makePilotEntity } from "../../../../../domain/testBuilders/makePilotEntity";
+import { PilotEntity } from "../../../../../domain/writes/entities/PilotEntity";
+import { PilotRepo } from "../../../../../domain/writes/gateways/PilotRepo";
+import { makePilotEntity } from "../../../../../domain/writes/testBuilders/makePilotEntity";
 import { getKnex, resetDb } from "../db";
 import { PgPilotRepo } from "./PgPilotRepo";
 import { PilotPersistence } from "./PilotPersistence";

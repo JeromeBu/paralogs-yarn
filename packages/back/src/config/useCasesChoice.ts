@@ -1,10 +1,10 @@
-import { addFlightCommandHandlerCreator } from "../domain/useCases/flights/AddFlightCommandHandler";
-import { retrieveFlightsUseCaseCreator } from "../domain/useCases/flights/RetrieveFlightsUseCase";
-import { createPilotCommandHandlerCreator } from "../domain/useCases/pilots/CreatePilotCommandHandler";
-import { updatePilotCommandHandlerCreator } from "../domain/useCases/pilots/UpdatePilotCommandHandler";
-import { addWingCommandHandlerCreator } from "../domain/useCases/wings/AddWingCommandHandler";
-import { retrieveWingsUseCaseCreator } from "../domain/useCases/wings/RetrieveWingsUseCase";
-import { updateWingCommandHandlerCreator } from "../domain/useCases/wings/UpdateWingCommandHandler";
+import { retrieveFlightsUseCaseCreator } from "../domain/reads/flights/RetrieveFlightsUseCase";
+import { retrieveWingsUseCaseCreator } from "../domain/reads/wings/RetrieveWingsUseCase";
+import { addFlightCommandHandlerCreator } from "../domain/writes/commandHandlers/flights/AddFlightCommandHandler";
+import { createPilotCommandHandlerCreator } from "../domain/writes/commandHandlers/pilots/CreatePilotCommandHandler";
+import { updatePilotCommandHandlerCreator } from "../domain/writes/commandHandlers/pilots/UpdatePilotCommandHandler";
+import { addWingCommandHandlerCreator } from "../domain/writes/commandHandlers/wings/AddWingCommandHandler";
+import { updateWingCommandHandlerCreator } from "../domain/writes/commandHandlers/wings/UpdateWingCommandHandler";
 import { repositories } from "./secondaryAdaptersChoice";
 
 export const pilotsUseCases = {

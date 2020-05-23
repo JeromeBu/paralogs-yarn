@@ -9,7 +9,7 @@ import jwt from "jsonwebtoken";
 import supertest from "supertest";
 
 import { repositories } from "../../../config/secondaryAdaptersChoice";
-import { pilotMapper } from "../../../domain/mappers/pilotMapper";
+import { pilotMapper } from "../../../domain/writes/mappers/pilotMapper";
 import { app } from "../express/server";
 import { subscribeToEvents } from "./pilots.subscribers";
 

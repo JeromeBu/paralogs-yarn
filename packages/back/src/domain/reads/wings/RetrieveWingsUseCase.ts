@@ -3,14 +3,14 @@ import { PilotUuid, WingDTO } from "@paralogs/shared";
 import { Right } from "purify-ts";
 import { fromPromise } from "purify-ts/EitherAsync";
 
-import { WingRepo } from "../../gateways/WingRepo";
-import { wingMapper } from "../../mappers/wing.mapper";
+import { wingMapper } from "../../writes/mappers/wing.mapper";
+import { WingQueries } from "../gateways/WingQueries";
 
-export const retrieveWingsUseCaseCreator = (wingRepo: WingRepo) => (
+export const retrieveWingsUseCaseCreator = (wingQueries: WingQueries) => (
   currentUserUuid: PilotUuid,
 ): ResultAsync<WingDTO[]> => {
   return fromPromise(() =>
-    wingRepo
+    wingQueries
       .findByPilotUuid(currentUserUuid)
       .then((wingEntities) => Right(wingEntities.map(wingMapper.entityToDTO))),
   );

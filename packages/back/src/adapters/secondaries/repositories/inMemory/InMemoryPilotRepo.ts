@@ -9,8 +9,8 @@ import { findByUuidAndReplace, PilotUuid } from "@paralogs/shared";
 import { List } from "purify-ts";
 import { liftMaybe } from "purify-ts/MaybeAsync";
 
-import { PilotEntity } from "../../../../domain/entities/PilotEntity";
-import { PilotRepo } from "../../../../domain/gateways/PilotRepo";
+import { PilotEntity } from "../../../../domain/writes/entities/PilotEntity";
+import { PilotRepo } from "../../../../domain/writes/gateways/PilotRepo";
 
 export class InMemoryPilotRepo implements PilotRepo {
   private _pilots: PilotEntity[] = [];

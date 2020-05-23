@@ -13,8 +13,6 @@ export const createAndSavePersistenceUser = async (
   const makeUserEntity = makeUserEntityCreator(new TestHashAndTokenManager());
   const userEntity = await makeUserEntity(userParams);
   const userPersistence = userPersistenceMapper.toPersistence(userEntity);
-  const [persistedId] = await knex<UserPersistence>("users")
-    .insert(userPersistence)
-    .returning("id");
-  return userPersistenceMapper.toDTO({ ...userPersistence, id: persistedId });
+  await knex<UserPersistence>("users").insert(userPersistence);
+  return userPersistenceMapper.toDTO(userPersistence);
 };

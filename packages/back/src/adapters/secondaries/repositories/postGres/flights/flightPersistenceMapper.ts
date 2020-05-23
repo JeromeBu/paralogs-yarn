@@ -1,4 +1,4 @@
-import { FlightEntity } from "../../../../../domain/entities/FlightEntity";
+import { FlightEntity } from "../../../../../domain/writes/entities/FlightEntity";
 import { FlightPersistence } from "./FlightPersistence";
 
 export const flightPersistenceMapper = {

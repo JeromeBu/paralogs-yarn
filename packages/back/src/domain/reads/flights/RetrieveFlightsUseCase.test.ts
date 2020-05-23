@@ -2,12 +2,12 @@ import { generateUuid, makeFlightDTO } from "@paralogs/shared";
 
 import { InMemoryFlightRepo } from "../../../adapters/secondaries/repositories/inMemory/InMemoryFlightRepo";
 import { InMemoryPilotRepo } from "../../../adapters/secondaries/repositories/inMemory/InMemoryPilotRepo";
-import { PilotEntity } from "../../entities/PilotEntity";
-import { setupCurrentPilotCreator } from "../../testBuilders/makePilotEntity";
 import {
   AddFlightCommandHandler,
   addFlightCommandHandlerCreator,
-} from "./AddFlightCommandHandler";
+} from "../../writes/commandHandlers/flights/AddFlightCommandHandler";
+import { PilotEntity } from "../../writes/entities/PilotEntity";
+import { setupCurrentPilotCreator } from "../../writes/testBuilders/makePilotEntity";
 import {
   RetrieveFlightsUseCase,
   retrieveFlightsUseCaseCreator,

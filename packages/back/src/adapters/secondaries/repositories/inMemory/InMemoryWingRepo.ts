@@ -3,8 +3,8 @@ import { findByUuidAndReplace, PilotUuid, WingUuid } from "@paralogs/shared";
 import { List } from "purify-ts";
 import { liftMaybe } from "purify-ts/MaybeAsync";
 
-import { WingEntity } from "../../../../domain/entities/WingEntity";
-import { WingRepo } from "../../../../domain/gateways/WingRepo";
+import { WingEntity } from "../../../../domain/writes/entities/WingEntity";
+import { WingRepo } from "../../../../domain/writes/gateways/WingRepo";
 
 export class InMemoryWingRepo implements WingRepo {
   private _wings: WingEntity[] = [];

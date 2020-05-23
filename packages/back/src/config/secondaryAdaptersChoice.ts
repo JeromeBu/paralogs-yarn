@@ -11,11 +11,12 @@ import { getKnex } from "../adapters/secondaries/repositories/postGres/db";
 import { PgFlightRepo } from "../adapters/secondaries/repositories/postGres/flights/PgFlightRepo";
 import { PgPilotRepo } from "../adapters/secondaries/repositories/postGres/pilots/PgPilotRepo";
 import { PgWingRepo } from "../adapters/secondaries/repositories/postGres/wings/PgWingRepo";
-import { FlightRepo } from "../domain/gateways/FlightRepo";
-import { PilotRepo } from "../domain/gateways/PilotRepo";
-import { WingRepo } from "../domain/gateways/WingRepo";
+import { FlightRepo } from "../domain/writes/gateways/FlightRepo";
+import { PilotRepo } from "../domain/writes/gateways/PilotRepo";
+import { WingRepo } from "../domain/writes/gateways/WingRepo";
 import { ENV, EventBusOption, RepositoriesOption } from "./env";
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const shouldNeverBeCalled = (arg: never) => {
   throw new Error("Should never be called");
 };

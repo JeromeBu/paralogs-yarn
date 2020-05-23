@@ -14,8 +14,8 @@ import {
   liftPromise as liftPromiseToMaybeAsync,
 } from "purify-ts/MaybeAsync";
 
-import { FlightEntity } from "../../../../../domain/entities/FlightEntity";
-import { FlightRepo } from "../../../../../domain/gateways/FlightRepo";
+import { FlightEntity } from "../../../../../domain/writes/entities/FlightEntity";
+import { FlightRepo } from "../../../../../domain/writes/gateways/FlightRepo";
 import { PilotPersisted } from "../pilots/PilotPersistence";
 import { WingPersisted } from "../wings/WingPersistence";
 import { FlightPersisted, FlightPersistence } from "./FlightPersistence";

@@ -3,15 +3,15 @@ import { generateUuid, makeWingDTO, WingDTO } from "@paralogs/shared";
 
 import { InMemoryPilotRepo } from "../../../adapters/secondaries/repositories/inMemory/InMemoryPilotRepo";
 import { InMemoryWingRepo } from "../../../adapters/secondaries/repositories/inMemory/InMemoryWingRepo";
-import { PilotEntity } from "../../entities/PilotEntity";
-import {
-  setupCurrentPilotCreator,
-  SetupCurrentUser,
-} from "../../testBuilders/makePilotEntity";
 import {
   AddWingCommandHandler,
   addWingCommandHandlerCreator,
-} from "./AddWingCommandHandler";
+} from "../../writes/commandHandlers/wings/AddWingCommandHandler";
+import { PilotEntity } from "../../writes/entities/PilotEntity";
+import {
+  setupCurrentPilotCreator,
+  SetupCurrentUser,
+} from "../../writes/testBuilders/makePilotEntity";
 import {
   RetrieveWingsUseCase,
   retrieveWingsUseCaseCreator,
