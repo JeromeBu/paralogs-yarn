@@ -1,1 +1,3 @@
-export type Persisted<T> = T & { id: number };
+import { RequireField } from "@paralogs/shared";
+
+export type Persisted<T extends { id?: number }> = RequireField<T, "id">;
