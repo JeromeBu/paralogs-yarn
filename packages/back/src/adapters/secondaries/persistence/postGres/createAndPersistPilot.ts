@@ -1,9 +1,9 @@
 import { PilotDTO } from "@paralogs/shared";
 import Knex from "knex";
 
-import { makePilotEntity } from "../../domain/writes/testBuilders/makePilotEntity";
-import { PilotPersistence } from "./repositories/postGres/pilots/PilotPersistence";
-import { pilotPersistenceMapper } from "./repositories/postGres/pilots/pilotPersistenceMapper";
+import { makePilotEntity } from "../../../../domain/writes/testBuilders/makePilotEntity";
+import { PilotPersistence } from "./pilots/PilotPersistence";
+import { pilotPersistenceMapper } from "./pilots/pilotPersistenceMapper";
 
 export const createAndPersistPilot = async (
   knex: Knex<any, unknown[]>,

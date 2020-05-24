@@ -1,10 +1,10 @@
 import { WingDTO } from "@paralogs/shared";
 import Knex from "knex";
 
-import { makeWingEntity } from "../../domain/writes/testBuilders/makeWingEntity";
-import { PilotPersisted } from "./repositories/postGres/pilots/PilotPersistence";
-import { WingPersistence } from "./repositories/postGres/wings/WingPersistence";
-import { wingPersistenceMapper } from "./repositories/postGres/wings/wingPersistenceMapper";
+import { makeWingEntity } from "../../../../domain/writes/testBuilders/makeWingEntity";
+import { PilotPersisted } from "./pilots/PilotPersistence";
+import { WingPersistence } from "./wings/WingPersistence";
+import { wingPersistenceMapper } from "./wings/wingPersistenceMapper";
 
 export const createAndPersistWing = async (
   knex: Knex<any, unknown[]>,

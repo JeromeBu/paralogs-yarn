@@ -7,7 +7,7 @@ import { WingRepo } from "../../../../../domain/writes/gateways/WingRepo";
 import { makeFlightEntity } from "../../../../../domain/writes/testBuilders/makeFlightEntity";
 import { makePilotEntity } from "../../../../../domain/writes/testBuilders/makePilotEntity";
 import { makeWingEntity } from "../../../../../domain/writes/testBuilders/makeWingEntity";
-import { getKnex, resetDb } from "../db";
+import { getKnex, resetDb } from "../knex/db";
 import { pilotPersistenceMapper } from "../pilots/pilotPersistenceMapper";
 import { PgWingRepo } from "../wings/PgWingRepo";
 import { WingPersistence } from "../wings/WingPersistence";

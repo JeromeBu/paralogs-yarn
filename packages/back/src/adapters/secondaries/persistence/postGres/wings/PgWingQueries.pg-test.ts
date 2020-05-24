@@ -2,7 +2,7 @@ import { generateUuid, PilotDTO, PilotUuid } from "@paralogs/shared";
 
 import { createAndPersistPilot } from "../createAndPersistPilot";
 import { createAndPersistWing } from "../createAndPersistWing";
-import { getKnex, resetDb } from "../repositories/postGres/db";
+import { getKnex, resetDb } from "../knex/db";
 import { createPgWingQueries } from "./PgWingQueries";
 
 describe("Pg user reads", () => {

@@ -1,6 +1,6 @@
 import { makePilotDTO, PilotDTO } from "@paralogs/shared";
 
-import { InMemoryPilotRepo } from "../../../adapters/secondaries/repositories/inMemory/InMemoryPilotRepo";
+import { InMemoryPilotRepo } from "../../../adapters/secondaries/persistence/inMemory/InMemoryPilotRepo";
 import { PilotEntity } from "../entities/PilotEntity";
 
 export const makePilotEntity = async (

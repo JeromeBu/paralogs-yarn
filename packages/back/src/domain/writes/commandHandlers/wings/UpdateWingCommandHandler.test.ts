@@ -1,7 +1,7 @@
 import { expectEitherToMatchError, expectRight } from "@paralogs/back-shared";
 import { makeWingDTO } from "@paralogs/shared";
 
-import { InMemoryWingRepo } from "../../../../adapters/secondaries/repositories/inMemory/InMemoryWingRepo";
+import { InMemoryWingRepo } from "../../../../adapters/secondaries/persistence/inMemory/InMemoryWingRepo";
 import { wingMapper } from "../../mappers/wing.mapper";
 import { makeWingEntity } from "../../testBuilders/makeWingEntity";
 import {

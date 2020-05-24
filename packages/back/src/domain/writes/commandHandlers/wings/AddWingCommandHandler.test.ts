@@ -1,7 +1,7 @@
 import { AppError, Result } from "@paralogs/back-shared";
 import { generateUuid, makeWingDTO, WingDTO } from "@paralogs/shared";
 
-import { InMemoryWingRepo } from "../../../../adapters/secondaries/repositories/inMemory/InMemoryWingRepo";
+import { InMemoryWingRepo } from "../../../../adapters/secondaries/persistence/inMemory/InMemoryWingRepo";
 import {
   AddWingCommandHandler,
   addWingCommandHandlerCreator,

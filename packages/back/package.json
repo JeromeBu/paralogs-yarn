@@ -19,9 +19,9 @@
     "dev": "ts-node src/adapters/primaries/express/start.ts",
     "start:dev": "nodemon",
     "precommit": "lint-staged",
-    "create-migration": "knex migrate:make --knexfile ./src/adapters/secondaries/repositories/postGres/knex/knexfile.ts",
-    "migrate:latest": "knex migrate:latest --knexfile ./src/adapters/secondaries/repositories/postGres/knex/knexfile.ts",
-    "migrate:rollback": "knex migrate:rollback --all --knexfile ./src/adapters/secondaries/repositories/postGres/knex/knexfile.ts"
+    "create-migration": "knex migrate:make --knexfile src/adapters/secondaries/persistence/postGres/knex/knexfile.ts",
+    "migrate:latest": "knex migrate:latest --knexfile src/adapters/secondaries/persistence/postGres/knex/knexfile.ts",
+    "migrate:rollback": "knex migrate:rollback --all --knexfile src/adapters/secondaries/persistence/postGres/knex/knexfile.ts"
   },
   "dependencies": {
     "@paralogs/shared": "*",

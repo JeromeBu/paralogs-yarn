@@ -1,7 +1,7 @@
 import { expectRight } from "@paralogs/back-shared";
 import { generateUuid } from "@paralogs/shared";
 
-import { InMemoryPilotRepo } from "../../../../adapters/secondaries/repositories/inMemory/InMemoryPilotRepo";
+import { InMemoryPilotRepo } from "../../../../adapters/secondaries/persistence/inMemory/InMemoryPilotRepo";
 import { pilotMapper } from "../../mappers/pilotMapper";
 import { createPilotCommandHandlerCreator } from "./CreatePilotCommandHandler";
 
