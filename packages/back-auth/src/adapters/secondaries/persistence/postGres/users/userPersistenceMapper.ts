@@ -3,7 +3,7 @@ import { UserDTO } from "@paralogs/shared";
 
 import { UserEntity } from "../../../../../domain/writes/entities/UserEntity";
 import { Email } from "../../../../../domain/writes/valueObjects/user/Email";
-import { UserPersisted, UserPersistence } from "./UserPersistence";
+import { UserPersistence } from "./UserPersistence";
 
 export const userPersistenceMapper = {
   toPersistence: (userEntity: UserEntity): UserPersistence => {

@@ -13,7 +13,7 @@ import {
 } from "@paralogs/shared";
 import * as R from "ramda";
 
-import { InMemoryUserRepo } from "../../../adapters/secondaries/repositories/inMemory/InMemoryUserRepo";
+import { InMemoryUserRepo } from "../../../adapters/secondaries/persistence/inMemory/InMemoryUserRepo";
 import { TestHashAndTokenManager } from "../../../adapters/secondaries/TestHashAndTokenManager";
 import { UserEntity } from "../entities/UserEntity";
 import {

@@ -1,12 +1,12 @@
 import { SignUpParams, UserDTO } from "@paralogs/shared";
 import Knex from "knex";
 
-import { makeUserEntityCreator } from "../../domain/writes/testBuilders/makeUserEntityCreator";
-import { UserPersistence } from "./repositories/postGres/users/UserPersistence";
-import { userPersistenceMapper } from "./repositories/postGres/users/userPersistenceMapper";
-import { TestHashAndTokenManager } from "./TestHashAndTokenManager";
+import { makeUserEntityCreator } from "../../../../domain/writes/testBuilders/makeUserEntityCreator";
+import { TestHashAndTokenManager } from "../../TestHashAndTokenManager";
+import { UserPersistence } from "./users/UserPersistence";
+import { userPersistenceMapper } from "./users/userPersistenceMapper";
 
-export const createAndSavePersistenceUser = async (
+export const createAndPersistUser = async (
   knex: Knex<any, unknown[]>,
   userParams?: Partial<SignUpParams & { id: number }>,
 ): Promise<UserDTO> => {

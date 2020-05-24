@@ -5,15 +5,15 @@ import { createAndPersistWing } from "../createAndPersistWing";
 import { getKnex, resetDb } from "../knex/db";
 import { createPgWingQueries } from "./PgWingQueries";
 
-describe("Pg user reads", () => {
+describe("Pg wing queries", () => {
   const knex = getKnex("test");
-  let pgUserQueries: ReturnType<typeof createPgWingQueries>;
+  let pgWingQueries: ReturnType<typeof createPgWingQueries>;
   let johnDto: PilotDTO;
   let johnUuid: PilotUuid;
 
   beforeEach(async () => {
     await resetDb(knex);
-    pgUserQueries = createPgWingQueries(knex);
+    pgWingQueries = createPgWingQueries(knex);
     johnUuid = generateUuid();
     johnDto = await createAndPersistPilot(knex, {
       uuid: johnUuid,
@@ -22,19 +22,19 @@ describe("Pg user reads", () => {
   });
 
   it("returns empty array when no wing is found", async () => {
-    const foundWings = await pgUserQueries.findByPilotUuid("not found id");
+    const foundWings = await pgWingQueries.findByPilotUuid("not found id");
     expect(foundWings).toEqual([]);
   });
 
   it("finds only wings from the provided pilot", async () => {
     await createAndPersistWing(knex, { pilotUuid: johnUuid });
-    const foundWings = await pgUserQueries.findByPilotUuid("not john id");
+    const foundWings = await pgWingQueries.findByPilotUuid("not john id");
     expect(foundWings).toEqual([]);
   });
 
   it("finds a pilot wings from its uuid", async () => {
     const johnWing = await createAndPersistWing(knex, { pilotUuid: johnUuid });
-    const foundWings = await pgUserQueries.findByPilotUuid(johnDto.uuid);
+    const foundWings = await pgWingQueries.findByPilotUuid(johnDto.uuid);
     expect(foundWings).toEqual([johnWing]);
   });
 });

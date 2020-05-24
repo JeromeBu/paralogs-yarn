@@ -1,7 +1,7 @@
 import { expectEitherToMatchError, Result } from "@paralogs/back-shared";
 import { CurrentUserWithAuthToken } from "@paralogs/shared";
 
-import { InMemoryUserRepo } from "../../adapters/secondaries/repositories/inMemory/InMemoryUserRepo";
+import { InMemoryUserRepo } from "../../adapters/secondaries/persistence/inMemory/InMemoryUserRepo";
 import { TestHashAndTokenManager } from "../../adapters/secondaries/TestHashAndTokenManager";
 import { makeUserEntityCreator } from "../writes/testBuilders/makeUserEntityCreator";
 import { LoginRead, loginReadCreator } from "./LoginRead";
