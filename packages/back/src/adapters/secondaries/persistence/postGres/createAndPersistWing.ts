@@ -1,4 +1,4 @@
-import { WingDTO } from "@paralogs/shared";
+import { RequireField, WingDTO } from "@paralogs/shared";
 import Knex from "knex";
 
 import { makeWingEntity } from "../../../../domain/writes/testBuilders/makeWingEntity";
@@ -8,7 +8,7 @@ import { wingPersistenceMapper } from "./wings/wingPersistenceMapper";
 
 export const createAndPersistWing = async (
   knex: Knex<any, unknown[]>,
-  wingParams: Partial<WingDTO> & { wingId?: number } = {},
+  wingParams: RequireField<Partial<WingDTO>, "pilotUuid">,
 ) => {
   const wingEntity = await makeWingEntity(wingParams);
   const pilot = await knex

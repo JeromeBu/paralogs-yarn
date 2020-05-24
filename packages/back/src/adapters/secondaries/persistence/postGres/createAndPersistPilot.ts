@@ -7,7 +7,7 @@ import { pilotPersistenceMapper } from "./pilots/pilotPersistenceMapper";
 
 export const createAndPersistPilot = async (
   knex: Knex<any, unknown[]>,
-  pilotParams: Partial<PilotDTO> & { pilotId?: number } = {},
+  pilotParams: Partial<PilotDTO> = {},
 ) => {
   const pilotEntity = await makePilotEntity(pilotParams);
   const pilotPersistence = pilotPersistenceMapper.toPersistence(pilotEntity);

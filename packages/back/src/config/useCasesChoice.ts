@@ -1,4 +1,4 @@
-import { retrieveFlightsUseCaseCreator } from "../domain/reads/flights/RetrieveFlightsUseCase";
+import { retrieveFlightsRead } from "../domain/reads/flights/retrieveFlightsRead";
 import { retrieveWingsRead } from "../domain/reads/wings/retrieveWingsRead";
 import { addFlightCommandHandlerCreator } from "../domain/writes/commandHandlers/flights/AddFlightCommandHandler";
 import { createPilotCommandHandlerCreator } from "../domain/writes/commandHandlers/pilots/CreatePilotCommandHandler";
@@ -14,7 +14,7 @@ export const pilotsUseCases = {
 
 export const wingsUseCases = {
   addWing: addWingCommandHandlerCreator({ wingRepo: repositories.wing }),
-  retrieveWings: retrieveWingsRead(queries.wing),
+  retrieveWings: retrieveWingsRead({ wingQueries: queries.wing }),
   updateWing: updateWingCommandHandlerCreator({ wingRepo: repositories.wing }),
 };
 
@@ -22,7 +22,5 @@ export const flightsUseCases = {
   addFlight: addFlightCommandHandlerCreator({
     flightRepo: repositories.flight,
   }),
-  retrieveFlights: retrieveFlightsUseCaseCreator({
-    flightRepo: repositories.flight,
-  }),
+  retrieveFlights: retrieveFlightsRead({ flightQueries: queries.flight }),
 };
