@@ -4,14 +4,14 @@ import {
   RedisEventBus,
 } from "@paralogs/back-shared";
 
-import { createPgWingQueries } from "../adapters/secondaries/queries/PgWingQueries";
-import { InMemoryFlightRepo } from "../adapters/secondaries/repositories/inMemory/InMemoryFlightRepo";
-import { InMemoryPilotRepo } from "../adapters/secondaries/repositories/inMemory/InMemoryPilotRepo";
-import { InMemoryWingRepo } from "../adapters/secondaries/repositories/inMemory/InMemoryWingRepo";
-import { getKnex } from "../adapters/secondaries/repositories/postGres/db";
-import { PgFlightRepo } from "../adapters/secondaries/repositories/postGres/flights/PgFlightRepo";
-import { PgPilotRepo } from "../adapters/secondaries/repositories/postGres/pilots/PgPilotRepo";
-import { PgWingRepo } from "../adapters/secondaries/repositories/postGres/wings/PgWingRepo";
+import { InMemoryFlightRepo } from "../adapters/secondaries/persistence/inMemory/InMemoryFlightRepo";
+import { InMemoryPilotRepo } from "../adapters/secondaries/persistence/inMemory/InMemoryPilotRepo";
+import { InMemoryWingRepo } from "../adapters/secondaries/persistence/inMemory/InMemoryWingRepo";
+import { PgFlightRepo } from "../adapters/secondaries/persistence/postGres/flights/PgFlightRepo";
+import { getKnex } from "../adapters/secondaries/persistence/postGres/knex/db";
+import { PgPilotRepo } from "../adapters/secondaries/persistence/postGres/pilots/PgPilotRepo";
+import { createPgWingQueries } from "../adapters/secondaries/persistence/postGres/wings/PgWingQueries";
+import { PgWingRepo } from "../adapters/secondaries/persistence/postGres/wings/PgWingRepo";
 import { WingQueries } from "../domain/reads/gateways/WingQueries";
 import { FlightRepo } from "../domain/writes/gateways/FlightRepo";
 import { PilotRepo } from "../domain/writes/gateways/PilotRepo";

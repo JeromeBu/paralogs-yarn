@@ -1,6 +1,6 @@
 import Knex from "knex";
 
-import knexconfig from "./knex/knexfile";
+import knexconfig from "./knexfile";
 
 type DatabaseEnv = keyof typeof knexconfig;
 

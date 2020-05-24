@@ -5,7 +5,7 @@ import { liftEither } from "purify-ts/EitherAsync";
 import { PilotEntity } from "../../../../../domain/writes/entities/PilotEntity";
 import { PilotRepo } from "../../../../../domain/writes/gateways/PilotRepo";
 import { makePilotEntity } from "../../../../../domain/writes/testBuilders/makePilotEntity";
-import { getKnex, resetDb } from "../db";
+import { getKnex, resetDb } from "../knex/db";
 import { PgPilotRepo } from "./PgPilotRepo";
 import { PilotPersistence } from "./PilotPersistence";
 import { pilotPersistenceMapper } from "./pilotPersistenceMapper";

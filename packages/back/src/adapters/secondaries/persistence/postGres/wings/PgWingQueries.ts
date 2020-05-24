@@ -1,9 +1,9 @@
 import { PilotUuid, WingDTO } from "@paralogs/shared";
 import Knex from "knex";
 
-import { WingQueries } from "../../../domain/reads/gateways/WingQueries";
-import { WingPersisted } from "../repositories/postGres/wings/WingPersistence";
-import { wingPersistenceMapper } from "../repositories/postGres/wings/wingPersistenceMapper";
+import { WingQueries } from "../../../../../domain/reads/gateways/WingQueries";
+import { WingPersisted } from "./WingPersistence";
+import { wingPersistenceMapper } from "./wingPersistenceMapper";
 
 export const createPgWingQueries = (
   knex: Knex<any, unknown[]>,

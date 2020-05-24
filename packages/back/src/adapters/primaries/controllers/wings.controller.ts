@@ -46,7 +46,6 @@ export const wingsController = () => {
         await callUseCase({
           useCase: wingsUseCases.updateWing,
           eitherAsyncParams: resultUpdateWingBody.map((updateWingBody) => ({
-            uuid: updateWingBody.uuid,
             ...updateWingBody,
             pilotUuid: req.currentUserUuid,
           })),

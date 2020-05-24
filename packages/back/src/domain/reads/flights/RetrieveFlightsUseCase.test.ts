@@ -1,7 +1,7 @@
 import { generateUuid, makeFlightDTO } from "@paralogs/shared";
 
-import { InMemoryFlightRepo } from "../../../adapters/secondaries/repositories/inMemory/InMemoryFlightRepo";
-import { InMemoryPilotRepo } from "../../../adapters/secondaries/repositories/inMemory/InMemoryPilotRepo";
+import { InMemoryFlightRepo } from "../../../adapters/secondaries/persistence/inMemory/InMemoryFlightRepo";
+import { InMemoryPilotRepo } from "../../../adapters/secondaries/persistence/inMemory/InMemoryPilotRepo";
 import {
   AddFlightCommandHandler,
   addFlightCommandHandlerCreator,

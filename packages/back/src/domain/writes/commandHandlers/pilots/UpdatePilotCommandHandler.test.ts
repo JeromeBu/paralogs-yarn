@@ -1,7 +1,7 @@
 import { expectRight } from "@paralogs/back-shared";
 import { List } from "purify-ts";
 
-import { InMemoryPilotRepo } from "../../../../adapters/secondaries/repositories/inMemory/InMemoryPilotRepo";
+import { InMemoryPilotRepo } from "../../../../adapters/secondaries/persistence/inMemory/InMemoryPilotRepo";
 import { PilotEntity } from "../../entities/PilotEntity";
 import { pilotMapper } from "../../mappers/pilotMapper";
 import { setupCurrentPilotCreator } from "../../testBuilders/makePilotEntity";
