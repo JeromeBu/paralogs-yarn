@@ -2,9 +2,9 @@ import { fromNullablePromiseCb } from "@paralogs/back-shared";
 import { UserUuid } from "@paralogs/shared";
 import Knex from "knex";
 
-import { UserQueries } from "../../../domain/reads/gateways/UserQueries";
-import { UserPersisted } from "../repositories/postGres/users/UserPersistence";
-import { userPersistenceMapper } from "../repositories/postGres/users/userPersistenceMapper";
+import { UserQueries } from "../../../../../domain/reads/gateways/UserQueries";
+import { UserPersisted } from "./UserPersistence";
+import { userPersistenceMapper } from "./userPersistenceMapper";
 
 export const createPgUserQueries = (
   knex: Knex<any, unknown[]>,

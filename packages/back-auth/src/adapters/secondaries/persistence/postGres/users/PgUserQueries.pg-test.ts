@@ -1,7 +1,7 @@
 import { UserDTO } from "@paralogs/shared";
 
-import { createAndSavePersistenceUser } from "../persistenceTestHelpers";
-import { getKnex, resetDb } from "../repositories/postGres/knex/db";
+import { createAndPersistUser } from "../createAndPersistUser";
+import { getKnex, resetDb } from "../knex/db";
 import { createPgUserQueries } from "./PgUserQueries";
 
 describe("Pg user reads", () => {
@@ -12,7 +12,7 @@ describe("Pg user reads", () => {
 
   beforeEach(async () => {
     await resetDb(knex);
-    johnDto = await createAndSavePersistenceUser(knex, {
+    johnDto = await createAndPersistUser(knex, {
       id: 125,
       email: johnEmail,
     });

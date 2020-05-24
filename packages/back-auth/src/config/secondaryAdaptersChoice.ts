@@ -6,10 +6,10 @@ import {
 import { List } from "purify-ts";
 import { liftMaybe } from "purify-ts/MaybeAsync";
 
-import { createPgUserQueries } from "../adapters/secondaries/queries/PgUserQueries";
-import { InMemoryUserRepo } from "../adapters/secondaries/repositories/inMemory/InMemoryUserRepo";
-import { getKnex } from "../adapters/secondaries/repositories/postGres/knex/db";
-import { PgUserRepo } from "../adapters/secondaries/repositories/postGres/users/PgUserRepo";
+import { InMemoryUserRepo } from "../adapters/secondaries/persistence/inMemory/InMemoryUserRepo";
+import { getKnex } from "../adapters/secondaries/persistence/postGres/knex/db";
+import { createPgUserQueries } from "../adapters/secondaries/persistence/postGres/users/PgUserQueries";
+import { PgUserRepo } from "../adapters/secondaries/persistence/postGres/users/PgUserRepo";
 import { UserQueries } from "../domain/reads/gateways/UserQueries";
 import { UserRepo } from "../domain/writes/gateways/UserRepo";
 import { userMapper } from "../domain/writes/mappers/user.mapper";
