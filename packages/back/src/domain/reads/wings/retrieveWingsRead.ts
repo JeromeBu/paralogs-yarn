@@ -4,7 +4,13 @@ import { liftPromise } from "purify-ts/EitherAsync";
 
 import { WingQueries } from "../gateways/WingQueries";
 
-export const retrieveWingsRead = (wingQueries: WingQueries) => (
+interface RetrieveWingsDependencies {
+  wingQueries: WingQueries;
+}
+
+export const retrieveWingsRead = ({
+  wingQueries,
+}: RetrieveWingsDependencies) => (
   currentUserUuid: PilotUuid,
 ): ResultAsync<WingDTO[]> => {
   return liftPromise(() => wingQueries.findByPilotUuid(currentUserUuid));

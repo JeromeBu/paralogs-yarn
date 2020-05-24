@@ -1,3 +1,5 @@
+import { FlightDTO } from "@paralogs/shared";
+
 import { FlightEntity } from "../../../../../domain/writes/entities/FlightEntity";
 import { FlightPersistence } from "./FlightPersistence";
 
@@ -46,4 +48,21 @@ export const flightPersistenceMapper = {
     flightEntity.setIdentity(id);
     return flightEntity;
   },
+  toDTO: ({
+    uuid,
+    wing_uuid,
+    pilot_uuid,
+    time,
+    site,
+    duration,
+    date,
+  }: FlightPersistence): FlightDTO => ({
+    uuid,
+    pilotUuid: pilot_uuid,
+    wingUuid: wing_uuid,
+    time: time ?? undefined,
+    site,
+    duration,
+    date,
+  }),
 };

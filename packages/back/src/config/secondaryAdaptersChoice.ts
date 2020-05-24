@@ -7,15 +7,18 @@ import {
 import { InMemoryFlightRepo } from "../adapters/secondaries/persistence/inMemory/InMemoryFlightRepo";
 import { InMemoryPilotRepo } from "../adapters/secondaries/persistence/inMemory/InMemoryPilotRepo";
 import { InMemoryWingRepo } from "../adapters/secondaries/persistence/inMemory/InMemoryWingRepo";
+import { createPgFlightQueries } from "../adapters/secondaries/persistence/postGres/flights/PgFlightQueries";
 import { PgFlightRepo } from "../adapters/secondaries/persistence/postGres/flights/PgFlightRepo";
 import { getKnex } from "../adapters/secondaries/persistence/postGres/knex/db";
 import { PgPilotRepo } from "../adapters/secondaries/persistence/postGres/pilots/PgPilotRepo";
 import { createPgWingQueries } from "../adapters/secondaries/persistence/postGres/wings/PgWingQueries";
 import { PgWingRepo } from "../adapters/secondaries/persistence/postGres/wings/PgWingRepo";
+import { FlightQueries } from "../domain/reads/gateways/FlightQueries";
 import { WingQueries } from "../domain/reads/gateways/WingQueries";
 import { FlightRepo } from "../domain/writes/gateways/FlightRepo";
 import { PilotRepo } from "../domain/writes/gateways/PilotRepo";
 import { WingRepo } from "../domain/writes/gateways/WingRepo";
+import { flightMapper } from "../domain/writes/mappers/flight.mapper";
 import { wingMapper } from "../domain/writes/mappers/wing.mapper";
 import { ENV, EventBusOption, RepositoriesOption } from "./env";
 
@@ -32,6 +35,7 @@ interface Repositories {
 
 interface Queries {
   wing: WingQueries;
+  flight: FlightQueries;
 }
 
 interface Persistence {
@@ -41,6 +45,7 @@ interface Persistence {
 
 const getInMemoryPersistence = (): Persistence => {
   const wingRepo = new InMemoryWingRepo();
+  const flightRepo = new InMemoryFlightRepo();
   return {
     queries: {
       wing: {
@@ -49,11 +54,17 @@ const getInMemoryPersistence = (): Persistence => {
             .filter((wing) => wing.pilotUuid === pilotUuid)
             .map(wingMapper.entityToDTO),
       },
+      flight: {
+        findByPilotUuid: async (pilotUuid) =>
+          flightRepo.flights
+            .filter((flight) => flight.pilotUuid === pilotUuid)
+            .map(flightMapper.entityToDTO),
+      },
     },
     repositories: {
       pilot: new InMemoryPilotRepo(),
       wing: wingRepo,
-      flight: new InMemoryFlightRepo(),
+      flight: flightRepo,
     },
   };
 };
@@ -65,6 +76,7 @@ const getPgPersistence = (): Persistence => {
   return {
     queries: {
       wing: createPgWingQueries(knex),
+      flight: createPgFlightQueries(knex),
     },
     repositories: {
       pilot: new PgPilotRepo(knex),
