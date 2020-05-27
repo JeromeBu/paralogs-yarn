@@ -1,7 +1,7 @@
 import {
   createInMemoryEventBus,
-  createRedisEventBus,
   EventBus,
+  RedisEventBus,
 } from "@paralogs/back-shared";
 import { List } from "purify-ts";
 import { liftMaybe } from "purify-ts/MaybeAsync";
@@ -85,7 +85,7 @@ const getEventBus = (repositories: EventBusOption): EventBus => {
     case "IN_MEMORY":
       return createInMemoryEventBus({ getNow: () => new Date() });
     case "REDIS":
-      return createRedisEventBus();
+      return RedisEventBus;
     default:
       return shouldNeverBeCalled(repositories);
   }

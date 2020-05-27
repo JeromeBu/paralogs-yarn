@@ -6,6 +6,8 @@ export * from "./PersonName";
 export * from "./Persisted";
 
 export * from "./EventBus/EventBus";
-export * from "./EventBus/InMemoryEventBus";
-export * from "./EventBus/RedisEventBus";
+export * from "./EventBus/createInMemoryEventBus";
+export * from "./EventBus/createRedisEventBus";
 export * from "./EventBus/eventTestHelpers";
+
+export * from "./ResponseLib/response-lib";

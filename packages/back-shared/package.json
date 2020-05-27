@@ -5,6 +5,7 @@
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
   "scripts": {
+    "unit-test": "jest",
     "build": "rm -rf dist && tsc",
     "build:watch": "tsc --watch",
     "precommit": "lint-staged"
@@ -13,10 +14,15 @@
     "@types/redis": "^2.8.21",
     "purify-ts": "^0.15.1",
     "ramda": "^0.27.0",
-    "redis": "^3.0.2"
+    "redis": "^3.0.2",
+    "yup": "^0.28.3"
   },
   "devDependencies": {
     "@types/ramda": "^0.27.5",
+    "@types/yup": "^0.26.32",
+    "@types/jest": "24.0.23",
+    "ts-jest": "^24.1.0",
+    "jest": "24.9.0",
     "lint-staged": "^9.4.2"
   },
   "lint-staged": {

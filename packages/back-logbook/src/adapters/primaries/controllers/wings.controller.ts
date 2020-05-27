@@ -1,13 +1,13 @@
-import { RightAsync } from "@paralogs/back-shared";
+import {
+  callUseCase,
+  RightAsync,
+  sendHttpResponse,
+  validateSchema,
+} from "@paralogs/back-shared";
 import { addWingSchema, updateWingSchema, wingsRoute } from "@paralogs/shared";
 import { Router } from "express";
 
 import { wingsUseCases } from "../../../config/useCasesChoice";
-import {
-  callUseCase,
-  sendHttpResponse,
-  validateSchema,
-} from "../../lib/response-lib";
 
 const wingsRouter = Router();
 
