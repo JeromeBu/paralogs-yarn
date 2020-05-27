@@ -1,5 +1,17 @@
 import { EnvironmentOption } from "../../../../../config/env";
 
+const migrations = {
+  // schemaName: "logbook",
+  tableName: "knex_logbook_migrations",
+  extension: "ts",
+  directory: `${__dirname}/migrations`,
+};
+
+const pool = {
+  min: 2,
+  max: 10,
+};
+
 const knexconfig: { [key in EnvironmentOption]: any } = {
   development: {
     client: "pg",
@@ -9,15 +21,8 @@ const knexconfig: { [key in EnvironmentOption]: any } = {
       user: "postgres",
       password: "pg-password",
     },
-    pool: {
-      min: 2,
-      max: 10,
-    },
-    migrations: {
-      tableName: "knex_migrations",
-      extension: "ts",
-      directory: `${__dirname}/migrations`,
-    },
+    pool,
+    migrations,
   },
   test: {
     client: "pg",
@@ -27,15 +32,8 @@ const knexconfig: { [key in EnvironmentOption]: any } = {
       user: "postgres",
       password: "pg-password",
     },
-    pool: {
-      min: 2,
-      max: 10,
-    },
-    migrations: {
-      tableName: "knex_migrations",
-      extension: "ts",
-      directory: `${__dirname}/migrations`,
-    },
+    pool,
+    migrations,
   },
 
   // production: {

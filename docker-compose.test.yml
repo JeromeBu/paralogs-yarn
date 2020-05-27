@@ -1,6 +1,6 @@
 version: "3"
 services:
-  pg-logbook-test:
+  pg-test:
     image: postgres
     restart: unless-stopped
     ports:
@@ -10,15 +10,4 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: pg-password
     volumes:
-      - ./pgdata/paragliding/test:/var/lib/postgresql/data
-  pg-auth-test:
-    image: postgres
-    restart: unless-stopped
-    ports:
-      - "5443:5432"
-    environment:
-      POSTGRES_DB: paralogs-auth-test
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: pg-password
-    volumes:
-      - ./pgdata/auth/test:/var/lib/postgresql/data
+      - ./pgdata/test:/var/lib/postgresql/data
