@@ -7,11 +7,13 @@ import {
 import { addWingSchema, updateWingSchema, wingsRoute } from "@paralogs/shared";
 import { Router } from "express";
 
-import { wingsUseCases } from "../../../config/useCasesChoice";
+import { getWingsUseCases } from "../../../config/useCasesChoice";
 
 const wingsRouter = Router();
 
-export const wingsController = () => {
+export const wingsController = async () => {
+  const wingsUseCases = await getWingsUseCases();
+
   wingsRouter
     .route(wingsRoute)
     .get(async (req, res) =>

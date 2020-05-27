@@ -4,7 +4,7 @@
     "target": "es2017",
     "lib": ["esnext"],
     "forceConsistentCasingInFileNames": true,
-    "module": "commonjs",
+    "module": "esnext",
     "moduleResolution": "node",
     "esModuleInterop": true,
     "outDir": "dist",

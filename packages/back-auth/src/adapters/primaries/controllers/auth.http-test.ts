@@ -7,11 +7,22 @@ import {
 } from "@paralogs/shared";
 import supertest from "supertest";
 
+import { ENV } from "../../../config/env";
+import {
+  getKnex,
+  resetDb,
+} from "../../secondaries/persistence/postGres/knex/db";
 import { app } from "../express/server";
 
 const request = supertest(app);
 
 describe("Authentication routes", () => {
+  beforeAll(async () => {
+    if (ENV.nodeEnv !== "test") throw new Error("Should be TEST env");
+    const knex = getKnex(ENV.nodeEnv);
+    await resetDb(knex);
+  });
+
   describe("when body is empty", () => {
     it("refuses to signup with an explicit message", async () => {
       const signUpResponse = await request.post(signUpRoute);
