@@ -5,9 +5,9 @@ import {
   validationError,
 } from "@paralogs/back-shared";
 import { Response } from "express";
-import * as R from "ramda";
 import { EitherAsync } from "purify-ts";
 import { liftPromise } from "purify-ts/EitherAsync";
+import * as R from "ramda";
 import { ObjectSchema, Shape } from "yup";
 
 export const success = (body: unknown, statusCode = 200) =>
