@@ -1,9 +1,9 @@
-import { RedisEventBus } from "@paralogs/back-shared";
 import bodyParser from "body-parser";
 import cors from "cors";
 import express from "express";
 import morgan from "morgan";
 
+import { eventBus } from "../../../config/secondaryAdaptersChoice";
 import { flightsController } from "../controllers/flights.controller";
 import { subscribeToEvents } from "../controllers/pilots.subscribers";
 import { wingsController } from "../controllers/wings.controller";
@@ -20,4 +20,4 @@ app.use(authenticateMiddleware);
 app.use(wingsController());
 app.use(flightsController());
 
-subscribeToEvents(RedisEventBus);
+subscribeToEvents(eventBus);

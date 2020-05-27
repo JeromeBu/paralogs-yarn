@@ -2,7 +2,7 @@ import { generateUuid } from "@paralogs/shared";
 
 import { AppEvent, EventBus } from "./EventBus";
 
-export type InMemoryEventBus = EventBus & { events: AppEvent[] };
+export type CreateInMemoryEventBus = EventBus & { events: AppEvent[] };
 
 type Subscriptions = {
   [eventType in AppEvent["type"]]: {
@@ -16,7 +16,7 @@ interface EventBusDependencies {
 
 export const createInMemoryEventBus = ({
   getNow,
-}: EventBusDependencies): InMemoryEventBus => {
+}: EventBusDependencies): CreateInMemoryEventBus => {
   const events: AppEvent[] = [];
   const subscriptions: Subscriptions = {
     UserSignedUp: {},

@@ -1,8 +1,8 @@
+import { CreateInMemoryEventBus } from "./createInMemoryEventBus";
 import { AppEvent } from "./EventBus";
-import { InMemoryEventBus } from "./InMemoryEventBus";
 
-export const createExpectDispatchedEvent = (eventBus: InMemoryEventBus) => (
-  event: AppEvent,
-) => {
+export const createExpectDispatchedEvent = (
+  eventBus: CreateInMemoryEventBus,
+) => (event: AppEvent) => {
   expect(eventBus.events).toContainEqual(event);
 };

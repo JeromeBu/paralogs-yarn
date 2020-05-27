@@ -1,7 +1,7 @@
 import {
   createInMemoryEventBus,
+  createRedisEventBus,
   EventBus,
-  RedisEventBus,
 } from "@paralogs/back-shared";
 
 import { InMemoryFlightRepo } from "../adapters/secondaries/persistence/inMemory/InMemoryFlightRepo";
@@ -104,7 +104,7 @@ const getEventBus = (repositories: EventBusOption): EventBus => {
     case "IN_MEMORY":
       return createInMemoryEventBus({ getNow: () => new Date() });
     case "REDIS":
-      return RedisEventBus;
+      return createRedisEventBus();
     default:
       return shouldNeverBeCalled(repositories);
   }

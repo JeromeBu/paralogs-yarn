@@ -2,8 +2,6 @@
   "name": "@paralogs/back-logbook",
   "version": "0.0.1",
   "private": true,
-  "main": ".build/src/index.js",
-  "types": ".build/src/index.d.ts",
   "scripts": {
     "deploy": "sls config credentials --provider aws --key $AWS_ACCESS_KEY_ID --secret $AWS_SECRET_KEY && sls deploy",
     "unit-test": "jest",

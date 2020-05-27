@@ -1,9 +1,4 @@
-import {
-  callUseCase,
-  RightAsync,
-  sendHttpResponse,
-  validateSchema,
-} from "@paralogs/back-shared";
+import { RightAsync } from "@paralogs/back-shared";
 import {
   getMeRoute,
   loginRoute,
@@ -16,6 +11,11 @@ import {
 import { Router } from "express";
 
 import { authUseCases } from "../../../config/useCasesChoice";
+import {
+  callUseCase,
+  sendHttpResponse,
+  validateSchema,
+} from "../../lib/response-lib";
 
 const authRouter = Router();
 

@@ -1,4 +1,4 @@
-import { RightAsync } from "@paralogs/back-shared";
+import { callUseCase, RightAsync } from "@paralogs/back-shared";
 import {
   AddWingDTO,
   generateUuid,
@@ -9,7 +9,6 @@ import jwt from "jsonwebtoken";
 import supertest from "supertest";
 
 import { pilotsUseCases } from "../../../config/useCasesChoice";
-import { callUseCase } from "../../lib/response-lib";
 import { app } from "../express/server";
 
 const request = supertest(app);

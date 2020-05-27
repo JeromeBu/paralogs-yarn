@@ -36,3 +36,8 @@ export const notFoundError = makeAppErrorCreator({
   code: 404,
   name: "Not found",
 });
+
+export const knexError = makeAppErrorCreator({
+  code: 501,
+  name: "Knex error",
+});

@@ -1,13 +1,13 @@
-import { RightAsync } from "@paralogs/back-shared";
+import {
+  callUseCase,
+  RightAsync,
+  sendHttpResponse,
+  validateSchema,
+} from "@paralogs/back-shared";
 import { addFlightSchema, flightsRoute } from "@paralogs/shared";
 import { Router } from "express";
 
 import { flightsUseCases } from "../../../config/useCasesChoice";
-import {
-  callUseCase,
-  sendHttpResponse,
-  validateSchema,
-} from "../../lib/response-lib";
 
 export const flightsRouter = Router();
 
