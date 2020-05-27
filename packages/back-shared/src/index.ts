@@ -4,6 +4,7 @@ export * from "./Entity";
 export * from "./testHelpers";
 export * from "./PersonName";
 export * from "./Persisted";
+export * from "./createAuthenticateMiddleware";
 
 export * from "./EventBus/EventBus";
 export * from "./EventBus/createInMemoryEventBus";

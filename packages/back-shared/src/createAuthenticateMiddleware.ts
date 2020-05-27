@@ -1,18 +1,11 @@
-import {
-  loginRoute,
-  PilotUuid,
-  signUpRoute,
-  WithUserUuid,
-} from "@paralogs/shared";
-import { NextFunction, Request, Response } from "express";
+import { loginRoute, signUpRoute, WithUserUuid } from "@paralogs/shared";
+import type { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
-
-import { ENV } from "../../../config/env";
 
 const whiteListedRoutes = [loginRoute, signUpRoute];
 
-export const authenticateMiddleware = async (
-  req: Request,
+export const createAuthenticateMiddleware = (jwtSecret: string) => async (
+  req: Request & { currentUserUuid: string },
   res: Response,
   next: NextFunction,
 ) => {
@@ -21,9 +14,9 @@ export const authenticateMiddleware = async (
   if (!token || token === "undefined")
     return res.status(401).json({ message: "You need to authenticate first" });
   try {
-    const { userUuid } = jwt.verify(token, ENV.jwtSecret) as WithUserUuid;
+    const { userUuid } = jwt.verify(token, jwtSecret) as WithUserUuid;
     if (!userUuid) return sendForbiddenError(res);
-    req.currentUserUuid = userUuid as PilotUuid;
+    req.currentUserUuid = userUuid;
     return next();
   } catch (error) {
     // eslint-disable-next-line no-console
