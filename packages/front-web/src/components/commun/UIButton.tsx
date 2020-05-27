@@ -1,4 +1,4 @@
-import { Button } from "@material-ui/core";
+import Button from "@material-ui/core/Button";
 import React from "react";
 
 export const UIButton: React.FC<{ type?: "submit"; className?: string }> = ({

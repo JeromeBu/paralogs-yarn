@@ -1,4 +1,4 @@
-import { TextField } from "@material-ui/core";
+import TextField from "@material-ui/core/TextField";
 import { useField } from "formik";
 import React from "react";
 
@@ -9,23 +9,15 @@ interface InputTextFieldProps {
   className?: string;
 }
 
-export const InputTextField: React.FC<InputTextFieldProps> = ({
-  label,
-  name,
-  type,
-  className,
-}) => {
-  const [field, { touched, error }] = useField({ name });
+export const InputTextField: React.FC<InputTextFieldProps> = (props) => {
+  const [field, { touched, error }] = useField({ name: props.name });
 
   return (
     <TextField
+      {...props}
       margin="normal"
       fullWidth
-      id={name}
-      label={label}
-      name={name}
-      type={type}
-      className={className}
+      id={props.name}
       {...field}
       error={touched && error != null}
       helperText={touched && error}

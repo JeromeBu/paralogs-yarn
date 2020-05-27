@@ -15,6 +15,7 @@ type AuthState = Readonly<{
   isSaving: boolean;
   currentUser: UserDTO | null;
   token: string | null;
+  isUpdateFormVisible: boolean;
 }>;
 
 const initialState: AuthState = {
@@ -22,6 +23,7 @@ const initialState: AuthState = {
   isSaving: false,
   currentUser: null,
   token: null,
+  isUpdateFormVisible: false,
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -84,6 +86,14 @@ const authSlice = createSlice({
       ...state,
       currentUser: action.payload,
       isSaving: false,
+    }),
+    showUpdateForm: (state: AuthState) => ({
+      ...state,
+      isUpdateFormVisible: true,
+    }),
+    hideUpdateForm: (state: AuthState) => ({
+      ...state,
+      isUpdateFormVisible: false,
     }),
   },
 });

@@ -41,7 +41,7 @@ const getInMemoryPersistence = (): Persistence => {
     },
     queries: {
       user: {
-        findByUuid: (userUuid) =>
+        findByUuidWithToken: (userUuid) =>
           liftMaybe(
             List.find(({ uuid }) => uuid === userUuid, userRepo.users),
           ).map((userEntity) => ({

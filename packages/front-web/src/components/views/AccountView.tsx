@@ -1,10 +1,11 @@
-import { Box } from "@material-ui/core";
+import Box from "@material-ui/core/Box";
 import EditIcon from "@material-ui/icons/Edit";
-import { pilotActions } from "@paralogs/front-core";
+import { authActions } from "@paralogs/front-core";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { pilotSelector } from "../../selectors/pilotSelector";
+import { UpdateUserModal } from "../user/UpdateUserModal";
 
 export const AccountView: React.FC = () => {
   const pilot = useSelector(pilotSelector);
@@ -15,7 +16,8 @@ export const AccountView: React.FC = () => {
       <h6>This is account view component</h6>
       <p>First name : {pilot.firstName}</p>
       <p>Last name : {pilot.lastName}</p>
-      <EditIcon onClick={() => dispatch(pilotActions.showUpdateForm)} />
+      <EditIcon onClick={() => dispatch(authActions.showUpdateForm())} />
+      <UpdateUserModal />
     </Box>
   ) : (
     <div>No current user</div>

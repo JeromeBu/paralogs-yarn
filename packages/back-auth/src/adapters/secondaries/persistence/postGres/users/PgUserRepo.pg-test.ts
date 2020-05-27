@@ -96,4 +96,35 @@ describe("User repository postgres tests", () => {
       (await pgUserRepo.findByUuid("not found").run()).isNothing(),
     ).toBeTruthy();
   });
+
+  it("updates a user", async () => {
+    const userPersisted = (await knex
+      .from<UserPersisted>("users")
+      .where({ uuid: johnEntity.uuid })
+      .first())!;
+
+    const firstName = "New first name";
+    const lastName = "New Last name";
+
+    expect(userPersisted).toBeDefined();
+    const updatedUserEntity = await makeUserEntity({
+      id: userPersisted.id,
+      uuid: userPersisted.uuid,
+      email: userPersisted.email,
+      firstName,
+      lastName,
+    });
+    await pgUserRepo.save(updatedUserEntity).run();
+    const expectUserPersisted: UserPersisted = {
+      ...userPersisted,
+      first_name: firstName,
+      last_name: lastName,
+    };
+    expect(
+      await knex
+        .from<UserPersisted>("users")
+        .where({ uuid: johnEntity.uuid })
+        .first(),
+    ).toEqual(expectUserPersisted);
+  });
 });

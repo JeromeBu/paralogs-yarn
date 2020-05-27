@@ -5,6 +5,8 @@ import {
   loginSchema,
   signUpRoute,
   signUpSchema,
+  updateUserSchema,
+  usersRoute,
 } from "@paralogs/shared";
 import { Router } from "express";
 
@@ -42,6 +44,19 @@ export const authController = (): Router => {
     const httpResponse = await callUseCase({
       eitherAsyncParams: RightAsync({ userUuid: currentUserUuid }),
       useCase: authUseCases.getMe,
+    });
+    return sendHttpResponse(res, httpResponse);
+  });
+
+  authRouter.put(usersRoute, async (req, res) => {
+    const resultBody = await validateSchema(updateUserSchema, req.body);
+
+    const httpResponse = await callUseCase({
+      useCase: authUseCases.updateUser,
+      eitherAsyncParams: resultBody.map((body) => ({
+        ...body,
+        uuid: req.currentUserUuid,
+      })),
     });
     return sendHttpResponse(res, httpResponse);
   });

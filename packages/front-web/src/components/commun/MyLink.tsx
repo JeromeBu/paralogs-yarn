@@ -1,6 +1,6 @@
-import { Link as MuiLink } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import MuiLink from "@material-ui/core/Link";
 import { Variant } from "@material-ui/core/styles/createTypography";
+import makeStyles from "@material-ui/core/styles/makeStyles";
 import React from "react";
 import {
   Link as RouterLink,

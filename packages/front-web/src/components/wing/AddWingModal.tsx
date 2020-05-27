@@ -1,4 +1,7 @@
-import { Button, makeStyles, TextField, Typography } from "@material-ui/core";
+import Button from "@material-ui/core/Button";
+import makeStyles from "@material-ui/core/styles/makeStyles";
+import TextField from "@material-ui/core/TextField";
+import Typography from "@material-ui/core/Typography";
 import SaveIcon from "@material-ui/icons/Save";
 import { RootState, wingActions } from "@paralogs/front-core";
 import { AddWingDTO, addWingSchema, generateUuid } from "@paralogs/shared";

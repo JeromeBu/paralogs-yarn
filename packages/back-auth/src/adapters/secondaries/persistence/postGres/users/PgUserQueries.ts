@@ -10,7 +10,7 @@ export const createPgUserQueries = (
   knex: Knex<any, unknown[]>,
 ): UserQueries => {
   return {
-    findByUuid: (uuid: UserUuid) =>
+    findByUuidWithToken: (uuid: UserUuid) =>
       fromNullablePromiseCb(() =>
         knex.from<UserPersisted>("users").where({ uuid }).first(),
       ).map((userPersisted) => ({
