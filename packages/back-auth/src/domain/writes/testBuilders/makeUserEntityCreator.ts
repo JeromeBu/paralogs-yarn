@@ -1,4 +1,4 @@
-import { makeUserDTO, SignUpParams } from "@paralogs/shared";
+import { makeUserDTO, SignUpParams, WithUuid } from "@paralogs/shared";
 
 import { InMemoryUserRepo } from "../../../adapters/secondaries/persistence/inMemory/InMemoryUserRepo";
 import { UserEntity } from "../entities/UserEntity";
@@ -7,7 +7,7 @@ import { HashAndTokenManager } from "../gateways/HashAndTokenManager";
 export const makeUserEntityCreator = (
   hashAndTokenManager: HashAndTokenManager,
 ) => async (
-  userParams: Partial<SignUpParams & { id: number }> = {},
+  userParams: Partial<SignUpParams & WithUuid & { id: number }> = {},
 ): Promise<UserEntity> => {
   const { password = "Bépo1234", ...userParamsWithoutPassword } = userParams;
   const userDTO = makeUserDTO(userParamsWithoutPassword);

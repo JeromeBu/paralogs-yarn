@@ -11,17 +11,14 @@ import { UserEntity } from "../entities/UserEntity";
 import { HashAndTokenManager } from "../gateways/HashAndTokenManager";
 import { userMapper } from "../mappers/user.mapper";
 import { setupCurrentUserCreator } from "../testBuilders/makeUserEntityCreator";
-import {
-  UpdateUserCommandHandler,
-  updateUserCommandHandlerCreator,
-} from "./UpdateUserCommandHandler";
+import { updateUserCommandHandler } from "./updateUserCommandHandler";
 
 describe("Update user", () => {
   describe("all is good", () => {
     const now = new Date("2020-02-01");
     let userRepo: InMemoryUserRepo;
     let currentUser: UserEntity;
-    let updateUserCommandHandler: UpdateUserCommandHandler;
+    let updateUser: ReturnType<typeof updateUserCommandHandler>;
     let hashAndTokenManager: HashAndTokenManager;
     let eventBus: InMemoryEventBus;
     let expectDispatchedEvent: ReturnType<typeof createExpectDispatchedEvent>;
@@ -37,7 +34,7 @@ describe("Update user", () => {
         userRepo,
         hashAndTokenManager,
       })();
-      updateUserCommandHandler = updateUserCommandHandlerCreator({
+      updateUser = updateUserCommandHandler({
         userRepo,
         eventBus,
       });
@@ -46,7 +43,7 @@ describe("Update user", () => {
     it("updates user's data", async () => {
       const newFirstName = "Changedfirstname";
       const newLastName = "ChangedLastName";
-      const result = await updateUserCommandHandler({
+      const result = await updateUser({
         uuid: currentUser.uuid,
         firstName: newFirstName,
         lastName: newLastName,

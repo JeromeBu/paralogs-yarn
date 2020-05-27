@@ -13,7 +13,7 @@ export const getCurrentUserReadCreator = ({
   userUuid,
 }: WithUserUuid): ResultAsync<CurrentUserWithAuthToken> => {
   return userQueries
-    .findByUuid(userUuid)
+    .findByUuidWithToken(userUuid)
     .toEitherAsync(notFoundError(`No user found with id : ${userUuid}`));
 };
 

@@ -4,7 +4,7 @@ import {
   ResultAsync,
   RightAsyncVoid,
 } from "@paralogs/back-shared";
-import { UpdateUserDTO } from "@paralogs/shared";
+import { UpdateUserDTO, WithUuid } from "@paralogs/shared";
 import { liftEither } from "purify-ts/EitherAsync";
 
 import { UserRepo } from "../gateways/UserRepo";
@@ -15,10 +15,12 @@ type UpdateUserDependencies = {
   eventBus: EventBus;
 };
 
-export const updateUserCommandHandlerCreator = ({
+export const updateUserCommandHandler = ({
   userRepo,
   eventBus,
-}: UpdateUserDependencies) => (params: UpdateUserDTO): ResultAsync<void> => {
+}: UpdateUserDependencies) => (
+  params: UpdateUserDTO & WithUuid,
+): ResultAsync<void> => {
   return userRepo
     .findByUuid(params.uuid)
     .toEitherAsync(notFoundError(`No pilot found with this id: ${params.uuid}`))
@@ -33,7 +35,3 @@ export const updateUserCommandHandlerCreator = ({
       }),
     );
 };
-
-export type UpdateUserCommandHandler = ReturnType<
-  typeof updateUserCommandHandlerCreator
->;

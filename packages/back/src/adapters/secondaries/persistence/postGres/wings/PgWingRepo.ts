@@ -5,8 +5,12 @@ import {
 } from "@paralogs/back-shared";
 import { PilotUuid, WingUuid } from "@paralogs/shared";
 import Knex from "knex";
+import { liftPromise as liftPromiseToEitherAsync } from "purify-ts/EitherAsync";
 import { Maybe } from "purify-ts/Maybe";
-import { liftMaybe, liftPromise } from "purify-ts/MaybeAsync";
+import {
+  liftMaybe,
+  liftPromise as liftPromiseToMaybeAsync,
+} from "purify-ts/MaybeAsync";
 
 import { WingEntity } from "../../../../../domain/writes/entities/WingEntity";
 import { WingRepo } from "../../../../../domain/writes/gateways/WingRepo";
@@ -25,7 +29,7 @@ export class PgWingRepo implements WingRepo {
   }
 
   public findByUuid(uuid: WingUuid) {
-    return liftPromise(() =>
+    return liftPromiseToMaybeAsync(() =>
       this.knex.from<WingPersisted>("wings").where({ uuid }).first(),
     )
       .chain((w) => liftMaybe(Maybe.fromNullable(w)))
@@ -42,15 +46,15 @@ export class PgWingRepo implements WingRepo {
 
   private _create(wingEntity: WingEntity, pilot_id: number) {
     const wingPersistence = wingPersistenceMapper.toPersistence(wingEntity);
-    return liftPromise(() =>
+    return liftPromiseToEitherAsync(() =>
       this.knex<WingPersisted>("wings").insert({
         ...wingPersistence,
         pilot_id,
         id: undefined,
       }),
     )
-      .toEitherAsync(knexError("Fail to create wing"))
-      .chain(() => RightAsyncVoid());
+      .chain(RightAsyncVoid)
+      .mapLeft((error) => knexError(error.message));
   }
 
   private _update(wingEntity: WingEntity, pilot_id: number) {
@@ -63,7 +67,7 @@ export class PgWingRepo implements WingRepo {
       ownerUntil,
     } = wingEntity.getProps();
 
-    return liftPromise(() =>
+    return liftPromiseToEitherAsync(() =>
       this.knex.from<WingPersisted>("wings").update({
         brand,
         model,
@@ -74,16 +78,12 @@ export class PgWingRepo implements WingRepo {
         owner_until: ownerUntil,
       }),
     )
-      .toEitherAsync(
-        knexError(`Fail to update wing with id ${wingEntity.uuid}`),
-      )
-      .chain(() => {
-        return RightAsyncVoid();
-      });
+      .chain(RightAsyncVoid)
+      .mapLeft((error) => knexError(error.message));
   }
 
   private _getPilotId(uuid: PilotUuid): ResultAsync<number> {
-    return liftPromise(() =>
+    return liftPromiseToMaybeAsync(() =>
       this.knex
         .from<PilotPersisted>("pilots")
         .select("id")

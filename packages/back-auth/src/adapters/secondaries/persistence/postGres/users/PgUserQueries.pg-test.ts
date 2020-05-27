@@ -1,4 +1,4 @@
-import { UserDTO } from "@paralogs/shared";
+import { CurrentUserWithAuthToken, UserDTO } from "@paralogs/shared";
 
 import { createAndPersistUser } from "../createAndPersistUser";
 import { getKnex, resetDb } from "../knex/db";
@@ -20,12 +20,17 @@ describe("Pg user reads", () => {
   });
 
   it("returns maybe none when not found", async () => {
-    const foundUser = await pgUserQueries.findByUuid("not found id").run();
+    const foundUser = await pgUserQueries
+      .findByUuidWithToken("not found id")
+      .run();
     expect(foundUser.extract()).toBeUndefined();
   });
 
   it("finds a user from its id", async () => {
-    const foundUser = await pgUserQueries.findByUuid(johnDto.uuid).run();
-    expect(foundUser.extract()).toEqual(johnDto);
+    const foundUser = (
+      await pgUserQueries.findByUuidWithToken(johnDto.uuid).run()
+    ).extract()! as CurrentUserWithAuthToken;
+    expect(foundUser.currentUser).toEqual(johnDto);
+    expect(foundUser.token).toBeDefined();
   });
 });

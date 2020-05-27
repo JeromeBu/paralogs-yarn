@@ -1,12 +1,9 @@
-import {
-  Avatar,
-  Box,
-  Container,
-  Grid,
-  makeStyles,
-  Typography,
-  useTheme,
-} from "@material-ui/core";
+import Avatar from "@material-ui/core/Avatar";
+import Box from "@material-ui/core/Box";
+import Container from "@material-ui/core/Container";
+import Grid from "@material-ui/core/Grid";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
+import Typography from "@material-ui/core/Typography";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import { authActions } from "@paralogs/front-core";
 import { SignUpParams, signUpSchema } from "@paralogs/shared";

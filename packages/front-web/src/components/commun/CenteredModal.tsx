@@ -1,5 +1,5 @@
-import { makeStyles, Modal } from "@material-ui/core";
-import { ModalProps } from "@material-ui/core/Modal";
+import Modal, { ModalProps } from "@material-ui/core/Modal";
+import makeStyles from "@material-ui/core/styles/makeStyles";
 import React from "react";
 
 const useStyles = makeStyles((theme) => ({

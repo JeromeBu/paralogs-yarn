@@ -20,7 +20,7 @@ export interface WithEmail {
   email: string;
 }
 
-interface WithOtherInformation {
+export interface WithOtherInformation {
   firstName: string;
   lastName?: string;
 }
@@ -46,9 +46,8 @@ export const signUpSchema = Yup.object().shape<SignUpParams>({
   lastName: Yup.string(),
 });
 
-export type UpdateUserDTO = Partial<WithOtherInformation> & { uuid: UserUuid };
+export type UpdateUserDTO = Partial<WithOtherInformation>;
 export const updateUserSchema = Yup.object().shape<UpdateUserDTO>({
-  uuid: Yup.string().required(),
   firstName: Yup.string(),
   lastName: Yup.string(),
 });

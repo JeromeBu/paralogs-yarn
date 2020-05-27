@@ -1,10 +1,8 @@
-import {
-  Container,
-  Fab,
-  List,
-  makeStyles,
-  Typography,
-} from "@material-ui/core";
+import Container from "@material-ui/core/Container";
+import Fab from "@material-ui/core/Fab";
+import List from "@material-ui/core/List";
+import makeStyles from "@material-ui/core/styles/makeStyles";
+import Typography from "@material-ui/core/Typography";
 import AddIcon from "@material-ui/icons/Add";
 import { flightActions, RootState } from "@paralogs/front-core";
 import React from "react";

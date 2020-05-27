@@ -17,7 +17,7 @@ describe("Get Me, recovers logged user information", () => {
     };
 
     const userQueries: UserQueries = {
-      findByUuid: () =>
+      findByUuidWithToken: () =>
         liftMaybe(Just({ token: "someAuthToken", currentUser: userDto })),
     };
 

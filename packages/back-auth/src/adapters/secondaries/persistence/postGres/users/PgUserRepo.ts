@@ -1,9 +1,4 @@
-import {
-  LeftAsync,
-  notUniqError,
-  ResultAsync,
-  RightAsyncVoid,
-} from "@paralogs/back-shared";
+import { LeftAsync, ResultAsync, RightAsyncVoid } from "@paralogs/back-shared";
 import { UserUuid } from "@paralogs/shared";
 import Knex from "knex";
 import { Maybe } from "purify-ts";
@@ -25,7 +20,7 @@ export class PgUserRepo implements UserRepo {
 
   public save(userEntity: UserEntity) {
     return userEntity.hasIdentity()
-      ? LeftAsync(notUniqError("Update method not implemented"))
+      ? this._update(userEntity)
       : this._create(userEntity);
   }
 
@@ -70,5 +65,20 @@ export class PgUserRepo implements UserRepo {
         );
       })
       .chain(RightAsyncVoid);
+  }
+
+  private _update(userEntity: UserEntity) {
+    const { firstName, lastName } = userEntity.getProps();
+    return liftPromiseToEitherAsync(() => {
+      return this.knex
+        .from<UserPersisted>("users")
+        .where({ uuid: userEntity.uuid })
+        .update({
+          first_name: firstName.value,
+          ...(lastName ? { last_name: lastName?.value } : {}),
+        });
+    })
+      .chain(RightAsyncVoid)
+      .mapLeft((error) => knexError(error.message));
   }
 }

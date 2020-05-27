@@ -19,6 +19,7 @@ const useRetrieveUserData = () => {
 
   useEffect(() => {
     if (isAuthenticated) dispatch(authActions.getMeRequested());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 };
 
