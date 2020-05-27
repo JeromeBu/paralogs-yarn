@@ -7,11 +7,12 @@ import {
 import { addFlightSchema, flightsRoute } from "@paralogs/shared";
 import { Router } from "express";
 
-import { flightsUseCases } from "../../../config/useCasesChoice";
+import { getFlightsUseCases } from "../../../config/useCasesChoice";
 
 export const flightsRouter = Router();
 
-export const flightsController = () => {
+export const flightsController = async () => {
+  const flightsUseCases = await getFlightsUseCases();
   flightsRouter
     .route(flightsRoute)
     .post(async (req, res) => {

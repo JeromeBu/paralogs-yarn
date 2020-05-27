@@ -10,15 +10,17 @@ import { flightsController } from "../controllers/flights.controller";
 import { subscribeToEvents } from "../controllers/pilots.subscribers";
 import { wingsController } from "../controllers/wings.controller";
 
-export const app = express();
+export const getApp = async () => {
+  const app = express();
+  app.use(bodyParser.json());
+  app.use(cors());
+  app.use(morgan("dev"));
 
-app.use(bodyParser.json());
-app.use(cors());
-app.use(morgan("dev"));
+  app.use(createAuthenticateMiddleware(ENV.jwtSecret));
 
-app.use(createAuthenticateMiddleware(ENV.jwtSecret));
+  app.use(await wingsController());
+  app.use(await flightsController());
 
-app.use(wingsController());
-app.use(flightsController());
-
-subscribeToEvents(eventBus);
+  await subscribeToEvents(eventBus);
+  return app;
+};

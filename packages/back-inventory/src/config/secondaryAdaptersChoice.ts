@@ -54,7 +54,7 @@ const getInMemoryPersistence = (): Persistence => {
 };
 
 const getPgPersistence = (): Persistence => {
-  const knex = getKnex(ENV.environment);
+  const knex = getKnex(ENV.nodeEnv);
 
   // eslint-disable-next-line @typescript-eslint/no-floating-promises
   knex.migrate.latest();

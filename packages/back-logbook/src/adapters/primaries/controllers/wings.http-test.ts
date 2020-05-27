@@ -6,14 +6,20 @@ import {
   wingsRoute,
 } from "@paralogs/shared";
 import jwt from "jsonwebtoken";
-import supertest from "supertest";
+import Knex from "knex";
+import supertest, { SuperTest } from "supertest";
 
-import { pilotsUseCases } from "../../../config/useCasesChoice";
-import { app } from "../express/server";
-
-const request = supertest(app);
+import { ENV } from "../../../config/env";
+import { getPilotsUseCases } from "../../../config/useCasesChoice";
+import {
+  getKnex,
+  resetDb,
+} from "../../secondaries/persistence/postGres/knex/db";
+import { getApp } from "../express/server";
 
 describe("Wings routes", () => {
+  let knex: Knex;
+  let request: SuperTest<supertest.Test>;
   const pilot = {
     uuid: generateUuid(),
     firstName: "John Wing",
@@ -22,23 +28,30 @@ describe("Wings routes", () => {
   const token = jwt.sign({ userUuid: pilot.uuid }, "jwtSecretFromEnv");
 
   beforeAll(async () => {
+    if (ENV.nodeEnv !== "test") throw new Error("Should be TEST env");
+    request = supertest(await getApp());
+    knex = getKnex(ENV.nodeEnv);
+    await resetDb(knex);
+    const pilotsUseCases = await getPilotsUseCases();
     await callUseCase({
-      useCase: await pilotsUseCases.create,
+      useCase: pilotsUseCases.create,
       eitherAsyncParams: RightAsync(pilot),
     });
   });
 
-  it("adds a wing then retrieves it, then updates", async () => {
-    const brand = "Nova";
-    const model = "Ion 5";
-    const addWingParams: AddWingDTO = {
-      uuid: generateUuid(),
-      brand,
-      model,
-      ownerFrom: new Date().toUTCString(),
-      flightTimePriorToOwn: 500,
-    };
+  afterAll(() => knex.destroy());
 
+  const brand = "Nova";
+  const model = "Ion 5";
+  const addWingParams: AddWingDTO = {
+    uuid: generateUuid(),
+    brand,
+    model,
+    ownerFrom: new Date().toUTCString(),
+    flightTimePriorToOwn: 500,
+  };
+
+  it("adds a wing then retrieves it, then updates", async () => {
     await request
       .post(wingsRoute)
       .send(addWingParams)
@@ -54,11 +67,13 @@ describe("Wings routes", () => {
         model,
       },
     ]);
+  });
 
+  it("then updates", async () => {
     const updateWingParams: UpdateWingDTO = {
       uuid: addWingParams.uuid,
       brand: "New brand",
-      model: "New model",
+      model: "New model2",
       ownerFrom: new Date("2020-04-20").toUTCString(),
     };
 

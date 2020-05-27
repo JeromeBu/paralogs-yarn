@@ -4,15 +4,15 @@ import dotenv from "dotenv";
 dotenv.config({ path: `${__dirname}/../../../../.env` });
 
 const jwtSecret = throwIfVariableUndefined("JWT_SECRET");
-const environment = throwIfNotInArray(
+const nodeEnv = throwIfNotInArray(
   ["development", "test" /* "staging", "production" */],
-  "ENVIRONMENT",
+  "NODE_ENV",
 );
 const repositories = throwIfNotInArray(["IN_MEMORY", "PG"], "REPOSITORIES");
 const eventBus = throwIfNotInArray(["IN_MEMORY", "REDIS"], "EVENT_BUS");
 
 export const ENV = {
-  environment,
+  nodeEnv,
   jwtSecret,
   repositories,
   eventBus,
@@ -20,7 +20,7 @@ export const ENV = {
 
 export type RepositoriesOption = typeof ENV.repositories;
 export type EventBusOption = typeof ENV.eventBus;
-export type EnvironmentOption = typeof ENV.environment;
+export type EnvironmentOption = typeof ENV.nodeEnv;
 
 // eslint-disable-next-line no-console
 console.log("- ENV variables -");

@@ -1,19 +1,12 @@
 import { createInMemoryEventBus } from "@paralogs/back-shared";
+import { generateUuid, PilotDTO } from "@paralogs/shared";
+
 import {
-  generateUuid,
-  PilotDTO,
-  UpdatePilotDTO,
-  usersRoute,
-} from "@paralogs/shared";
-import jwt from "jsonwebtoken";
-import supertest from "supertest";
-
-import { repositories } from "../../../config/secondaryAdaptersChoice";
+  getSecondariesAdapters,
+  Repositories,
+} from "../../../config/secondaryAdaptersChoice";
 import { pilotMapper } from "../../../domain/writes/mappers/pilotMapper";
-import { app } from "../express/server";
 import { subscribeToEvents } from "./pilots.subscribers";
-
-const request = supertest(app);
 
 describe("Pilots reaction to events and routes", () => {
   const userDto = {
@@ -22,13 +15,16 @@ describe("Pilots reaction to events and routes", () => {
     firstName: "John",
     lastName: "Doe",
   };
-  let token: string;
+  let repositories: Repositories;
+  beforeAll(async () => {
+    repositories = (await getSecondariesAdapters()).repositories;
+  });
 
   describe("When a UserSignedUp event is dispatched", () => {
     it("creates a pilot with the infos", async () => {
       const getNow = () => new Date("2020-02-02");
       const eventBus = createInMemoryEventBus({ getNow });
-      subscribeToEvents(eventBus);
+      await subscribeToEvents(eventBus);
       eventBus.publish({ type: "UserSignedUp", payload: userDto });
 
       const expectedPilot = {
@@ -39,28 +35,6 @@ describe("Pilots reaction to events and routes", () => {
       setTimeout(async () => {
         await expectPilotStoredToEqual(expectedPilot);
       }, 0);
-
-      token = jwt.sign({ userUuid: userDto.uuid }, "jwtSecretFromEnv");
-    });
-  });
-
-  describe("update pilot", () => {
-    it("updates some pilot's info", async () => {
-      const updateUserParams: UpdatePilotDTO = {
-        uuid: userDto.uuid,
-        firstName: "New-Firstname",
-        lastName: "New-Lastname",
-      };
-
-      const updateResponse = await request
-        .put(usersRoute)
-        .send(updateUserParams)
-        .set("Authorization", `Bearer ${token}`);
-
-      expect(updateResponse.body).toBe("");
-      expect(updateResponse.status).toBe(200);
-
-      await expectPilotStoredToEqual(updateUserParams as PilotDTO);
     });
   });
 

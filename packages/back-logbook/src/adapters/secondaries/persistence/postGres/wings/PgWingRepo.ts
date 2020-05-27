@@ -68,15 +68,18 @@ export class PgWingRepo implements WingRepo {
     } = wingEntity.getProps();
 
     return liftPromiseToEitherAsync(() =>
-      this.knex.from<WingPersisted>("wings").update({
-        brand,
-        model,
-        pilot_uuid: pilotUuid,
-        pilot_id,
-        flight_time_prior_to_own: flightTimePriorToOwn,
-        owner_from: ownerFrom,
-        owner_until: ownerUntil,
-      }),
+      this.knex
+        .from<WingPersisted>("wings")
+        .where({ uuid: wingEntity.uuid })
+        .update({
+          brand,
+          model,
+          pilot_uuid: pilotUuid,
+          pilot_id,
+          flight_time_prior_to_own: flightTimePriorToOwn,
+          owner_from: ownerFrom,
+          owner_until: ownerUntil,
+        }),
     )
       .chain(RightAsyncVoid)
       .mapLeft((error) => knexError(error.message));

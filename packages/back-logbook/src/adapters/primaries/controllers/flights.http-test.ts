@@ -8,14 +8,18 @@ import {
   WingUuid,
 } from "@paralogs/shared";
 import jwt from "jsonwebtoken";
-import supertest from "supertest";
+import supertest, { SuperTest } from "supertest";
 
-import { pilotsUseCases } from "../../../config/useCasesChoice";
-import { app } from "../express/server";
-
-const request = supertest(app);
+import { ENV } from "../../../config/env";
+import { getPilotsUseCases } from "../../../config/useCasesChoice";
+import {
+  getKnex,
+  resetDb,
+} from "../../secondaries/persistence/postGres/knex/db";
+import { getApp } from "../express/server";
 
 describe("Flights routes", () => {
+  let request: SuperTest<supertest.Test>;
   const pilot = {
     uuid: generateUuid(),
     firstName: "John Wing",
@@ -24,6 +28,11 @@ describe("Flights routes", () => {
   const token = jwt.sign({ userUuid: pilot.uuid }, "jwtSecretFromEnv");
 
   beforeAll(async () => {
+    if (ENV.nodeEnv !== "test") throw new Error("Should be TEST env");
+    const knex = getKnex(ENV.nodeEnv);
+    await resetDb(knex);
+    request = supertest(await getApp());
+    const pilotsUseCases = await getPilotsUseCases();
     await callUseCase({
       useCase: await pilotsUseCases.create,
       eitherAsyncParams: RightAsync(pilot),
