@@ -19,9 +19,9 @@ services:
     volumes:
       - /paralogs/node_modules
       - /paralogs/packages/shared/node_modules
-      - /paralogs/packages/back/node_modules
+      - /paralogs/packages/back-logbook/node_modules
       - ./packages/shared:/paralogs/packages/shared
-      - ./packages/back:/paralogs/packages/back
+      - ./packages/back-logbook:/paralogs/packages/back-logbook
   front-web:
     restart: unless-stopped
     build:

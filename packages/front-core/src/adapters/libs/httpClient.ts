@@ -77,7 +77,7 @@ const PUTwithToken = <Input, Output>(route: string) => () => {
   });
 };
 
-const paragliding = (route: string) => `${config.paraglidingUrl}${route}`;
+const logbook = (route: string) => `${config.logbookUrl}${route}`;
 const auth = (route: string) => `${config.authUrl}${route}`;
 
 export const httpClient = {
@@ -88,12 +88,12 @@ export const httpClient = {
   updateUser: PUTwithToken<UpdateUserDTO, UserDTO>(auth(usersRoute)),
   retrieveUsers: GETwithToken<UserDTO[]>(auth(usersRoute)),
 
-  retrieveCurrentPilot: GETwithToken<PilotDTO>(paragliding(currentPilotRoute)),
+  retrieveCurrentPilot: GETwithToken<PilotDTO>(logbook(currentPilotRoute)),
 
-  retrieveWings: GETwithToken<WingDTO[]>(paragliding(wingsRoute)),
-  addWing: POSTwithToken<AddWingDTO, WingDTO>(paragliding(wingsRoute)),
-  updateWing: PUTwithToken<UpdateWingDTO, WingDTO>(paragliding(wingsRoute)),
+  retrieveWings: GETwithToken<WingDTO[]>(logbook(wingsRoute)),
+  addWing: POSTwithToken<AddWingDTO, WingDTO>(logbook(wingsRoute)),
+  updateWing: PUTwithToken<UpdateWingDTO, WingDTO>(logbook(wingsRoute)),
 
-  addFlight: POSTwithToken<AddFlightDTO, FlightDTO>(paragliding(flightsRoute)),
-  retrieveFlights: GETwithToken<FlightDTO[]>(paragliding(flightsRoute)),
+  addFlight: POSTwithToken<AddFlightDTO, FlightDTO>(logbook(flightsRoute)),
+  retrieveFlights: GETwithToken<FlightDTO[]>(logbook(flightsRoute)),
 };

@@ -1,5 +1,5 @@
 {
-  "name": "@paralogs/back",
+  "name": "@paralogs/back-logbook",
   "version": "0.0.1",
   "private": true,
   "main": ".build/src/index.js",

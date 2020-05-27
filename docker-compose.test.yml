@@ -1,6 +1,6 @@
 version: "3"
 services:
-  pg-paragliding-test:
+  pg-logbook-test:
     image: postgres
     restart: unless-stopped
     ports:

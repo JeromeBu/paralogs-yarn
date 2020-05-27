@@ -3,8 +3,6 @@ import { EnvironmentOption } from "../../../../../config/env";
 const knexconfig: { [key in EnvironmentOption]: any } = {
   development: {
     client: "pg",
-    // connection: "postgres://username:pgpassword@db:5432/db-name",
-    // connection: "postgres://postgres:paralogs-dev-secret@db:5432/paralogs-dev",
     connection: {
       port: 5432,
       database: "paralogs-dev",

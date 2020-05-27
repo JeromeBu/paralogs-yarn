@@ -31,7 +31,7 @@ jobs:
 
       # Tests
       - name: Backend tests
-        run: cd packages/back; yarn ci:test;
+        run: cd packages/back-logbook; yarn ci:test;
       - name: Frontend tests
         env:
           REACT_APP_BACKEND_URL: http://localhost:4000/
