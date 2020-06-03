@@ -23,6 +23,4 @@ export type EventBusOption = typeof ENV.eventBus;
 export type EnvironmentOption = typeof ENV.nodeEnv;
 
 // eslint-disable-next-line no-console
-console.log("- ENV variables -");
-// eslint-disable-next-line no-console
-console.log(ENV);
+console.log("- ENV variables : ", JSON.stringify(ENV, null, 2));

@@ -27,6 +27,8 @@ describe("Pilot repository postgres tests", () => {
     await knex<PilotPersistence>("pilots").insert(johnPersistence);
   });
 
+  afterAll(() => knex.destroy());
+
   it("Creates a pilot", async () => {
     const createdPilotEntity = await makePilotEntity({
       firstName: "My pilot first name",

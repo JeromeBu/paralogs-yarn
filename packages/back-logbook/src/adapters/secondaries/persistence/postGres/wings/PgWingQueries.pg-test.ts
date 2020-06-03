@@ -21,6 +21,8 @@ describe("Pg wing queries", () => {
     });
   });
 
+  afterAll(() => knex.destroy());
+
   it("returns empty array when no wing is found", async () => {
     const foundWings = await pgWingQueries.findByPilotUuid("not found id");
     expect(foundWings).toEqual([]);

@@ -25,6 +25,8 @@ describe("User repository postgres tests", () => {
     await knex<UserPersistence>("users").insert(johnPersistence);
   });
 
+  afterAll(() => knex.destroy());
+
   it("Creates a user, than an other", async () => {
     const createdUserEntity = await makeUserEntity({
       email: "createduser@mail.com",

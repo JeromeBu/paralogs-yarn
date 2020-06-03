@@ -10,17 +10,16 @@ import { flightsController } from "../controllers/flights.controller";
 import { subscribeToEvents } from "../controllers/pilots.subscribers";
 import { wingsController } from "../controllers/wings.controller";
 
-export const getApp = async () => {
-  const app = express();
-  app.use(bodyParser.json());
-  app.use(cors());
-  app.use(morgan("dev"));
+export const app = express();
 
-  app.use(createAuthenticateMiddleware(ENV.jwtSecret));
+app.use(bodyParser.json());
+app.use(cors());
+app.use(morgan("dev"));
 
-  app.use(await wingsController());
-  app.use(await flightsController());
+app.use(createAuthenticateMiddleware(ENV.jwtSecret));
 
-  await subscribeToEvents(eventBus);
-  return app;
-};
+app.use(wingsController());
+app.use(flightsController());
+
+// eslint-disable-next-line @typescript-eslint/no-floating-promises
+subscribeToEvents(eventBus);

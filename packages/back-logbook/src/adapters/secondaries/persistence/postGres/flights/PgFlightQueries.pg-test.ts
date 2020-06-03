@@ -29,6 +29,8 @@ describe("Pg flight queries", () => {
     });
   });
 
+  afterAll(() => knex.destroy());
+
   it("returns empty array when no flight is found", async () => {
     const foundFlights = await pgFlightQueries.findByPilotUuid(johnUuid);
     expect(foundFlights).toEqual([]);

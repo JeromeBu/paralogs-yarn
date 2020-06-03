@@ -19,6 +19,8 @@ describe("Pg user reads", () => {
     pgUserQueries = createPgUserQueries(knex);
   });
 
+  afterAll(() => knex.destroy());
+
   it("returns maybe none when not found", async () => {
     const foundUser = await pgUserQueries
       .findByUuidWithToken("not found id")
