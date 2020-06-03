@@ -44,6 +44,8 @@ describe("Wing repository postgres tests", () => {
     koyotWingEntity = wingPersistenceMapper.toEntity(koyotWingPersistence);
   });
 
+  afterAll(() => knex.destroy());
+
   it("fails to create a wing when pilotUuid does not exist", async () => {
     const wingEntity = makeWingEntity({ pilotUuid: generateUuid() });
     const result = await pgWingRepo.save(wingEntity).run();

@@ -1,10 +1,7 @@
 import { createInMemoryEventBus } from "@paralogs/back-shared";
 import { generateUuid, PilotDTO } from "@paralogs/shared";
 
-import {
-  getSecondariesAdapters,
-  Repositories,
-} from "../../../config/secondaryAdaptersChoice";
+import { repositories } from "../../../config/secondaryAdaptersChoice";
 import { pilotMapper } from "../../../domain/writes/mappers/pilotMapper";
 import { subscribeToEvents } from "./pilots.subscribers";
 
@@ -15,10 +12,6 @@ describe("Pilots reaction to events and routes", () => {
     firstName: "John",
     lastName: "Doe",
   };
-  let repositories: Repositories;
-  beforeAll(async () => {
-    repositories = (await getSecondariesAdapters()).repositories;
-  });
 
   describe("When a UserSignedUp event is dispatched", () => {
     it("creates a pilot with the infos", async () => {

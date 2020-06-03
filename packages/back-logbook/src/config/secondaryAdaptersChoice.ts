@@ -27,7 +27,7 @@ const shouldNeverBeCalled = (arg: never) => {
   throw new Error("Should never be called");
 };
 
-export interface Repositories {
+interface Repositories {
   pilot: PilotRepo;
   wing: WingRepo;
   flight: FlightRepo;
@@ -69,10 +69,10 @@ const getInMemoryPersistence = (): Persistence => {
   };
 };
 
-const getPgPersistence = async (): Promise<Persistence> => {
+const pgPersistence = (): Persistence => {
   const knex = getKnex(ENV.nodeEnv);
   // eslint-disable-next-line @typescript-eslint/no-floating-promises
-  await knex.migrate.latest();
+  if (ENV.nodeEnv !== "test") knex.migrate.latest();
   return {
     queries: {
       wing: createPgWingQueries(knex),
@@ -86,14 +86,14 @@ const getPgPersistence = async (): Promise<Persistence> => {
   };
 };
 
-const getRepositoriesAndQueries = async (
+const getRepositoriesAndQueries = (
   repositories: RepositoriesOption,
-): Promise<Persistence> => {
+): Persistence => {
   switch (repositories) {
     case "IN_MEMORY":
       return getInMemoryPersistence();
     case "PG":
-      return getPgPersistence();
+      return pgPersistence();
     default:
       return shouldNeverBeCalled(repositories);
   }
@@ -110,7 +110,8 @@ const getEventBus = (repositories: EventBusOption): EventBus => {
   }
 };
 
-export const getSecondariesAdapters = () =>
-  getRepositoriesAndQueries(ENV.repositories);
+export const { repositories, queries } = getRepositoriesAndQueries(
+  ENV.repositories,
+);
 
 export const eventBus = getEventBus(ENV.eventBus);

@@ -5,33 +5,24 @@ import { createPilotCommandHandlerCreator } from "../domain/writes/commandHandle
 import { updatePilotCommandHandlerCreator } from "../domain/writes/commandHandlers/pilots/UpdatePilotCommandHandler";
 import { addWingCommandHandlerCreator } from "../domain/writes/commandHandlers/wings/AddWingCommandHandler";
 import { updateWingCommandHandlerCreator } from "../domain/writes/commandHandlers/wings/UpdateWingCommandHandler";
-import { getSecondariesAdapters } from "./secondaryAdaptersChoice";
+import { queries,repositories } from "./secondaryAdaptersChoice";
 
-export const getPilotsUseCases = async () => {
-  const { repositories } = await getSecondariesAdapters();
-  return {
-    create: createPilotCommandHandlerCreator({ pilotRepo: repositories.pilot }),
-    update: updatePilotCommandHandlerCreator({ pilotRepo: repositories.pilot }),
-  };
+export const pilotsUseCases = {
+  create: createPilotCommandHandlerCreator({ pilotRepo: repositories.pilot }),
+  update: updatePilotCommandHandlerCreator({ pilotRepo: repositories.pilot }),
 };
 
-export const getWingsUseCases = async () => {
-  const { repositories, queries } = await getSecondariesAdapters();
-  return {
-    addWing: addWingCommandHandlerCreator({ wingRepo: repositories.wing }),
-    retrieveWings: retrieveWingsRead({ wingQueries: queries.wing }),
-    updateWing: updateWingCommandHandlerCreator({
-      wingRepo: repositories.wing,
-    }),
-  };
+export const wingsUseCases = {
+  addWing: addWingCommandHandlerCreator({ wingRepo: repositories.wing }),
+  retrieveWings: retrieveWingsRead({ wingQueries: queries.wing }),
+  updateWing: updateWingCommandHandlerCreator({
+    wingRepo: repositories.wing,
+  }),
 };
 
-export const getFlightsUseCases = async () => {
-  const { repositories, queries } = await getSecondariesAdapters();
-  return {
-    addFlight: addFlightCommandHandlerCreator({
-      flightRepo: repositories.flight,
-    }),
-    retrieveFlights: retrieveFlightsRead({ flightQueries: queries.flight }),
-  };
+export const flightsUseCases = {
+  addFlight: addFlightCommandHandlerCreator({
+    flightRepo: repositories.flight,
+  }),
+  retrieveFlights: retrieveFlightsRead({ flightQueries: queries.flight }),
 };

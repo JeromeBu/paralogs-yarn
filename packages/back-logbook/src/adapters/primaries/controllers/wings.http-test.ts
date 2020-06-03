@@ -6,20 +6,20 @@ import {
   wingsRoute,
 } from "@paralogs/shared";
 import jwt from "jsonwebtoken";
-import Knex from "knex";
-import supertest, { SuperTest } from "supertest";
+import supertest from "supertest";
 
 import { ENV } from "../../../config/env";
-import { getPilotsUseCases } from "../../../config/useCasesChoice";
+import { pilotsUseCases } from "../../../config/useCasesChoice";
 import {
   getKnex,
   resetDb,
 } from "../../secondaries/persistence/postGres/knex/db";
-import { getApp } from "../express/server";
+import { app } from "../express/server";
+
+const request = supertest(app);
 
 describe("Wings routes", () => {
-  let knex: Knex;
-  let request: SuperTest<supertest.Test>;
+  const knex = getKnex(ENV.nodeEnv);
   const pilot = {
     uuid: generateUuid(),
     firstName: "John Wing",
@@ -29,17 +29,16 @@ describe("Wings routes", () => {
 
   beforeAll(async () => {
     if (ENV.nodeEnv !== "test") throw new Error("Should be TEST env");
-    request = supertest(await getApp());
-    knex = getKnex(ENV.nodeEnv);
     await resetDb(knex);
-    const pilotsUseCases = await getPilotsUseCases();
     await callUseCase({
       useCase: pilotsUseCases.create,
       eitherAsyncParams: RightAsync(pilot),
     });
   });
 
-  afterAll(() => knex.destroy());
+  afterAll(async () => {
+    await knex.destroy();
+  });
 
   const brand = "Nova";
   const model = "Ion 5";

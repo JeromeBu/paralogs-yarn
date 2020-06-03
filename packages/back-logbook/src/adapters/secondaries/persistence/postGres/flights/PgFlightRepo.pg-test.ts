@@ -42,6 +42,7 @@ describe("Flight repository postgres tests", () => {
       owner_from: "2020-01-01",
       owner_until: null,
     };
+
     await knex<WingPersistence>("wings").insert(koyotWingPersistence);
 
     const flightPersistence: FlightPersistence = {
@@ -59,6 +60,8 @@ describe("Flight repository postgres tests", () => {
     await knex<FlightPersistence>("flights").insert(flightPersistence);
     flightEntity = flightPersistenceMapper.toEntity(flightPersistence);
   });
+
+  afterAll(() => knex.destroy());
 
   it("creates a flight", async () => {
     const wingEntity = makeWingEntity({ pilotUuid: johnEntity.uuid });
